@@ -1,7 +1,7 @@
 {
   "name": "conf-miles-no",
   "description": "Miles @ Conf",
-  "version": "0.0.1",
+  "version": "1.4.0",
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",

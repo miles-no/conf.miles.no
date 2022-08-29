@@ -11,12 +11,13 @@
 <style>
     .milescard {
         width: 18rem;
-        height: 20rem;
+        height: 22rem;
         border: 5px solid #000;
         border-radius: 0%;
     }
     .milescard:hover {
         background-color: rgb(184, 38, 28);
+        color: #fff;
     }
     .show {
         display: none;
@@ -76,7 +77,7 @@
     .footer {
         position: absolute;
         width: 100%;
-        background-color: #fcff79;        
+        background-color: rgb(242,116,120);        
         color: #000;
         bottom: 0;
         padding: 3px;
@@ -92,18 +93,18 @@
     }
 </style>
 
-<div class="col-sm-6">
-    <a href="/presentation/{agenda.slug}">
-        <div class="card milescard odd">
+<div class="col-sm-6 p-5">
+    <a href="/agenda/{agenda.slug}">
+        <div class="card milescard {agenda.cssclass}">
             <div class="space">
-                <div class="datelocation">TEST</div>
-                <h1 class="text">AUTHOR</h1>
+                <div class="datelocation">&lt;{agenda.date} / {agenda.time} / {agenda.room}&gt;</div>
+                <h1 class="text">{agenda.authorConcat}</h1>
                 <h2 class="text">{agenda.title}</h2>
             </div>
             <div class="elements">
                 <div class="icon"><strong>&gt;&gt;</strong></div>
                 <div class="profile-pictures show">
-                    <img class="profile-image rounded-circle" src="https://via.placeholder.com/150" alt="Person" />
+                    <!-- <img class="profile-image rounded-circle" src="https://via.placeholder.com/150" alt="Person" /> -->
                 </div>
             </div>
             <div class="footer">

@@ -4,7 +4,8 @@
 <style>
     #nav {
         position: fixed;
-        margin: 50px;
+        margin-top: 50px;
+        margin-right: 10px;
         right: 0;
         top: 0;
     }
@@ -15,10 +16,24 @@
         border-radius:40px;
         -moz-border-radius:40px;
         -webkit-border-radius:40px;
+        padding: 5px;
+        margin: 5px;
     }
 </style>
-
-<div id="nav">
+<nav id="nav" class="navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a href="https://miles.no/" class="nav-item nav-link btn">Gå til Miles  &gt;&gt;</a>
+                <a href="https://2022.boosterconf.no/" class="nav-item nav-link btn">Gå til Booster  &gt;&gt;</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- <div id="nav">
     <a class="btn" href="https://miles.no/">Gå til Miles  &gt;&gt;</a>
-    <a class="btn" href="https://2020.boosterconf.no/">Gå til Booster  &gt;&gt;</a>
-</div>
+    <a class="btn" href="https://2022.boosterconf.no/">Gå til Booster  &gt;&gt;</a>
+</div> -->

@@ -30,8 +30,8 @@
 
 <div id="header">
     <div id="logoheader">
-        <img class="primarylogo" alt="Miles logo" src="logo.png" />
+        <img class="primarylogo" alt="Miles logo" src="/logo.png" />
         <span id="separator">@</span>
-        <img class="secondarylogo" alt="Miles logo" src="boosterlogo.png" />
+        <img class="secondarylogo" alt="Miles logo" src="/boosterlogo.png" />
     </div>
 </div>

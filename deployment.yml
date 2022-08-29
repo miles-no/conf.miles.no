@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
         - name: milesconf
-          image: teilin/milesconf:v1.3
+          image: teilin/milesconf:v1.9
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
@@ -58,9 +58,16 @@ spec:
   tls:
   - hosts:
     - milesconf.devgeek.io
+    - conf.miles.no
     secretName: milesconf-tls
   rules:
   - host: milesconf.devgeek.io
+    http:
+      paths:
+      - backend:
+          serviceName: milesconf
+          servicePort: 80
+  - host: conf.miles.no
     http:
       paths:
       - backend:

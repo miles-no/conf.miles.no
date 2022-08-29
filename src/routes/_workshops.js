@@ -1,12 +1,17 @@
-const workshops = [
+const agenda = [
     {
         title: 'Analyser forbruket ditt med bankens API',
         slug: 'analyser-forbruket-ditt-med-bankens-api',
-        images: ['olav.png'],
+        images: ['/olav.jpeg'],
+        authorConcat: 'Olav',
         authors: [
-            'Olav'
+            { author: 'Olav', image: '/olav.jpeg' }
         ],
-        workshoplink: 'https://conf.miles.no/',
+        date: '25. mars',
+        room: 'Dræggen 3',
+        time: '10:45',
+        cssclass: 'odd',
+        workshoplink: 'https://booster.miles.no/',
         links: [
             'https://2022.boosterconf.no/talk/101-analyser-forbruket-ditt-med-bankens-api/',
             'https://www.miles.no/',
@@ -24,13 +29,18 @@ const workshops = [
         title: 'Gather your party with svelte',
         slug: 'gather-your-party-with-svelte',
         images: [
-            'dagerik.png',
-            'alexander.png'
+            '/dagerik.jpeg',
+            '/alexander.jpeg'
         ],
+        authorConcat: 'Dag Erik og Alexander',
         authors: [
-            'Alexander Castillo',
-            'Dag Erik Løvgren'
+            { author: 'Dag Erik Løvgren', image: '/dagerik.jpeg' },
+            { author: 'Alexander Castillo', image: '/alexander.jpeg' }
         ],
+        date: '24. mars',
+        room: 'Dræggen 8',
+        time: '09:00',
+        cssclass: 'even',
         workshoplink: 'https://github.com/miles-no/booster2022-gather-your-party-with-svelte',
         links: [
             'https://www.miles.no/',
@@ -51,8 +61,8 @@ const workshops = [
     }
 ];
 
-workshops.forEach(workshop => {
+agenda.forEach(workshop => {
     workshop.html = workshop.html.replace(/^\t{3}/gm, '');
 });
 
-export default workshops;
+export default agenda;

@@ -1,12 +1,13 @@
 <script context="module">
+	import ws from './_workshops';
 	export async function load({params, fetch}) {
-        const workshops = await import(`./_workshops.js`);
         return { 
             props: { 
-                workshops: workshops
+                workshops: ws
             }
         }
     }
+	export const router = false;
 </script>
 
 <script>
