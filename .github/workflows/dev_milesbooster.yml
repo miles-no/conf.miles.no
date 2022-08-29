@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'MilesBooster'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_13D7DB85B23C44E4B366BC85958A7E97 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C755DB69257A444490799EBA7CA64CBB }}
           package: .
