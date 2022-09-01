@@ -11,9 +11,8 @@ resources:
 variables:
   tag: '$(Build.BuildId)'
   azureSubscription: 39bfb9e3-d694-4732-a732-3c98b2d48555
-  appName: MilesKonferanser
-  containerRegistry: <Name of the Azure container registry>
-  imageRepository: <Name of image repository>
+  containerRegistry: mainpage.azurecr.io
+  imageRepository: MainPage
 
 
 
@@ -29,19 +28,14 @@ stages:
     - task: Docker@2
       displayName: Build an image
       inputs:
-        command: build
+        command: buildAndPush
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        repository: $(imageRepository)
+        containerRegistry: $(containerRegistry)
         tags: |
           $(tag)
+
+
+ 
     
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'Azure subscription 1(39bfb9e3-d694-4732-a732-3c98b2d48555)'
-        appType: 'webAppContainer'
-        WebAppName: 'MilesKonferanser'
-        deployToSlotOrASE: true
-        ResourceGroupName: 'KonferanseSide'
-        SlotName: 'production'
-        DockerNamespace: 'https://mcr.microsoft.com'
-        DockerRepository: 'appsvc/staticsite:latest'
+
