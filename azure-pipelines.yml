@@ -48,4 +48,4 @@ stages:
         ResourceGroupName: 'KonferanseSide'
         SlotName: 'production'
         DockerNamespace: 'mainpage.azurecr.io'
-        DockerRepository: 'milesnoconfmilesno''
+        DockerRepository: 'milesnoconfmilesno'
