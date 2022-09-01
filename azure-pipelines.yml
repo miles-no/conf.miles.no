@@ -37,3 +37,15 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+
+    - task: AzureRmWebAppDeployment@4
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Azure subscription 1(39bfb9e3-d694-4732-a732-3c98b2d48555)'
+        appType: 'webAppContainer'
+        WebAppName: 'MilesKonferanser'
+        deployToSlotOrASE: true
+        ResourceGroupName: 'KonferanseSide'
+        SlotName: 'production'
+        DockerNamespace: 'mainpage.azurecr.io'
+        DockerRepository: 'milesnoconfmilesno''
