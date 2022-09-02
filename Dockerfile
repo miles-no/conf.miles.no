@@ -7,7 +7,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM node:14.15.0
+FROM node:16.14.0
 
 WORKDIR /app
 
