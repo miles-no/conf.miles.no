@@ -24,7 +24,7 @@
 			</div>
 			<a class="link" href={agenda.workshoplink}>
 				<div class="footer">
-					Gå direkte til kodeverkstedet<strong>&gt;&gt;</strong>
+					Gå direkte til kodeverkstedet!<strong>&gt;&gt;</strong>
 				</div>
 			</a>
 		</div>
