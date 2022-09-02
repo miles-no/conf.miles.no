@@ -1,6 +1,6 @@
 # This workflow will build and push a Docker container to an Azure Container registry when a commit is pushed to your default branch.
 
-name: Build and deploy a container to an Azure Web App
+name: Build and deploy a container to ACR
 
 env:
   AZURE_WEBAPP_NAME: your-app-name  # set this to the name of your Azure Web App
@@ -35,7 +35,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: konferanseside.azurecr.io/${{ env.REPO }}:${{ github.sha }}
+          tags: konferanseside.azurecr.io/hovedside:${{ github.sha }}
           file: ./Dockerfile
 
  
