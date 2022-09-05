@@ -2,6 +2,7 @@ const agenda = [
     {
         title: 'Analyser forbruket ditt med bankens API',
         slug: 'analyser-forbruket-ditt-med-bankens-api',
+        conference: "JavaZone",
         images: ['/olav.jpeg'],
         authorConcat: 'Olav',
         authors: [
@@ -28,6 +29,7 @@ const agenda = [
     {
         title: 'Gather your party with svelte',
         slug: 'gather-your-party-with-svelte',
+        conference: "Booster",
         images: [
             '/dagerik.jpeg',
             '/alexander.jpeg'

@@ -4,13 +4,13 @@
 	export async function load({ params, fetch }) {
 		let slug = params.slug;
 		let currentConferences = cs.filter((x) => {return x.slug ==slug})
-		
+		let currentWorkshops = ws.filter(x => {return x.conference == slug})
         let post = {};
         if(currentConferences.length == 1) post = currentConferences[0];
 		return {
 			props: {
 				conferenceName: slug,
-				workshops: ws,
+				workshops: currentWorkshops,
 				conference: post,
 			}
 		};
