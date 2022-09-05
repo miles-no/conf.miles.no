@@ -1,12 +1,14 @@
 <script context="module">
 	import ws from './_workshops';
-	export async function load({params, fetch}) {
-        return { 
-            props: { 
-                workshops: ws
-            }
-        }
-    }
+	import cs from './_conferences';
+	export async function load({ params, fetch }) {
+		return {
+			props: {
+				workshops: ws,
+				conferences: cs
+			}
+		};
+	}
 	export const router = false;
 </script>
 
@@ -15,14 +17,13 @@
 	import Cards from '../components/Cards.svelte';
 	import Logo from '../components/Logo.svelte';
 	import Date from '../components/Date.svelte';
+	import Conferences from '../components/Conferences.svelte';
 	export let workshops;
+	export let conferences;
 </script>
 
-<style>
-</style>
-
 <svelte:head>
-	<title>Miles @ Booster</title>
+	<title>Miles @ konferanser</title>
 </svelte:head>
 
 <div class="container-fluid">
@@ -31,5 +32,8 @@
 	<div class="d-none d-md-block">
 		<Date />
 	</div>
-	<Cards workshops="{workshops}" />
+	<Conferences {conferences} />
 </div>
+
+<style>
+</style>
