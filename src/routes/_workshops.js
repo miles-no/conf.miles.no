@@ -11,7 +11,7 @@ const agenda = [
         room: 'Dræggen 3',
         time: '10:45',
         cssclass: 'odd',
-        workshoplink: 'https://booster.miles.no/',
+        workshoplink: 'https:// javazone.miles.no/',
         links: [
             'https://2022.boosterconf.no/talk/101-analyser-forbruket-ditt-med-bankens-api/',
             'https://www.miles.no/',
