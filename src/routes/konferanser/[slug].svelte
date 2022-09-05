@@ -36,7 +36,7 @@
 	<Logo secondarySource="../{conference.logosrc}" />
 	<Nav />
 	<div class="d-none d-md-block">
-		<Date />
+		<Date startdate={conference.startdate} enddate={conference.enddate}/>
 	</div>
 	<Cards {workshops} />
 </div>

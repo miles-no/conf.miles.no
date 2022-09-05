@@ -1,4 +1,6 @@
 <script>
+    export let startdate;
+    export let enddate;
 </script>
 
 <style>
@@ -23,6 +25,6 @@
 
 <div id="dateposition">
     <div id="conferencedate">
-        23-25 Mars
+        {startdate} - {enddate}
     </div>
 </div>

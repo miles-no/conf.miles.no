@@ -29,9 +29,6 @@
 <div class="container-fluid">
 	<Logo />
 	<Nav />
-	<div class="d-none d-md-block">
-		<Date />
-	</div>
 	<Conferences {conferences} />
 </div>
 
