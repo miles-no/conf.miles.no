@@ -34,7 +34,7 @@
 
 <div class="container-fluid">
 	<Logo secondarySource="../{conference.logosrc}" />
-	<Nav />
+	<Nav conferencelink= {conference.link} conferencename={conferenceName} />
 	<div class="d-none d-md-block">
 		<Date startdate={conference.startdate} enddate={conference.enddate}/>
 	</div>

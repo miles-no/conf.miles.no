@@ -1,4 +1,6 @@
 <script>
+    export let conferencename ="None";
+    export let conferencelink;
 </script>
 
 <style>
@@ -28,7 +30,9 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav">
                 <a href="https://miles.no/" class="nav-item nav-link btn">Gå til Miles  &gt;&gt;</a>
-                <a href="https://2022.boosterconf.no/" class="nav-item nav-link btn">Gå til Booster  &gt;&gt;</a>
+                {#if conferencename != "None"}
+                <a href="{conferencelink}" class="nav-item nav-link btn">Gå til {conferencename}  &gt;&gt;</a>
+                {/if}
             </div>
         </div>
     </div>
