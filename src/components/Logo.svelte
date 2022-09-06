@@ -2,14 +2,14 @@
 	export let secondarySource = 'None';
 </script>
 
-<div id="header">
+<div id="header"><a href= "/">
 	<div id="logoheader">
 		<img class="primarylogo" alt="Miles logo" src="/logo.png" />
 		{#if secondarySource != 'None'}
         <span id="separator">@</span>
 			<img class="secondarylogo" alt="Miles logo" src={secondarySource} />
 		{/if}
-	</div>
+	</div></a>
 </div>
 
 <style>

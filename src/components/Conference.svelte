@@ -18,9 +18,9 @@
 	let oldConference = isBeforeToday(conferenceDate);
 </script>
 
-<a href="konferanser/{conference.title}">
+<a href="konferanser/{conference.slug}">
 	<div class:oldConference>
-		{conference.slug}
+		{conference.title}
 		{#if active}
 			{conference.startdate} - {conference.enddate}
 		{/if}

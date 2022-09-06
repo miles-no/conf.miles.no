@@ -2,7 +2,7 @@ const agenda = [
     {
         title: 'Analyser forbruket ditt med bankens API',
         slug: 'analyser-forbruket-ditt-med-bankens-api',
-        conference: "[JavaZone, Booster]",
+        conference: "[javazone, booster]",
         images: ['/olav.jpeg'],
         authorConcat: 'Olav',
         authors: [
@@ -30,7 +30,7 @@ const agenda = [
     {
         title: '100% dekningsgrad med automatisert testing sa du?',
         slug: 'hundre-prosent-dekningsgrad-med-automatisert-testing-sa-du',
-        conference: "[JavaZone]",
+        conference: "[javazone]",
         images: ['/gerd.png'],
         authorConcat: 'Gerd',
         authors: [
@@ -58,7 +58,7 @@ const agenda = [
     {
         title: 'Why you should consider Web Assembly in your next frontend project',
         slug: 'Why-you-should-consider-Web-Assembly-in-your-next-frontend-project',
-        conference: "[JavaZone]",
+        conference: "[javazone]",
         images: ['/haakan.png'],
         authorConcat: 'Håkan',
         authors: [
@@ -88,7 +88,7 @@ const agenda = [
     {
         title: 'Gather your party with svelte',
         slug: 'gather-your-party-with-svelte',
-        conference: "[Booster]",
+        conference: "[booster]",
         images: [
             '/dagerik.jpeg',
             '/alexander.jpeg'

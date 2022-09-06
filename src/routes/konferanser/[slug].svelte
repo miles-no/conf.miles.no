@@ -43,14 +43,14 @@
 
 <style>
 
-	:global( div.Booster) {
+	:global( div.booster) {
         background-color: #A5ECDE;
 		min-width: 100vh;
 		min-height: 100vh;
 		overflow: hidden;
 		
 	}
-	:global(div.JavaZone) {
+	:global(div.javazone) {
         background-color: white;
 		min-width: 100vh;
 		min-height: 100vh;

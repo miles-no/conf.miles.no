@@ -1,6 +1,6 @@
 const conferences =[
     {title: 'JavaZone',
-    slug:"JavaZone",
+    slug:"javazone",
     startdate: "7. september",
     enddate: '8. september',
     enddateformat: "2022,8,8",
@@ -8,7 +8,7 @@ const conferences =[
     link: 'https://2022.javazone.no/' ,  
 },
 {title: 'Booster',
-slug:"Booster",
+slug:"booster",
 startdate: "23. Mars",
 enddate: '25. Mars',
 enddateformat: "2022,2,25",
