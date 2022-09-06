@@ -32,7 +32,7 @@
 	<title>Miles @ {conferenceName}</title>
 </svelte:head>
 
-<div class="container-fluid">
+<div class="container-fluid {conference.slug}">
 	<Logo secondarySource="../{conference.logosrc}" />
 	<Nav conferencelink= {conference.link} conferencename={conferenceName} />
 	<div class="d-none d-md-block">
@@ -42,4 +42,18 @@
 </div>
 
 <style>
+
+	:global( div.Booster) {
+        background-color: #A5ECDE;
+		min-width: 100vh;
+		min-height: 100vh;
+		overflow: hidden;
+		
+	}
+	:global(div.JavaZone) {
+        background-color: white;
+		min-width: 100vh;
+		min-height: 100vh;
+		overflow: hidden;
+	}
 </style>
