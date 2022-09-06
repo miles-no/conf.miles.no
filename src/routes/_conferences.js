@@ -6,16 +6,14 @@ const conferences =[
     enddateformat: "2022,8,8",
     logosrc: './javazonelogo.png',
     link: 'https://2022.javazone.no/' ,  
-    backgroundcolor: "FFF"
 },
 {title: 'Booster',
 slug:"Booster",
-startdate: "7. Mai",
-enddate: '8. Mai',
-enddateformat: "2022,4,8",
+startdate: "23. Mars",
+enddate: '25. Mars',
+enddateformat: "2022,2,25",
 logosrc: 'boosterlogo.png', 
 link: 'https://2022.boosterconf.no/' ,  
-backgroundcolor: ""
 },
 ]
 
