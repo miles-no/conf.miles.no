@@ -22,11 +22,14 @@
 					<!-- <img class="profile-image rounded-circle" src="https://via.placeholder.com/150" alt="Person" /> -->
 				</div>
 			</div>
+			{#if agenda.format == "Workshop"}
 			<a class="link" href={agenda.workshoplink}>
 				<div class="footer">
 					Gå direkte til kodeverkstedet!<strong>&gt;&gt;</strong>
 				</div>
-			</a>
+			</a>		
+			{/if}
+		
 		</div>
 	</a>
 </div>
@@ -72,7 +75,7 @@
 	}
 	.datelocation {
 		padding: 5px;
-		font-size: 0.5rem;
+		font-size: 0.8rem;
 	}
 	.elements {
 		display: flex;

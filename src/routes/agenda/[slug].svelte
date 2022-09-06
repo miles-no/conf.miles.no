@@ -42,7 +42,13 @@
     <div class="row">
         <div class="col col-md-9">
             <hr />
+            {#if post.format == "Workshop"}
             <a class="btn" href="{post.workshoplink}">Gå direkte til kodeverkstedet &gt;&gt;</a>
+            {:else}
+            <a class="btn" href="{post.workshoplink}">Gå direkte til programmet &gt;&gt;</a>
+            {/if}
+
+            
             <h1>{post.title}</h1>
             <table class="table">
                 <thead>
@@ -58,7 +64,7 @@
                         <td>{post.date}</td>
                         <td>{post.room}</td>
                         <td>{post.time}</td>
-                        <td>Workshop</td>
+                        <td>{post.format}</td>
                     </tr>
                 </tbody>
             </table>
