@@ -38,7 +38,7 @@
 	<div class="d-none d-md-block">
 		<Date startdate={conference.startdate} enddate={conference.enddate}/>
 	</div>
-	<Cards {workshops} />
+	<Cards {workshops} {conferenceName}/>
 </div>
 
 <style>

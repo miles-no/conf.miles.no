@@ -6,13 +6,22 @@
 	// export let datelocation;
 	// export let slug;
 	export let agenda;
+
+	
+	export let conferenceName
+	
+
+	
+	let currentConferance = agenda.conferencetimes.filter(x => {return x.conference == conferenceName})[0]
+	console.log(currentConferance)
+
 </script>
 
 <div class="col-sm-6 p-5">
-	<a href="/agenda/{agenda.slug}">
+	<a href="{conferenceName}/agenda/{agenda.slug}">
 		<div class="card milescard {agenda.cssclass}">
 			<div class="space">
-				<div class="datelocation">&lt;{agenda.date} / {agenda.time} / {agenda.room}&gt;</div>
+				<div class="datelocation">&lt;{currentConferance.date} / {currentConferance.time} / {currentConferance.room}&gt;</div>
 				<h1 class="text">{agenda.authorConcat}</h1>
 				<h2 class="text">{agenda.title}</h2>
 			</div>

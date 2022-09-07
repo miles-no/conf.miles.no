@@ -1,23 +1,28 @@
 <script context="module">
-    import ws from '../_workshops';
+    import ws from '../../../_workshops';
     export async function load({params, fetch}) {
         let slug = params.slug;
+        let conferenceName = params.konferanse;
         let posts = ws.filter((x) => {
             return x.slug == slug;
         });
         let post = {};
         if(posts.length == 1) post = posts[0];
+        let currentConferance = post.conferencetimes.filter(x => {return x.conference == conferenceName})[0]
         return { 
             props: { 
-                post: post
+                post: post,
+                currentConferance: currentConferance
             }
         }
     }
 </script>
 
 <script>
-    import Logo from '../../components/Logo.svelte';
+    import Logo from '../../../../components/Logo.svelte';
+import agenda from '../../../_workshops';
     export let post;
+    export let currentConferance;
 </script>
 
 <style>
@@ -61,9 +66,9 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{post.date}</td>
-                        <td>{post.room}</td>
-                        <td>{post.time}</td>
+                        <td>{currentConferance.date}</td>
+                        <td>{currentConferance.room}</td>
+                        <td>{currentConferance.time}</td>
                         <td>{post.format}</td>
                     </tr>
                 </tbody>
