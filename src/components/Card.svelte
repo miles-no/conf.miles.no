@@ -13,7 +13,6 @@
 
 	
 	let currentConferance = agenda.conferencetimes.filter(x => {return x.conference == conferenceName})[0]
-	console.log(currentConferance)
 
 </script>
 
