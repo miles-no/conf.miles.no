@@ -5,13 +5,7 @@ body {
 	font-family: 'Work Sans', sans-serif;
 	font-size: 20px;
 	line-height: 1.5;
-	/* background-color: rgb(184, 38, 28)!important; */
-	background-image: url('/headerbg.svg')!important;
-	background-position: top;
-	background-size: cover;
-	background-repeat: no-repeat;
 	color: #333;
-	
 }
 
 h1, h2, h3, h4, h5, h6 {

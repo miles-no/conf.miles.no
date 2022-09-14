@@ -14,11 +14,9 @@
 
 <script>
 	import Nav from '../components/Nav.svelte';
-	import Cards from '../components/Cards.svelte';
 	import Logo from '../components/Logo.svelte';
-	import Date from '../components/Date.svelte';
 	import Conferences from '../components/Conferences.svelte';
-	export let workshops;
+	import SwooshFooter from '../components/SwooshFooter.svelte';
 	export let conferences;
 </script>
 
@@ -26,10 +24,11 @@
 	<title>Miles @ konferanser</title>
 </svelte:head>
 
-<div class="container-fluid">
+<div>
 	<Logo />
 	<Nav />
 	<Conferences {conferences} />
+	<SwooshFooter/>
 </div>
 
 <style>
