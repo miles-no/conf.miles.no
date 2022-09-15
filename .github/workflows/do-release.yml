@@ -14,8 +14,8 @@ jobs:
       uses: docker/login-action@v1
       with:
         registry: registry.digitalocean.com
-        username: ${{ secrets.DO_REGISTRT_TOKEN }}
-        password: ${{ secrets.DO_REGISTRT_TOKEN }}
+        username: ${{ secrets.DO_TOKEN }}
+        password: ${{ secrets.DO_TOKEN }}
 
     - name: Build latest
       run: docker build -t registry.digitalocean.com/teilin/milesconf:$(echo $GITHUB_SHA | head -c7) -t registry.digitalocean.com/teilin/milesconf:latest .
