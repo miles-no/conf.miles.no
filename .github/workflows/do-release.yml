@@ -18,13 +18,13 @@ jobs:
         password: ${{ secrets.DO_REGISTRT_TOKEN }}
 
     - name: Build latest
-      run: docker build -t registry.digitalocean.com/teilin/demo-teis:$(echo $GITHUB_SHA | head -c7) -t registry.digitalocean.com/olsen/demo-teis:latest .
+      run: docker build -t registry.digitalocean.com/teilin/milesconf:$(echo $GITHUB_SHA | head -c7) -t registry.digitalocean.com/teilin/milesconf:latest .
 
     - name: Docker Push
-      run: docker push registry.digitalocean.com/teilin/demo-teis:$(echo $GITHUB_SHA | head -c7)
+      run: docker push registry.digitalocean.com/teilin/milesconf:$(echo $GITHUB_SHA | head -c7)
 
     - name: Docker Push
-      run: docker push registry.digitalocean.com/teilin/olsen/demo-teis:latest
+      run: docker push registry.digitalocean.com/teilin/milesconf:latest
 
     - name: Set up kubectl
       uses: matootie/dokube@v1.4.0
