@@ -1,5 +1,3 @@
-<script>
-</script>
-
-<style>
-</style>
+<div>
+  Not Found
+</div>

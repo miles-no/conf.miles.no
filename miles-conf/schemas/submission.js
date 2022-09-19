@@ -58,11 +58,5 @@ export default {
         layout: 'tags'
       }
     },
-    {
-      title: 'Performances',
-      name: 'performances',
-      type: 'array',
-      of: [{ type: 'performance' }]
-    }
   ]
 }

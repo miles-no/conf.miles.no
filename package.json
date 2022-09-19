@@ -23,15 +23,17 @@
     "eslint-plugin-svelte3": "^3.2.1",
     "prettier": "^2.5.1",
     "prettier-plugin-svelte": "^2.5.0",
-    "svelte": "^3.46.0"
+    "svelte": "^3.50.1"
   },
   "engines": {
     "node": "16.14"
   },
   "type": "module",
   "dependencies": {
+    "@portabletext/svelte": "^1.0.1",
     "@fontsource/fira-mono": "^4.5.0",
     "@lukeed/uuid": "^2.0.0",
+    "@sanity/client": "^3.4.1",
     "cookie": "^0.4.1"
   }
 }

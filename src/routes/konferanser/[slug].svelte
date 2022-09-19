@@ -1,21 +1,40 @@
 <script context="module">
-	import ws from '../_workshops';
-	import cs from '../_conferences'
-	export async function load({ params, fetch }) {
-		let slug = params.slug;
-		let currentConferences = cs.filter((x) => {return x.slug ==slug})
-		let currentWorkshops = ws.filter(x => {return x.conference.includes(slug)})
-        let post = {};
-        if(currentConferences.length == 1) post = currentConferences[0];
+	import client from '../../sanityClient';
+	export async function load({ params }) {
+		const { slug } = params;
+
+		const conference = await client.fetch(
+			/* groq */ `
+			*[
+				_type == "conference" &&
+				slug.current == $slug
+			][0] {
+				...,
+				"slug": slug.current,
+				"imageUrl": image.asset->url,
+				performances[]{
+					dateAndTime,
+					location,
+					performanceUrls,
+					submission->{...,authors[]->{..., "imageUrl": image.asset->url}}
+				}
+			}
+		`,
+		{ slug }
+		);
+
+		if (!conference) {
+			return {
+				status: 404
+			};
+		}
+
 		return {
 			props: {
-				conferenceName: slug,
-				workshops: currentWorkshops,
-				conference: post,
+				conference
 			}
 		};
 	}
-	export const router = false;
 </script>
 
 <script>
@@ -23,37 +42,18 @@
 	import Cards from '../../components/Cards.svelte';
 	import Logo from '../../components/Logo.svelte';
 	import Date from '../../components/Date.svelte';
-	export let workshops;
-	export let conferenceName;
 	export let conference;
 </script>
 
 <svelte:head>
-	<title>Miles @ {conferenceName}</title>
+	<title>Miles @ {conference.title}</title>
 </svelte:head>
 
-<div class="container-fluid {conference.slug}">
-	<Logo secondarySource="../{conference.logosrc}" />
-	<Nav conferencelink= {conference.link} conferencename={conferenceName} />
+<div class="container-fluid">
+	<Logo secondarySource={conference.imageUrl} />
+	<Nav conference={conference} />
 	<div class="d-none d-md-block">
-		<Date startdate={conference.startdate} enddate={conference.enddate}/>
+		<Date startdate={conference.startDate} enddate={conference.endDate} />
 	</div>
-	<Cards {workshops} {conferenceName}/>
+	<Cards conference={conference} />
 </div>
-
-<style>
-
-	:global( div.booster) {
-        background-color: #A5ECDE;
-		min-width: 100vh;
-		min-height: 100vh;
-		overflow: hidden;
-		
-	}
-	:global(div.javazone) {
-        background-color: white;
-		min-width: 100vh;
-		min-height: 100vh;
-		overflow: hidden;
-	}
-</style>

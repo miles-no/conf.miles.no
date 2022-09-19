@@ -4,6 +4,12 @@ export default {
   title: 'Performance',
   fields: [
     {
+      title: 'Submission',
+      name: 'submission',
+      type: 'reference',
+      to: [{ type: 'submission' }],
+    },
+    {
       title: 'Date and time',
       name: 'dateAndTime',
       type: 'datetime'
@@ -14,27 +20,11 @@ export default {
       type: 'string'
     },
     {
-      title: 'Slug',
-      name: 'slug',
-      type: 'slug',
-      options: {
-        source: 'title',
-      }
-    },
-    {
       title: 'Links',
       name: 'performanceUrls',
       type: 'array',
       of: [{ type: 'url' }]
     },
-    {
-      title: 'Conference',
-      name: 'performanceConference',
-      type: 'array',
-      of: [{
-        type: 'reference',
-        to: [{ type: 'conference' }],
-      }]
-    },
+
   ]
 }

@@ -43,8 +43,14 @@ export default {
     },
     {
       title: 'Homepage',
-      name: 'editionUrl',
+      name: 'url',
       type: 'url'
+    },
+    {
+      title: 'Performances',
+      name: 'performances',
+      type: 'array',
+      of: [{ type: 'performance' }]
     }
   ]
 }

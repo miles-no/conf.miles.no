@@ -6,7 +6,7 @@
 	<div id="logoheader">
 		<img class="primarylogo" alt="Miles logo" src="/logo.png" />
 		{#if secondarySource != 'None'}
-        <span id="separator">@</span>
+			<span id="separator">@</span>
 			<img class="secondarylogo" alt="Miles logo" src={secondarySource} />
 		{/if}
 	</div></a>
