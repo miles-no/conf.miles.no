@@ -1,15 +1,28 @@
 <script context="module">
-	import ws from './_workshops';
-	import cs from './_conferences';
-	export async function load({ params, fetch }) {
+  import client from '../sanityClient';
+	export async function load() {
+		const conferences = await client.fetch(
+			/* groq */ `
+			*[_type == "conference"] {
+				...,
+				"slug": slug.current,
+				"imageUrl": image.asset->url,
+			}
+		`
+		);
+
+		if (!conferences) {
+			return {
+				status: 404
+			};
+		}
+
 		return {
 			props: {
-				workshops: ws,
-				conferences: cs
+				conferences
 			}
 		};
 	}
-	export const router = false;
 </script>
 
 <script>
@@ -20,6 +33,7 @@
 	import { onMount } from 'svelte';
 	import { parseJwt } from '../lib';
 	import { user } from '../stores';
+  export let conferences = [];
 
 	globalThis.handleCredentialResponse = response => {
 		$user = parseJwt(response.credential);
@@ -67,6 +81,3 @@
 	<Conferences {conferences} />
 	<SwooshFooter/>
 </div>
-
-<style>
-</style>
