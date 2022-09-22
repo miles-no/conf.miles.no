@@ -1,39 +1,18 @@
 <script>
-	export let conference;
-	export let active;
 	import DatePill from './DatePill.svelte';
+  import { formatConferenceDateRange } from '../lib';
+  export let conference;
+	export let active;
 
-	function isBeforeToday(date) {
-		const today = new Date();
-
-		today.setHours(0, 0, 0, 0);
-
-		return date < today;
-	}
-	let date = conference.enddateformat.split(',');
-
-	let conferenceDate = new Date(date[0], date[1], date[2]);
-	conferenceDate.setHours(0, 0, 0, 0);
-
-	let oldConference = isBeforeToday(conferenceDate);	
-
-	//TODO: should be removed after CMS change
-	function fmtDate(sdate, edate){
-		let [sday, smonth] = sdate.split('.');
-		let [eday, emonth] = edate.split('.');
-		if (smonth = emonth) {
-			return `${sday}-${eday} ${smonth}`;
-		}
-		return `${sday} ${smonth.slice(0,4)} - ${eday} ${emonth.slice(0,4)}`
-	}
-	let text = fmtDate(conference.startdate, conference.enddate);
+  const text = formatConferenceDateRange(conference.startDate, conference.endDate);
+  const isFinished = new Date().getTime() > new Date(conference.endDate).getTime();
 </script>
 
 <div class="container-md">
 	<div class:active>
 		<a href="konferanser/{conference.slug}">
 			<div class="d-flex align-items-center flex-row">
-				<div class="link" class:oldConference>
+				<div class="link" class:isFinished>
 					{conference.title}
 				</div>
 				{#if active}
@@ -63,7 +42,7 @@
 		background-color: black;
 		color: white;
 	}
-	.oldConference {
+	.isFinished {
 		text-decoration: line-through;
 	}
 </style>

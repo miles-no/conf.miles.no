@@ -31,11 +31,12 @@
   },
   "type": "module",
   "dependencies": {
-    "@portabletext/svelte": "^1.0.1",
     "@fontsource/fira-mono": "^4.5.0",
     "@lukeed/uuid": "^2.0.0",
+    "@portabletext/svelte": "^1.0.1",
     "@sanity/client": "^3.4.1",
     "cookie": "^0.4.1",
-    "crypto-es": "^1.2.7"
+    "crypto-es": "^1.2.7",
+    "date-fns": "^2.29.3"
   }
 }
