@@ -1,8 +1,7 @@
 <script>
 	import Conference from './Conference.svelte';
 	import Hoverable from '../components/Hoverable.svelte';
-  import { user } from '../stores';
-	export let conferences = [];
+  export let conferences = [];
 </script>
 
 <div>

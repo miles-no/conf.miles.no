@@ -3,7 +3,7 @@
 	export async function load() {
 		const conferences = await client.fetch(
 			/* groq */ `
-			*[_type == "conference"] {
+			*[_type == "conference"] | order(endDate desc) {
 				...,
 				"slug": slug.current,
 				"imageUrl": image.asset->url,
@@ -34,6 +34,7 @@
 	import { parseJwt } from '../lib';
 	import { user } from '../stores';
   export let conferences = [];
+  $: filteredConferences = conferences.filter(c => !c.internal);
 
 	globalThis.handleCredentialResponse = response => {
 		$user = parseJwt(response.credential);
@@ -44,7 +45,6 @@
 			google.accounts.id.initialize({
 				client_id: '374308135710-8hfuhn752hmh15lohs4fi4hsnovj8t9c.apps.googleusercontent.com',
 				callback: globalThis.handleCredentialResponse,
-				auto_select: true,
 			});
 			if (!$user) {
 				displaySignInButton();
@@ -78,6 +78,6 @@
 <div>
 	<Logo />
 	<Nav />
-	<Conferences {conferences} />
+	<Conferences conferences={$user ? conferences: filteredConferences } />
 	<SwooshFooter/>
 </div>
