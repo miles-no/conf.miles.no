@@ -6,7 +6,8 @@ export default {
     {
       name: 'title',
       type: 'string',
-      title: 'Title'
+      title: 'Title',
+      validation: Rule => Rule.required()
     },
     {
       title: 'Slug',
@@ -14,7 +15,8 @@ export default {
       type: 'slug',
       options: {
         source: 'title',
-      }
+      },
+      validation: Rule => Rule.required()
     },
     {
       title: 'Authors',
@@ -23,7 +25,8 @@ export default {
       of: [{
         type: 'reference',
         to: [{ type: 'author' }]
-      }]
+      }],
+      validation: Rule => Rule.required()
     },
     {
       title: 'Submission type',
@@ -36,18 +39,21 @@ export default {
           { title: 'Presentation', value: 'presentation' },
           { title: 'Workshop', value: 'workshop' },
         ]
-      }
+      },
+      validation: Rule => Rule.required()
     },
     {
       title: 'Description',
       name: 'description',
-      type: 'portableText'
+      type: 'portableText',
+      validation: Rule => Rule.required()
     },
     {
       title: 'Duration',
       name: 'duration',
       type: 'number',
-      description: 'The submission duration in minutes'
+      description: 'The submission duration in minutes',
+      validation: Rule => Rule.required().min(10).max(180)
     },
     {
       title: 'Keywords',

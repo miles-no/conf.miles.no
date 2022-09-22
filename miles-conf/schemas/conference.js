@@ -6,7 +6,8 @@ export default {
     {
       name: 'title',
       type: 'string',
-      title: 'Title'
+      title: 'Title',
+      validation: Rule => Rule.required()
     },
     {
       title: 'Slug',
@@ -14,12 +15,20 @@ export default {
       type: 'slug',
       options: {
         source: 'title',
-      }
+      },
+      validation: Rule => Rule.required()
+    },
+    {
+      title: 'Internal',
+      name: 'internal',
+      type: 'boolean',
+      description: 'Internal conferences will only be visible for logged-in Miles users'
     },
     {
       title: 'Logo',
       name: 'image',
       type: 'image',
+      validation: Rule => Rule.required(),
       fields: [
         {
           name: 'alt',
@@ -34,17 +43,20 @@ export default {
     {
       title: 'Start date',
       name: 'startDate',
-      type: 'date'
+      type: 'date',
+      validation: Rule => Rule.required()
     },
     {
       title: 'End date',
       name: 'endDate',
-      type: 'date'
+      type: 'date',
+      validation: Rule => Rule.required().min(Rule.valueOfField('startDate'))
     },
     {
       title: 'Homepage',
       name: 'url',
-      type: 'url'
+      type: 'url',
+      validation: Rule => Rule.required()
     },
     {
       title: 'Performances',

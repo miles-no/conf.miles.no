@@ -9,7 +9,8 @@ export default {
     {
       name: 'name',
       type: 'string',
-      title: 'Name'
+      title: 'Name',
+      validation: Rule => Rule.required()
     },
     {
       title: 'Slug',
@@ -17,12 +18,14 @@ export default {
       type: 'slug',
       options: {
         source: 'name',
-      }
+      },
+      validation: Rule => Rule.required()
     },
     {
       name: 'bio',
       type: 'portableText',
       title: 'Bio',
+      validation: Rule => Rule.required()
     },
     {
       title: 'Twitter',
@@ -58,6 +61,7 @@ export default {
       title: 'Image',
       name: 'image',
       type: 'image',
+      validation: Rule => Rule.required(),
       options: {
         hotspot: true
       },
