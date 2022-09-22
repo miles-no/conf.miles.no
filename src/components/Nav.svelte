@@ -1,5 +1,6 @@
 <script>
 	export let conference;
+  import { user } from '../stores';
 </script>
 
 <nav id="nav" class="navbar-expand-lg navbar-light">
@@ -19,6 +20,12 @@
 					<a href={conference.link} class="nav-item nav-link btn">Gå til {conference.title} &gt;&gt;</a>
 				{/if}
 			</div>
+      {#if $user}
+				<p>{$user.name}</p>
+				<img height="30" src={$user.picture} alt={$user.name} style={'border-radius: 50px'} />
+			{:else}
+				<div id="signin" />
+			{/if}
 		</div>
 	</div>
 </nav>
