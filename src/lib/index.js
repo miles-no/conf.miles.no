@@ -1,7 +1,7 @@
 import CryptoES from 'crypto-es';
 import { CREDENTIAL_SALT } from '../secret';
 import { format, getMonth } from 'date-fns';
-import { nb } from 'date-fns/locale';
+import { nb } from 'date-fns/locale/index.js';
 
 export const encrypt = (value) => CryptoES.AES.encrypt(value, CREDENTIAL_SALT);
 

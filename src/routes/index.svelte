@@ -26,10 +26,7 @@
 </script>
 
 <script>
-	import Nav from '../components/Nav.svelte';
-	import Logo from '../components/Logo.svelte';
 	import Conferences from '../components/Conferences.svelte';
-	import SwooshFooter from '../components/SwooshFooter.svelte';
 	import { onMount } from 'svelte';
 	import { parseJwt } from '../lib';
 	import { user } from '../stores';
@@ -66,18 +63,12 @@
 			locale: 'no',
 			logo_alignment: 'left'
 		});
-		google.accounts.id.prompt();
 	}
 </script>
 
 <svelte:head>
 	<script src="https://accounts.google.com/gsi/client" async defer on:load={loadGoogle()}></script>
-	<title>Miles @ konferanser</title>
+	<title>Miles</title>
 </svelte:head>
 
-<div>
-	<Logo />
-	<Nav />
-	<Conferences conferences={$user ? conferences: filteredConferences } />
-	<SwooshFooter/>
-</div>
+<Conferences conferences={$user ? conferences : filteredConferences } />

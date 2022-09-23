@@ -38,9 +38,7 @@
 </script>
 
 <script>
-	import Nav from '../../components/Nav.svelte';
 	import Cards from '../../components/Cards.svelte';
-	import Logo from '../../components/Logo.svelte';
 	import Date from '../../components/Date.svelte';
 	export let conference;
 </script>
@@ -50,8 +48,6 @@
 </svelte:head>
 
 <div class="container-fluid">
-	<Logo secondarySource={conference.imageUrl} />
-	<Nav conference={conference} />
 	<div class="d-none d-md-block">
 		<Date startdate={conference.startDate} enddate={conference.endDate} />
 	</div>
