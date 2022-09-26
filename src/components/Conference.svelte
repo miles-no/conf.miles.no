@@ -8,20 +8,17 @@
   const isFinished = new Date().getTime() > new Date(conference.endDate).getTime();
 </script>
 
-<div class="container-md">
-	<div class:active>
-		<a href="konferanser/{conference.slug}">
-			<div class="d-flex align-items-center flex-row">
-				<div class="link" class:isFinished>
-					{conference.title}
-				</div>
-				{#if active}
-					<DatePill text={text} />
-				{/if}
-			</div>
-		</a>
-	</div>
-
+<div class:active>
+  <a href="konferanser/{conference.slug}">
+    <div class="d-flex align-items-center flex-row">
+      <div class="link" class:isFinished>
+        {conference.title}
+      </div>
+      {#if active}
+        <DatePill text={text} />
+      {/if}
+    </div>
+  </a>
 </div>
 
 
@@ -32,9 +29,8 @@
 	}
 	.link {
 		font-weight: 700;
-		font-size: min(10vw, 100px);
+		font-size: min(5vw, 100px);
 		padding: 0em 0.5em;
-		background-color: none;
 		color: inherit;
 		text-decoration: underline;
 	}

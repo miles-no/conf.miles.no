@@ -3,39 +3,40 @@
   export let settings = [];
 
   const signOut = () => {
-    console.log('signing out');
     $user = false;
     location.reload();
   }
 </script>
 
-<nav class="miles-nav">
+<header class="miles-nav">
   <div class="brand">
     <a href="/">
       <img class="miles-brand" src={settings.siteLogo} alt={settings.siteName}>
     </a>
   </div>
-  <div class="links">
-    <ul class="navbar-nav m-0">
-      {#if $user}
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <img height="35" src={$user.picture} alt={$user.name} style={'border-radius: 50px'} />
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <li class="px-2">{$user.name}</li>
-          <li><hr class="dropdown-divider"></li>
-          <li class="px-2 miles-nav-item" on:click={signOut}>Sign Out</li>
-        </ul>
-      </li>
-      {:else}
-        <li class="nav-item">
-          <div id="signin" />
+  <nav>
+    <div class="links">
+      <ul class="navbar-nav m-0">
+        {#if $user}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img height="35" src={$user.picture} alt={$user.name} style={'border-radius: 50px'} />
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li class="px-2">{$user.name}</li>
+            <li><hr class="dropdown-divider"></li>
+            <li class="px-2 miles-nav-item" on:click={signOut}>Sign Out</li>
+          </ul>
         </li>
-      {/if}
-    </ul>
-  </div>
-</nav>
+        {:else}
+          <li class="nav-item">
+            <div id="signin" />
+          </li>
+        {/if}
+      </ul>
+    </div>
+  </nav>
+</header>
 
 <style>
   .miles-nav {

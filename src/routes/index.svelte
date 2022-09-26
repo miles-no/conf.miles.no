@@ -3,7 +3,7 @@
 	export async function load() {
 		const conferences = await client.fetch(
 			/* groq */ `
-			*[_type == "conference"] | order(endDate desc) {
+			*[_type == "conference"][0..4] | order(endDate desc) {
 				...,
 				"slug": slug.current,
 				"imageUrl": image.asset->url,
@@ -27,6 +27,7 @@
 
 <script>
 	import Conferences from '../components/Conferences.svelte';
+  import Hoverable from '../components/Hoverable.svelte';
 	import { onMount } from 'svelte';
 	import { parseJwt } from '../lib';
 	import { user } from '../stores';
@@ -71,4 +72,23 @@
 	<title>Miles</title>
 </svelte:head>
 
-<Conferences conferences={$user ? conferences : filteredConferences } />
+<div class="container">
+  <Conferences conferences={$user ? conferences : filteredConferences } />
+  <Hoverable let:hovering={active}>
+    <a class="generic-link" class:active href="/konferanser">Se alle konferanser</a>
+  </Hoverable>
+</div>
+
+<style>
+  .generic-link {
+    font-weight: 700;
+		font-size: min(2vw, 30px);
+		padding: 1em 2em;
+		color: inherit;
+  }
+
+  .active {
+		background-color: black;
+		color: white;
+	}
+</style>

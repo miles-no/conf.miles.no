@@ -4,7 +4,7 @@
   export let conferences = [];
 </script>
 
-<div>
+<div class="mb-5">
 	{#each conferences as conference}
 		<Hoverable let:hovering={active}>
 			<Conference {conference} {active} />
