@@ -10,15 +10,30 @@
         slug.current == $konferanse
       ][0] {
         ...,
+        "slug": slug.current,
         "performance": performances[submission->slug.current match $slug][0]{
           dateAndTime,
           location,
           performanceUrls,
-          submission->{..., authors[]->{..., "imageUrl": image.asset->url}}
+          submission->{
+            ...,
+            "slug": slug.current,
+            authors[]->{
+              ...,
+              "imageUrl": image.asset->url,
+              "socials": [
+                { "type": 'facebook', "handle": facebook },
+                { "type": 'twitter', "handle": twitter },
+                { "type": 'linkedin', "handle": linkedin },
+                { "type": 'instagram', "handle": instagram },
+                { "type": 'email', "handle": email }
+              ]
+            }
+          }
         }
       }
 		`,
-    { konferanse, slug }
+			{ konferanse, slug }
 		);
 
 		if (!conference || !conference.performance) {
@@ -29,50 +44,103 @@
 
 		return {
 			props: {
+        conference,
 				performance: conference.performance,
-        submission: conference.performance.submission
+				submission: conference.performance.submission
 			}
 		};
 	}
 </script>
 
 <script>
-  import { PortableText } from '@portabletext/svelte';
-	export let performance;
-  export let submission;
+	import { PortableText } from '@portabletext/svelte';
+	import { CalendarClock, Clock, MapPin, Tags } from 'lucide-svelte';
+	import { intlFormat, addMinutes } from 'date-fns';
+	import Author from '../../../../components/Author.svelte';
+  import BreadCrumb from '../../../../components/BreadCrumb.svelte';
+	export let conference;
+  export let performance;
+	export let submission;
 </script>
 
 <div class="container">
-  <div class="row">
-    <div class="col col-md-9">
-      <h1>{submission.title}</h1>
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Dato</th>
-            <th scope="col">Sted</th>
-            <th scope="col">Tid</th>
-            <th scope="col">Format</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{performance.dateAndTime}</td>
-            <td>{performance.location}</td>
-            <td>{performance.dateAndTime}</td>
-            <td>{submission.submissionType}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div>
-        <PortableText value={submission.description} />
-      </div>
-    </div>
-    <div class="col col-md-3">
-      {#each submission.authors as author}
-        <img src={author.imageUrl} alt={author.image.alt} />
-        <h2 class="centertext">{author.name}</h2>
-      {/each}
-    </div>
-  </div>
+  <BreadCrumb {conference} {submission} />
+	<div class="submission-wrapper">
+		<div class="submission-heading">
+			<h1 class="mb-4">{submission.title}</h1>
+			<h4>
+				{submission.authors.map((author) => author.name).join(' | ')}
+			</h4>
+		</div>
+		<div class="submission-content">
+			<div class="submission-details">
+				<div class="mb-2">
+					<span class="me-3">
+						<CalendarClock />
+						<span>
+							{intlFormat(
+								new Date(performance.dateAndTime),
+								{ weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
+								{ locale: 'nb-NO' }
+							)}
+						</span>
+					</span>
+					<span>
+						<Clock />
+						<span>
+							{intlFormat(
+								new Date(performance.dateAndTime),
+								{ hour: 'numeric', minute: 'numeric' },
+								{ locale: 'nb-NO' }
+							)} -
+							{intlFormat(
+								addMinutes(new Date(performance.dateAndTime), submission.duration),
+								{ hour: 'numeric', minute: 'numeric' },
+								{ locale: 'nb-NO' }
+							)}
+						</span>
+					</span>
+				</div>
+				<div class="mb-3">
+					<span class="me-3">
+						<MapPin /> <span>{performance.location}</span>
+					</span>
+					<span>
+						<Tags /> <span>{submission.keywords.join(', ')}</span>
+					</span>
+				</div>
+			</div>
+
+			<div>
+				<PortableText value={submission.description} />
+			</div>
+		</div>
+
+		<div>
+			{#each submission.authors as author}
+				<Author {author} />
+			{/each}
+		</div>
+	</div>
 </div>
+
+<style>
+	.submission-wrapper {
+		max-width: 992px;
+		margin: auto;
+	}
+	.submission-heading {
+		background: #ef8181;
+		padding: clamp(0.5em, 3vh, 3em) clamp(1em, 2vw, 8em);
+		color: white;
+	}
+
+	.submission-content {
+		padding: clamp(0.5em, 3vh, 3em) clamp(1em, 5vw, 8em);
+		line-height: 2em;
+	}
+
+	.submission-details {
+		font-weight: 700;
+	}
+</style>

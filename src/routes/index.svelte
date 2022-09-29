@@ -1,15 +1,13 @@
 <script context="module">
-  import client from '../sanityClient';
+	import client from '../sanityClient';
 	export async function load() {
-		const conferences = await client.fetch(
-			/* groq */ `
-			*[_type == "conference"][0..4] | order(endDate desc) {
+		const conferences = await client.fetch(/* groq */ `
+			*[_type == "conference"][0..1] | order(endDate desc) {
 				...,
 				"slug": slug.current,
 				"imageUrl": image.asset->url,
 			}
-		`
-		);
+		`);
 
 		if (!conferences) {
 			return {
@@ -27,32 +25,27 @@
 
 <script>
 	import Conferences from '../components/Conferences.svelte';
-  import Hoverable from '../components/Hoverable.svelte';
+	import Hoverable from '../components/Hoverable.svelte';
 	import { onMount } from 'svelte';
 	import { parseJwt } from '../lib';
 	import { user } from '../stores';
-  export let conferences = [];
-  $: filteredConferences = conferences.filter(c => !c.internal);
+	export let conferences = [];
+	$: filteredConferences = conferences.filter((c) => !c.internal);
 
-	globalThis.handleCredentialResponse = response => {
+	globalThis.handleCredentialResponse = (response) => {
 		$user = parseJwt(response.credential);
 	};
-	let googleReady = false;
-	onMount(() => {
-		if (googleReady) {
-			google.accounts.id.initialize({
-				client_id: '374308135710-8hfuhn752hmh15lohs4fi4hsnovj8t9c.apps.googleusercontent.com',
-				callback: globalThis.handleCredentialResponse,
-			});
-			if (!$user) {
-				displaySignInButton();
-			}
-		}
-	});
+	let allConferencesLoaded = false;
 
 	const loadGoogle = () => {
-		googleReady = true;
-	}
+		google.accounts.id.initialize({
+			client_id: '374308135710-8hfuhn752hmh15lohs4fi4hsnovj8t9c.apps.googleusercontent.com',
+			callback: globalThis.handleCredentialResponse
+		});
+		if (!$user) {
+			displaySignInButton();
+		}
+	};
 
 	const displaySignInButton = () => {
 		google.accounts.id.renderButton(document.getElementById('signin'), {
@@ -64,31 +57,49 @@
 			locale: 'no',
 			logo_alignment: 'left'
 		});
-	}
+	};
+
+	const loadAllConferences = async () => {
+		conferences = await client.fetch(/* groq */ `
+			*[_type == "conference"] | order(endDate desc) {
+				...,
+				"slug": slug.current,
+				"imageUrl": image.asset->url,
+			}
+		`);
+
+		allConferencesLoaded = true;
+		return conferences;
+	};
 </script>
 
 <svelte:head>
-	<script src="https://accounts.google.com/gsi/client" async defer on:load={loadGoogle()}></script>
+	<script src="https://accounts.google.com/gsi/client" defer on:load={loadGoogle()}></script>
 	<title>Miles</title>
 </svelte:head>
 
 <div class="container">
-  <Conferences conferences={$user ? conferences : filteredConferences } />
-  <Hoverable let:hovering={active}>
-    <a class="generic-link" class:active href="/konferanser">Se alle konferanser</a>
-  </Hoverable>
+	<Conferences conferences={$user ? conferences : filteredConferences} />
+	{#if !allConferencesLoaded}
+		<Hoverable let:hovering={active}>
+			<!-- svelte-ignore a11y-missing-attribute -->
+			<a class="generic-link" class:active on:click={loadAllConferences}>Se alle konferanser</a>
+		</Hoverable>
+	{/if}
 </div>
 
 <style>
-  .generic-link {
-    font-weight: 700;
+	.generic-link {
+		font-weight: 700;
 		font-size: min(2vw, 30px);
 		padding: 1em 2em;
 		color: inherit;
-  }
+		cursor: pointer;
+	}
 
-  .active {
+	.active {
 		background-color: black;
 		color: white;
+		cursor: pointer;
 	}
 </style>

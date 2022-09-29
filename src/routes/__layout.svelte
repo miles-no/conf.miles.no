@@ -1,16 +1,20 @@
 <script context="module">
-  import client from '../sanityClient';
-	export async function load() {
-		const siteSettings = await client.fetch(
-			/* groq */ `
-        *[_type == "siteSettings"][0] {
+	import client from '../sanityClient';
+	export async function load({ params }) {
+		const { slug = '', konferanse = '' } = params;
+		const result = await client.fetch(
+			`
+      {
+        'settings': *[_type == 'siteSettings'][0] {
           ...,
           "siteLogo": siteLogo.asset->url
         }
-      `
+      }
+    `,
+			{ slug, konferanse }
 		);
 
-		if (!siteSettings) {
+		if (!result) {
 			return {
 				status: 404
 			};
@@ -18,23 +22,23 @@
 
 		return {
 			props: {
-				siteSettings
+				settings: result.settings,
 			}
 		};
 	}
 </script>
 
 <script>
-  import Footer from "../components/Footer.svelte";
-  import Header from "../components/Header.svelte";
-  export let siteSettings = [];
+	import Footer from '../components/Footer.svelte';
+	import Header from '../components/Header.svelte';
+	export let settings = [];
 </script>
+
+<Header {settings}  />
+<main>
+	<slot />
+</main>
+<!-- <Footer /> -->
 
 <style>
 </style>
-
-<Header settings={siteSettings} />
-<main>
-  <slot></slot>
-</main>
-<Footer />

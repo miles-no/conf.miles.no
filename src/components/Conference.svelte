@@ -1,5 +1,5 @@
 <script>
-	import DatePill from './DatePill.svelte';
+	import TextPill from './TextPill.svelte';
   import { formatConferenceDateRange } from '../lib';
   export let conference;
 	export let active;
@@ -15,7 +15,7 @@
         {conference.title}
       </div>
       {#if active}
-        <DatePill text={text} />
+        <TextPill text={text} />
       {/if}
     </div>
   </a>
