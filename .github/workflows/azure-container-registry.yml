@@ -3,7 +3,7 @@
 name: Build and deploy a container to ACR
 
 env:
-  AZURE_WEBAPP_NAME: your-app-name  # set this to the name of your Azure Web App
+  AZURE_WEBAPP_NAME: MilesKonferanser
 
 on:
   push:
