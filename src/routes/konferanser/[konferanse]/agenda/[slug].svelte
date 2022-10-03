@@ -114,9 +114,17 @@
 			<div>
 				<PortableText value={submission.description} />
 			</div>
+
+      {#if performance.performanceUrls && performance.performanceUrls.length > 0}
+        <div class="d-flex flex-column submission-details">
+          {#each performance.performanceUrls as url}
+            <a class="submission-resource" href={url.url}>{url.urlText}</a>
+          {/each}
+        </div>
+      {/if}
 		</div>
 
-		<div>
+    <div>
 			{#each submission.authors as author}
 				<Author {author} />
 			{/each}
@@ -143,4 +151,9 @@
 	.submission-details {
 		font-weight: 700;
 	}
+
+  .submission-resource {
+    color: inherit;
+    text-decoration: none;
+  }
 </style>

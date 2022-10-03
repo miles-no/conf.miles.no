@@ -23,7 +23,7 @@ export default {
       title: 'Links',
       name: 'performanceUrls',
       type: 'array',
-      of: [{ type: 'url' }]
+      of: [{ type: 'urls' }]
     },
 
   ]

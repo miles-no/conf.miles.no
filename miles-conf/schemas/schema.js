@@ -8,6 +8,7 @@ import submission from './submission';
 
 import portableText from './objects/portableText';
 import performance from './objects/performance';
+import urls from './objects/urls';
 
 export default createSchema({
   name: 'default',
@@ -20,5 +21,6 @@ export default createSchema({
 
     portableText,
     performance,
+    urls
   ]),
 })
