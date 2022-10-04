@@ -28,6 +28,10 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+    - script: |
+      echo $(imageRepository)
+      echo $(dockerfilePath)
+      echo $(tag)
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
