@@ -46,11 +46,11 @@ stages:
     - task: AzureRmWebAppDeployment@4
       inputs:
         ConnectionType: 'AzureRM'
-        azureSubscription: 'Azure subscription 1(39bfb9e3-d694-4732-a732-3c98b2d48555)'
+        azureSubscription: 'MilesKonferanse-ServiceConnection'
         appType: 'webAppContainer'
-        WebAppName: 'MilesKonferanser'
+        WebAppName: 'Konferanse'
         deployToSlotOrASE: true
-        ResourceGroupName: 'KonferanseSide'
+        ResourceGroupName: 'MilesKonferanse'
         SlotName: 'production'
-        DockerNamespace: 'mainpage.azurecr.io'
-        DockerRepository: 'milesnoconfmilesno'
+        DockerNamespace: $(containerRegistry)
+        DockerRepository: $(imageRepository)
