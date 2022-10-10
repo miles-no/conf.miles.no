@@ -48,7 +48,7 @@ stages:
         ConnectionType: 'AzureRM'
         azureSubscription: 'MilesKonferanse-ServiceConnection'
         appType: 'webAppContainer'
-        WebAppName: 'Konferanse'
+        WebAppName: 'Konferanser'
         deployToSlotOrASE: true
         ResourceGroupName: 'MilesKonferanse'
         SlotName: 'production'
