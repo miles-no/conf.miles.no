@@ -8,6 +8,8 @@
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
     "prepare": "svelte-kit sync",
+    "docker-build": "docker build . -t svelte-docker",
+    "docker-run": "docker run --rm --name=svelte-docker -p 3000:3000 svelte-docker",
     "test": "playwright test",
     "lint": "prettier --ignore-path .gitignore --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
     "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
