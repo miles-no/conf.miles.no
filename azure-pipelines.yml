@@ -39,8 +39,9 @@ stages:
         command: buildAndPush
         repository: $(imageRepository)
         Dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
+        containerRegistry: $(dockerRegistryServiceConnection)      
         tags: |
+          latest
           $(tag)
 
     - task: AzureRmWebAppDeployment@4
@@ -54,3 +55,5 @@ stages:
         SlotName: 'production'
         DockerNamespace: $(containerRegistry)
         DockerRepository: $(imageRepository)
+        DockerImageTag: latest
+        
