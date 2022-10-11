@@ -1,21 +1,20 @@
-FROM node:14.15.0 as build
+FROM node:16.14 as build
 
 WORKDIR /app
 COPY package.json .
 COPY package-lock.json .
-RUN npm ci
-COPY . .
+COPY . ./
+RUN npm ci 
+
 RUN npm run build
 
-FROM node:16.14.0
+FROM node:16.14-alpine
 
 WORKDIR /app
 
-#COPY package.lock.json .
-#COPY --from=build /app/.svelte-kit/build/. .
-COPY --from=build /app/package.json /app/build /app/
-# COPY .env ./
+COPY --from=build /app/build .
+COPY --from=build /app/package.json .
+COPY --from=build /app/node_modules ./node_modules
 
 EXPOSE 3000
-#CMD ["node", "./app.js"]
-CMD ["node", "index.js"]
+CMD ["node", "./index.js"]
