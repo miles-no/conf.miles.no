@@ -68,7 +68,7 @@
 			<Hoverable let:hovering={active}>
 				<div class:active>
 					<a href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}>
-						<div class="d-flex align-items-center flex-row">
+						<div class="d-flex align-items-center justify-content-between flex-row">
 							<div
 								class="link"
 								class:isFinished={new Date().getTime() >
@@ -76,15 +76,12 @@
 							>
 								{performance.submission.title}
 							</div>
-							{#if active}
-                <TextPill
-                  text={intlFormat(
-                    new Date(performance.dateAndTime),
-                    { year: 'numeric', month: 'short', day: 'numeric' },
-                    { locale: 'nb-NO' }
-                  )}
-                />
-							{/if}
+                		<div class="date-text">
+							{intlFormat(new Date(performance.dateAndTime),
+								{ year: 'numeric', month: 'short', day: 'numeric' },
+								{ locale: 'nb-NO' }
+							)}
+						</div>
 						</div>
 					</a>
 				</div>
@@ -111,5 +108,8 @@
 	}
 	.isFinished {
 		text-decoration: line-through;
+	}
+	.date-text {
+		margin-right: .5em;
 	}
 </style>

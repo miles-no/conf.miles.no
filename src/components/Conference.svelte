@@ -10,12 +10,14 @@
 
 <div class:active>
   <a href="konferanser/{conference.slug}">
-    <div class="d-flex align-items-center flex-row">
+    <div class="d-flex mr-auto p-2 align-items-center flex-row">
       <div class="link" class:isFinished>
         {conference.title}
       </div>
       {#if active}
+	  <div class="p-2">
         <TextPill text={text} />
+	  </div>
       {/if}
     </div>
   </a>
@@ -30,8 +32,9 @@
 	.link {
 		font-weight: 700;
 		font-size: min(5vw, 100px);
-		padding: 0em 0.5em;
+		padding: 0 1.5vw;
 		color: inherit;
+		word-break: break-all;
 		text-decoration: underline;
 	}
 	.active {
