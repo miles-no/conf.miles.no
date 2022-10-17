@@ -105,9 +105,12 @@
 					<span class="me-3">
 						<MapPin /> <span>{performance.location}</span>
 					</span>
-					<span>
-						<Tags /> <span>{submission.keywords.join(', ')}</span>
-					</span>
+
+          {#if submission.keywords && submission.keywords.length > 0}
+            <span>
+              <Tags /> <span>{submission.keywords.join(', ')}</span>
+            </span>
+          {/if}
 				</div>
 			</div>
 
