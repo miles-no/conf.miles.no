@@ -75,7 +75,7 @@
 
 <svelte:head>
 	<script src="https://accounts.google.com/gsi/client" defer on:load={loadGoogle()}></script>
-	<title>Miles</title>
+	<title>Miles.</title>
 </svelte:head>
 
 <div class="container">
