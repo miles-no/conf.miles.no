@@ -8,7 +8,7 @@
   const isFinished = new Date().getTime() > new Date(conference.endDate).getTime();
 </script>
 
-<div class:active>
+<div class="mb-5" class:active>
   <a href="konferanser/{conference.slug}">
     <div class="d-flex mr-auto p-2 align-items-center flex-row">
       <div class="link" class:isFinished>
