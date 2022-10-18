@@ -62,7 +62,7 @@
 	<title>{conference.title} | Miles</title>
 </svelte:head>
 
-<div class="container">
+<div class="container-lg">
 	<BreadCrumb {conference} />
 	{#if !conference.performances}
 		<div class="d-flex align-items-center mb-5">

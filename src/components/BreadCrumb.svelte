@@ -4,10 +4,10 @@
   export let submission = false;
 </script>
 
-<div class="d-flex justify-content-center mb-5">
-  <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+<div class="d-flex justify-content-center">
+  <nav style="--bs-breadcrumb-divider: '@';" aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="/"><Home /></a></li>
+      <li class="breadcrumb-item"><a href="/">Conf</a></li>
       {#if conference}
         <li class="breadcrumb-item" class:active="{!submission}" aria-current={submission ? null : "page"}>
           <a href={`/konferanser/${conference.slug}`}>{conference.title}</a>

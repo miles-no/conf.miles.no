@@ -5,7 +5,7 @@
 	import { intlFormat } from 'date-fns';
 </script>
 
-<div class="col-sm-12 col-md-6 col-lg-4" style="padding: 0; maring: 0;">
+<div class="col-sm-12 col-md-6 col-xl-4" style="padding: 0; maring: 0;">
 	<div class="p-3 h-100">
 		<a href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}>
 			<div class="d-flex flex-column justify-content-between background">
@@ -75,7 +75,7 @@
 	.background {
 		height: 100%;
 		background-color: 10;
-		box-shadow: 1px 1px 0 2px #b8261c;
+		box-shadow: 1px 1px 0 2px #ef8181;
 		padding: 1.5em;
 	}
 	.date-text {
