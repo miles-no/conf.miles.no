@@ -16,7 +16,7 @@
 				<div class="date-text">
 					{intlFormat(
 						new Date(performance.dateAndTime),
-						{ year: 'numeric', month: 'short', day: 'numeric' },
+						{ year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric'},
 						{ locale: 'nb-NO' }
 					)}
 				</div>
@@ -24,7 +24,7 @@
                     {performance.location ?? ""}
                 </div>
 			</div>
-			<div class="title"> {performance.submission.title}
+			<div class="title mt-1"> {performance.submission.title}
 			</div>	
 		</div>
         <div class="duration">
@@ -69,8 +69,8 @@
 	.background {
 		height: 100%;
 		background-color:  10;
-        box-shadow: 4px 4px 10px 2px #b8261c40;
-		padding: 24px;
+        box-shadow: 4px 4px 8px 0 #b8261c40;
+		padding: 1.5em;
 	}
     .date-text{
         font-size: small;
