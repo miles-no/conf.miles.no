@@ -2,7 +2,7 @@
 	export let performance;
 	export let conference;
 
-	import { intlFormat } from 'date-fns';
+	import { formatDistanceToNowStrict, addMinutes, intlFormat } from 'date-fns';
 </script>
 
 <div class="col-sm-12 col-md-6 col-xl-4" style="padding: 0; maring: 0;">
@@ -32,7 +32,7 @@
 				</div>
 				<div class="duration">
 					{performance.submission.submissionType}
-					({performance.submission.duration})
+					({formatDistanceToNowStrict(addMinutes(new Date(), performance.submission.duration), { addSuffix: false })})
 				</div>
 				<div class="d-flex align-items-center justify-content-between flex-row mt-1">
 					<div class="d-flex flex-row overflow-scroll">

@@ -40,22 +40,23 @@
 <script>
 	import BreadCrumb from '../../components/BreadCrumb.svelte';
 	import { FileQuestion, ArrowLeft } from 'lucide-svelte';
-	import { daysInWeek, intlFormat } from 'date-fns';
+	import { intlFormat } from 'date-fns';
 	import Performance from '../../components/Performance.svelte';
 	export let conference;
 
 	let performancegroups = {};
 	if (conference.performances) {
 		for (let e of Object.values(conference.performances)) {
-		let key = new Date(e.dateAndTime);
-		if (performancegroups[key] === undefined) {
-			performancegroups[key] = [];
+			let key = new Date(e.dateAndTime);
+			if (performancegroups[key.toDateString()] === undefined) {
+				performancegroups[key.toDateString()] = {};
+			}
+			if (performancegroups[key.toDateString()][key] === undefined) {
+				performancegroups[key.toDateString()][key] = [];
+			}
+			performancegroups[key.toDateString()][key].push(e);
 		}
-		performancegroups[key].push(e);
 	}
-	}
-	
-	$: pgr = Object.entries(performancegroups);
 </script>
 
 <svelte:head>
@@ -80,23 +81,59 @@
 	{:else}
 		<div class="d-flex justify-content-center" />
 		<div class="d-grid">
-			{#each pgr as [day, performances]}
-				<div class="group-text">
-					{intlFormat(
-					new Date(day),
-					{
-						year: 'numeric',
-						month: 'short',
-						day: 'numeric'
-					},
-					{ locale: 'nb-NO' }
-				)}
-				</div>
-				<div class="row mb-5">
-					{#each performances.sort() as performance}
-						<Performance {performance} {conference} />
+			{#each Object.entries(performancegroups) as [_, times]}
+				{#if Object.entries(times).length === 1}
+					<div class="group-text">
+						{intlFormat(
+							new Date(Object.keys(times).length > 0 ? Object.keys(times)[0] : ''),
+							{
+								year: 'numeric',
+								month: 'short',
+								day: 'numeric',
+								hour: '2-digit',
+								minute: '2-digit'
+							},
+							{ locale: 'nb-NO' }
+						)}
+					</div>
+					{#each Object.entries(times) as [_, performances]}
+						<div class="row mb-5">
+							{#each performances.sort() as performance}
+								<Performance {performance} {conference} />
+							{/each}
+						</div>
 					{/each}
-				</div>
+				{:else}
+					<div class="group-text">
+						{intlFormat(
+							new Date(Object.keys(times).length > 0 ? Object.keys(times)[0] : ''),
+							{
+								year: 'numeric',
+								month: 'short',
+								day: 'numeric'
+							},
+							{ locale: 'nb-NO' }
+						)}
+					</div>
+					<hr class="dark" />
+					{#each Object.entries(times) as [time, performances]}
+						<div class="timeslot-text">
+							{intlFormat(
+								new Date(time),
+								{
+									hour: '2-digit',
+									minute: '2-digit'
+								},
+								{ locale: 'nb-NO' }
+							)}
+						</div>
+						<div class="row mb-5">
+							{#each performances.sort() as performance}
+								<Performance {performance} {conference} />
+							{/each}
+						</div>
+					{/each}
+				{/if}
 			{/each}
 		</div>
 	{/if}
@@ -107,8 +144,15 @@
 		text-decoration: none;
 		color: inherit;
 	}
+	hr {
+		background-color: red;
+	}
 	.group-text {
 		font-size: xx-large;
+		font-weight: 800;
+	}
+	.timeslot-text {
+		font-size: large;
 		font-weight: 800;
 	}
 </style>
