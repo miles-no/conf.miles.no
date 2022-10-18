@@ -39,10 +39,8 @@
 
 <script>
 	import BreadCrumb from '../../components/BreadCrumb.svelte';
-	import TextPill from '../../components/TextPill.svelte';
-	import Hoverable from '../../components/Hoverable.svelte';
-  import { intlFormat } from 'date-fns';
 	import { FileQuestion, ArrowLeft } from 'lucide-svelte';
+	import Performance from '../../components/Performance.svelte';
 	export let conference;
 </script>
 
@@ -54,39 +52,25 @@
 	<BreadCrumb {conference} />
 	{#if !conference.performances}
 		<div class="d-flex align-items-center mb-5">
-			<div class="me-3"><FileQuestion size="80"/></div>
+			<div class="me-3"><FileQuestion size="80" /></div>
 			<div>
 				<h1 class="mb-0">Her var det tomt, gitt.</h1>
-				<p class="mb-0">Det er foreløpig ingen planlagte innslag fra Miles på {conference.title}.</p>
+				<p class="mb-0">
+					Det er foreløpig ingen planlagte innslag fra Miles på {conference.title}.
+				</p>
 			</div>
 		</div>
-    <div>
-      <a href="/"><ArrowLeft /> Tilbake til konferanseoversikten</a>
-    </div>
+		<div>
+			<a href="/"><ArrowLeft /> Tilbake til konferanseoversikten</a>
+		</div>
 	{:else}
-		{#each conference.performances as performance}
-			<Hoverable let:hovering={active}>
-				<div class:active>
-					<a href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}>
-						<div class="d-flex align-items-center justify-content-between flex-row">
-							<div
-								class="link"
-								class:isFinished={new Date().getTime() >
-									new Date(performance.dateAndTime).getTime()}
-							>
-								{performance.submission.title}
-							</div>
-                		<div class="date-text">
-							{intlFormat(new Date(performance.dateAndTime),
-								{ year: 'numeric', month: 'short', day: 'numeric' },
-								{ locale: 'nb-NO' }
-							)}
-						</div>
-						</div>
-					</a>
-				</div>
-			</Hoverable>
-		{/each}
+		<div class="d-grid">
+			<div class="row">
+				{#each conference.performances as performance}
+					<Performance {performance} {conference} />
+				{/each}
+			</div>
+		</div>
 	{/if}
 </div>
 
@@ -94,22 +78,5 @@
 	a {
 		text-decoration: none;
 		color: inherit;
-	}
-	.link {
-		font-weight: 700;
-		font-size: min(2vw, 100px);
-		padding: 0em 0.5em;
-		color: inherit;
-		text-decoration: underline;
-	}
-	.active {
-		background-color: black;
-		color: white;
-	}
-	.isFinished {
-		text-decoration: line-through;
-	}
-	.date-text {
-		margin-right: .5em;
 	}
 </style>

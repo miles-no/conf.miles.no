@@ -8,8 +8,10 @@
 
 <style>
 	.oval {
+		height: min(4.5vw, 100px);
 		aspect-ratio: 2 / 1;
 		border-radius: 50%;
+		
 		
 		rotate: 15deg;
 		display: flex;
