@@ -40,8 +40,22 @@
 <script>
 	import BreadCrumb from '../../components/BreadCrumb.svelte';
 	import { FileQuestion, ArrowLeft } from 'lucide-svelte';
+	import { daysInWeek, intlFormat } from 'date-fns';
 	import Performance from '../../components/Performance.svelte';
 	export let conference;
+
+	let performancegroups = {};
+	if (conference.performances) {
+		for (let e of Object.values(conference.performances)) {
+		let key = new Date(e.dateAndTime);
+		if (performancegroups[key] === undefined) {
+			performancegroups[key] = [];
+		}
+		performancegroups[key].push(e);
+	}
+	}
+	
+	$: pgr = Object.entries(performancegroups);
 </script>
 
 <svelte:head>
@@ -64,12 +78,26 @@
 			<a href="/"><ArrowLeft /> Tilbake til konferanseoversikten</a>
 		</div>
 	{:else}
+		<div class="d-flex justify-content-center" />
 		<div class="d-grid">
-			<div class="row">
-				{#each conference.performances as performance}
-					<Performance {performance} {conference} />
-				{/each}
-			</div>
+			{#each pgr as [day, performances]}
+				<div class="group-text">
+					{intlFormat(
+					new Date(day),
+					{
+						year: 'numeric',
+						month: 'short',
+						day: 'numeric'
+					},
+					{ locale: 'nb-NO' }
+				)}
+				</div>
+				<div class="row mb-5">
+					{#each performances.sort() as performance}
+						<Performance {performance} {conference} />
+					{/each}
+				</div>
+			{/each}
 		</div>
 	{/if}
 </div>
@@ -78,5 +106,9 @@
 	a {
 		text-decoration: none;
 		color: inherit;
+	}
+	.group-text {
+		font-size: xx-large;
+		font-weight: 800;
 	}
 </style>
