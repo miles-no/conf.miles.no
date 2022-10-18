@@ -63,9 +63,9 @@
 	export let submission;
 </script>
 
-<div class="container">
+<div class="container-fluid">
   <BreadCrumb {conference} {submission} />
-	<div class="submission-wrapper">
+	<div class="container-lg">
 		<div class="submission-heading">
 			<h1 class="mb-4">{submission.title}</h1>
 			<h4>
@@ -136,10 +136,6 @@
 </div>
 
 <style>
-	.submission-wrapper {
-		max-width: 992px;
-		margin: auto;
-	}
 	.submission-heading {
 		background: #ef8181;
 		padding: clamp(0.5em, 3vh, 3em) clamp(1em, 2vw, 8em);
