@@ -2,6 +2,18 @@ export default {
   name: 'conference',
   type: 'document',
   title: 'Conferences',
+  fieldsets: [
+    {
+      name: 'internal',
+      title: 'Internal Conference',
+      hidden: ({ parent }) => !parent?.internal
+    },
+    {
+      name: 'external',
+      title: 'External Conference',
+      hidden: ({ parent }) => parent?.internal
+    }
+  ],
   fields: [
     {
       name: 'title',
@@ -19,28 +31,6 @@ export default {
       validation: Rule => Rule.required()
     },
     {
-      title: 'Internal',
-      name: 'internal',
-      type: 'boolean',
-      description: 'Internal conferences will only be visible for logged-in Miles users'
-    },
-    {
-      title: 'Logo',
-      name: 'image',
-      type: 'image',
-      validation: Rule => Rule.required(),
-      fields: [
-        {
-          name: 'alt',
-          type: 'string',
-          title: 'Alternative text',
-          options: {
-            isHighlighted: true
-          }
-        },
-      ]
-    },
-    {
       title: 'Start date',
       name: 'startDate',
       type: 'date',
@@ -53,16 +43,47 @@ export default {
       validation: Rule => Rule.required().min(Rule.valueOfField('startDate'))
     },
     {
-      title: 'Homepage',
-      name: 'url',
-      type: 'url',
-      validation: Rule => Rule.required()
-    },
-    {
       title: 'Performances',
       name: 'performances',
       type: 'array',
       of: [{ type: 'performance' }]
+    },
+    {
+      title: 'Internal',
+      name: 'internal',
+      type: 'boolean',
+      description: 'Internal conferences will only be visible for logged-in Miles users'
+    },
+    {
+      title: 'Logo',
+      name: 'image',
+      type: 'image',
+      fieldset: 'external',
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative text',
+          options: {
+            isHighlighted: true
+          }
+        },
+      ]
+    },
+    {
+      title: 'Homepage',
+      name: 'url',
+      type: 'url',
+      fieldset: 'external',
+    },
+    {
+      title: 'Itinerary',
+      name: 'itinerary',
+      type: 'array',
+      of: [{
+        type: 'itinerary'
+      }],
+      fieldset: 'internal',
     }
   ]
 }

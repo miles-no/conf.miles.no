@@ -9,6 +9,8 @@ import submission from './submission';
 import portableText from './objects/portableText';
 import performance from './objects/performance';
 import urls from './objects/urls';
+import itinerary from './objects/itinerary';
+import itineraryEvent from './objects/itineraryEvent';
 
 export default createSchema({
   name: 'default',
@@ -21,6 +23,8 @@ export default createSchema({
 
     portableText,
     performance,
-    urls
+    urls,
+    itinerary,
+    itineraryEvent
   ]),
 })
