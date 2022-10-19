@@ -55,8 +55,8 @@
 		{#each Object.entries(times) as [time, performances] (time)}
 			<div
 				animate:flip
-				out:fade={{ duration: 100, key: time }}
-				in:fade={{ duration: 100, key: time }}
+				out:fade|local={{ duration: 200, key: time }}
+				in:fade|local={{ duration: 200, key: time }}
 			>
 				<div class="timeslot-text">
 					{intlFormat(
