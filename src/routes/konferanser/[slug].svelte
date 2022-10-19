@@ -88,7 +88,7 @@
 			<DaySelect bind:group={day} topText={day_text} bottomText={month_text} val={key} />
 		{/each}
 	</div>
-	<div class="pt-5">
+	<div class="pt-4">
 		{#if conference.internal}
 			<InternalConferenceProgram {conference} {day} />
 		{:else}

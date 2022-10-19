@@ -1,27 +1,47 @@
 <script>
 	export let performance;
 	export let conference;
-
+	export let compact = false;
 	import { formatDistanceToNowStrict, addMinutes, intlFormat } from 'date-fns';
 </script>
 
-<div class="p-3 h-100">
+<div class="h-100" style={compact ? 'padding: 0.25em' : 'padding: 0.5em'}>
 	<a href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}>
-		<div class="d-flex flex-column justify-content-between background">
+		<div
+			class="d-flex flex-column justify-content-between background"
+			style={compact && 'padding: 1em'}
+		>
 			<div class="top-bar d-flex flex-column justify-content-between">
 				<div class="d-flex flex-row justify-content-between">
 					<div class="date-text">
-						{intlFormat(
-							new Date(performance.dateAndTime),
-							{
-								year: 'numeric',
-								month: 'short',
-								day: 'numeric',
-								hour: 'numeric',
-								minute: 'numeric'
-							},
-							{ locale: 'nb-NO' }
-						)}
+						{#if compact}
+							{intlFormat(
+								new Date(performance.dateAndTime),
+								{ hour: 'numeric', minute: 'numeric' },
+								{ locale: 'nb-NO' }
+							)}
+							-
+							{intlFormat(
+								addMinutes(new Date(performance.dateAndTime), performance.submission.duration),
+								{
+									hour: 'numeric',
+									minute: 'numeric'
+								},
+								{ locale: 'nb-NO' }
+							)}
+						{:else}
+							{intlFormat(
+								new Date(performance.dateAndTime),
+								{
+									year: 'numeric',
+									month: 'short',
+									day: 'numeric',
+									hour: 'numeric',
+									minute: 'numeric'
+								},
+								{ locale: 'nb-NO' }
+							)}
+						{/if}
 					</div>
 					<div class="location">
 						{performance.location ?? ''}
@@ -29,18 +49,19 @@
 				</div>
 				<div class="title mt-1">{performance.submission.title}</div>
 			</div>
-			<div class="duration">
-				{performance.submission.submissionType}
-				({formatDistanceToNowStrict(addMinutes(new Date(), performance.submission.duration), {
-					addSuffix: false
-				})})
-			</div>
+			{#if !compact}<div class="duration">
+					{performance.submission.submissionType}
+					({formatDistanceToNowStrict(addMinutes(new Date(), performance.submission.duration), {
+						addSuffix: false
+					})})
+				</div>{/if}
 			<div class="d-flex align-items-center justify-content-between flex-row mt-1">
 				<div class="overflow styled-scrollbars d-flex flex-row">
 					{#each performance.submission.authors as author}
 						<div class="d-flex flex-row align-items-center ">
-							<img class="author-img" src={author.imageUrl} alt={author.name} />
-							<div class="author-name mx-2">
+							{#if !compact}
+								<img class="author-img me-2" src={author.imageUrl} alt={author.name} />{/if}
+							<div class="author-name me-2">
 								{author.name}
 							</div>
 						</div>
