@@ -83,7 +83,7 @@
 
 <div class="container-lg">
 	<BreadCrumb {conference} />
-	<div class="d-flex flex-row gap-5">
+	<div class="d-flex flex-row gap-5 of styled-scrollbars">
 		{#each dates as [key, day_text, month_text]}
 			<DaySelect bind:group={day} topText={day_text} bottomText={month_text} val={key} />
 		{/each}
@@ -96,3 +96,23 @@
 		{/if}
 	</div>
 </div>
+
+<style>
+	.of {
+		overflow-y: hidden;
+		overflow-x: auto;
+	}
+	.styled-scrollbars::-webkit-scrollbar {
+		border-top: solid 1px #ef8181;
+		width: 3px; /* Mostly for vertical scrollbars */
+		height: 3px; /* Mostly for horizontal scrollbars */
+	}
+	.styled-scrollbars::-webkit-scrollbar-thumb {
+		/* Foreground */
+		background-color: #ef8181;
+	}
+	.styled-scrollbars::-webkit-scrollbar-track {
+		/* Background */
+		background: inherit;
+	}
+</style>

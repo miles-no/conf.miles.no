@@ -1,5 +1,4 @@
 <script>
-  import { Home } from 'lucide-svelte';
   export let conference;
   export let submission = false;
 </script>

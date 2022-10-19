@@ -83,7 +83,7 @@
 	{#if !allConferencesLoaded}
 		<Hoverable let:hovering={active}>
 			<!-- svelte-ignore a11y-missing-attribute -->
-			<a class="generic-link" class:active on:click={loadAllConferences}>Se alle konferanser</a>
+			<div class="p-2 generic-link" class:active on:click={loadAllConferences}>Se alle konferanser</div>
 		</Hoverable>
 	{/if}
 </div>
@@ -91,10 +91,10 @@
 <style>
 	.generic-link {
 		font-weight: 700;
-		font-size: min(2vw, 30px);
-		padding: 1em 2em;
+		font-size: min(3vw, 40px);
 		color: inherit;
 		cursor: pointer;
+		width: fit-content;
 	}
 
 	.active {
