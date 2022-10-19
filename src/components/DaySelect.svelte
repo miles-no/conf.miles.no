@@ -19,6 +19,9 @@
         font-size: x-large;
         font-weight: 900;
     }
+	.top-text::first-letter {
+		text-transform: capitalize;
+	}
     .bottom-text {
         font-weight: 400;
         font-size: small;

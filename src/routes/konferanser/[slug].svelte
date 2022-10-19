@@ -45,7 +45,36 @@
 	import DaySelect from '../../components/DaySelect.svelte';
 	export let conference;
 
-	let performance_groups = Object.values(conference.performances).reduce((pgs, e) => {
+	var getDaysArray = function (s, e) {
+		for (var a = [], d = new Date(s); d <= new Date(e); d.setDate(d.getDate() + 1)) {
+			a.push(new Date(d));
+		}
+		return a;
+	};
+
+	const { startDate, endDate, performances } = conference;
+
+	//Using all dates from start to end
+	let dates = getDaysArray(startDate, endDate).map((date) => [
+		date.toDateString(),
+		intlFormat(date, { weekday: 'long' }, { locale: 'nb-NO' }),
+		intlFormat(date, { day: '2-digit', month: 'long' }, { locale: 'nb-NO' })
+	]);
+
+	/*
+	//Using the dates with actual performances
+	let dates = performances
+		.map(({ dateAndTime }) => [
+			new Date(dateAndTime).toDateString(),
+			[
+				intlFormat(new Date(dateAndTime), { weekday: 'long' }, { locale: 'nb-NO' }),
+				intlFormat(new Date(dateAndTime), { day: '2-digit', month: 'long' }, { locale: 'nb-NO' })
+			]
+		])
+		.reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {});
+	*/
+
+	let performance_groups = Object.values(performances).reduce((pgs, e) => {
 		let timeStamp = new Date(e.dateAndTime);
 		let date = timeStamp.toDateString();
 		return {
@@ -57,8 +86,8 @@
 		};
 	}, {});
 
-
-	let day = "lørdag";
+	let day = new Date(startDate).toDateString();
+	$: times = performance_groups[day];
 </script>
 
 <svelte:head>
@@ -68,18 +97,9 @@
 <div class="container-lg">
 	<BreadCrumb {conference} />
 	<div class="d-flex flex-row gap-5">
-		<DaySelect bind:group={day} 
-			topText={"Lørdag"} 
-			bottomText={"29.oktober"}
-			val={"lørdag"}/>
-			<DaySelect bind:group={day} 
-			topText={"Søndag"} 
-			bottomText={"30.oktober"}
-			val={"søndag"}/>
-			<DaySelect bind:group={day} 
-			topText={"Praktisk info"} 
-			bottomText={"Greit å vite"}
-			val={"Pi"}/>
+		{#each dates as [key, day_text, month_text]}
+			<DaySelect bind:group={day} topText={day_text} bottomText={month_text} val={key} />
+		{/each}
 	</div>
 	{#if !conference.performances}
 		<div class="d-flex align-items-center mb-5">
@@ -97,59 +117,35 @@
 	{:else}
 		<div class="d-flex justify-content-center" />
 		<div class="d-grid">
-			{#each Object.entries(performance_groups) as [_, times]}
-				{#if Object.entries(times).length === 1}
-					<div class="group-text">
-						{intlFormat(
-							new Date(Object.keys(times).length > 0 ? Object.keys(times)[0] : ''),
-							{
-								year: 'numeric',
-								month: 'short',
-								day: 'numeric',
-								hour: '2-digit',
-								minute: '2-digit'
-							},
-							{ locale: 'nb-NO' }
-						)}
-					</div>
-					{#each Object.entries(times) as [_, performances]}
-						<div class="row mb-5">
-							{#each performances as performance}
-								<Performance {performance} {conference} />
-							{/each}
-						</div>
+			<div class="group-text">
+				{intlFormat(
+					new Date(Object.keys(times).length > 0 ? Object.keys(times)[0] : ''),
+					{
+						year: 'numeric',
+						month: 'short',
+						day: 'numeric'
+					},
+					{ locale: 'nb-NO' }
+				)}
+			</div>
+
+			{#each Object.entries(times) as [time, performances]}
+				<div class="timeslot-text">
+					{intlFormat(
+						new Date(time),
+						{
+							hour: '2-digit',
+							minute: '2-digit'
+						},
+						{ locale: 'nb-NO' }
+					)}
+				</div>
+				<div class="row">
+					{#each performances as performance}
+						<Performance {performance} {conference} />
 					{/each}
-				{:else}
-					<div class="group-text">
-						{intlFormat(
-							new Date(Object.keys(times).length > 0 ? Object.keys(times)[0] : ''),
-							{
-								year: 'numeric',
-								month: 'short',
-								day: 'numeric'
-							},
-							{ locale: 'nb-NO' }
-						)}
-					</div>
-					<hr class="dark" />
-					{#each Object.entries(times) as [time, performances]}
-						<div class="timeslot-text">
-							{intlFormat(
-								new Date(time),
-								{
-									hour: '2-digit',
-									minute: '2-digit'
-								},
-								{ locale: 'nb-NO' }
-							)}
-						</div>
-						<div class="row mb-5">
-							{#each performances as performance}
-								<Performance {performance} {conference} />
-							{/each}
-						</div>
-					{/each}
-				{/if}
+				</div>
+				<hr class="dark" />
 			{/each}
 		</div>
 	{/if}
