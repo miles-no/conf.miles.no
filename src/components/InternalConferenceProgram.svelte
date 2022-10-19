@@ -26,7 +26,9 @@
       </div>
       {#if event.containsPerformances}
         {#each getTimeslotPerformances(event) as performance}
-          <Performance {performance} {conference} />
+          <div class="col-sm-12 col-md-6 col-xl-4" style="padding: 0; maring: 0;">
+            <Performance {performance} {conference} />
+          </div>
         {/each}
         <!-- <div class="d-grid">
           {#each Object.entries(times) as [time, performances]}

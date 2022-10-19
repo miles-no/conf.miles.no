@@ -80,7 +80,6 @@
 		{/each}
 	</div>
 {/if}
->>>>>>> 03c5008d (Moved animatio to bett)
 
 <style>
 	a {
