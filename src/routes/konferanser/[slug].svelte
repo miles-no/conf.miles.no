@@ -39,14 +39,10 @@
 
 <script>
 	import BreadCrumb from '../../components/BreadCrumb.svelte';
-	import { FileQuestion, ArrowLeft } from 'lucide-svelte';
 	import { intlFormat } from 'date-fns';
-	import Performance from '../../components/Performance.svelte';
 	import DaySelect from '../../components/DaySelect.svelte';
-
-	import { fade, fly } from 'svelte/transition';
-	import { flip } from 'svelte/animate';
-
+  import ExternalConferenceProgram from '../../components/ExternalConferenceProgram.svelte';
+  import InternalConferenceProgram from '../../components/InternalConferenceProgram.svelte';
 	export let conference;
 
 	var getDaysArray = function (s, e) {
@@ -56,9 +52,9 @@
 		return a;
 	};
 
-	const { startDate, endDate, performances } = conference;
+	const { startDate, endDate } = conference;
 
-	//Using all dates from start to end
+	// Using all dates from start to end
 	let dates = getDaysArray(startDate, endDate).map((date) => [
 		date.toDateString(),
 		intlFormat(date, { weekday: 'long' }, { locale: 'nb-NO' }),
@@ -78,20 +74,7 @@
 		.reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {});
 	*/
 
-	let performance_groups = Object.values(performances).reduce((pgs, e) => {
-		let timeStamp = new Date(e.dateAndTime);
-		let date = timeStamp.toDateString();
-		return {
-			...pgs,
-			[date]: {
-				...pgs[date],
-				[timeStamp]: [...(pgs[date]?.[timeStamp] || []), e]
-			}
-		};
-	}, {});
-
 	let day = new Date(startDate).toDateString();
-	$: times = performance_groups[day];
 </script>
 
 <svelte:head>
@@ -105,80 +88,10 @@
 			<DaySelect bind:group={day} topText={day_text} bottomText={month_text} val={key} />
 		{/each}
 	</div>
-	{#if !conference.performances}
-		<div class="d-flex align-items-center mb-5">
-			<div class="me-3"><FileQuestion size="80" /></div>
-			<div>
-				<h1 class="mb-0">Her var det tomt, gitt.</h1>
-				<p class="mb-0">
-					Det er foreløpig ingen planlagte innslag fra Miles på {conference.title}.
-				</p>
-			</div>
-		</div>
-		<div>
-			<a href="/"><ArrowLeft /> Tilbake til konferanseoversikten</a>
-		</div>
-	{:else}
-		<div class="d-flex justify-content-center" />
-		<div class="d-grid">
-			<div class="group-text">
-				{intlFormat(
-					new Date(Object.keys(times).length > 0 ? Object.keys(times)[0] : ''),
-					{
-						year: 'numeric',
-						month: 'short',
-						day: 'numeric'
-					},
-					{ locale: 'nb-NO' }
-				)}
-			</div>
-
-			{#each Object.entries(times) as [time, performances]}
-				<div class="timeslot-text">
-					{intlFormat(
-						new Date(time),
-						{
-							hour: '2-digit',
-							minute: '2-digit'
-						},
-						{ locale: 'nb-NO' }
-					)}
-				</div>
-				<div class="row">
-					{#each performances as performance (performance.submission._id)}
-						<div
-							class="col-sm-12 col-md-6 col-xl-4"
-							style="padding: 0; maring: 0;"
-							out:fade={{ key: performance.submission._id }}
-							in:fade={{ key: performance.submission._id }}
-							animate:flip
-						>
-							<Performance {performance} {conference} />
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
-	{/if}
+  <div class="pt-5">
+    {#if conference.internal}
+      <InternalConferenceProgram {conference} {day} />
+    {:else}
+      <ExternalConferenceProgram {conference} {day} />
+    {/if}
 </div>
-
-<!--in:receive="{{key: performance.submission._id}}"
-out:send="{{key: performance.submission._id}}"
-animate:flip -->
-<style>
-	a {
-		text-decoration: none;
-		color: inherit;
-	}
-	hr {
-		background-color: #ef8181;
-	}
-	.group-text {
-		font-size: xx-large;
-		font-weight: 800;
-	}
-	.timeslot-text {
-		font-size: large;
-		font-weight: 800;
-	}
-</style>

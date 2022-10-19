@@ -45,6 +45,11 @@ export default {
       name: 'containsPerformances',
       type: 'boolean',
       description: 'Marks if the event should list conference performances scheduled to this timeslot'
+    },
+    {
+      title: 'Extra info',
+      name: 'info',
+      type: 'portableText',
     }
   ],
   // preview: {
