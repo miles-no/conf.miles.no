@@ -77,9 +77,14 @@
 	}
 	.background {
 		height: 100%;
-		background-color: 10;
-		box-shadow: 1px 1px 0 2px #ef8181;
 		padding: 1.5em;
+		background-color: white;
+		box-shadow: inset -1px -1px 0 2px #ef8181;
+		transition: all 0.3s ease-in-out;
+	}
+	.background:hover {
+		box-shadow: inset 2px 2px 3px 1px #ef8181;
+		background-color: #ef81810a;
 	}
 	.date-text {
 		font-size: small;
