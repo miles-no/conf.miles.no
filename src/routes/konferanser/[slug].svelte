@@ -43,6 +43,10 @@
 	import { intlFormat } from 'date-fns';
 	import Performance from '../../components/Performance.svelte';
 	import DaySelect from '../../components/DaySelect.svelte';
+
+	import { fade, fly } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
+
 	export let conference;
 
 	var getDaysArray = function (s, e) {
@@ -141,16 +145,26 @@
 					)}
 				</div>
 				<div class="row">
-					{#each performances as performance}
-						<Performance {performance} {conference} />
+					{#each performances as performance (performance.submission._id)}
+						<div
+							class="col-sm-12 col-md-6 col-xl-4"
+							style="padding: 0; maring: 0;"
+							out:fade={{ key: performance.submission._id }}
+							in:fade={{ key: performance.submission._id }}
+							animate:flip
+						>
+							<Performance {performance} {conference} />
+						</div>
 					{/each}
 				</div>
-				<hr class="dark" />
 			{/each}
 		</div>
 	{/if}
 </div>
 
+<!--in:receive="{{key: performance.submission._id}}"
+out:send="{{key: performance.submission._id}}"
+animate:flip -->
 <style>
 	a {
 		text-decoration: none;

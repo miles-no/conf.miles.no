@@ -5,52 +5,50 @@
 	import { formatDistanceToNowStrict, addMinutes, intlFormat } from 'date-fns';
 </script>
 
-<div class="col-sm-12 col-md-6 col-xl-4" style="padding: 0; maring: 0;">
-	<div class="p-3 h-100">
-		<a href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}>
-			<div class="d-flex flex-column justify-content-between background">
-				<div class="top-bar d-flex flex-column justify-content-between">
-					<div class="d-flex flex-row justify-content-between">
-						<div class="date-text">
-							{intlFormat(
-								new Date(performance.dateAndTime),
-								{
-									year: 'numeric',
-									month: 'short',
-									day: 'numeric',
-									hour: 'numeric',
-									minute: 'numeric'
-								},
-								{ locale: 'nb-NO' }
-							)}
-						</div>
-						<div class="location">
-							{performance.location ?? ''}
-						</div>
+<div class="p-3 h-100">
+	<a href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}>
+		<div class="d-flex flex-column justify-content-between background">
+			<div class="top-bar d-flex flex-column justify-content-between">
+				<div class="d-flex flex-row justify-content-between">
+					<div class="date-text">
+						{intlFormat(
+							new Date(performance.dateAndTime),
+							{
+								year: 'numeric',
+								month: 'short',
+								day: 'numeric',
+								hour: 'numeric',
+								minute: 'numeric'
+							},
+							{ locale: 'nb-NO' }
+						)}
 					</div>
-					<div class="title mt-1">{performance.submission.title}</div>
+					<div class="location">
+						{performance.location ?? ''}
+					</div>
 				</div>
-				<div class="duration">
-					{performance.submission.submissionType}
-					({formatDistanceToNowStrict(addMinutes(new Date(), performance.submission.duration), {
-						addSuffix: false
-					})})
-				</div>
-				<div class="d-flex align-items-center justify-content-between flex-row mt-1">
-					<div class="overflow styled-scrollbars d-flex flex-row">
-						{#each performance.submission.authors as author}
-							<div class="d-flex flex-row align-items-center ">
-								<img class="author-img" src={author.imageUrl} alt={author.name} />
-								<div class="author-name mx-2">
-									{author.name}
-								</div>
+				<div class="title mt-1">{performance.submission.title}</div>
+			</div>
+			<div class="duration">
+				{performance.submission.submissionType}
+				({formatDistanceToNowStrict(addMinutes(new Date(), performance.submission.duration), {
+					addSuffix: false
+				})})
+			</div>
+			<div class="d-flex align-items-center justify-content-between flex-row mt-1">
+				<div class="overflow styled-scrollbars d-flex flex-row">
+					{#each performance.submission.authors as author}
+						<div class="d-flex flex-row align-items-center ">
+							<img class="author-img" src={author.imageUrl} alt={author.name} />
+							<div class="author-name mx-2">
+								{author.name}
 							</div>
-						{/each}
-					</div>
+						</div>
+					{/each}
 				</div>
 			</div>
-		</a>
-	</div>
+		</div>
+	</a>
 </div>
 
 <style>
