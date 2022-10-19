@@ -94,4 +94,5 @@
     {:else}
       <ExternalConferenceProgram {conference} {day} />
     {/if}
+  </div>
 </div>
