@@ -35,7 +35,7 @@
 </script>
 
 <Header {settings}  />
-<main>
+<main class="pb-5">
 	<slot />
 </main>
 <!-- <Footer /> -->

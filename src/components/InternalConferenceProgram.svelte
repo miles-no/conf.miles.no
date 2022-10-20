@@ -27,36 +27,53 @@
 
 <div>
 	{#if itinerary}
-		{#each itinerary.events as event}
-			<div class="d-flex align-items-center event">
-				<p class="event-times">
-					{event.startTime}{#if event.endTime} {` - ${event.endTime}`}{/if}
-				</p>
-				<p class="event-description">{event.description}</p>
-			</div>
-			{#if event.containsPerformances}
-				<ul class="alt-ul">
-					<li>
-						<div class="selector-row  d-flex flex-column p-2">
-							<div>Kryss av de lyntalene du vil gå på</div>
-							<label class="d-flex pt-2">
-								<input type="checkbox" bind:checked={only_selected} />
-								<div class="selector-text">Vis kun valgte lyntaler</div>
-							</label>
-						</div>
-					</li>
-					{#each getTimeslotPerformances(event)
-            .filter(perf => !only_selected || Boolean($performances_store[perf.submission._id])) as performance (performance.submission._id)}
-						    <PerformanceRow {conference} {performance} />
-					{/each}
-				</ul>
-			{/if}
-			{#if event.info}
-				<div class="p-3">
-					<PortableText value={event.info} />
-				</div>
-			{/if}
-		{/each}
+    <div class="accordion accordion-flush" id="eventAccordions">
+      {#each itinerary.events as event, index}
+        <div class="accordion-item p-0 ">
+          <button class="accordion-button event collapsed" class:accordion-hide={!event.containsPerformances && !event.info} type="button" data-bs-toggle="collapse" data-bs-target="#event-{index}" aria-expanded="false" aria-controls="event-{index}">
+            <div class="d-flex align-items-center">
+              <p class="event-times">
+                {event.startTime}
+                {#if event.endTime}
+                  {` - ${event.endTime}`}
+                {:else}
+                  <span style="visibility: hidden;"> - 00:00</span>
+                {/if}
+              </p>
+              <p class="event-description">
+                {event.description}
+              </p>
+            </div>
+          </button>
+        </div>
+        {#if event.containsPerformances || event.info}
+          <div id="event-{index}" class="accordion-collapse collapse">
+            {#if event.containsPerformances}
+              <ul class="alt-ul">
+                <li>
+                  <div class="selector-row  d-flex flex-column p-2">
+                    <div>Kryss av de lyntalene du vil gå på</div>
+                    <label class="d-flex pt-2">
+                      <input type="checkbox" bind:checked={only_selected} />
+                      <div class="selector-text">Vis kun valgte lyntaler</div>
+                    </label>
+                  </div>
+                </li>
+                {#each getTimeslotPerformances(event)
+                  .filter(perf => !only_selected || Boolean($performances_store[perf.submission._id])) as performance (performance.submission._id)}
+                      <PerformanceRow {conference} {performance} />
+                {/each}
+              </ul>
+            {/if}
+            {#if event.info}
+              <div class="p-3">
+                <PortableText value={event.info} />
+              </div>
+            {/if}
+          </div>
+        {/if}
+      {/each}
+    </div>
 	{:else}
 		<div class="d-flex flex-column mb-5">
 			<h1 class="mb-0">Her var det tomt, gitt.</h1>
@@ -82,6 +99,10 @@
 		padding: 15px;
 		margin-bottom: 1px;
 	}
+  .event:after {
+    color: white;
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
+  }
 	.event-times {
 		width: 130px;
 		font-weight: 500;
@@ -133,4 +154,11 @@ input[type="checkbox"]:checked::before {
   transform: scale(1);
 }
 
+
+  .accordion-hide {
+    cursor: default;
+  }
+  .accordion-hide:after {
+    display: none;
+  }
 </style>

@@ -82,8 +82,8 @@
 		color: #222222;
 	}
 	.author-name {
-		font-weight: 200;
-		font-size: x-small;
+		font-weight: 300;
+		font-size: small;
 		white-space: nowrap;
 	}
 	.alt-li {
