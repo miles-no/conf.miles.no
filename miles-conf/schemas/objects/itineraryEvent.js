@@ -37,6 +37,10 @@ export default {
       fieldset: 'times',
       description: 'e.g 11:00. Optional',
       validation: Rule => Rule.custom(time => {
+        if (!time) {
+          return true;
+        }
+
         return isValidTime(time) ? true : 'The field must be in HH:MM format.';
       })
     },
