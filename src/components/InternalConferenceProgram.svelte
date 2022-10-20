@@ -1,8 +1,8 @@
 <script>
-	import { format, intlFormat, compareAsc } from 'date-fns';
-	import { FileQuestion } from 'lucide-svelte';
+	import { format, compareAsc } from 'date-fns';
 	import { PortableText } from '@portabletext/svelte';
-	import Performance from './Performance.svelte';
+	import { performances as performances_store } from '../stores/performances.ts';
+	import PerformanceRow from './PerformanceRow.svelte';
 	export let conference;
 	export let day;
 	$: itinerary = conference.itinerary.find(
@@ -22,13 +22,9 @@
 			});
 	};
 
-	let list = true;
+	let only_selected = false;
 </script>
 
-<label>
-	<input type="checkbox" bind:checked={list} />
-	List
-</label>
 <div>
 	{#if itinerary}
 		{#each itinerary.events as event}
@@ -39,82 +35,24 @@
 				<p class="event-description">{event.description}</p>
 			</div>
 			{#if event.containsPerformances}
-				{#if list}
-					<ul class="alt-ul">
-						{#each getTimeslotPerformances(event) as performance}
-							<li class="alt-li">
-								<div class="px-3 py-2 d-flex flex-row justify-content-between">
-									<div class="d-flex flex-column me-4">
-                    <div class="d-flex flex-row gap-3">
-                      <div>
-                        {intlFormat(
-                          new Date(performance.dateAndTime),
-                          {
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          },
-                          { locale: 'nb-NO' }
-                        )}
-                      </div>
-                      <a class="event-link-title" href={performance}>
-                        
-                        <div>
-                          {performance.submission.title} >>
-                        </div>
-                      </a>
-                    </div>
-										
-										<div class="d-flex flex-row gap-2">
-											{#each performance.submission.authors as author}
-												<div class="d-flex flex-row align-items-center">
-													<div class="author-name me-2">
-														{author.name}
-													</div>
-												</div>
-											{/each}
-										</div>
-									</div>
-									<div class="d-flex align-items-center" style="width: fit-content; white-space: nowrap;">
-										{performance.location}
-									</div>
-								</div>
-							</li>
-						{/each}
-					</ul>
-				{:else}
-					<div class="container-fluid">
-						<div class="row">
-							{#each getTimeslotPerformances(event) as performance}
-								<div class="col-sm-12 col-md-6 col-xl-4" style="padding: 0; maring: 0;">
-									<Performance compact={true} {performance} {conference} />
-								</div>
-							{/each}
+				<ul class="alt-ul">
+					<li>
+						<div class="selector-row  d-flex flex-column p-2">
+							<div>Kryss av de lyntalene du vil gå på</div>
+							<label class="d-flex pt-2">
+								<input type="checkbox" bind:checked={only_selected} />
+								<div class="selector-text">Vis kun valgte lyntaler</div>
+							</label>
 						</div>
-					</div>
-				{/if}
-
-				<!-- <div class="d-grid">
-          {#each Object.entries(times) as [time, performances]}
-            <div class="timeslot-text">
-              {intlFormat(
-                new Date(time),
-                {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                },
-                { locale: 'nb-NO' }
-              )}
-            </div>
-            <div class="row">
-              {#each performances as performance}
-                <Performance {performance} {conference} />
-              {/each}
-            </div>
-          {/each}
-        </div> -->
+					</li>
+					{#each getTimeslotPerformances(event)
+            .filter(perf => !only_selected || Boolean($performances_store[perf.submission._id])) as performance (performance.submission._id)}
+						    <PerformanceRow {conference} {performance} />
+					{/each}
+				</ul>
 			{/if}
 			{#if event.info}
-				<div class="p-3 ">
+				<div class="p-3">
 					<PortableText value={event.info} />
 				</div>
 			{/if}
@@ -130,9 +68,13 @@
 </div>
 
 <style>
-	.event-link-title {
-		font-weight: 400;
-		color: #222222;
+	.selector-row {
+		background-color: #f2f2f2;
+	}
+	.selector-text {
+		font-weight: 300;
+		font-size: small;
+		margin-left: 0.25em;
 	}
 	.event {
 		color: white;
@@ -141,7 +83,7 @@
 		margin-bottom: 1px;
 	}
 	.event-times {
-    width: 130px;
+		width: 130px;
 		font-weight: 500;
 		margin-bottom: 0;
 		padding-right: 5px;
@@ -152,21 +94,43 @@
 		font-size: large;
 		margin-bottom: 0;
 	}
-	.author-name {
-		font-weight: 200;
-		font-size: x-small;
-		white-space: nowrap;
-	}
 	.alt-ul {
 		padding: 0;
 		margin: 0;
 		margin-bottom: 1px;
 		list-style-type: none;
 	}
-	.alt-li {
-		background: inherit;
-	}
-	.alt-li:nth-child(odd) {
-		background: #FDE9E9;
-	}
+	input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--form-background);
+  margin: 0;
+
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 0;
+  transform: translateY(-0.075em);
+
+  display: grid;
+  place-content: center;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 0;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+  background-color: CanvasText;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: scale(1);
+}
+
 </style>
