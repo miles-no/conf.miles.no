@@ -25,7 +25,7 @@
 	class="p-2 pe-3 d-flex flex-row justify-content-between"
 >
 	<div class="d-flex flex-column me-2">
-		<div class="d-flex flex-row gap-3">
+		<div class="d-flex flex-row gap-3 align-items-center">
 			{#if performances_store}
 				<label class="d-flex" style="align-items: center;">
 					<input
