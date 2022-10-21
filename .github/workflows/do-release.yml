@@ -27,10 +27,11 @@ jobs:
       run: docker push registry.digitalocean.com/teilin/milesconf:latest
 
     - name: Replace tag in config
-      uses: datamonsters/replace-action@v2
+      uses: cschleiden/replace-tokens@v1
       with:
-        files: $GITHUB_WORKSPACE/deployment.yml
-        replacements: '$TAG=${{ github.sha }}'
+        files: '["**/*.yml"]'
+      env:
+        TAG: $(echo $GITHUB_SHA | head -c7)
 
     - name: Set up kubectl
       uses: matootie/dokube@v1.4.0
