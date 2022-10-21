@@ -1,31 +1,14 @@
 <script>
-	import { format, compareAsc } from 'date-fns';
-	import { PortableText } from '@portabletext/svelte';
-	import { performances as performances_store } from '../stores/performances.ts';
-	import PerformanceRow from './PerformanceRow.svelte';
+	import { format } from 'date-fns';
+	import Event from './Event.svelte';
 	export let conference;
 	export let day;
 	$: itinerary = conference.itinerary.find(
 		(i) => i.itineraryDate == format(new Date(day), 'yyyy-MM-dd')
 	);
-
-	const getTimeslotPerformances = ({ startTime, endTime }) => {
-		const min = new Date(`${day} ${startTime}`).getTime();
-		const max = new Date(`${day} ${endTime}`).getTime();
-		return conference.performances
-			.filter(({ dateAndTime }) => {
-				const performanceTimestamp = new Date(dateAndTime).getTime();
-				return performanceTimestamp >= min && performanceTimestamp <= max;
-			})
-			.sort((a, b) => {
-				return compareAsc(new Date(a.dateAndTime), new Date(b.dateAndTime));
-			});
-	};
-
-	let only_selected = false;
 </script>
 
-<div>
+
 	{#if itinerary}
     <div class="accordion accordion-flush" id="eventAccordions">
       {#each itinerary.events as event, index}
@@ -48,28 +31,7 @@
         </div>
         {#if event.containsPerformances || event.info}
           <div id="event-{index}" class="accordion-collapse collapse">
-            {#if event.containsPerformances}
-              <ul class="alt-ul">
-                <li>
-                  <div class="selector-row  d-flex flex-column p-2">
-                    <div>Kryss av de lyntalene du vil gå på</div>
-                    <label class="d-flex pt-2">
-                      <input type="checkbox" bind:checked={only_selected} />
-                      <div class="selector-text">Vis kun valgte lyntaler</div>
-                    </label>
-                  </div>
-                </li>
-                {#each getTimeslotPerformances(event)
-                  .filter(perf => !only_selected || Boolean($performances_store[perf.submission._id])) as performance (performance.submission._id)}
-                      <PerformanceRow {conference} {performance} />
-                {/each}
-              </ul>
-            {/if}
-            {#if event.info}
-              <div class="p-3">
-                <PortableText value={event.info} />
-              </div>
-            {/if}
+            <Event day={day} event={event} conference={conference}/>
           </div>
         {/if}
       {/each}
@@ -82,7 +44,6 @@
 			</p>
 		</div>
 	{/if}
-</div>
 
 <style>
 	.selector-row {

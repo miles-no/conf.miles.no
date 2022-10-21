@@ -1,25 +1,10 @@
 <script>
 	import { intlFormat } from 'date-fns';
 	import { performances as performances_store } from '../stores/performances.ts';
-    import {backInOut, linear} from 'svelte/easing';
+    import { PortableText } from '@portabletext/svelte';
 	export let performance;
-
-    const options = {duration: 1, easing: backInOut, times: 0.5};
-
-    function spin(node, options) {
-		const {times = 0.5} = options;
-		return {
-			...options,
-			// The value of t passed to the css method
-			// varies between zero and one during an "in" transition
-			// and between one and zero during an "out" transition.
-			css(t) {
-				// Svelte takes care of applying the easing function.
-				const degrees = 360 * times; // through which to spin
-				return `transform: rotate(${t * degrees}deg);`;
-			}
-		};
-	}
+    export let event;
+    export let conference;
 	
     function setChecked() {
 		const key = performance.submission._id;
@@ -29,6 +14,7 @@
 	}
 
     let show_info = false;
+    let is_workshop = event.description.toLowerCase() === "workshop";
 </script>
 
 <li class="alt-li">
@@ -56,27 +42,49 @@
 				</div>
                 <div>
                 <div class="event-title">
-                    {performance.submission.title}
+                    {#if is_workshop}
+                        <a class="event-link" href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}>{performance.submission.title}</a>
+                    {:else}
+                        {performance.submission.title}
+                    {/if}
+                    
                 </div>
-                <div class="d-flex flex-row gap-2">
+                <div class="of d-flex flex-row gap-2">
                     {#each performance.submission.authors as author}
-                        <div class="d-flex flex-row align-items-center">
-                            <div class="author-name me-2">
-                                {author.name}
-                            </div>
+                        <div class="author-name">
+                            {author.name}
                         </div>
                     {/each}
                 </div>  
             </div>
 			</div>
 		</div>
-		<div class="d-flex align-items-center" style="width: fit-content; white-space: nowrap;">
-			{performance.location}
+		<div class="d-flex flex-column align-items-end" style="width: fit-content; white-space: nowrap;">
+			<div>{performance.location}</div>
 		</div>
 	</div>
+    {#if !is_workshop && show_info}
+    <div class="p-2 event-decription">
+        <PortableText value={performance.submission.description} />
+    </div>
+    {/if}
 </li>
 
 <style>
+    .of {
+		overflow-y: hidden;
+		overflow-x: scroll;
+	}
+    .event-link {
+        font-weight: 400;
+		color: #222222;
+		word-break: break-all;
+		text-decoration: underline;
+    }
+    .event-decription {
+        font-size: small;
+        font-weight: 300;
+    }
 	.event-title {
 		font-weight: 400;
 		color: #222222;
@@ -84,7 +92,6 @@
 	.author-name {
 		font-weight: 300;
 		font-size: small;
-		white-space: nowrap;
 	}
 	.alt-li {
 		background: inherit;
