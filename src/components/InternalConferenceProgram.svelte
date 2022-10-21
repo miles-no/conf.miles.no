@@ -3,9 +3,11 @@
 	import Event from './Event.svelte';
 	export let conference;
 	export let day;
-	$: itinerary = conference.itinerary.find(
-		(i) => i.itineraryDate == format(new Date(day), 'yyyy-MM-dd')
-	);
+  $: itinerary = conference.itinerary
+  ? conference.itinerary.find(
+		  (i) => i.itineraryDate == format(new Date(day), 'yyyy-MM-dd')
+	  )
+  : null
 </script>
 
 {#if itinerary}
