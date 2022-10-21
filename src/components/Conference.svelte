@@ -1,28 +1,29 @@
 <script>
 	import TextPill from './TextPill.svelte';
-  import { formatConferenceDateRange } from '../lib';
-  export let conference;
-	export let active;
-
-  const text = formatConferenceDateRange(conference.startDate, conference.endDate);
-  const isFinished = new Date().getTime() > new Date(conference.endDate).getTime();
+	import Hoverable from '../components/Hoverable.svelte';
+	import { formatConferenceDateRange } from '../lib';
+	export let conference;
+	
+	const text = formatConferenceDateRange(conference.startDate, conference.endDate);
+	const isFinished = new Date().getTime() > new Date(conference.endDate).getTime();
 </script>
 
-<div class="mb-5" class:active>
-  <a href="konferanser/{conference.slug}">
-    <div class="d-flex mr-auto p-2 align-items-center flex-row">
-      <div class="link" class:isFinished>
-        {conference.title}
-      </div>
-      {#if active}
-	  <div class="p-2">
-        <TextPill text={text} />
-	  </div>
-      {/if}
-    </div>
-  </a>
-</div>
-
+<Hoverable let:hovering={active}>
+	<div class="mb-5" class:active>
+		<a href="konferanser/{conference.slug}">
+			<div class="d-flex mr-auto p-2 align-items-center flex-row">
+				<div class="link" class:isFinished>
+					{conference.title}
+				</div>
+				{#if active}
+					<div class="px-2">
+						<TextPill {text} />
+					</div>
+				{/if}
+			</div>
+		</a>
+	</div>
+</Hoverable>
 
 <style>
 	a {
