@@ -38,7 +38,7 @@ spec:
       containers:
         - name: milesconf
           image: registry.digitalocean.com/teilin/milesconf:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
 ---
