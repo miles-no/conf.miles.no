@@ -26,12 +26,15 @@ jobs:
     - name: Docker Push
       run: docker push registry.digitalocean.com/teilin/milesconf:latest
 
+    - name: Setting enviroment tag
+      run: echo "GITHUB_SHA_SHORT=$(echo $GITHUB_SHA | head -c7)" >> $GITHUB_ENV
+
     - name: Replace tag in config
       uses: cschleiden/replace-tokens@v1
       with:
         files: '["**/*.yml"]'
       env:
-        TAG: $(echo $GITHUB_SHA | head -c7)
+        TAG: $GITHUB_SHA_SHORT
 
     - name: Set up kubectl
       uses: matootie/dokube@v1.4.0
