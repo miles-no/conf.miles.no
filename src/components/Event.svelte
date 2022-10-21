@@ -3,6 +3,9 @@
 	import { compareAsc } from 'date-fns';
 	import { performances as performances_store } from '../stores/performances.ts';
 	import PerformanceRow from './PerformanceRow.svelte';
+
+	import { fly } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 	
     export let event;
 	export let conference;
@@ -36,7 +39,12 @@
 			</div>
 		</li>
 		{#each getTimeslotPerformances(event).filter((perf) => !only_selected || Boolean($performances_store[perf.submission._id])) as performance (performance.submission._id)}
-			<PerformanceRow {event} {conference} {performance} />
+			<div
+				animate:flip={{duration: 300, key: performance.submission._id}}
+				in:fly={{ y:-30, duration: 300, key: performance.submission._id }}
+			>
+				<PerformanceRow {event} {conference} {performance} />
+			</div>
 		{/each}
 	</ul>
 {/if}
