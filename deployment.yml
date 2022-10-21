@@ -64,12 +64,20 @@ spec:
   - host: milesconf.devgeek.io
     http:
       paths:
-      - backend:
-          serviceName: milesconf
-          servicePort: 80
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: milesconf
+            port:
+              number: 80
   - host: conf.miles.no
     http:
       paths:
-      - backend:
-          serviceName: milesconf
-          servicePort: 80
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: milesconf
+            port:
+              number: 80
