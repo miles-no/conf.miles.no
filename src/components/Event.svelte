@@ -28,7 +28,7 @@
 	<ul class="alt-ul">
 		<li>
 			<div class="selector-row  d-flex flex-column p-2">
-				<div>Kryss av de lyntalene du vil gå på</div>
+				<div>Kryss av de {event.description.toLowerCase()}ene du vil gå på</div>
 				<label class="d-flex pt-2">
 					<input type="checkbox" bind:checked={only_selected} />
 					<div class="selector-text">Vis kun valgte {event.description.toLowerCase()}</div>
