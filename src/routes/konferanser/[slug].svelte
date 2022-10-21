@@ -103,13 +103,13 @@
 		overflow-x: auto;
 	}
 	.styled-scrollbars::-webkit-scrollbar {
-		border-top: solid 1px #ef8181;
+		border-top: solid 1px #D76E6E;
 		width: 3px; /* Mostly for vertical scrollbars */
 		height: 3px; /* Mostly for horizontal scrollbars */
 	}
 	.styled-scrollbars::-webkit-scrollbar-thumb {
 		/* Foreground */
-		background-color: #ef8181;
+		background-color: #D76E6E;
 	}
 	.styled-scrollbars::-webkit-scrollbar-track {
 		/* Background */

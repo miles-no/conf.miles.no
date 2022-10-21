@@ -5,19 +5,22 @@
 	export let performance;
     export let event;
     export let conference;
+	export let only_selected;
 	
     function setChecked() {
-		const key = performance.submission._id;
-		const checked = $performances_store[key] || false;
-		const new_perfs = { ...$performances_store, [key]: !checked };
-		performances_store.set(new_perfs);
+		if (!only_selected) {
+			const key = performance.submission._id;
+			const checked = $performances_store[key] || false;
+			const new_perfs = { ...$performances_store, [key]: !checked };
+			performances_store.set(new_perfs);
+		}	
 	}
 
     let show_info = false;
     let is_workshop = event.description.toLowerCase() === "workshop";
 </script>
 
-<li class="alt-li">
+
 	<div on:click={() => show_info = !show_info} class="p-2 pe-3 d-flex flex-row justify-content-between">
 		<div class="d-flex flex-column me-2">
 			<div class="d-flex flex-row gap-3">
@@ -25,6 +28,7 @@
 					<label class="d-flex" style="align-items: center;">
 						<input
 							on:click|stopPropagation={setChecked}
+							disabled={only_selected}
 							type="checkbox"
 							checked={Boolean($performances_store[performance.submission._id])}
 						/>
@@ -43,7 +47,7 @@
                 <div>
                 <div class="event-title">
                     {#if is_workshop}
-                        <a class="event-link" href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}>{performance.submission.title}</a>
+                        <a class="event-link" href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}>{performance.submission.title} >></a>
                     {:else}
                         {performance.submission.title}
                     {/if}
@@ -68,7 +72,6 @@
         <PortableText value={performance.submission.description} />
     </div>
     {/if}
-</li>
 
 <style>
     .of {
@@ -93,12 +96,6 @@
 		font-weight: 300;
 		font-size: small;
 	}
-	.alt-li {
-		background: inherit;
-	}
-	.alt-li:nth-child(even) {
-		background: #fde9e9;
-	}
 	input[type='checkbox'] {
 		-webkit-appearance: none;
 		appearance: none;
@@ -116,7 +113,6 @@
 		display: grid;
 		place-content: center;
 	}
-
 	input[type='checkbox']::before {
 		content: '';
 		width: 0.65em;
@@ -127,8 +123,14 @@
 		box-shadow: inset 1em 1em var(--form-control-color);
 		background-color: CanvasText;
 	}
-
 	input[type='checkbox']:checked::before {
 		transform: scale(1);
 	}
+	input[type='checkbox']:disabled {
+		border-color: #999999;
+	}
+	input[type='checkbox']:disabled::before {
+		background-color: #999999;
+	}
+
 </style>

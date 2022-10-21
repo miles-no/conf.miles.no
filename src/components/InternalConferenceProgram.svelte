@@ -55,7 +55,7 @@
 <style>
 	.event {
 		color: white;
-		background-color: #ef8181;
+		background-color: #D76E6E;
 		padding: 15px;
 		margin-bottom: 1px;
 	}

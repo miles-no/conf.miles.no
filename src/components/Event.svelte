@@ -39,12 +39,12 @@
 			</div>
 		</li>
 		{#each getTimeslotPerformances(event).filter((perf) => !only_selected || Boolean($performances_store[perf.submission._id])) as performance (performance.submission._id)}
-			<div
+		<li class="alt-li"
 				animate:flip={{duration: 300, key: performance.submission._id}}
 				in:fly={{ y:-30, duration: 300, key: performance.submission._id }}
-			>
-				<PerformanceRow {event} {conference} {performance} />
-			</div>
+		>	
+			<PerformanceRow {only_selected} {event} {conference} {performance} />
+		</li>
 		{/each}
 	</ul>
 {/if}
@@ -60,6 +60,12 @@
 		margin: 0;
 		margin-bottom: 1px;
 		list-style-type: none;
+	}
+	.alt-li {
+		background: inherit;
+	}
+	.alt-li:nth-child(even) {
+		background: #fde9e9;
 	}
 	input[type='checkbox'] {
 		-webkit-appearance: none;
@@ -100,6 +106,6 @@
 	.selector-text {
 		font-weight: 300;
 		font-size: small;
-		margin-left: 0.25em;
+		margin-left: 0.5em;
 	}
 </style>

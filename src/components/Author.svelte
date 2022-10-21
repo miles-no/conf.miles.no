@@ -40,7 +40,7 @@
 
 <style>
   .author-heading {
-		background: #ef8181;
+		background: #D76E6E;
 		padding: clamp(0.5em, 1.5vh, 3em) clamp(1em, 2vw, 8em);
 		color: white;
 	}

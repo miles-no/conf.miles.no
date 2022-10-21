@@ -100,12 +100,12 @@
 		height: 100%;
 		padding: 1.5em;
 		background-color: white;
-		box-shadow: inset -1px -1px 0 2px #ef8181;
+		box-shadow: inset -1px -1px 0 2px #D76E6E;
 		transition: all 0.3s ease-in-out;
 	}
 	.background:hover {
-		box-shadow: inset 2px 2px 3px 1px #ef8181;
-		background-color: #ef81810a;
+		box-shadow: inset 2px 2px 3px 1px #D76E6E;
+		background-color: #D76E6E0a;
 	}
 	.date-text {
 		font-size: small;
@@ -120,13 +120,13 @@
 		font-size: small;
 	}
 	.styled-scrollbars::-webkit-scrollbar {
-		border-bottom: solid 1px #ef8181;
+		border-bottom: solid 1px #D76E6E;
 		width: 3px; /* Mostly for vertical scrollbars */
 		height: 3px; /* Mostly for horizontal scrollbars */
 	}
 	.styled-scrollbars::-webkit-scrollbar-thumb {
 		/* Foreground */
-		background-color: #ef8181;
+		background-color: #D76E6E;
 	}
 	.styled-scrollbars::-webkit-scrollbar-track {
 		/* Background */

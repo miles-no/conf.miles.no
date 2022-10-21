@@ -47,7 +47,7 @@
 		border-radius: 0;
 		transform: scale(0);
 		transition: 100ms transform ease-in-out;
-		background-color: #ef8181;
+		background-color: #D76E6E;
 	}
 
 	input[type='radio']:checked::before {
