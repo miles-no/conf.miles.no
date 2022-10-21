@@ -29,7 +29,7 @@ jobs:
     - name: Replace tag in config
       uses: datamonsters/replace-action@v2
       with:
-        files: deployment.yaml
+        files: $GITHUB_WORKSPACE/deployment.yml
         replacements: '$TAG=${{ github.sha }}'
 
     - name: Set up kubectl
