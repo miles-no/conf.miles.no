@@ -2,7 +2,7 @@
 	import client from '../sanityClient';
 	export async function load() {
 		const conferences = await client.fetch(/* groq */ `
-			*[_type == "conference"][0..1] | order(endDate desc) {
+			*[_type == "conference"][0..5] | order(endDate desc) {
 				...,
 				"slug": slug.current,
 				"imageUrl": image.asset->url,
@@ -75,7 +75,7 @@
 
 <svelte:head>
 	<script src="https://accounts.google.com/gsi/client" defer on:load={loadGoogle()}></script>
-	<title>Miles.</title>
+	<title>Miles @ Conferences</title>
 </svelte:head>
 
 <div class="container">

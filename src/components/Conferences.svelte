@@ -4,7 +4,11 @@
 </script>
 
 <div class="mb-5">
-	{#each conferences as conference}
+	{#each conferences.sort((a,b) => {
+		const diffA = Math.abs(Date.now() - new Date(a.startDate));
+		const diffB = Math.abs(Date.now() - new Date(b.startDate))
+		return diffA - diffB;
+	 }) as conference (conference.title)}
 		<Conference {conference} />
 	{/each}
 </div>
