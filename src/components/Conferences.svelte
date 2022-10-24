@@ -8,22 +8,23 @@
 </script>
 
 <div class="mb-5">
-	<h1>Pågående</h1>
+	<h1 class="visually-hidden">Konferanser</h1>
+	<h2 class="heading">Pågående</h2>
 	{#each being.reverse() as conference (conference.title)}
 		<Conference {conference} />
 	{/each}
-	<h1>Kommende</h1>
+	<h2 class="heading">Kommende</h2>
 	{#each to_be.reverse() as conference (conference.title)}
 		<Conference {conference} />
 	{/each}
-	<h1>Tidligere</h1>
+	<h2 class="heading">Tidligere</h2>
 	{#each done as conference (conference.title)}
 		<Conference {conference} />
 	{/each}
 </div>
 
 <style>
-	h1 {
+	.heading {
 		font-weight: 300;
 		font-size: 300%;
 	}

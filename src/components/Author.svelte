@@ -22,7 +22,7 @@
 <div class="mb-3">
   <div class="author-heading d-flex justify-content-between align-items-center">
 		<h1>{author.name}</h1>
-    <img class="rounded-circle" alt={author.name} src={urlFor(author.imageUrl).size(75, 75).quality(75).url()} />
+    <img class="rounded-circle gray-scale" alt={author.name} src={urlFor(author.imageUrl).size(75, 75).quality(75).url()} />
 	</div>
 	<div class="author-content">
     <PortableText value={author.bio} />
@@ -30,7 +30,7 @@
       {#each author.socials as social}
         {#if social.handle}
           <a href={social.type == 'email' ? `mailto:${social.handle}` : social.handle}>
-            <svelte:component this={Icons[social.type]} size="32" color="#000" />
+            <svelte:component this={Icons[social.type]} size="16" color="#000" />
           </a>
         {/if}
       {/each}
@@ -39,6 +39,9 @@
 </div>
 
 <style>
+  .gray-scale {
+    filter: grayscale(100%);
+  }
   .author-heading {
 		background: #D76E6E;
 		padding: clamp(0.5em, 1.5vh, 3em) clamp(1em, 2vw, 8em);

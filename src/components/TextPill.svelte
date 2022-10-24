@@ -10,7 +10,7 @@
 <style>
 	.text {
 		padding: 4px;
-		font-weight: bold;
+		font-weight: 900;
 		white-space: nowrap;
 		color: black;
 	}

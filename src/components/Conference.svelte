@@ -12,9 +12,9 @@
 	<div class="mb-2" class:active>
 		<a href="konferanser/{conference.slug}">
 			<div class="box px-2 d-flex align-items-center flex-row">
-				<h1 class="link" class:isFinished>
+				<h3 class="link" class:isFinished>
 					{conference.title}
-				</h1>
+				</h3>
 				{#if active}
 					<TextPill {text} />
 				{/if}
@@ -28,9 +28,9 @@
 		text-decoration: none;
 		color: inherit;
 	}
-	h1 {
+	h3 {
 		font-weight: 900;
-		font-size: 200%;
+		font-size: 300%;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
@@ -45,6 +45,7 @@
 	.link {
 		font-weight: 700;
 		padding: 0 1.5vw;
+		margin: 0;
 		color: inherit;
 		word-break: break-all;
 		text-decoration: underline;
