@@ -9,16 +9,14 @@
 </script>
 
 <Hoverable let:hovering={active}>
-	<div class="mb-5" class:active>
+	<div class="mb-2" class:active>
 		<a href="konferanser/{conference.slug}">
-			<div class="d-flex mr-auto p-2 align-items-center flex-row">
-				<div class="link" class:isFinished>
+			<div class="box px-2 d-flex align-items-center flex-row">
+				<h1 class="link" class:isFinished>
 					{conference.title}
-				</div>
+				</h1>
 				{#if active}
-					<div class="px-2">
-						<TextPill {text} />
-					</div>
+					<TextPill {text} />
 				{/if}
 			</div>
 		</a>
@@ -30,9 +28,22 @@
 		text-decoration: none;
 		color: inherit;
 	}
+	h1 {
+		font-weight: 900;
+		font-size: 200%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2; /* number of lines to show */
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+		-moz-box-orient: vertical;
+	}
+	.box {
+		height: 120px;
+	}	
 	.link {
 		font-weight: 700;
-		font-size: min(5vw, 100px);
 		padding: 0 1.5vw;
 		color: inherit;
 		word-break: break-all;

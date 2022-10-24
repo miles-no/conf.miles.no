@@ -1,6 +1,6 @@
 import CryptoES from 'crypto-es';
 import { CREDENTIAL_SALT } from '../secret';
-import { format, getMonth } from 'date-fns';
+import { format, getDay, getMonth } from 'date-fns';
 import { nb } from 'date-fns/locale/index.js';
 
 export const encrypt = (value) => CryptoES.AES.encrypt(value, CREDENTIAL_SALT);
@@ -27,8 +27,10 @@ export const parseJwt = (token) => {
 export const formatConferenceDateRange = (sDate, eDate) => {
   const startDate = new Date(sDate);
   const endDate = new Date(eDate);
-
-  if (getMonth(startDate) == getMonth(endDate)) {
+  if (getDay(startDate) === getDay(endDate)) {
+	return `${format(new Date(endDate), 'd MMMM', {locale: nb})}`;
+  }
+  if (getMonth(startDate) === getMonth(endDate)) {
     return `${format(new Date(startDate), 'd')}-${format(new Date(endDate), 'd MMMM', {locale: nb})}`;
   }
   return `${format(new Date(startDate), 'd MMM', {locale: nb})} - ${format(new Date(endDate), 'd MMM', {locale: nb})}`;

@@ -1,8 +1,10 @@
 <script context="module">
 	import client from '../sanityClient';
+
+	let allConferencesLoaded = false;
 	export async function load() {
 		const conferences = await client.fetch(/* groq */ `
-			*[_type == "conference"][0..5] | order(endDate desc) {
+			*[_type == "conference"] | order(endDate desc) {
 				...,
 				"slug": slug.current,
 				"imageUrl": image.asset->url,
@@ -14,7 +16,7 @@
 				status: 404
 			};
 		}
-
+		allConferencesLoaded = true;
 		return {
 			props: {
 				conferences
@@ -35,7 +37,6 @@
 	globalThis.handleCredentialResponse = (response) => {
 		$user = parseJwt(response.credential);
 	};
-	let allConferencesLoaded = false;
 
 	const loadGoogle = () => {
 		google.accounts.id.initialize({
@@ -79,7 +80,7 @@
 </svelte:head>
 
 <div class="container">
-	<Conferences conferences={$user ? conferences : filteredConferences} />
+	<Conferences conferences={conferences} />
 	{#if !allConferencesLoaded}
 		<Hoverable let:hovering={active}>
 			<!-- svelte-ignore a11y-missing-attribute -->

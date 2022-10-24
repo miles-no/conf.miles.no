@@ -3,18 +3,23 @@
 </script>
 
 <div class="oval">
-	<span style="padding: 0.6vw; font-size: min(1vw, 30px); font-weight: bold;" class="text-nowrap text-dark">{text}</span>
+	<div class="text">{text}</div>
 </div>
 
+
 <style>
+	.text {
+		padding: 4px;
+		font-weight: bold;
+		white-space: nowrap;
+		color: black;
+	}
 	.oval {
-		height: min(4.5vw, 100px);
+		height: 65%;
 		aspect-ratio: 2 / 1;
-		border-radius: 50%;
-		
-		
-		rotate: 15deg;
 		display: flex;
+		border-radius: 50%;
+		rotate: 15deg;
 		justify-content: center;
 		align-items: center;
 		background: #D76E6E;
