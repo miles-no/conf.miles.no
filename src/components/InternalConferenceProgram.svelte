@@ -74,7 +74,7 @@
 	.event-description {
 		font-weight: 600;
 		margin-bottom: 0;
-		width: calc(100% - 120px);
+		width: calc(100% - 125px);
 	}
 	.accordion-hide {
 		cursor: default;
