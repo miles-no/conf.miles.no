@@ -48,7 +48,8 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 20px;
+		padding: 1em;
+		height: 4em;
 	}
 
 	.miles-nav-item {

@@ -9,9 +9,9 @@
 </script>
 
 <Hoverable let:hovering={active}>
-	<div class="mb-2" class:active>
+	<div class="mb-4" class:active>
 		<a href="konferanser/{conference.slug}">
-			<div class="box px-2 d-flex align-items-center flex-row">
+			<div class="box d-flex align-items-center flex-row">
 				<h3 class="link" class:isFinished>
 					{conference.title}
 				</h3>
@@ -30,7 +30,7 @@
 	}
 	h3 {
 		font-weight: 900;
-		font-size: 300%;
+		font-size: 200%;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
@@ -40,12 +40,12 @@
 		-moz-box-orient: vertical;
 	}
 	.box {
+		padding: 0;
 		height: 120px;
 	}	
 	.link {
 		font-weight: 700;
-		padding: 0 1.5vw;
-		margin: 0;
+		margin: 0 1.5vw;
 		color: inherit;
 		word-break: break-all;
 		text-decoration: underline;

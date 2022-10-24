@@ -26,6 +26,7 @@
 <style>
 	.heading {
 		font-weight: 300;
+		margin: 1em 0 .25em 1vw;
 		font-size: 300%;
 	}
 </style>

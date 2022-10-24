@@ -34,14 +34,14 @@
 	export let conferences = [];
 	$: filteredConferences = conferences.filter((c) => !c.internal);
 
-	globalThis.handleCredentialResponse = (response) => {
+	const handleCredentialResponse = (response) => {
 		$user = parseJwt(response.credential);
 	};
 
 	const loadGoogle = () => {
 		google.accounts.id.initialize({
 			client_id: '374308135710-8hfuhn752hmh15lohs4fi4hsnovj8t9c.apps.googleusercontent.com',
-			callback: globalThis.handleCredentialResponse
+			callback: handleCredentialResponse
 		});
 		if (!$user) {
 			displaySignInButton();
