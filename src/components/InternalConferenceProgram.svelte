@@ -55,11 +55,14 @@
 {/if}
 
 <style>
+	.accordion-item {
+		border: none;
+	}
 	.event {
 		color: white;
 		background-color: #d76e6e;
 		padding: 15px;
-		margin-bottom: 1px;
+		margin-bottom: 2px;
 	}
 	.event:after {
 		color: white;
