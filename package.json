@@ -41,6 +41,7 @@
     "cookie": "^0.4.1",
     "crypto-es": "^1.2.7",
     "date-fns": "^2.29.3",
-    "lucide-svelte": "^0.90.0"
+    "lucide-svelte": "^0.90.0",
+    "sveltestrap": "^3.1.2-1"
   }
 }

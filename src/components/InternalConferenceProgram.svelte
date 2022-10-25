@@ -1,6 +1,7 @@
 <script>
 	import { format } from 'date-fns';
 	import Event from './Event.svelte';
+	import { accordionStore } from '../stores/accordion_localstorage';
 	export let conference;
 	export let day;
   $: itinerary = conference.itinerary
@@ -9,24 +10,28 @@
 	  )
   : null
 </script>
-
+<span>
 {#if itinerary}
 	<div class="accordion accordion-flush" id="eventAccordions">
 		{#each itinerary.events as event, index}
+			{@const is_open = Boolean($accordionStore?.["Accordion-" + event._key])} 
 			<div class="accordion-item">
-				<div class="accordion-header">
+				<div class="accordion-header" id="heading-{index}">
 					<button
-						class="accordion-button event-btn collapsed"
+						class="accordion-button event-btn {is_open ? "" : "collapsed"}"
 						class:accordion-hide={!event.containsPerformances && !event.info}
 						type="button"
 						data-bs-toggle="collapse"
 						data-bs-target="#event-{index}"
-						aria-expanded="false"
+						aria-expanded={is_open ? "true" : "false"}
 						aria-controls="event-{index}"
+						on:click={() => accordionStore.flip("Accordion-" + event._key)}
 					>
-					<div class="event-container">
+					<div
+						class="event-container"
+					>
 						<p class="event-times">
-							{event.startTime}
+							<span>{event.startTime}</span>
 							{#if event.endTime}
 								<span>{` - ${event.endTime}`}</span>
 							{:else}
@@ -40,7 +45,12 @@
 				</div>
 			</div>
 			{#if event.containsPerformances || event.info}
-				<div id="event-{index}" class="accordion-collapse collapse">
+				<div 
+					id="event-{index}"
+					class="accordion-collapse collapse {is_open ? "show" : ""}"
+					aria-labelledby="heading-{index}"
+					data-bs-parent="eventAccordions"
+				>
 					<Event {day} {event} {conference} />
 				</div>
 			{/if}
@@ -54,6 +64,7 @@
 		</p>
 	</div>
 {/if}
+</span>
 
 <style>
 	
