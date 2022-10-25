@@ -3,6 +3,7 @@
 	import { compareAsc } from 'date-fns';
 	import { performances as performances_store } from '../stores/performances.ts';
 	import PerformanceRow from './PerformanceRow.svelte';
+	import { checkboxStore } from '../stores/checkbox_localstorage';
 
 	import { fly } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
@@ -23,8 +24,8 @@
 				return compareAsc(new Date(a.dateAndTime), new Date(b.dateAndTime));
 			});
 	};
-
-	let only_selected = false;
+	
+	$: only_selected = $checkboxStore[event._key];
 </script>
 
 {#if event.containsPerformances}
@@ -33,7 +34,7 @@
 			<div class="selector-row  d-flex flex-column p-2">
 				<div>Kryss av {event.description.toLowerCase() === "lyntaler" ? "lyntalene" : "workshopen"} du skal på</div>
 				<label class="d-flex pt-2">
-					<input type="checkbox" bind:checked={only_selected} />
+					<input type="checkbox" checked={only_selected} on:click={() => checkboxStore.flip(event._key)} />
 					<div class="selector-text">Vis kun {event.description === "Lyntaler" ? " valgte Lyntaler" : "valgt Workshop"}</div>
 				</label>
 			</div>

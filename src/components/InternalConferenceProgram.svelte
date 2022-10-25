@@ -28,7 +28,7 @@
 						<p class="event-times">
 							{event.startTime}
 							{#if event.endTime}
-								{` - ${event.endTime}`}
+								<span>{` - ${event.endTime}`}</span>
 							{:else}
 								<span style="visibility: hidden;"> - 00:00</span>
 							{/if}
@@ -77,6 +77,7 @@
 	}
 	.event-times {
 		font-weight: 500;
+		width: 80px;
 		font-size: small;
 		margin-bottom: 0;
 	}

@@ -73,8 +73,10 @@
 		])
 		.reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {});
 	*/
-
-	let day = new Date(startDate).toDateString();
+	
+	let day = ((new Date() >= new Date(startDate)) && (new Date() < new Date(endDate)))
+		? new Date().toDateString()
+		: new Date(startDate).toDateString();
 </script>
 
 <svelte:head>
