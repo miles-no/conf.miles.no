@@ -40,9 +40,10 @@
 			</div>
 		</li>
 		{#each getTimeslotPerformances(event).filter((perf) => !only_selected || Boolean($performances_store[perf.submission._id])) as performance (performance.submission._id)}
-		<li class="alt-li"
-				animate:flip|local={{duration: 300, key: performance.submission._id}}
-				in:fly|local={{ y:-30, duration: 300, key: performance.submission._id }}
+		<li 
+			class="alt-li"
+			animate:flip|local={{duration: 300, key: performance.submission._id}}
+			in:fly|local={{ y:-30, duration: 300, key: performance.submission._id }}
 		>	
 			<PerformanceRow {only_selected} {event} {conference} {performance} />
 		</li>
@@ -59,7 +60,6 @@
 	.alt-ul {
 		padding: 0;
 		margin: 0;
-		margin-bottom: 1px;
 		list-style-type: none;
 	}
 	.alt-li {

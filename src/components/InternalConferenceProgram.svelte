@@ -4,70 +4,72 @@
 	import { accordionStore } from '../stores/accordion_localstorage';
 	export let conference;
 	export let day;
-  $: itinerary = conference.itinerary
-  ? conference.itinerary.find(
-		  (i) => i.itineraryDate == format(new Date(day), 'yyyy-MM-dd')
-	  )
-  : null
+
+	$: itinerary = conference.itinerary
+		? conference.itinerary.find((i) => new Date(i.itineraryDate).getDate() === new Date(day).getDate())
+		: null;
+
 </script>
+
 <span>
-{#if itinerary}
-	<div class="accordion accordion-flush" id="eventAccordions">
-		{#each itinerary.events as event, index}
-			{@const is_open = Boolean($accordionStore?.["Accordion-" + event._key])} 
-			<div class="accordion-item">
-				<div class="accordion-header" id="heading-{index}">
-					<button
-						class="accordion-button event-btn {is_open ? "" : "collapsed"}"
-						class:accordion-hide={!event.containsPerformances && !event.info}
-						type="button"
-						data-bs-toggle="collapse"
-						data-bs-target="#event-{index}"
-						aria-expanded={is_open ? "true" : "false"}
-						aria-controls="event-{index}"
-						on:click={() => accordionStore.flip("Accordion-" + event._key)}
-					>
-					<div
-						class="event-container"
-					>
-						<p class="event-times">
-							<span>{event.startTime}</span>
-							{#if event.endTime}
-								<span>{` - ${event.endTime}`}</span>
-							{:else}
-								<span style="visibility: hidden;"> - 00:00</span>
-							{/if}
-						</p>
-						<p class="event-description">
-							{event.description}
-						</p>
-					</button> 
+	{#if itinerary}
+		<div class="accordion accordion-flush" id="eventAccordions">
+			{#each itinerary.events as event, index}
+				{@const is_open = Boolean($accordionStore?.['Accordion-' + event._key])}
+				<div>
+					<div class="accordion-item">
+						<div class="accordion-header" id="heading-{index}">
+							<button
+								class="accordion-button event-btn {is_open ? '' : 'collapsed'}"
+								class:accordion-hide={!event.containsPerformances && !event.info}
+								type="button"
+								data-bs-toggle="collapse"
+								data-bs-target="#event-{index}"
+								aria-expanded={is_open ? 'true' : 'false'}
+								aria-controls="event-{index}"
+								on:click={() => accordionStore.flip('Accordion-' + event._key)}
+							>
+								<div>
+									<div class="event-container">
+										<p class="event-times">
+											<span>
+												{`${event.startTime}${event.endTime ? ' - ' + event.endTime : ''}`}
+											</span>
+										</p>
+										<p class="event-description">
+											{event.description}
+										</p>
+									</div>
+								</div>
+							</button>
+						</div>
+					</div>
+					<div>
+						{#if event.containsPerformances || event.info}
+							<div
+								id="event-{index}"
+								class="accordion-collapse collapse {is_open ? 'show' : ''}"
+								aria-labelledby="heading-{index}"
+								data-bs-parent="eventAccordions"
+							>
+								<Event {day} {event} {conference} />
+							</div>
+						{/if}
+					</div>
 				</div>
-			</div>
-			{#if event.containsPerformances || event.info}
-				<div 
-					id="event-{index}"
-					class="accordion-collapse collapse {is_open ? "show" : ""}"
-					aria-labelledby="heading-{index}"
-					data-bs-parent="eventAccordions"
-				>
-					<Event {day} {event} {conference} />
-				</div>
-			{/if}
-		{/each}
-	</div>
-{:else}
-	<div class="d-flex flex-column mb-5">
-		<h1 class="mb-0">Her var det tomt, gitt.</h1>
-		<p class="mb-0">
-			Det er foreløpig ingen planlagte innslag fra Miles på {conference.title}.
-		</p>
-	</div>
-{/if}
+			{/each}
+		</div>
+	{:else}
+		<div class="d-flex flex-column mb-5">
+			<h1 class="mb-0">Her var det tomt, gitt.</h1>
+			<p class="mb-0">
+				Det er foreløpig ingen planlagte innslag fra Miles på {conference.title}.
+			</p>
+		</div>
+	{/if}
 </span>
 
 <style>
-	
 	.accordion-item {
 		border: none;
 	}
@@ -102,7 +104,7 @@
 	.accordion-hide:after {
 		display: none;
 	}
-	@media (min-width: 576px) { 
+	@media (min-width: 576px) {
 		.event-container {
 			align-items: center;
 			gap: 1em;

@@ -45,17 +45,18 @@
 	import InternalConferenceProgram from '../../components/InternalConferenceProgram.svelte';
 	export let conference;
 
-	var getDaysArray = function (s, e) {
+	const getDaysArray = (s, e) => {
 		for (var a = [], d = new Date(s); d <= new Date(e); d.setDate(d.getDate() + 1)) {
 			a.push(new Date(d));
 		}
 		return a;
 	};
 
-	const { startDate, endDate } = conference;
+	$: startDate = conference.startDate;
+	$: endDate = conference.endDate;
 
 	// Using all dates from start to end
-	let dates = getDaysArray(startDate, endDate).map((date) => [
+	$: dates = getDaysArray(startDate, endDate).map((date) => [
 		date.toDateString(),
 		intlFormat(date, { weekday: 'long' }, { locale: 'nb-NO' }),
 		intlFormat(date, { day: '2-digit', month: 'long' }, { locale: 'nb-NO' })
@@ -74,7 +75,7 @@
 		.reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {});
 	*/
 	
-	let day = ((new Date() >= new Date(startDate)) && (new Date() < new Date(endDate)))
+	$: day = ((new Date() >= new Date(startDate)) && (new Date() < new Date(endDate)))
 		? new Date().toDateString()
 		: new Date(startDate).toDateString();
 </script>
@@ -85,11 +86,7 @@
 
 <div class="container-lg">
 	<BreadCrumb {conference} />
-	<div class="d-flex flex-row gap-5 of styled-scrollbars">
-		{#each dates as [key, day_text, month_text]}
-			<DaySelect bind:group={day} topText={day_text} bottomText={month_text} val={key} />
-		{/each}
-	</div>
+	<DaySelect options={dates} bind:selected={day}/>
 	<div class="pt-4">
 		{#if conference.internal}
 			<InternalConferenceProgram {conference} {day} />
@@ -98,23 +95,3 @@
 		{/if}
 	</div>
 </div>
-
-<style>
-	.of {
-		overflow-y: hidden;
-		overflow-x: auto;
-	}
-	.styled-scrollbars::-webkit-scrollbar {
-		border-top: solid 1px #D76E6E;
-		width: 3px; /* Mostly for vertical scrollbars */
-		height: 3px; /* Mostly for horizontal scrollbars */
-	}
-	.styled-scrollbars::-webkit-scrollbar-thumb {
-		/* Foreground */
-		background-color: #D76E6E;
-	}
-	.styled-scrollbars::-webkit-scrollbar-track {
-		/* Background */
-		background: inherit;
-	}
-</style>

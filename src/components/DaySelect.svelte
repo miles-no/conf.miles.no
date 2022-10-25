@@ -1,19 +1,36 @@
 <script>
-	export let group;
-	export let val;
-	export let topText;
-	export let bottomText;
+	export let options;
+	export let selected = options[0];
 </script>
 
-<label>
-	<div class="d-flex flex-column">
-		<div class="top-text">{topText}</div>
-		<input type="radio" bind:group name={val} value={val} />
-		<div class="bottom-text">{bottomText}</div>
-	</div>
-</label>
+<div class="d-flex flex-row gap-5 of styled-scrollbars">
+	{#each options as [key, topText, bottomText] (key)}
+		<label class="d-flex flex-column">
+			<div class="top-text">{topText}</div>
+			<input type="radio" id={key} bind:group={selected} value={key} />
+			<div class="bottom-text">{bottomText}</div>
+		</label>
+	{/each}
+</div>
 
 <style>
+	.of {
+		overflow-y: hidden;
+		overflow-x: auto;
+	}
+	.styled-scrollbars::-webkit-scrollbar {
+		border-top: solid 1px #d76e6e;
+		width: 3px; /* Mostly for vertical scrollbars */
+		height: 3px; /* Mostly for horizontal scrollbars */
+	}
+	.styled-scrollbars::-webkit-scrollbar-thumb {
+		/* Foreground */
+		background-color: #d76e6e;
+	}
+	.styled-scrollbars::-webkit-scrollbar-track {
+		/* Background */
+		background: inherit;
+	}
 	.top-text {
 		font-size: x-large;
 		font-weight: 900;
@@ -32,10 +49,10 @@
 		font: inherit;
 		color: currentColor;
 		display: flex;
-    	flex-direction: column;
+		flex-direction: column;
 		place-content: center;
-    	background-color: #99999999;
-    	margin: 0 0 4px 0;
+		background-color: #99999999;
+		margin: 0 0 4px 0;
 		width: 100%;
 		border-radius: 0;
 		height: 100%;
@@ -47,7 +64,7 @@
 		border-radius: 0;
 		transform: scale(0);
 		transition: 100ms transform ease-in-out;
-		background-color: #D76E6E;
+		background-color: #d76e6e;
 	}
 
 	input[type='radio']:checked::before {
