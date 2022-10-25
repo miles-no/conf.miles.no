@@ -16,7 +16,7 @@
 			<div class="accordion-item">
 				<div class="accordion-header">
 					<button
-						class="accordion-button event collapsed d-flex align-items-center"
+						class="accordion-button event-btn collapsed"
 						class:accordion-hide={!event.containsPerformances && !event.info}
 						type="button"
 						data-bs-toggle="collapse"
@@ -24,6 +24,7 @@
 						aria-expanded="false"
 						aria-controls="event-{index}"
 					>
+					<div class="event-container">
 						<p class="event-times">
 							{event.startTime}
 							{#if event.endTime}
@@ -35,7 +36,7 @@
 						<p class="event-description">
 							{event.description}
 						</p>
-					</button>
+					</button> 
 				</div>
 			</div>
 			{#if event.containsPerformances || event.info}
@@ -55,21 +56,26 @@
 {/if}
 
 <style>
+	
 	.accordion-item {
 		border: none;
 	}
-	.event {
+	.event-btn {
 		color: white;
 		background-color: #d76e6e;
-		padding: 15px;
 		margin-bottom: 2px;
 	}
-	.event:after {
+	.event-container {
+		display: flex;
+		align-items: flex-start;
+		gap: 0;
+		flex-direction: column;
+	}
+	.event-btn:after {
 		color: white;
 		background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>");
 	}
 	.event-times {
-		width: 100px;
 		font-weight: 500;
 		font-size: small;
 		margin-bottom: 0;
@@ -77,12 +83,18 @@
 	.event-description {
 		font-weight: 600;
 		margin-bottom: 0;
-		width: calc(100% - 125px);
 	}
 	.accordion-hide {
 		cursor: default;
 	}
 	.accordion-hide:after {
 		display: none;
+	}
+	@media (min-width: 576px) { 
+		.event-container {
+			align-items: center;
+			gap: 1em;
+			flex-direction: row;
+		}
 	}
 </style>

@@ -12,7 +12,7 @@
 	<div class="mb-4" class:active>
 		<a href="konferanser/{conference.slug}">
 			<div class="box d-flex align-items-center flex-row">
-				<h3 class="link" class:isFinished>
+				<h3 class:isFinished>
 					{conference.title}
 				</h3>
 				{#if active}
@@ -28,27 +28,24 @@
 		text-decoration: none;
 		color: inherit;
 	}
+	.box {
+		padding: 0 8px;
+		height: 120px;
+	}	
 	h3 {
+		margin: 0 1.5vw;
+		color: inherit;
+		text-decoration: underline;
 		font-weight: 900;
 		font-size: 200%;
+		word-break: break-word;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		display: -webkit-box;
-		-webkit-line-clamp: 2; /* number of lines to show */
+		-webkit-line-clamp: 2;
 		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		-moz-box-orient: vertical;
-	}
-	.box {
-		padding: 0;
-		height: 120px;
-	}	
-	.link {
-		font-weight: 700;
-		margin: 0 1.5vw;
-		color: inherit;
-		word-break: break-all;
-		text-decoration: underline;
 	}
 	.active {
 		background-color: black;
