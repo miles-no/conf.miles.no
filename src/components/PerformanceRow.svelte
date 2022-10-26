@@ -20,63 +20,68 @@
 	let is_workshop = event.description.toLowerCase() === 'workshop';
 </script>
 
-<div
-	on:click={() => (show_info = !show_info)}
-	class="p-2 pe-3 d-flex flex-row justify-content-between"
+<div 
+	class="p-2 pe-3"
+	on:click={() => (show_info = !show_info)} 
 >
-	<div class="d-flex flex-column me-2">
-		<div class="d-flex flex-row gap-3 align-items-center">
-			{#if performances_store}
-				<label class="d-flex" style="align-items: center;">
-					<input
-						on:click|stopPropagation={setChecked}
-						disabled={only_selected}
-						type="checkbox"
-						checked={Boolean($performances_store[performance.submission._id])}
-					/>
-				</label>
-			{/if}
-			<div>
-				<div class="event-title">
-					{#if is_workshop}
-						<a
-							class="event-link"
-							href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}
-							>{performance.submission.title} >></a
-						>
-					{:else}
-						{performance.submission.title}
-					{/if}
-				</div>
-				<div class="of d-flex flex-row gap-2">
-					{#each performance.submission.authors as author}
-						<div class="author-name">
-							{author.name}
-						</div>
-					{/each}
+	<div class="d-flex flex-row justify-content-between">
+		<div class="d-flex flex-column me-2">
+			<div class="d-flex flex-row gap-3 align-items-center">
+				{#if performances_store}
+					<label class="d-flex" style="align-items: center;">
+						<input
+							on:click|stopPropagation={setChecked}
+							disabled={only_selected}
+							type="checkbox"
+							checked={Boolean($performances_store[performance.submission._id])}
+						/>
+					</label>
+				{/if}
+				<div>
+					<div class="event-title">
+						{#if is_workshop}
+							<a
+								class="event-link"
+								href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}
+								>{performance.submission.title} >></a
+							>
+						{:else}
+							{performance.submission.title}
+						{/if}
+					</div>
+					<div class="of d-flex flex-row gap-2">
+						{#each performance.submission.authors as author}
+							<div class="author-name">
+								{author.name}
+							</div>
+						{/each}
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="d-flex flex-column align-items-end" style="width: fit-content; white-space: nowrap;">
-		<div>{performance.location}</div>
-		<div>
-			{intlFormat(
-				new Date(performance.dateAndTime),
-				{
-					hour: '2-digit',
-					minute: '2-digit'
-				},
-				{ locale: 'nb-NO' }
-			)}
+		<div
+			class="d-flex flex-column align-items-end"
+			style="width: fit-content; white-space: nowrap;"
+		>
+			<div>{performance.location}</div>
+			<div>
+				{intlFormat(
+					new Date(performance.dateAndTime),
+					{
+						hour: '2-digit',
+						minute: '2-digit'
+					},
+					{ locale: 'nb-NO' }
+				)}
+			</div>
 		</div>
 	</div>
+	{#if !is_workshop && (show_info || only_selected)}
+		<div class="event-decription">
+			<PortableText value={performance.submission.description} />
+		</div>
+	{/if}
 </div>
-{#if !is_workshop && (show_info || only_selected)}
-	<div class="p-2 event-decription">
-		<PortableText value={performance.submission.description} />
-	</div>
-{/if}
 
 <style>
 	.of {
@@ -92,6 +97,7 @@
 	.event-decription {
 		font-size: small;
 		font-weight: 300;
+		padding-bottom: -1rem;
 	}
 	.event-title {
 		font-weight: 400;
@@ -100,6 +106,14 @@
 	.author-name {
 		font-weight: 300;
 		font-size: small;
+	}
+	.more-info {
+		font-size: small;
+		font-weight: 200;
+		font-style: italic;
+		display: flex;
+		width: 100%;
+		justify-content: center;
 	}
 	input[type='checkbox'] {
 		-webkit-appearance: none;
@@ -136,12 +150,5 @@
 	}
 	input[type='checkbox']:disabled::before {
 		background-color: #999999;
-	}
-	@media (min-width: 576px) {
-		.event-container {
-			align-items: center;
-			gap: 1em;
-			flex-direction: row;
-		}
 	}
 </style>

@@ -75,7 +75,7 @@
 </script>
 
 <svelte:head>
-	<script src="https://accounts.google.com/gsi/client" defer on:load={loadGoogle()}></script>
+	<script src="https://accounts.google.com/gsi/client" async defer on:load={loadGoogle()}></script>
 	<title>Miles @ Conferences</title>
 </svelte:head>
 
