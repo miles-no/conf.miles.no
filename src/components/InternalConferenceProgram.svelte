@@ -90,7 +90,6 @@
 	}
 	.event-times {
 		font-weight: 500;
-		width: 80px;
 		font-size: small;
 		margin-bottom: 0;
 	}
@@ -109,6 +108,9 @@
 			align-items: center;
 			gap: 1em;
 			flex-direction: row;
+		}
+		.event-times {
+			width: 90px;
 		}
 	}
 </style>
