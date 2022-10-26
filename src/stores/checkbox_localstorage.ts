@@ -8,7 +8,8 @@ interface Checkboxes {
 
 const defaultValue : Checkboxes = {};
 const initialValue = browser
-    ? JSON.parse(window.localStorage.getItem('checkboxes') as string) as Checkboxes ?? defaultValue : defaultValue;
+    ? JSON.parse(window.localStorage.getItem('checkboxes') as string) as Checkboxes ?? defaultValue 
+    : defaultValue;
 
 function createCheckboxStore () {
     const { subscribe, set, update } = writable<Checkboxes>(initialValue);

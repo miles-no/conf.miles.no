@@ -37,16 +37,6 @@
 				</label>
 			{/if}
 			<div>
-				{intlFormat(
-					new Date(performance.dateAndTime),
-					{
-						hour: '2-digit',
-						minute: '2-digit'
-					},
-					{ locale: 'nb-NO' }
-				)}
-			</div>
-			<div>
 				<div class="event-title">
 					{#if is_workshop}
 						<a
@@ -70,6 +60,16 @@
 	</div>
 	<div class="d-flex flex-column align-items-end" style="width: fit-content; white-space: nowrap;">
 		<div>{performance.location}</div>
+		<div>
+			{intlFormat(
+				new Date(performance.dateAndTime),
+				{
+					hour: '2-digit',
+					minute: '2-digit'
+				},
+				{ locale: 'nb-NO' }
+			)}
+		</div>
 	</div>
 </div>
 {#if !is_workshop && (show_info || only_selected)}
@@ -136,5 +136,12 @@
 	}
 	input[type='checkbox']:disabled::before {
 		background-color: #999999;
+	}
+	@media (min-width: 576px) {
+		.event-container {
+			align-items: center;
+			gap: 1em;
+			flex-direction: row;
+		}
 	}
 </style>

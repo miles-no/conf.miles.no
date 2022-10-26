@@ -8,7 +8,8 @@ interface Accordions {
 
 const defaultValue : Accordions = {};
 const initialValue = browser
-    ? JSON.parse(window.localStorage.getItem('accordions') as string) as Accordions ?? defaultValue : defaultValue;
+    ? JSON.parse(window.localStorage.getItem('accordions') as string) as Accordions ?? defaultValue 
+    : defaultValue;
 
 function createAccordionStore () {
     const { subscribe, set, update } = writable<Accordions>(initialValue);
