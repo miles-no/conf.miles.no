@@ -63,8 +63,8 @@
 			class="d-flex flex-column align-items-end"
 			style="width: fit-content; white-space: nowrap;"
 		>
-			<div>{performance.location}</div>
-			<div>
+			<div class="event-location">{performance.location}</div>
+			<div class="event-time">
 				{intlFormat(
 					new Date(performance.dateAndTime),
 					{
@@ -86,12 +86,8 @@
 <style>
 	.of {
 		overflow-y: hidden;
-		overflow-x: scroll;
 	}
 	.event-link {
-		font-weight: 400;
-		color: #222222;
-		word-break: break-all;
 		text-decoration: underline;
 	}
 	.event-decription {
@@ -99,21 +95,27 @@
 		font-weight: 300;
 		padding-bottom: -1rem;
 	}
+	.event-location {
+		font-style: italic;
+		font-weight: 400;
+		font-size: 14px;
+		color: #222222;
+	}
+	.event-time {
+		font-style: italic;
+		font-weight: 400;
+		font-size: 14px;
+		color: #222222;
+	}
 	.event-title {
 		font-weight: 400;
+		word-break: break-word;
+		font-size: 14px;
 		color: #222222;
 	}
 	.author-name {
 		font-weight: 300;
 		font-size: small;
-	}
-	.more-info {
-		font-size: small;
-		font-weight: 200;
-		font-style: italic;
-		display: flex;
-		width: 100%;
-		justify-content: center;
 	}
 	input[type='checkbox'] {
 		-webkit-appearance: none;
