@@ -25,19 +25,3 @@ jobs:
 
     - name: Docker Push
       run: docker push registry.digitalocean.com/teilin/milesconf:latest
-
-    - name: Replace tag in config
-      uses: datamonsters/replace-action@v2
-      with:
-        files: deployment.yaml
-        replacements: '$TAG=${{ github.sha }}'
-
-    - name: Set up kubectl
-      uses: matootie/dokube@v1.4.0
-      with:
-        personalAccessToken: ${{ secrets.DO_TOKEN }}
-        clusterName: k8s-devgeek
-        namespace: milesconf
-
-    - name: Apply Deployment
-      run: kubectl apply -f $GITHUB_WORKSPACE/deployment.yml
