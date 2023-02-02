@@ -8,3 +8,4 @@ build/
 /miles-conf/node_modules/
 .env
 /miles-conf/dist/
+.env

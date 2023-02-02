@@ -1,35 +1,38 @@
 # conf.miles.no
 
-The dev branch on this project is currently hosted at: 
-https://konferanser.azurewebsites.net/
+## Development
 
-https://www.pluralsight.com/guides/create-docker-images-docker-hub
-# Deploy steps
+### Enviroments
 
-0) Login with CLI
+| Enviroment | Url |
+| :--: | :--: |
+| Development | (https://konferanser.azurewebsites.net/)[https://konferanser.azurewebsites.net/] |
+| Production | (https://conf.miles.no/)[https://conf.miles.no/] |
 
-```
-$ docker login
-```
+### Getting started
 
-1) Build image
+The conference application store data in [Sanity]() using the [Sanity JS Client](https://www.sanity.io/docs/js-client). It fetches data from [CVPartner](https://cv.miles.no) to get information about office locations and people.
 
-```
-$ docker build -t teilin/milesconf:v2.0 teilin/milesconf:latest .
-```
+In the root of the project, there is a `.env.example` file that need to be cloned and named `.env`. In this file all the secrets that need to be set should go. For the API-token, ask to get one.
 
-2) Tag image
+The development branch (dev branch) is where all development is happening. On every checking to this branch there is triggered a Github Action that build and deploy the application to the development site on Azure.
 
-```
-$ docker tag teilin/milesconf:v2.0 teilin/milesconf:v2.0
-```
+### Sanity
 
-3) Push til docker registry
+...
 
-```
-$ docker push teilin/milesconf:v2.0
-```
+### CVPartner
 
-# Links
+...
 
-* https://www.pluralsight.com/guides/create-docker-images-docker-hub
+# Release
+
+The live producion of the site is hosted on [conf.miles.no](https://conf.miles.no) and to release a new version, create a new branch with prefix `releases/` (example `releases/v2.0.1`). Then this will be published to the production enviroment.
+
+# Conributors
+
+* Olav Loen
+* Brynjar
+* Yngve
+* Øyvind
+* Teis

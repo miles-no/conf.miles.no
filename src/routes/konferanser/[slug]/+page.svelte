@@ -1,49 +1,11 @@
-<script context="module">
-	import client from '../../sanityClient';
-	export async function load({ params }) {
-		const { slug } = params;
-
-		const conference = await client.fetch(
-			/* groq */ `
-			*[
-				_type == "conference" &&
-				slug.current == $slug
-			][0] {
-				...,
-				"slug": slug.current,
-				"imageUrl": image.asset->url,
-				performances[]{
-					dateAndTime,
-					location,
-					performanceUrls,
-					submission->{..., "slug": slug.current, authors[]->{..., "imageUrl": image.asset->url}}
-				}
-			}
-		`,
-			{ slug }
-		);
-
-		if (!conference) {
-			return {
-				status: 404
-			};
-		}
-
-		return {
-			props: {
-				conference
-			}
-		};
-	}
-</script>
-
 <script>
-	import BreadCrumb from '../../components/BreadCrumb.svelte';
+	import BreadCrumb from '../../../components/BreadCrumb.svelte';
 	import { intlFormat } from 'date-fns';
-	import DaySelect from '../../components/DaySelect.svelte';
-	import ExternalConferenceProgram from '../../components/ExternalConferenceProgram.svelte';
-	import InternalConferenceProgram from '../../components/InternalConferenceProgram.svelte';
-	export let conference;
+	import DaySelect from '../../../components/DaySelect.svelte';
+	import ExternalConferenceProgram from '../../../components/ExternalConferenceProgram.svelte';
+	import InternalConferenceProgram from '../../../components/InternalConferenceProgram.svelte';
+	export let data = {};
+	export let conference = data.conference;
 
 	const getDaysArray = (s, e) => {
 		for (var a = [], d = new Date(s); d <= new Date(e); d.setDate(d.getDate() + 1)) {
