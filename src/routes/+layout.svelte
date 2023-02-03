@@ -4,6 +4,12 @@
 	export let data = {};
 	const settings = data.settings;
 	const authInfo = data.user;
+	// function is_server() {
+	// 	return ! (typeof window != 'undefined' && window.document);
+	// }
+	// if(!is_server() && !authInfo) {
+	// 	location.reload();
+	// }
 </script>
 
 <Header {settings} {authInfo}  />
