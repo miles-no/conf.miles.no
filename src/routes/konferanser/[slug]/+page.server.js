@@ -1,27 +1,9 @@
-import client from '../../../sanityClient';
+import { fetchConference } from '$lib/sanityClient';
 
 export async function load({ params }) {
     const { slug } = params;
 
-    const conference = await client.fetch(
-        /* groq */ `
-        *[
-            _type == "conference" &&
-            slug.current == $slug
-        ][0] {
-            ...,
-            "slug": slug.current,
-            "imageUrl": image.asset->url,
-            performances[]{
-                dateAndTime,
-                location,
-                performanceUrls,
-                submission->{..., "slug": slug.current, authors[]->{..., "imageUrl": image.asset->url}}
-            }
-        }
-    `,
-        { slug }
-    );
+    const conference = await fetchConference(slug);
 
     if (!conference) {
         return {
@@ -30,6 +12,6 @@ export async function load({ params }) {
     }
 
     return {
-        conference
+        conference: conference.conference
     };
 }

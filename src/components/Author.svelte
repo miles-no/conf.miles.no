@@ -2,7 +2,7 @@
   import { PortableText } from '@portabletext/svelte';
   import { Facebook, Twitter, Linkedin, Mail, Instagram } from 'lucide-svelte';
   import imageUrlBuilder from '@sanity/image-url';
-  import client from '../sanityClient';
+  import { client } from '$lib/sanityClient';
   export let author = {};
   const Icons = {
     facebook: Facebook,

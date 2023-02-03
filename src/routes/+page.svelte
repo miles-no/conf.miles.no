@@ -8,32 +8,6 @@
 	export let allConferencesLoaded = false;
 	$: filteredConferences = conferences.filter((c) => !c.internal);
 
-	const handleCredentialResponse = (response) => {
-		$user = parseJwt(response.credential);
-	};
-
-	const loadGoogle = () => {
-		google.accounts.id.initialize({
-			client_id: '374308135710-8hfuhn752hmh15lohs4fi4hsnovj8t9c.apps.googleusercontent.com',
-			callback: handleCredentialResponse
-		});
-		if (!$user) {
-			displaySignInButton();
-		}
-	};
-
-	const displaySignInButton = () => {
-		google.accounts.id.renderButton(document.getElementById('signin'), {
-			type: 'standard',
-			shape: 'pill',
-			theme: 'filled_black',
-			text: 'signin_with',
-			size: 'large',
-			locale: 'no',
-			logo_alignment: 'left'
-		});
-	};
-
 	const loadAllConferences = async () => {
 		conferences = await client.fetch(/* groq */ `
 			*[_type == "conference"] | order(endDate desc) {
@@ -49,7 +23,6 @@
 </script>
 
 <svelte:head>
-	<script src="https://accounts.google.com/gsi/client" async defer on:load={loadGoogle()}></script>
 	<title>Miles @ Conferences</title>
 </svelte:head>
 

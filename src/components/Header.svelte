@@ -1,6 +1,8 @@
 <script>
+	import Login from './Login.svelte'
 	import { user } from '../stores';
 	export let settings = [];
+	export let authInfo = {};
 	const signOut = () => {
 		$user = false;
 		location.reload();
@@ -16,7 +18,7 @@
 	<nav>
 		<div class="links">
 			<ul class="navbar-nav m-0">
-				{#if $user}
+				<!-- {#if $user}
 					<li class="nav-item dropdown">
 						<a
 							class="nav-link dropdown-toggle"
@@ -37,7 +39,10 @@
 					<li class="nav-item">
 						<div id="signin" />
 					</li>
-				{/if}
+				{/if} -->
+				<li class="nav-item">
+					<Login {authInfo} />
+				</li>
 			</ul>
 		</div>
 	</nav>

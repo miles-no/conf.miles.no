@@ -39,6 +39,7 @@
     "crypto-es": "^1.2.7",
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
-    "lucide-svelte": "^0.90.0"
+    "lucide-svelte": "^0.90.0",
+    "query-string": "^8.1.0"
   }
 }

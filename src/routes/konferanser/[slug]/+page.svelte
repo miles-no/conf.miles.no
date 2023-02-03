@@ -23,19 +23,6 @@
 		intlFormat(date, { weekday: 'long' }, { locale: 'nb-NO' }),
 		intlFormat(date, { day: '2-digit', month: 'long' }, { locale: 'nb-NO' })
 	]);
-
-	/*
-	//Using the dates with actual performances
-	let dates = performances
-		.map(({ dateAndTime }) => [
-			new Date(dateAndTime).toDateString(),
-			[
-				intlFormat(new Date(dateAndTime), { weekday: 'long' }, { locale: 'nb-NO' }),
-				intlFormat(new Date(dateAndTime), { day: '2-digit', month: 'long' }, { locale: 'nb-NO' })
-			]
-		])
-		.reduce((acc, [key, val]) => ({ ...acc, [key]: val }), {});
-	*/
 	
 	$: day = ((new Date() >= new Date(startDate)) && (new Date() < new Date(endDate)))
 		? new Date().toDateString()

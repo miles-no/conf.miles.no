@@ -1,29 +1,15 @@
-import client from '../sanityClient';
+import {  fetchSiteSettings } from '$lib/sanityClient';
 
-export async function load({ params }) {
+export async function load({ params, locals }) {
     const { slug = '', konferanse = '' } = params;
-    const result = await client.fetch(/* groq */ 
-        `
-            {
-            'settings': *[_type == 'siteSettings'][0] {
-                ...,
-                "siteLogo": siteLogo.asset->url
-            }
-            }
-        `,
-        { slug, konferanse }
-    );
-
-    if (!result) {
-        return {
-            status: 404
-        };
-    }
+    
+    const result = await fetchSiteSettings(slug, konferanse);
 
     return {
         settings: {
-            siteLogo: result.settings.siteLogo,
-            siteName: result.settings.siteName
-        }
+            siteLogo: result.siteLogo,
+            siteName: result.siteName
+        },
+        user: locals.user
     };
 }
