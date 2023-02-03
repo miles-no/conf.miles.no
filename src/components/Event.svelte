@@ -18,7 +18,9 @@
 		return conference.performances
 			.filter(({ dateAndTime }) => {
 				const performanceTimestamp = new Date(dateAndTime).getTime();
-				return performanceTimestamp >= min && performanceTimestamp <= max;
+				return isNaN(max) //If max is NaN, the Event has no endTime
+					? performanceTimestamp === min //The perfomance sharing startTime with the event 
+					: performanceTimestamp >= min && performanceTimestamp <= max;
 			})
 			.sort((a, b) => {
 				return compareAsc(new Date(a.dateAndTime), new Date(b.dateAndTime));
