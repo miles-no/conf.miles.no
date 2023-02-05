@@ -18,7 +18,7 @@ export const actions = {
             url: data.get('inputUrl')
         };
         const imgDoc = {
-            file: data.get('inputImage'),
+            file: data.getAll('inputImage'),
             alt: data.get('inputAlttext')
         };
         console.log(conferemceDoc);

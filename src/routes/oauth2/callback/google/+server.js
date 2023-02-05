@@ -15,36 +15,47 @@ export async function GET({ url, cookies }) {
           code: authCode,
       })
   });
+  const test = JSON.stringify({
+    client_id: GOOGLE_CLIENT_ID,
+    client_secret: GOOGLE_CLIENT_SECRET,
+    redirect_uri: `${ORIGIN}/oauth2/callback/google`,
+    grant_type: 'authorization_code',
+    code: authCode,
+});
   const data = await tokenResponse.json();
+  console.log(test);
   if(data.error) {
     console.error(data.error);
+    throw redirect(307, '/');
+  } else {
+    const profileResponse = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${data.access_token}`,
+        },
+    });
+    const profileData = await profileResponse.json();
+    console.log(profileData);
+    const authInfo = {
+      isAuthenticated: true,
+      id: profileData.id,
+      name: `${profileData.given_name} ${profileData.family_name}`,
+      email: profileData.email,
+      profileImage: profileData.picture,
+      access_token: data.access_token,
+      expires_in: data.expires_in,
+      refresh_token: data.refresh_token,
+      scope: data.scope,
+      token_type: data.token_type,
+      id_token: data.id_token
+    };
+    cookies.set('session', JSON.stringify(authInfo), {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: !dev,
+        maxAge: authInfo.expires_in
+    });
+    throw redirect(307, '/');
   }
-  const profileResponse = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${data.access_token}`,
-      },
-  });
-  const profileData = await profileResponse.json();
-  const authInfo = {
-    isAuthenticated: true,
-    id: profileData.id,
-    name: `${profileData.given_name} ${profileData.family_name}`,
-    email: profileData.email,
-    profileImage: profileData.picture,
-    access_token: data.access_token,
-    expires_in: data.expires_in,
-    refresh_token: data.refresh_token,
-    scope: data.scope,
-    token_type: data.token_type,
-    id_token: data.id_token
-  };
-  cookies.set('session', JSON.stringify(authInfo), {
-      path: '/',
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: !dev,
-      maxAge: authInfo.expires_in
-  });
-  throw redirect(307, '/');
 }

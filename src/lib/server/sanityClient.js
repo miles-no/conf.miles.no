@@ -1,4 +1,6 @@
 import sanityClient from '@sanity/client';
+import {basename} from 'path'
+import {createReadStream} from 'fs'
 import { SANITY_TOKEN } from '$env/static/private';
 
 const client = sanityClient({
@@ -19,10 +21,30 @@ export function createConference(body) {
         internal: body.internal,
         url: body.url
     }
+    let conferenceId;
     client.create(doc).then((response) => {
-        return {
-            success: true,
-            id: response._id
-        }
+        conferenceId = response._id;
     })
+
+    client.assets
+        .upload('image', createReadStream(filePath), {
+            filename: basename(filePath)
+        })
+        .then(imageAsset => {
+            return client
+            .patch(conferenceId)
+            .set({
+                image: {
+                _type: 'image',
+                asset: {
+                    _type: "reference",
+                    _ref: imageAsset._id
+                }
+                }
+            })
+            .commit()
+        })
+        .then(() => {
+            console.log("Done!");
+        });
 }

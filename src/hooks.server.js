@@ -1,11 +1,8 @@
 import { redirect } from "@sveltejs/kit";
 
 export const handle = async ({ event, resolve }) => {
-    const protectedRoutes = [
-        '/protected'
-    ];
     const session = event.cookies.get('session');
-    if(!session && protectedRoutes.includes(event.url.pathname)) {
+    if(!session && event.url.pathname.startsWith('/protected')) {
         throw redirect(307, '/login');
     }
 
