@@ -3,13 +3,10 @@
 	import Header from '../components/Header.svelte';
 	export let data = {};
 	const settings = data.settings;
-	const authInfo = data.user;
-	// function is_server() {
-	// 	return ! (typeof window != 'undefined' && window.document);
-	// }
-	// if(!is_server() && !authInfo) {
-	// 	location.reload();
-	// }
+	let authInfo = { isAuthenticated: false };
+	if(data.user) {
+		authInfo = data.user;
+	}
 </script>
 
 <Header {settings} {authInfo}  />

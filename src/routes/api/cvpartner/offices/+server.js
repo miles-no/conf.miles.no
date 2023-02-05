@@ -1,10 +1,8 @@
 import 'dotenv/config'
-
 import { json } from '@sveltejs/kit';
  
 /** @type {import('./$types').RequestHandler} */
 export async function GET(event) {
-  console.log(process.env.CVPARTNER_API_KEY);
   const url = `https://miles.cvpartner.com/api/v1/countries`;
   const response = await fetch(url, {
   mode: 'same-origin',
@@ -15,7 +13,7 @@ export async function GET(event) {
   const data = await response.json();
   let officesTotal = [];
   data.forEach(element => {
-      const offices = element.offices.map((data) => {
+      const offices = element.offices.filter(c => c.name == 'Bergen' || c.Name == 'Oslo' || c.name == 'Stavanger' || c.name == 'Trondheim' || c.name == 'Ålesund').map((data) => {
           return {
               id: data._id,
               name: data.name,

@@ -1,8 +1,6 @@
 <script>
 	import Conferences from '../components/Conferences.svelte';
 	import Hoverable from '../components/Hoverable.svelte';
-	import { parseJwt } from '../lib';
-	import { user } from '../stores';
 	export let data = {};
 	export let conferences = data.conferences;
 	export let allConferencesLoaded = false;

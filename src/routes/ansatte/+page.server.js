@@ -1,3 +1,7 @@
+export const prerender = true;
+export const ssr = false;
+export const csr = true;
+
 export async function load() {
     const officesUrl = 'http://127.0.0.1:3000/api/cvpartner/offices';
     const usersUrl = 'http://127.0.0.1:3000/api/cvpartner/users';

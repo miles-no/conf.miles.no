@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import { ORIGIN, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '$env/static/private';
 import { dev } from '$app/environment';
 import { redirect } from '@sveltejs/kit';
 
@@ -8,9 +8,9 @@ export async function GET({ url, cookies }) {
   const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
       method: 'POST',
       body: JSON.stringify({
-          client_id: process.env.GOOGLE_CLIENT_ID,
-          client_secret: process.env.GOOGLE_CLIENT_SECRET,
-          redirect_uri: 'http://localhost:3000/oauth2/callback/google',
+          client_id: GOOGLE_CLIENT_ID,
+          client_secret: GOOGLE_CLIENT_SECRET,
+          redirect_uri: `${ORIGIN}/oauth2/callback/google`,
           grant_type: 'authorization_code',
           code: authCode,
       })
