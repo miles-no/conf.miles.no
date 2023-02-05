@@ -6,8 +6,8 @@
 
 | Enviroment | Url |
 | :--: | :--: |
-| Development | (https://konferanser.azurewebsites.net/)[https://konferanser.azurewebsites.net/] |
-| Production | (https://conf.miles.no/)[https://conf.miles.no/] |
+| Development | [https://konferanser.azurewebsites.net/](https://konferanser.azurewebsites.net/) |
+| Production | [https://conf.miles.no/](https://conf.miles.no/) |
 
 ### Getting started
 
