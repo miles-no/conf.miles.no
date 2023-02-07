@@ -1,13 +1,17 @@
-import 'dotenv/config'
+import { CVPARTNER_API_KEY, CONF_API_KEY } from '$env/static/private';
 import { json } from '@sveltejs/kit';
  
 /** @type {import('./$types').RequestHandler} */
-export async function GET(event) {
+export async function GET({ request }) {
+  const authHeader = request.headers.get('Authorization');
+  if(authHeader !== CONF_API_KEY) {
+    return new Response(JSON.stringify({message: 'Invalid credentials'}), {status: 401});
+  }
   const url = `https://miles.cvpartner.com/api/v1/countries`;
   const response = await fetch(url, {
   mode: 'same-origin',
   headers: {
-      'Authorization': `Token token=${process.env.CVPARTNER_API_KEY}`
+      'Authorization': `Token token=${CVPARTNER_API_KEY}`
   }
   });
   const data = await response.json();

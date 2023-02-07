@@ -1,5 +1,7 @@
 import { fetchConference } from '$lib/sanityClient';
 
+export const prerender = false;
+
 export async function load({ params }) {
     const { slug } = params;
 
