@@ -1,10 +1,10 @@
 import { json } from '@sveltejs/kit';
-import { CVPARTNER_API_KEY, CONF_API_KEY } from '$env/static/private';
+import { env } from '$env/dynamic/private';
  
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ request }) {
   const authHeader = request.headers.get('Authorization');
-  if(authHeader !== CONF_API_KEY) {
+  if(authHeader !== env.CONF_API_KEY) {
     return new Response(JSON.stringify({message: 'Invalid credentials'}), {status: 401});
   }
   let shouldContinue = true;
@@ -14,7 +14,7 @@ export async function GET({ request }) {
     let url = `https://miles.cvpartner.com/api/v1/users?offset=${offset}`;
     const response = await fetch(url, {
       headers: {
-        'Authorization': `Token token=${CVPARTNER_API_KEY}`
+        'Authorization': `Token token=${env.CVPARTNER_API_KEY}`
       }
     });
     const data = await response.json();

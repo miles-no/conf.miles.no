@@ -1,4 +1,4 @@
-import { ORIGIN, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { dev } from '$app/environment';
 import { redirect } from '@sveltejs/kit';
 
@@ -8,17 +8,17 @@ export async function GET({ url, cookies }) {
   const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
       method: 'POST',
       body: JSON.stringify({
-          client_id: GOOGLE_CLIENT_ID,
-          client_secret: GOOGLE_CLIENT_SECRET,
-          redirect_uri: `${ORIGIN}/oauth2/callback/google`,
+          client_id: env.GOOGLE_CLIENT_ID,
+          client_secret: env.GOOGLE_CLIENT_SECRET,
+          redirect_uri: `${env.ORIGIN}/oauth2/callback/google`,
           grant_type: 'authorization_code',
           code: authCode,
       })
   });
   const test = JSON.stringify({
-    client_id: GOOGLE_CLIENT_ID,
-    client_secret: GOOGLE_CLIENT_SECRET,
-    redirect_uri: `${ORIGIN}/oauth2/callback/google`,
+    client_id: env.GOOGLE_CLIENT_ID,
+    client_secret: env.GOOGLE_CLIENT_SECRET,
+    redirect_uri: `${env.ORIGIN}/oauth2/callback/google`,
     grant_type: 'authorization_code',
     code: authCode,
 });

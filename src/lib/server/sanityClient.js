@@ -1,14 +1,14 @@
 import sanityClient from '@sanity/client';
 import {basename} from 'path'
 import {createReadStream} from 'fs'
-import { SANITY_TOKEN } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 const client = sanityClient({
   projectId: 'mhv8s2ia',
   dataset: 'production',
   apiVersion: "2022-03-24",
   useCdn: false,
-  token: SANITY_TOKEN,
+  token: env.SANITY_TOKEN,
 });
 
 export function createConference(body) {

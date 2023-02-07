@@ -1,4 +1,4 @@
-import { CONF_API_KEY } from '$env/static/private';
+import { CONF_API_KEY } from '$env/dynamic/private';
 
 export const prerender = true;
 export const ssr = false;
