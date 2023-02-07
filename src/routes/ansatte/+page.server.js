@@ -1,4 +1,4 @@
-import { CONF_API_KEY } from '$env/dynamic/private';
+import { env } from '$env/dynamic/private';
 
 export const prerender = true;
 export const ssr = false;
@@ -10,13 +10,13 @@ export async function load() {
     const responseOffices = await fetch(officesUrl,{
         mode: 'same-origin',
         headers: {
-            'Authorization': `${CONF_API_KEY}`
+            'Authorization': `${env.CONF_API_KEY}`
         }
         });
     const responseUsers = await fetch(usersUrl, {
         mode: 'same-origin',
         headers: {
-            'Authorization': `${CONF_API_KEY}`
+            'Authorization': `${env.CONF_API_KEY}`
         }
         });
     const data = {
