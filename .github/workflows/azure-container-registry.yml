@@ -37,5 +37,13 @@ jobs:
           push: true
           tags: ${{ secrets.ACR_TAG }}
           file: ./Dockerfile
+        env:
+          ORIGIN: https://konferanser.azurewebsites.net
+          CONF_API_KEY: ${{secrets.CONF_API_KEY}}
+          CVPARTNER_API_KEY: ${{secrets.CVPARTNER_API_KEY}}
+          CREDENTIAL_SALT: ${{secrets.CREDENTIAL_SALT}}
+          SANITY_TOKEN: ${{secrets.SANITY_TOKEN}}
+          GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
+          GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
 
  
