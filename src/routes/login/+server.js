@@ -2,14 +2,11 @@ import * as queryString from 'query-string';
 import { redirect } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
  
-// /** @type {import('./$types').LayoutServerLoad} */
-// export function load({ locals }) {
 /** @type {import('./$types').RequestHandler} */
 export async function GET(event) {
-    console.log(env);
     const stringifiedParams = queryString.stringify({
         client_id: env.GOOGLE_CLIENT_ID,
-        redirect_uri: 'http://localhost:3000/oauth2/callback/google',
+        redirect_uri: `${env.ORIGIN}/oauth2/callback/google`,
         scope: [
             'https://www.googleapis.com/auth/userinfo.email',
             'https://www.googleapis.com/auth/userinfo.profile',
