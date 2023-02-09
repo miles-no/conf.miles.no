@@ -11,6 +11,9 @@ import performance from './objects/performance';
 import urls from './objects/urls';
 import itinerary from './objects/itinerary';
 import itineraryEvent from './objects/itineraryEvent';
+import signupEvent from './objects/signupEvent';
+import signupParticipants from './objects/signupParticipants';
+import signupConference from './objects/signupConference';
 
 export default createSchema({
   name: 'default',
@@ -25,6 +28,9 @@ export default createSchema({
     performance,
     urls,
     itinerary,
-    itineraryEvent
+    itineraryEvent,
+    signupEvent,
+    signupParticipants,
+    signupConference
   ]),
 })

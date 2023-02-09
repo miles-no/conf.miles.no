@@ -24,6 +24,23 @@ export default {
       name: 'performanceUrls',
       type: 'array',
       of: [{ type: 'urls' }]
+    },
+    {
+      title: 'Internal',
+      name: 'internal',
+      type: 'boolean',
+      description: 'Internal performance will only be visible for logged-in Miles users'
+    },
+    {
+      title: 'Signup',
+      name: 'signup',
+      type: 'signupEvent'
+    },
+    {
+      title: 'Cancelled',
+      name: 'cancelled',
+      type: 'boolean',
+      description: 'Mark if event is cancelled'
     }
   ],
   preview: {

@@ -55,6 +55,13 @@ export default {
       description: 'Internal conferences will only be visible for logged-in Miles users'
     },
     {
+      title: 'Visible to offices',
+      name: 'visibleTo',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description: 'Internal conference will only be vissble to selected offices or all offices if non is selected'
+    },
+    {
       title: 'Logo',
       name: 'image',
       type: 'image',
@@ -84,6 +91,12 @@ export default {
         type: 'itinerary'
       }],
       fieldset: 'internal',
+    },
+    {
+      title: 'Signup conference',
+      name: 'signupConference',
+      type: 'array',
+      of: [{ type: 'signupConference' }]
     }
   ]
 }
