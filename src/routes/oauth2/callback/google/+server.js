@@ -23,7 +23,6 @@ export async function GET({ url, cookies }) {
     code: authCode,
 });
   const data = await tokenResponse.json();
-  console.log(test);
   if(data.error) {
     console.error(data.error);
     throw redirect(307, '/');

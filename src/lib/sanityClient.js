@@ -25,14 +25,17 @@ export async function fetchSiteSettings(slug, konferanse) {
     };
 }
 
-export async function fetchConferences() {
-    const conferences = await client.fetch(/* groq */ `
+export async function fetchConferences(user) {
+    let conferences = await client.fetch(/* groq */ `
         *[_type == "conference"] | order(endDate desc) {
             ...,
             "slug": slug.current,
             "imageUrl": image.asset->url,
         }
     `);
+    if(!user.isAuthenticated) {
+        conferences = conferences.filter((c) => !c.internal)
+    }
     return {
         conferences
     }
