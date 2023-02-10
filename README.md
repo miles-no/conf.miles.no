@@ -17,6 +17,11 @@ In the root of the project, there is a `.env.example` file that need to be clone
 
 The development branch (dev branch) is where all development is happening. On every checking to this branch there is triggered a Github Action that build and deploy the application to the development site on Azure.
 
+1) Check node version is 16.14: `node -v`.
+2) If not use nvm to (install) and/or use that node version. `nvm install 16.14` and `nvm use 16.14`.
+3) Install npm packages: `npm install`
+4) Start the application in development: `npm run dev`.
+
 ### Secrets
 
 All secrets needed for the application is located in the `.env` while developing this appliation. In the repository, there is a `.env.example` file that have all the entries needed, but no values. The complete `.env` file with the secret values is available in a [Google Drive](https://drive.google.com/drive/folders/1IFwHncCpfLgUwE10GgP3MLh95MUTXpuF?usp=share_link) folder that I have shared with the `Miles` group.
