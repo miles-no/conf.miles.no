@@ -2,10 +2,11 @@ import sanityClient from '@sanity/client';
 import {basename} from 'path'
 import {createReadStream} from 'fs'
 import { env } from '$env/dynamic/private';
+import { env } from '$env/dynamic/public';
 
 const client = sanityClient({
-  projectId: 'mhv8s2ia',
-  dataset: 'production',
+  projectId: env.PUBLIC_SANITY_PROJECTID,
+  dataset: env.PUBLIC_SANITY_DATASET,
   apiVersion: "2022-03-24",
   useCdn: false,
   token: env.SANITY_TOKEN,

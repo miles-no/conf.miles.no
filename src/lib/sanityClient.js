@@ -1,8 +1,9 @@
 import sanityClient from '@sanity/client';
+import { env } from '$env/dynamic/public';
 
 export const client = sanityClient({
-  projectId: 'mhv8s2ia',
-  dataset: 'test',//production
+  projectId: env.PUBLIC_SANITY_PROJECTID,
+  dataset: env.PUBLIC_SANITY_DATASET,
   apiVersion: "2022-03-24",
   useCdn: false,
 });
