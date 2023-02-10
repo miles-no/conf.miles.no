@@ -3,6 +3,25 @@
   "project": {
     "name": "miles-conf"
   },
+  "__experimental_spaces": [
+    {
+      "name": "production",
+      "title": "Prod",
+      "default": true,
+      "api": {
+        "projectId": "mhv8s2ia",
+        "dataset": "production"
+      }
+    },
+    {
+      "name": "test",
+      "title": "Test",
+      "api": {
+        "projectId": "mhv8s2ia",
+        "dataset": "test"
+      }
+    }
+  ],
   "api": {
     "projectId": "mhv8s2ia",
     "dataset": "production"
