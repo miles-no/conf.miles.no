@@ -1,7 +1,7 @@
 <script>
 	import TextPill from './TextPill.svelte';
 	import Hoverable from '../components/Hoverable.svelte';
-	import { formatConferenceDateRange } from '../lib';
+	import { formatConferenceDateRange } from '$lib';
 	export let conference;
 	
 	const text = formatConferenceDateRange(conference.startDate, conference.endDate);
