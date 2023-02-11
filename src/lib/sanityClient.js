@@ -27,6 +27,7 @@ export async function fetchSiteSettings(slug, konferanse) {
 }
 
 export async function fetchConferences(user) {
+    const officeId = user.cvpartnerOfficeId;
     let conferences = await client.fetch(/* groq */ `
         *[_type == "conference"] | order(endDate desc) {
             ...,
@@ -35,7 +36,9 @@ export async function fetchConferences(user) {
         }
     `);
     if(!user.isAuthenticated) {
-        conferences = conferences.filter((c) => !c.internal)
+        conferences = conferences.filter((c) => !c.internal);
+    } else {
+        conferences = conferences.filter((c) => !c.visibleTo || c.visibleTo?.includes(officeId) || c.visibleTo?.length==0)
     }
     return {
         conferences
