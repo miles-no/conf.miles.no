@@ -91,12 +91,6 @@ export default {
         type: 'itinerary'
       }],
       fieldset: 'internal',
-    },
-    {
-      title: 'Signup conference',
-      name: 'signupConference',
-      type: 'array',
-      of: [{ type: 'signupConference' }]
     }
   ]
 }

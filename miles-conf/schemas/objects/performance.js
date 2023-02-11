@@ -32,11 +32,6 @@ export default {
       description: 'Internal performance will only be visible for logged-in Miles users'
     },
     {
-      title: 'Signup',
-      name: 'signup',
-      type: 'signupEvent'
-    },
-    {
       title: 'Cancelled',
       name: 'cancelled',
       type: 'boolean',

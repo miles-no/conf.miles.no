@@ -24,7 +24,7 @@
   ],
   "api": {
     "projectId": "mhv8s2ia",
-    "dataset": "production"
+    "dataset": "test"
   },
   "plugins": [
     "@sanity/base",
