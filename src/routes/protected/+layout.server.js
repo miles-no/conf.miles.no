@@ -1,6 +1,6 @@
 import {  fetchSiteSettings } from '$lib/sanityClient';
 
-export const prerender = true;
+export const prerender = false;
 export const ssr = true;
 export const csr = false;
 
