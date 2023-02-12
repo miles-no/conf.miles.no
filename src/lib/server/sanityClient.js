@@ -5,8 +5,8 @@ import { env as private_env } from '$env/dynamic/private';
 import { env as public_env } from '$env/dynamic/public';
 
 const client = sanityClient({
-  projectId: 'mhv8s2ia', //public_env.PUBLIC_SANITY_PROJECTID,
-  dataset: 'test', //public_env.PUBLIC_SANITY_DATASET,
+  projectId: public_env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
+  dataset: public_env?.PUBLIC_SANITY_DATASET ?? 'test',
   apiVersion: "2022-03-24",
   useCdn: false,
   token: private_env.SANITY_TOKEN,
