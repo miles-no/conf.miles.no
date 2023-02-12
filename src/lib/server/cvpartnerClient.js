@@ -11,8 +11,40 @@ export async function fetchUser(email) {
     const data = await response.json();
     return {
         userid: data.id,
-        officeid: data.office_id
+        officeid: data.office_id,
+        image: data.image.url
     }
+}
+
+export async function fetchUserById(userid) {
+  const response = await fetch(`${env.CVPARTNER_BASE}/api/v1/users/${userid}`, {
+      method: 'GET',
+      mode: 'same-origin',
+      headers: {
+          'Authorization': `Token token=${env.CVPARTNER_API_KEY}`
+      }
+  });
+  const data = await response.json();
+  return {
+    userid: userid,
+    name: data.name,
+    image: data.image.url,
+    cvid: data.default_cv_id
+  }
+}
+
+export async function fetchCv(userid, cvid) {
+  const response = await fetch(`${env.CVPARTNER_BASE}/api/v3/cvs/${userid}/${cvid}`, {
+    method: 'GET',
+      mode: 'same-origin',
+      headers: {
+          'Authorization': `Token token=${env.CVPARTNER_API_KEY}`
+      }
+  });
+  const data = await response.json();
+  return {
+    bio: data.key_qualifications[0].long_description.no
+  }
 }
 
 export async function fetchOffices() {
@@ -46,7 +78,6 @@ export async function fetchUsers(officeid) {
     }
   });
   const data = await response.json();
-  console.log(data);
   const users = data.cvs.map((cvusers) => {
     return {
       id: cvusers.cv.user_id,
