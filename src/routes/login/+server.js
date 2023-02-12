@@ -1,7 +1,7 @@
 import queryString from 'query-string';
 import { redirect } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
- 
+
 /** @type {import('./$types').RequestHandler} */
 export async function GET(event) {
     const stringifiedParams = queryString.stringify({

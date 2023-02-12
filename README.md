@@ -18,7 +18,7 @@ In the root of the project, there is a `.env.example` file that need to be clone
 The development branch (dev branch) is where all development is happening. On every checking to this branch there is triggered a Github Action that build and deploy the application to the development site on Azure.
 
 1) Check node version is 16.14: `node -v`.
-2) If not use nvm to (install) and/or use that node version. `nvm install 16.14` and `nvm use 16.14`.
+2) If not use nvm to (install) and/or use that node version. `nvm install 18.14` and `nvm use 18.14`.
 3) Install npm packages: `npm install`
 4) Start the application in development: `npm run dev`.
 

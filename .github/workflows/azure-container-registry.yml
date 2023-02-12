@@ -24,6 +24,20 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          ORIGIN: https://konferanser.azurewebsites.net
+          CONF_API_KEY: ${{secrets.CONF_API_KEY}}
+          CVPARTNER_API_KEY: ${{secrets.CVPARTNER_API_KEY}}
+          CREDENTIAL_SALT: ${{secrets.CREDENTIAL_SALT}}
+          SANITY_TOKEN: ${{secrets.SANITY_TOKEN}}
+          GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
+          GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
+          PUBLIC_SANITY_DATASET: test
+          PUBLIC_SANITY_PROJECTID: mhv8s2ia
+          CVPARTNER_BASE: https://miles.cvpartner.com
+
       - name: Log in to GitHub container registry
         uses: docker/login-action@v1.10.0
         with:
@@ -45,5 +59,8 @@ jobs:
           SANITY_TOKEN: ${{secrets.SANITY_TOKEN}}
           GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
           GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
+          PUBLIC_SANITY_DATASET: test
+          PUBLIC_SANITY_PROJECTID: mhv8s2ia
+          CVPARTNER_BASE: https://miles.cvpartner.com
 
  

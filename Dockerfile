@@ -1,4 +1,4 @@
-FROM node:16.14 as build
+FROM node:18.14.0-alpine as build
 
 WORKDIR /app
 COPY package.json .
@@ -8,7 +8,7 @@ RUN npm ci
 
 RUN npm run build
 
-FROM node:16.14-alpine
+FROM node:18.14.0-alpine
 
 WORKDIR /app
 

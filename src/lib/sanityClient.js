@@ -1,8 +1,9 @@
 import sanityClient from '@sanity/client';
+import { env } from '$env/dynamic/public';
 
 export const client = sanityClient({
-  projectId: 'mhv8s2ia',
-  dataset: 'production',
+  projectId: env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
+  dataset: env?.PUBLIC_SANITY_DATASET ?? 'test',
   apiVersion: "2022-03-24",
   useCdn: false,
 });
@@ -25,14 +26,20 @@ export async function fetchSiteSettings(slug, konferanse) {
     };
 }
 
-export async function fetchConferences() {
-    const conferences = await client.fetch(/* groq */ `
+export async function fetchConferences(user) {
+    const officeId = user.cvpartnerOfficeId;
+    let conferences = await client.fetch(/* groq */ `
         *[_type == "conference"] | order(endDate desc) {
             ...,
             "slug": slug.current,
             "imageUrl": image.asset->url,
         }
     `);
+    if(!user.isAuthenticated) {
+        conferences = conferences.filter((c) => !c.internal);
+    } else {
+        conferences = conferences.filter((c) => !c.visibleTo || c.visibleTo?.includes(officeId) || c.visibleTo?.length==0)
+    }
     return {
         conferences
     }

@@ -1,11 +1,14 @@
 <script>
 	import TextPill from './TextPill.svelte';
 	import Hoverable from '../components/Hoverable.svelte';
-	import { formatConferenceDateRange } from '../lib';
+	import { formatConferenceDateRange } from '$lib';
 	export let conference;
 	
 	const text = formatConferenceDateRange(conference.startDate, conference.endDate);
-	const isFinished = new Date().getTime() > new Date(conference.endDate).getTime();
+	const startOfDay = new Date();
+	startOfDay.setDate(startOfDay.getDate());
+	startOfDay.setHours(0,0,0,0);
+	const isFinished = startOfDay.getTime() > new Date(conference.endDate).getTime();
 </script>
 
 <Hoverable let:hovering={active}>

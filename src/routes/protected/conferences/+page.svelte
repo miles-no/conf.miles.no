@@ -1,6 +1,6 @@
 <script>
     export let data = {}
-    console.log(data);
+    // console.log(data);
 </script>
 
 <h1>Konferanser</h1>

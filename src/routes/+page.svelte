@@ -4,7 +4,6 @@
 	export let data = {};
 	export let conferences = data.conferences;
 	export let allConferencesLoaded = false;
-	$: filteredConferences = conferences.filter((c) => !c.internal);
 
 	const loadAllConferences = async () => {
 		conferences = await client.fetch(/* groq */ `

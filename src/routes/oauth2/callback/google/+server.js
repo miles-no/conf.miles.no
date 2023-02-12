@@ -1,6 +1,7 @@
 import { env } from '$env/dynamic/private';
 import { dev } from '$app/environment';
 import { redirect } from '@sveltejs/kit';
+import { fetchUser } from '$lib/server/cvpartnerClient';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ url, cookies }) {
@@ -23,7 +24,6 @@ export async function GET({ url, cookies }) {
     code: authCode,
 });
   const data = await tokenResponse.json();
-  console.log(test);
   if(data.error) {
     console.error(data.error);
     throw redirect(307, '/');
@@ -35,13 +35,15 @@ export async function GET({ url, cookies }) {
         },
     });
     const profileData = await profileResponse.json();
-    console.log(profileData);
+    const cvpartner = await fetchUser(profileData.email);
     const authInfo = {
       isAuthenticated: true,
       id: profileData.id,
       name: `${profileData.given_name} ${profileData.family_name}`,
       email: profileData.email,
       profileImage: profileData.picture,
+      cvpartnerUserId: cvpartner.userid,
+      cvpartnerOfficeId: cvpartner.officeid,
       access_token: data.access_token,
       expires_in: data.expires_in,
       refresh_token: data.refresh_token,

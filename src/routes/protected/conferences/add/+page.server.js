@@ -1,5 +1,5 @@
 // import { fetchConferences } from '$lib/sanityClient';
-import { createConference } from '$lib/server/sanityClient';
+//import { createConference } from '$lib/server/sanityClient';
 
 export const prerender = false;
 export const ssr = true;
