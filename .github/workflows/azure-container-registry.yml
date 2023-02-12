@@ -45,5 +45,8 @@ jobs:
           SANITY_TOKEN: ${{secrets.SANITY_TOKEN}}
           GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
           GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
+          PUBLIC_SANITY_DATASET: test
+          PUBLIC_SANITY_PROJECTID: mhv8s2ia
+          CVPARTNER_BASE: https://miles.cvpartner.com
 
  
