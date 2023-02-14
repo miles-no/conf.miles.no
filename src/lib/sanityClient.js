@@ -35,6 +35,7 @@ export async function fetchConferences(user) {
             "imageUrl": image.asset->url,
         }
     `);
+    console.log(user);
     if(!user.isAuthenticated) {
         conferences = conferences.filter((c) => !c.internal);
     } else {
