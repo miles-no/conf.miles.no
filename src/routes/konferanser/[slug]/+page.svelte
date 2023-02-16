@@ -30,9 +30,6 @@
 		intlFormat(date, { day: '2-digit', month: 'long' }, { locale: 'nb-NO' })
 	]);
 	
-	// $: day = ((new Date() >= new Date(startDate)) && (new Date() < new Date(endDate)) && (performanceDays.includes(new Date().toDateString())))
-	// 	? new Date().toDateString()
-	// 	: new Date(performanceDays[0]).toDateString();
 	$: day = ((new Date() >= new Date(startDate)) && (new Date() < new Date(endDate)))
 		? new Date().toDateString()
 		: new Date(startDate).toDateString();		
