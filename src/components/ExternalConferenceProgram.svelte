@@ -7,6 +7,8 @@
 	export let conference;
 	export let day;
 
+	console.log(day);
+
 	let performance_groups = [];
 	if (conference.performances) {
 		performance_groups = Object.values(conference.performances).reduce((pgs, e) => {
@@ -24,29 +26,28 @@
 	$: times = performance_groups[day] || false;
 </script>
 
-<div class="group-text">
-	{intlFormat(
-		new Date(day),
-		{
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric'
-		},
-		{ locale: 'nb-NO' }
-	)}
-</div>
-
 {#if !conference.performances || !times}
-	<div class="d-flex flex-column mb-5">
+	<!-- <div class="d-flex flex-column mb-5">
 		<h1 class="mb-0">Her var det tomt, gitt.</h1>
 		<p class="mb-0">
 			Det er foreløpig ingen planlagte innslag fra Miles på {conference.title}.
 		</p>
-	</div>
+	</div> -->
 	<div class="d-flex flex-row align-center">
 		<a href="/"><ArrowLeft /> Tilbake til konferanseoversikten</a>
 	</div>
 {:else}
+	<div class="group-text">
+		{intlFormat(
+			new Date(day),
+			{
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric'
+			},
+			{ locale: 'nb-NO' }
+		)}
+	</div>
 	<div class="d-grid">
 		{#each Object.entries(times) as [time, performances] (time)}
 			<div
