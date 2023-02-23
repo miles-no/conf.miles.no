@@ -2,15 +2,16 @@ import sanityClient from '@sanity/client';
 import { env } from '$env/dynamic/public';
 
 export const client = sanityClient({
-  projectId: env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
-  dataset: env?.PUBLIC_SANITY_DATASET ?? 'test',
-  apiVersion: "2022-03-24",
-  useCdn: false,
+	projectId: env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
+	dataset: env?.PUBLIC_SANITY_DATASET ?? 'test',
+	apiVersion: '2022-03-24',
+	useCdn: false
 });
 
 export async function fetchSiteSettings(slug, konferanse) {
-    const result = await client.fetch(/* groq */ 
-        `
+	const result = await client.fetch(
+		/* groq */
+		`
             {
             'settings': *[_type == 'siteSettings'][0] {
                 ...,
@@ -18,37 +19,39 @@ export async function fetchSiteSettings(slug, konferanse) {
             }
             }
         `,
-        { slug, konferanse }
-    );
-    return {
-        siteLogo: result.settings.siteLogo,
-        siteName: result.settings.siteName
-    };
+		{ slug, konferanse }
+	);
+	return {
+		siteLogo: result.settings.siteLogo,
+		siteName: result.settings.siteName
+	};
 }
 
 export async function fetchConferences(user) {
-    const officeId = user.cvpartnerOfficeId;
-    let conferences = await client.fetch(/* groq */ `
+	const officeId = user.cvpartnerOfficeId;
+	let conferences = await client.fetch(/* groq */ `
         *[_type == "conference"] | order(endDate desc) {
             ...,
             "slug": slug.current,
             "imageUrl": image.asset->url,
         }
     `);
-    console.log(user);
-    if(!user.isAuthenticated) {
-        conferences = conferences.filter((c) => !c.internal);
-    } else {
-        conferences = conferences.filter((c) => !c.visibleTo || c.visibleTo?.includes(officeId) || c.visibleTo?.length==0)
-    }
-    return {
-        conferences
-    }
+	console.log(user);
+	if (!user.isAuthenticated) {
+		conferences = conferences.filter((c) => c.showExternally || !c.internal);
+	} else {
+		conferences = conferences.filter(
+			(c) => !c.visibleTo || c.visibleTo?.includes(officeId) || c.visibleTo?.length == 0
+		);
+	}
+	return {
+		conferences
+	};
 }
 
 export async function fetchConference(slug) {
-    const conference = await client.fetch(
-        /* groq */ `
+	const conference = await client.fetch(
+		/* groq */ `
         *[
             _type == "conference" &&
             slug.current == $slug
@@ -64,16 +67,16 @@ export async function fetchConference(slug) {
             }
         }
     `,
-        { slug }
-    );
-    return {
-        conference: conference
-    }
+		{ slug }
+	);
+	return {
+		conference: conference
+	};
 }
 
 export async function fetchConferencePerformance(konferanse, slug) {
-    const conference = await client.fetch(
-        /* groq */ `
+	const conference = await client.fetch(
+		/* groq */ `
             *[
         _type == "conference" &&
         slug.current == $konferanse
@@ -102,9 +105,9 @@ export async function fetchConferencePerformance(konferanse, slug) {
         }
         }
         `,
-        { konferanse, slug }
-    );
-    return {
-        conference: conference
-    }
+		{ konferanse, slug }
+	);
+	return {
+		conference: conference
+	};
 }
