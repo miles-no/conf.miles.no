@@ -4,6 +4,8 @@
 	import DaySelect from '../../../components/DaySelect.svelte';
 	import ExternalConferenceProgram from '../../../components/ExternalConferenceProgram.svelte';
 	import InternalConferenceProgram from '../../../components/InternalConferenceProgram.svelte';
+	import { onMount } from 'svelte';
+	import { redirect } from '@sveltejs/kit';
 	export let data = {};
 	export let conference = data.conference;
 
@@ -17,22 +19,44 @@
 	console.log(conference);
 
 	// Using all dates from start to end
-	$: performanceDays = conference.performances == null ? 
-		conference.itinerary == null ? [] : conference.itinerary.map((m) => { return new Date(m.itineraryDate) }).sort().reverse().map((m) => { return new Date(m).toDateString() })
-		: conference.performances.map((m) => { return new Date(m.dateAndTime) }).sort().map((m) => { return new Date(m).toDateString(); });
+	$: performanceDays =
+		conference.performances == null
+			? conference.itinerary == null
+				? []
+				: conference.itinerary
+						.map((m) => {
+							return new Date(m.itineraryDate);
+						})
+						.sort()
+						.reverse()
+						.map((m) => {
+							return new Date(m).toDateString();
+						})
+			: conference.performances
+					.map((m) => {
+						return new Date(m.dateAndTime);
+					})
+					.sort()
+					.map((m) => {
+						return new Date(m).toDateString();
+					});
 
 	$: startDate = performanceDays.length > 0 ? performanceDays[0] : conference.startDate;
-	$: endDate = performanceDays.length > 0 ? performanceDays[performanceDays.length-1] : conference.endDate;
+	$: endDate =
+		performanceDays.length > 0 ? performanceDays[performanceDays.length - 1] : conference.endDate;
 
-	$: dates = getDaysArray(startDate, endDate).filter((f) => performanceDays.includes(f.toDateString())).map((date) => [
-		date.toDateString(),
-		intlFormat(date, { weekday: 'long' }, { locale: 'nb-NO' }),
-		intlFormat(date, { day: '2-digit', month: 'long' }, { locale: 'nb-NO' })
-	]);
-	
-	$: day = ((new Date() >= new Date(startDate)) && (new Date() < new Date(endDate)))
-		? new Date().toDateString()
-		: new Date(startDate).toDateString();		
+	$: dates = getDaysArray(startDate, endDate)
+		.filter((f) => performanceDays.includes(f.toDateString()))
+		.map((date) => [
+			date.toDateString(),
+			intlFormat(date, { weekday: 'long' }, { locale: 'nb-NO' }),
+			intlFormat(date, { day: '2-digit', month: 'long' }, { locale: 'nb-NO' })
+		]);
+
+	$: day =
+		new Date() >= new Date(startDate) && new Date() < new Date(endDate)
+			? new Date().toDateString()
+			: new Date(startDate).toDateString();
 </script>
 
 <svelte:head>
@@ -42,7 +66,7 @@
 <div class="container-lg">
 	<!-- {@debug performanceDays} -->
 	<BreadCrumb {conference} />
-	<DaySelect options={dates} bind:selected={day}/>
+	<DaySelect options={dates} bind:selected={day} />
 	<div class="pt-4">
 		{#if conference.internal}
 			<InternalConferenceProgram {conference} {day} />

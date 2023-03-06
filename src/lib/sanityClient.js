@@ -21,6 +21,7 @@ export async function fetchSiteSettings(slug, konferanse) {
         `,
 		{ slug, konferanse }
 	);
+
 	return {
 		siteLogo: result.settings.siteLogo,
 		siteName: result.settings.siteName
@@ -36,7 +37,6 @@ export async function fetchConferences(user) {
             "imageUrl": image.asset->url,
         }
     `);
-	console.log(user);
 	if (!user.isAuthenticated) {
 		conferences = conferences.filter((c) => c.showExternally || !c.internal);
 	} else {
