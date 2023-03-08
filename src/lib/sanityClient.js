@@ -38,7 +38,8 @@ export async function fetchConferences(user) {
         }
     `);
 	if (!user.isAuthenticated) {
-		conferences = conferences.filter((c) => c.showExternally || !c.internal);
+		// conferences = conferences.filter((c) => c.showExternally || !c.internal);
+		conferences = conferences.filter((c) => c.showExternally);
 	} else {
 		conferences = conferences.filter(
 			(c) => !c.visibleTo || c.visibleTo?.includes(officeId) || c.visibleTo?.length == 0

@@ -13,6 +13,7 @@ export async function load({ cookies }) {
 	}
 	allConferencesLoaded = true;
 	return {
+		user: user,
 		conferences: conferences.conferences
 	};
 }

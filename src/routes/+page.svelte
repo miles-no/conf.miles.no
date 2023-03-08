@@ -1,5 +1,6 @@
 <script>
 	import Conferences from '../components/Conferences.svelte';
+	import ExternalContent from '../components/ExternalContent.svelte';
 	import Hoverable from '../components/Hoverable.svelte';
 	export let data = {};
 	export let conferences = data.conferences;
@@ -25,15 +26,15 @@
 </svelte:head>
 
 <div class="container">
-	<Conferences {conferences} />
-	{#if !allConferencesLoaded}
-		<Hoverable let:hovering={active}>
-			<!-- svelte-ignore a11y-missing-attribute -->
-			<div class="p-2 generic-link" class:active on:click={loadAllConferences}>
-				Se alle konferanser
-			</div>
-		</Hoverable>
-	{/if}
+	{#if !user.isAuthenticated}<ExternalContent {conferences} />{:else}<Conferences {conferences} />
+		{#if !allConferencesLoaded}
+			<Hoverable let:hovering={active}>
+				<!-- svelte-ignore a11y-missing-attribute -->
+				<div class="p-2 generic-link" class:active on:click={loadAllConferences}>
+					Se alle konferanser
+				</div>
+			</Hoverable>
+		{/if}{/if}
 </div>
 
 <style>
