@@ -15,14 +15,12 @@ export async function load({ params, cookies }) {
 		};
 	}
 
-	if (
-		!user.isAuthenticated &&
-		(conference.conference.internal || !conference.conference.showExternally)
-	) {
+	if (!user.isAuthenticated && !conference.conference.showExternally) {
 		throw redirect(307, '/');
 	}
 
 	return {
+		user: user,
 		conference: conference.conference
 	};
 }

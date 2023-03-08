@@ -25,13 +25,19 @@ export const parseJwt = (token) => {
 };
 
 export const formatConferenceDateRange = (sDate, eDate) => {
-  const startDate = new Date(sDate);
-  const endDate = new Date(eDate);
-  if (getDay(startDate) === getDay(endDate)) {
-	return `${format(new Date(endDate), 'd MMMM', {locale: nb})}`;
-  }
-  if (getMonth(startDate) === getMonth(endDate)) {
-    return `${format(new Date(startDate), 'd')}-${format(new Date(endDate), 'd MMMM', {locale: nb})}`;
-  }
-  return `${format(new Date(startDate), 'd MMM', {locale: nb})} - ${format(new Date(endDate), 'd MMM', {locale: nb})}`;
-}
+	const startDate = new Date(sDate);
+	const endDate = new Date(eDate);
+	if (getDay(startDate) === getDay(endDate)) {
+		return `${format(new Date(endDate), 'd.MMMM', { locale: nb })}`;
+	}
+	if (getMonth(startDate) === getMonth(endDate)) {
+		return `${format(new Date(startDate), 'd')}-${format(new Date(endDate), 'd.MMMM', {
+			locale: nb
+		})}`;
+	}
+	return `${format(new Date(startDate), 'd.MMM', { locale: nb })} - ${format(
+		new Date(endDate),
+		'd.MMM',
+		{ locale: nb }
+	)}`;
+};

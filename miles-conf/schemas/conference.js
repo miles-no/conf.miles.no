@@ -3,6 +3,7 @@ export default {
 	type: 'document',
 	title: 'Conferences',
 	fieldsets: [
+		{ name: 'signUp', title: 'Signup' },
 		{
 			name: 'internal',
 			title: 'Internal Conference',
@@ -20,6 +21,11 @@ export default {
 			type: 'string',
 			title: 'Title',
 			validation: (Rule) => Rule.required()
+		},
+		{
+			name: 'description',
+			type: 'text',
+			title: 'Description'
 		},
 		{
 			title: 'Slug',
@@ -42,6 +48,7 @@ export default {
 			type: 'date',
 			validation: (Rule) => Rule.required().min(Rule.valueOfField('startDate'))
 		},
+		{ name: 'location', title: 'Location', type: 'string' },
 		{
 			title: 'Performances',
 			name: 'performances',
@@ -49,10 +56,17 @@ export default {
 			of: [{ type: 'performance' }]
 		},
 		{
+			title: 'Link to signup',
+			name: 'signupLink',
+			type: 'url',
+			fieldset: 'signUp'
+		},
+		{ title: 'Signup Deadline', name: 'deadline', type: 'datetime', fieldset: 'signUp' },
+		{
 			title: 'Internal',
 			name: 'internal',
 			type: 'boolean',
-			description: 'Internal conferences will only be visible for logged-in Miles users'
+			description: 'Event is hosted by Miles'
 		},
 		{
 			title: 'Visible to offices',

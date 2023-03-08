@@ -4,10 +4,35 @@
 	import DaySelect from '../../../components/DaySelect.svelte';
 	import ExternalConferenceProgram from '../../../components/ExternalConferenceProgram.svelte';
 	import InternalConferenceProgram from '../../../components/InternalConferenceProgram.svelte';
-	import { onMount } from 'svelte';
-	import { redirect } from '@sveltejs/kit';
+
+	import Tab, { Label } from '@smui/tab';
+	import TabBar from '@smui/tab-bar';
+	import Button, { Icon } from '@smui/button';
+	import LayoutGrid, { Cell, InnerGrid } from '@smui/layout-grid';
+
+	import InformationCard from '../../../components/InformationCard.svelte';
+	import PerformanceCard from '../../../components/PerformanceCard.svelte';
+	import { formatConferenceDateRange } from '$lib';
 	export let data = {};
 	export let conference = data.conference;
+	export let user = data.user;
+
+	const start_time = conference.itinerary ? conference.itinerary[0]?.events[0].startTime : '';
+	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
+
+	const formatDeadline = (deadline) => {
+		const deadline_formated =
+			deadline &&
+			new Date(new Date(deadline).getTime() - new Date(deadline).getTimezoneOffset() * 60000)
+				.toISOString()
+				.split('T');
+		const deadline_date = formatConferenceDateRange(deadline_formated[0], deadline_formated[0]);
+		const deadline_time_array = deadline_formated[1].split(':');
+		deadline_time_array.splice(2);
+		const deadline_time = deadline_time_array.join(':');
+
+		return [deadline_date, deadline_time];
+	};
 
 	const getDaysArray = (s, e) => {
 		for (var a = [], d = new Date(s); d <= new Date(e); d.setDate(d.getDate() + 1)) {
@@ -17,6 +42,9 @@
 	};
 
 	console.log(conference);
+	const deadline =
+		conference.deadline &&
+		`${formatDeadline(conference.deadline)[0]},${formatDeadline(conference.deadline)[1]}`;
 
 	// Using all dates from start to end
 	$: performanceDays =
@@ -57,21 +85,106 @@
 		new Date() >= new Date(startDate) && new Date() < new Date(endDate)
 			? new Date().toDateString()
 			: new Date(startDate).toDateString();
+
+	let activeTab = 'Informasjon';
+
+	const eventDetails = {
+		Dato: date,
+		Tidspunkt: start_time ? start_time : '',
+		Lokasjon: conference.location ? conference.location : '',
+		Påmeldingsfrist: deadline ? deadline : ''
+	};
 </script>
 
 <svelte:head>
 	<title>{conference.title} | Miles</title>
 </svelte:head>
 
-<div class="container-lg">
+<class class="container">
 	<!-- {@debug performanceDays} -->
 	<BreadCrumb {conference} />
-	<DaySelect options={dates} bind:selected={day} />
-	<div class="pt-4">
-		{#if conference.internal}
-			<InternalConferenceProgram {conference} {day} />
+	{#if user.isAuthenticated}
+		<DaySelect options={dates} bind:selected={day} />
+		<div class="pt-4">
+			{#if conference.internal}
+				<InternalConferenceProgram {conference} {day} />
+			{:else}
+				<ExternalConferenceProgram {conference} {day} />
+			{/if}
+		</div>
+	{:else}
+		<div class="title mdc-typography--headline4">{conference.title}</div>
+
+		<TabBar tabs={['Informasjon', 'Program']} let:tab bind:active={activeTab}>
+			<!-- Note: the `tab` property is required! -->
+			<Tab {tab} minWidth>
+				<Label>{tab}</Label>
+			</Tab>
+		</TabBar>
+
+		{#if activeTab === 'Informasjon'}
+			<LayoutGrid style="width:100%">
+				<Cell spanDevices={{ desktop: 7, tablet: 8, phone: 4 }} style="margin-right:2rem;"
+					><div class="description-section">{conference.description}</div></Cell
+				>
+				<Cell spanDevices={{ desktop: 5, tablet: 8, phone: 4 }}
+					><div class="info-section">
+						<Button on:click={() => clicked++} touch variant="raised" style="width: 100%">
+							<Icon class="material-icons">add</Icon>
+							<Label>Meld deg på</Label>
+						</Button>
+
+						<InformationCard information={eventDetails} />
+					</div></Cell
+				>
+				{#if conference.performances}
+					<Cell span={12}>
+						BIDRAG:
+						<div class="contributions-section">
+							<LayoutGrid style="padding-left:0px; padding-right:0px;">
+								{#each conference.performances as performance}
+									<Cell spanDevices={{ desktop: 6, tablet: 8, phone: 4 }}>
+										<PerformanceCard {performance} />
+									</Cell>
+								{/each}
+							</LayoutGrid>
+						</div></Cell
+					>
+				{/if}
+			</LayoutGrid>
+			<div />
 		{:else}
-			<ExternalConferenceProgram {conference} {day} />
+			<DaySelect options={dates} bind:selected={day} />
+			<div class="pt-4">
+				{#if conference.internal}
+					<InternalConferenceProgram {conference} {day} />
+				{:else}
+					<ExternalConferenceProgram {conference} {day} />
+				{/if}
+			</div>
 		{/if}
-	</div>
-</div>
+	{/if}
+</class>
+
+<style>
+	.title {
+		font-weight: bold;
+	}
+	.container {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	.info-section {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		width: 100%;
+		min-width: 356px;
+	}
+
+	.description-section {
+		white-space: pre-wrap;
+	}
+</style>

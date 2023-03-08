@@ -1,11 +1,14 @@
 <script>
 	import Conference from './Conference.svelte';
-	import {endOfDay} from 'date-fns';
+	import { endOfDay } from 'date-fns';
 	export let conferences = [];
-	
-	$: being = conferences.filter(conf => new Date(conf.startDate) <= Date.now() && Date.now() <= endOfDay(new Date(conf.endDate)));
-	$: to_be = conferences.filter(conf => new Date(conf.startDate) >= Date.now());
-	$: done = conferences.filter(conf => new Date(conf.endDate) < Date.now());
+
+	$: being = conferences.filter(
+		(conf) =>
+			new Date(conf.startDate) <= Date.now() && Date.now() <= endOfDay(new Date(conf.endDate))
+	);
+	$: to_be = conferences.filter((conf) => new Date(conf.startDate) >= Date.now());
+	$: done = conferences.filter((conf) => new Date(conf.endDate) < Date.now());
 </script>
 
 <div class="mb-5">
@@ -27,7 +30,7 @@
 <style>
 	.heading {
 		font-weight: 300;
-		margin: 1em 0 .25em 1vw;
+		margin: 1em 0 0.25em 1vw;
 		font-size: 300%;
 	}
 </style>
