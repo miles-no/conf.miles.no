@@ -12,10 +12,13 @@
 	$: done = conferences.filter((conf) => new Date(conf.endDate) < Date.now());
 </script>
 
-<LayoutGrid>
-	{#each to_be.reverse() as conference (conference.title)}
-		<Cell>
-			<EventCard event={conference} />
-		</Cell>
-	{/each}
-</LayoutGrid>
+<div>
+	<h1 class="mdc-typography--headline4 pt-4" style="font-weight: bold;">Dette skjer i Miles:</h1>
+	<LayoutGrid>
+		{#each to_be.reverse() as conference (conference.title)}
+			<Cell>
+				<EventCard event={conference} />
+			</Cell>
+		{/each}
+	</LayoutGrid>
+</div>
