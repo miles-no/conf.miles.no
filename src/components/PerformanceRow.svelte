@@ -42,15 +42,11 @@
 				{/if}
 				<div>
 					<div class="event-title">
-						{#if is_workshop}
-							<a
-								class="event-link"
-								href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}
-								>{performance.submission.title} >></a
-							>
-						{:else}
-							{performance.submission.title}
-						{/if}
+						<a
+							class="event-link"
+							href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}
+							>{performance.submission.title} >></a
+						>
 					</div>
 					<div class="of d-flex flex-row gap-2">
 						{#each performance.submission.authors as author}
@@ -92,11 +88,18 @@
 	}
 	.event-link {
 		text-decoration: underline;
+		color: #0c2338;
+		font-weight: bold;
+	}
+	.event-link:visited {
+		color: #0c2338;
 	}
 	.event-decription {
 		font-size: small;
 		font-weight: 300;
 		padding-bottom: -1rem;
+		color: #0c2338;
+		margin-top: 1rem;
 	}
 	.event-location {
 		font-style: italic;
@@ -114,11 +117,13 @@
 		font-weight: 400;
 		word-break: break-word;
 		font-size: 14px;
-		color: #222222;
+		color: #0c2338;
 	}
+
 	.author-name {
-		font-weight: 300;
+		font-weight: bold;
 		font-size: small;
+		font-style: italic;
 	}
 	input[type='checkbox'] {
 		-webkit-appearance: none;

@@ -6,9 +6,10 @@
 	export let day;
 
 	$: itinerary = conference.itinerary
-		? conference.itinerary.find((i) => new Date(i.itineraryDate).getDate() === new Date(day).getDate())
+		? conference.itinerary.find(
+				(i) => new Date(i.itineraryDate).getDate() === new Date(day).getDate()
+		  )
 		: null;
-
 </script>
 
 <span>
@@ -75,7 +76,7 @@
 	}
 	.event-btn {
 		color: white;
-		background-color: #d76e6e;
+		background-color: #b12f2a;
 		margin-bottom: 2px;
 	}
 	.event-container {
