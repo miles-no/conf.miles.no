@@ -33,7 +33,6 @@
 	const single_performance = getTimeslotPerformances(event).length == 1;
 	const checkbox_key = 'Event-' + event._key;
 	$: only_selected = $checkboxStore[checkbox_key];
-	console.log('event:', getTimeslotPerformances(event));
 </script>
 
 {#if event.containsPerformances && conference.performances}
