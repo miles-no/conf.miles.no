@@ -6,6 +6,7 @@
 	export let event;
 	export let conference;
 	export let only_selected;
+	export let single_performance;
 
 	function setChecked() {
 		if (!only_selected) {
@@ -16,21 +17,23 @@
 		}
 	}
 
-	let show_info = false;
+	let show_info = single_performance ? true : false;
 	let is_workshop = event.description.toLowerCase() === 'workshop';
 </script>
 
-<div 
+<div
 	class="p-2 pe-3"
-	on:click={() => (show_info = !show_info)} 
+	on:click={() => (show_info = !show_info)}
+	on:keyup={() => (show_info = !show_info)}
 >
 	<div class="d-flex flex-row justify-content-between">
 		<div class="d-flex flex-column me-2">
 			<div class="d-flex flex-row gap-3 align-items-center">
-				{#if performances_store}
+				{#if performances_store && !single_performance}
 					<label class="d-flex" style="align-items: center;">
 						<input
 							on:click|stopPropagation={setChecked}
+							on:keyup|stopPropagation={setChecked}
 							disabled={only_selected}
 							type="checkbox"
 							checked={Boolean($performances_store[performance.submission._id])}
