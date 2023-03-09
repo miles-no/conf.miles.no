@@ -47,6 +47,9 @@ body {
 a {
 	color: color.scale(#ffffff, $lightness: -15%);
 }
+a:hover {
+	color: color.scale(#ffffff, $lightness: -25%);
+}
 a:visited {
 	color: color.scale(#ffffff, $lightness: -15%);
 }
