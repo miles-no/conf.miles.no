@@ -11,7 +11,7 @@
 <style>
 	.info-pill {
 		padding: 0.5rem;
-		border: 1px solid black;
+		border: 1px solid;
 		width: fit-content;
 		display: flex;
 		gap: 0.5rem;

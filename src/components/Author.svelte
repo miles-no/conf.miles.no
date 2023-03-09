@@ -1,6 +1,15 @@
 <script>
 	import { PortableText } from '@portabletext/svelte';
 	import { Facebook, Twitter, Linkedin, Mail, Instagram, Building } from 'lucide-svelte';
+	import Card, {
+		Content,
+		PrimaryAction,
+		Media,
+		MediaContent,
+		Actions,
+		ActionButtons,
+		ActionIcons
+	} from '@smui/card';
 	import imageUrlBuilder from '@sanity/image-url';
 	import { client } from '$lib/sanityClient';
 	export let author = {};
@@ -19,7 +28,7 @@
 	}
 </script>
 
-<div class="author-container">
+<Card>
 	<div class="heading-wrapper">
 		<div class="author-heading ">
 			<img
@@ -57,14 +66,14 @@
 			{/each}
 		</div>
 	</div>
-</div>
+</Card>
 
 <style>
 	.gray-scale {
 		filter: grayscale(100%);
 	}
 	.author-container {
-		border: 1px solid black;
+		border: 1px solid;
 		border-radius: 15px;
 		min-width: 429px;
 	}

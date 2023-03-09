@@ -88,36 +88,36 @@
 	}
 	.event-link {
 		text-decoration: underline;
-		color: #0c2338;
+		/* color: #0c2338; */
 		font-weight: bold;
 	}
 	.event-link:visited {
-		color: #0c2338;
+		/* color: #0c2338; */
 	}
 	.event-decription {
 		font-size: small;
 		font-weight: 300;
 		padding-bottom: -1rem;
-		color: #0c2338;
+		/* color: #0c2338; */
 		margin-top: 1rem;
 	}
 	.event-location {
 		font-style: italic;
 		font-weight: 400;
 		font-size: 14px;
-		color: #222222;
+		/* color: #222222; */
 	}
 	.event-time {
 		font-style: italic;
 		font-weight: 400;
 		font-size: 14px;
-		color: #222222;
+		/* color: #222222; */
 	}
 	.event-title {
 		font-weight: 400;
 		word-break: break-word;
 		font-size: 14px;
-		color: #0c2338;
+		/* color: #0c2338; */
 	}
 
 	.author-name {

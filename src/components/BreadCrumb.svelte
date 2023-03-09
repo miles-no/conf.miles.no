@@ -3,7 +3,7 @@
 	export let submission = false;
 </script>
 
-<div class="d-flex justify-content-center">
+<div class="breadcrumb-container">
 	<nav style="--bs-breadcrumb-divider: '@';" aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="/">Miles</a></li>
@@ -28,6 +28,14 @@
 </div>
 
 <style>
+	.breadcrumb-container {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 2rem;
+	}
+	.breadcrumb {
+		justify-content: center;
+	}
 	.breadcrumb li > a {
 		color: inherit;
 		font-weight: 700;
@@ -36,6 +44,5 @@
 
 	.breadcrumb li:before {
 		font-weight: 900;
-		color: #000;
 	}
 </style>
