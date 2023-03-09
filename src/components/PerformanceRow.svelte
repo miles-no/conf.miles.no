@@ -62,7 +62,7 @@
 			class="d-flex flex-column align-items-end"
 			style="width: fit-content; white-space: nowrap;"
 		>
-			<div class="event-location">{performance.location}</div>
+			<div class="event-location">{performance.location != null ? performance.location : ''}</div>
 			<div class="event-time">
 				{intlFormat(
 					new Date(performance.dateAndTime),
