@@ -129,7 +129,13 @@
 				>
 				<Cell spanDevices={{ desktop: 5, tablet: 8, phone: 4 }}
 					><div class="info-section">
-						<Button on:click={() => clicked++} touch variant="raised" style="width: 100%">
+						<Button
+							href={conference.signupLink}
+							target="_blank"
+							touch
+							variant="raised"
+							style="width: 100%"
+						>
 							<Icon class="material-icons">add</Icon>
 							<Label>Meld deg på</Label>
 						</Button>

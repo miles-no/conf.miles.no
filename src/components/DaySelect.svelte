@@ -19,13 +19,13 @@
 		overflow-x: auto;
 	}
 	.styled-scrollbars::-webkit-scrollbar {
-		border-top: solid 1px #d76e6e;
+		border-top: solid 1px #dd282e;
 		width: 3px; /* Mostly for vertical scrollbars */
 		height: 3px; /* Mostly for horizontal scrollbars */
 	}
 	.styled-scrollbars::-webkit-scrollbar-thumb {
 		/* Foreground */
-		background-color: #d76e6e;
+		background-color: #dd282e;
 	}
 	.styled-scrollbars::-webkit-scrollbar-track {
 		/* Background */
@@ -64,7 +64,7 @@
 		border-radius: 0;
 		transform: scale(0);
 		transition: 100ms transform ease-in-out;
-		background-color: #d76e6e;
+		background-color: #dd282e;
 	}
 
 	input[type='radio']:checked::before {
