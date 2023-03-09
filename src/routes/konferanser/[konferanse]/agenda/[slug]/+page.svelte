@@ -41,8 +41,8 @@
 						text={submissionTranslation[`${submission.submissionType}`]}
 						PillIcon={submissionTypeIcon[`${submission.submissionType}`]}
 					/>
-					<div class="mb-2">
-						<span class="me-3">
+					<div class="mb-2 d-flex">
+						<span class="me-3 time-date">
 							<CalendarClock />
 							<span>
 								{intlFormat(
@@ -52,7 +52,7 @@
 								)}
 							</span>
 						</span>
-						<span>
+						<span class="time-date">
 							<Clock />
 							<span>
 								{intlFormat(
@@ -98,6 +98,11 @@
 		line-height: 2em;
 	}
 
+	.time-date {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
 	.submission-details {
 		display: flex;
 		flex-direction: column;

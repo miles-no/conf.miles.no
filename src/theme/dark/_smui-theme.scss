@@ -41,14 +41,14 @@
 html,
 body {
 	background-color: #000;
-	color: theme.$on-surface;
+	color: theme.$on-surface !important;
 }
 
 a {
-	color: #40b3ff;
+	color: color.scale(#ffffff, $lightness: -15%);
 }
 a:visited {
-	color: color.scale(#000000, $lightness: -35%);
+	color: color.scale(#ffffff, $lightness: -15%);
 }
 
 html {
@@ -57,6 +57,7 @@ html {
 
 h1 {
 	@include typography.typography('headline1');
+	color: color.scale(#ffffff, $lightness: -15%);
 }
 
 h2 {
