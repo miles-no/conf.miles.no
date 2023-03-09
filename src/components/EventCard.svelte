@@ -28,20 +28,24 @@
 	<Card href="konferanser/{event.slug}">
 		<Media class="card-media-16x9" aspectRatio="16x9">
 			<MediaContent
-				><img
-					style="width: 100%; height: 100%;"
-					alt=""
-					src={event.imageUrl
-						? urlFor(event.imageUrl).size(500, 300).quality(100).url()
-						: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
-					height="300"
-					width="500"
-				/></MediaContent
+				><a href="konferanser/{event.slug}"
+					><img
+						style="width: 100%; height: 100%;"
+						alt=""
+						src={event.imageUrl
+							? urlFor(event.imageUrl).size(500, 300).quality(100).url()
+							: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
+						height="300"
+						width="500"
+					/></a
+				></MediaContent
 			>
 		</Media>
 
 		<Content>
-			<div class="title mdc-typography--headline6">{event.title}</div>
+			<div class="title mdc-typography--headline6">
+				<a href="konferanser/{event.slug}">{event.title}</a>
+			</div>
 			<div class="mdc-typography--body1">{date}</div>
 		</Content>
 
@@ -67,5 +71,8 @@
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+	}
+	a {
+		text-decoration: none;
 	}
 </style>
