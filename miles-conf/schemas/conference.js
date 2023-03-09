@@ -83,10 +83,9 @@ export default {
 			description: 'Make event visible to not-logged in users(external users)'
 		},
 		{
-			title: 'Logo',
+			title: 'Image',
 			name: 'image',
 			type: 'image',
-			fieldset: 'external',
 			fields: [
 				{
 					name: 'alt',
