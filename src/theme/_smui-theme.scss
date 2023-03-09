@@ -47,7 +47,7 @@ a {
 	color: #40b3ff;
 }
 a:visited {
-	color: color.scale(#40b3ff, $lightness: -35%);
+	color: color.scale(#000000, $lightness: -35%);
 }
 
 html {

@@ -15,48 +15,56 @@
 	const getTimeslotPerformances = ({ startTime, endTime }) => {
 		const min = new Date(`${day} ${startTime}`).getTime();
 		const max = new Date(`${day} ${endTime}`).getTime();
-		return conference.performances
-			.filter(({ dateAndTime }) => {
-				const performanceTimestamp = new Date(dateAndTime).getTime();
-				return isNaN(max) //If max is NaN, the Event has no endTime
-					? performanceTimestamp === min //The perfomance sharing startTime with the event
-					: performanceTimestamp >= min && performanceTimestamp <= max;
-			})
-			.sort((a, b) => {
-				return compareAsc(new Date(a.dateAndTime), new Date(b.dateAndTime));
-			});
+		if (conference.performances) {
+			return conference.performances
+				.filter(({ dateAndTime }) => {
+					const performanceTimestamp = new Date(dateAndTime).getTime();
+					return isNaN(max) //If max is NaN, the Event has no endTime
+						? performanceTimestamp === min //The perfomance sharing startTime with the event
+						: performanceTimestamp >= min && performanceTimestamp <= max;
+				})
+				.sort((a, b) => {
+					return compareAsc(new Date(a.dateAndTime), new Date(b.dateAndTime));
+				});
+		} else {
+			return [];
+		}
 	};
+	const single_performance = getTimeslotPerformances(event).length == 1;
 	const checkbox_key = 'Event-' + event._key;
 	$: only_selected = $checkboxStore[checkbox_key];
+	console.log('event:', getTimeslotPerformances(event));
 </script>
 
 {#if event.containsPerformances && conference.performances}
 	<ul class="alt-ul">
-		<li>
-			<div class="selector-row  d-flex flex-column p-2">
-				<div class="selector-title">
-					Kryss av {event.description.toLowerCase() === 'lyntaler' ? 'lyntalene' : 'workshopen'} du skal
-					på
-				</div>
-				<label class="d-flex pt-2">
-					<input
-						type="checkbox"
-						checked={only_selected}
-						on:click={() => checkboxStore.flip(checkbox_key)}
-					/>
-					<div class="selector-text">
-						Vis kun {event.description === 'Lyntaler' ? ' valgte Lyntaler' : 'valgt Workshop'}
+		{#if !single_performance}
+			<li>
+				<div class="selector-row  d-flex flex-column p-2">
+					<div class="selector-title">
+						Kryss av {event.description.toLowerCase() === 'lyntaler' ? 'lyntalene' : 'workshopen'} du
+						skal på
 					</div>
-				</label>
-			</div>
-		</li>
+					<label class="d-flex pt-2">
+						<input
+							type="checkbox"
+							checked={only_selected}
+							on:click={() => checkboxStore.flip(checkbox_key)}
+						/>
+						<div class="selector-text">
+							Vis kun {event.description === 'Lyntaler' ? ' valgte Lyntaler' : 'valgt Workshop'}
+						</div>
+					</label>
+				</div>
+			</li>
+		{/if}
 		{#each getTimeslotPerformances(event).filter((perf) => !only_selected || Boolean($performances_store[perf.submission._id])) as performance (performance.submission._id)}
 			<li
 				class="alt-li"
 				animate:flip={{ duration: 300, key: performance.submission._id }}
 				in:fly|local={{ y: -30, duration: 300, key: performance.submission._id }}
 			>
-				<PerformanceRow {only_selected} {event} {conference} {performance} />
+				<PerformanceRow {only_selected} {event} {conference} {performance} {single_performance} />
 			</li>
 		{/each}
 	</ul>

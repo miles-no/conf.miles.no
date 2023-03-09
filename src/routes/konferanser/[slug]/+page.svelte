@@ -113,7 +113,7 @@
 			{/if}
 		</div>
 	{:else}
-		<div class="title mdc-typography--headline4">{conference.title}</div>
+		<h1 class="title mdc-typography--headline4">{conference.title}</h1>
 
 		<TabBar tabs={['Informasjon', 'Program']} let:tab bind:active={activeTab}>
 			<!-- Note: the `tab` property is required! -->
@@ -138,13 +138,14 @@
 					</div></Cell
 				>
 				{#if conference.performances}
-					<Cell span={12}>
-						BIDRAG:
+					<Cell span={12} style="margin-top:1rem;">
+						<div class="mdc-typography--headline6">BIDRAG:</div>
+
 						<div class="contributions-section">
 							<LayoutGrid style="padding-left:0px; padding-right:0px;">
 								{#each conference.performances as performance}
 									<Cell spanDevices={{ desktop: 6, tablet: 8, phone: 4 }}>
-										<PerformanceCard {performance} />
+										<PerformanceCard {performance} rootSlug={conference.slug} />
 									</Cell>
 								{/each}
 							</LayoutGrid>
