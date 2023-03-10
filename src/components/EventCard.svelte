@@ -25,11 +25,11 @@
 </script>
 
 <div class="card-container">
-	<Card href="konferanser/{event.slug}">
-		<Media class="card-media-16x9" aspectRatio="16x9">
-			<MediaContent
-				><a href="konferanser/{event.slug}"
-					><img
+	<a href="konferanser/{event.slug}">
+		<Card>
+			<Media class="card-media-16x9" aspectRatio="16x9">
+				<MediaContent>
+					<img
 						style="width: 100%; height: 100%;"
 						alt=""
 						src={event.imageUrl
@@ -37,33 +37,33 @@
 							: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
 						height="300"
 						width="500"
-					/></a
-				></MediaContent
-			>
-		</Media>
+					/>
+				</MediaContent>
+			</Media>
 
-		<Content>
-			<div class="title mdc-typography--headline6">
-				<a href="konferanser/{event.slug}">{event.title}</a>
-			</div>
-			<div class="mdc-typography--body1">{date}</div>
-		</Content>
+			<Content>
+				<div class="title mdc-typography--headline6">
+					{event.title}
+				</div>
+				<div class="mdc-typography--body1">{date}</div>
+			</Content>
 
-		<Actions>
-			<ActionButtons>
-				<Button on:click={() => console.log('action clicked')} href="konferanser/{event.slug}">
-					<Label>Les mer</Label>
-				</Button>
-			</ActionButtons>
-			<ActionIcons>
+			<Actions>
+				<ActionButtons>
+					<Button on:click={() => console.log('action clicked')} href="konferanser/{event.slug}">
+						<Label>Les mer</Label>
+					</Button>
+				</ActionButtons>
+				<!-- <ActionIcons>
 				<IconButton
 					class="material-icons"
 					on:click={() => console.log('share clicked')}
 					title="Share">share</IconButton
 				>
-			</ActionIcons>
-		</Actions>
-	</Card>
+			</ActionIcons> -->
+			</Actions>
+		</Card>
+	</a>
 </div>
 
 <style>

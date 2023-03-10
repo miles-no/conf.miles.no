@@ -19,13 +19,14 @@
 
 	let show_info = single_performance ? true : false;
 	let is_workshop = event.description.toLowerCase() === 'workshop';
+	function handleClick() {
+		if (!single_performance) {
+			show_info = !show_info;
+		}
+	}
 </script>
 
-<div
-	class="p-2 pe-3"
-	on:click={() => (show_info = !show_info)}
-	on:keyup={() => (show_info = !show_info)}
->
+<div class="p-2 pe-3" on:click={() => handleClick()} on:keyup={() => handleClick()}>
 	<div class="d-flex flex-row justify-content-between">
 		<div class="d-flex flex-column me-2">
 			<div class="d-flex flex-row gap-3 align-items-center">
