@@ -52,7 +52,9 @@ export default {
 			validation: (Rule) =>
 				Rule.custom((time) => {
 					if (time) {
-						return !isValidTime(time) && 'The field must be in HH:MM format.';
+						return isValidTime(time) ? true : 'The field must be in HH:MM format.';
+					} else {
+						return true;
 					}
 				})
 		},
