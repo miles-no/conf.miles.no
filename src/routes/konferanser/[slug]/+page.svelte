@@ -17,7 +17,11 @@
 	export let conference = data.conference;
 	export let user = data.user;
 
-	const start_time = conference.itinerary ? conference.itinerary[0]?.events[0].startTime : '';
+	const totEvents = conference.itinerary[0]?.events.length;
+	const end_time = conference.itinerary[0]?.events[totEvents - 1].endTime
+		? conference.itinerary[0]?.events[totEvents - 1].endTime
+		: conference.itinerary[0]?.events[totEvents - 1].startTime;
+
 	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
 
 	const formatDeadline = (deadline) => {
@@ -90,7 +94,7 @@
 
 	const eventDetails = {
 		Dato: date,
-		Tidspunkt: start_time ? start_time : '',
+		Tidspunkt: conference.startTime + '-' + end_time,
 		Lokasjon: conference.location ? conference.location : '',
 		Påmeldingsfrist: deadline ? deadline : ''
 	};
