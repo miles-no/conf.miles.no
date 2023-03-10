@@ -145,7 +145,7 @@
 				>
 				{#if conference.performances}
 					<Cell span={12} style="margin-top:1rem;">
-						<div class="mdc-typography--headline6">BIDRAG:</div>
+						<div class="mdc-typography--headline6">FOREDRAGSHOLDERE:</div>
 
 						<div class="contributions-section">
 							<LayoutGrid style="padding-left:0px; padding-right:0px;">
