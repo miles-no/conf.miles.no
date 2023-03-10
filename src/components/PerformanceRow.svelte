@@ -64,16 +64,18 @@
 			style="width: fit-content; white-space: nowrap;"
 		>
 			<div class="event-location">{performance.location != null ? performance.location : ''}</div>
-			<div class="event-time">
-				{intlFormat(
-					new Date(performance.dateAndTime),
-					{
-						hour: '2-digit',
-						minute: '2-digit'
-					},
-					{ locale: 'nb-NO' }
-				)}
-			</div>
+			{#if !single_performance}
+				<div class="event-time">
+					{intlFormat(
+						new Date(performance.dateAndTime),
+						{
+							hour: '2-digit',
+							minute: '2-digit'
+						},
+						{ locale: 'nb-NO' }
+					)}
+				</div>
+			{/if}
 		</div>
 	</div>
 	{#if !is_workshop && (show_info || only_selected)}
