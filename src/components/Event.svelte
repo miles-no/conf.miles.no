@@ -84,7 +84,7 @@
 		background: inherit;
 	}
 	.alt-li:nth-child(even) {
-		background: #fde9e9;
+		/* background: #fde9e9; */
 	}
 	input[type='checkbox'] {
 		-webkit-appearance: none;
@@ -120,7 +120,8 @@
 	}
 
 	.selector-row {
-		background-color: #f2f2f2;
+		/* background-color: #f2f2f2; */
+		border-bottom: 1px solid;
 	}
 	.selector-text {
 		font-weight: 300;
