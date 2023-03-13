@@ -1,3 +1,5 @@
+import { isValidTime } from './objects/itineraryEvent';
+
 export default {
 	name: 'conference',
 	type: 'document',
@@ -43,6 +45,18 @@ export default {
 			validation: (Rule) => Rule.required()
 		},
 		{
+			title: 'Start time',
+			name: 'startTime',
+			type: 'string',
+			description: 'Start time for the event, e.g 10:00. Independent from itinerary.',
+			validation: (Rule) =>
+				Rule.custom((time) => {
+					if (time) {
+						return isValidTime(time) ? true : 'The field must be in HH:MM format.';
+					}
+				})
+		},
+		{
 			title: 'End date',
 			name: 'endDate',
 			type: 'date',
@@ -86,6 +100,9 @@ export default {
 			title: 'Image',
 			name: 'image',
 			type: 'image',
+			options: {
+				hotspot: true
+			},
 			fields: [
 				{
 					name: 'alt',

@@ -19,13 +19,14 @@
 
 	let show_info = single_performance ? true : false;
 	let is_workshop = event.description.toLowerCase() === 'workshop';
+	function handleClick() {
+		if (!single_performance) {
+			show_info = !show_info;
+		}
+	}
 </script>
 
-<div
-	class="p-2 pe-3"
-	on:click={() => (show_info = !show_info)}
-	on:keyup={() => (show_info = !show_info)}
->
+<div class="p-2 pe-3" on:click={() => handleClick()} on:keyup={() => handleClick()}>
 	<div class="d-flex flex-row justify-content-between">
 		<div class="d-flex flex-column me-2">
 			<div class="d-flex flex-row gap-3 align-items-center">
@@ -63,16 +64,18 @@
 			style="width: fit-content; white-space: nowrap;"
 		>
 			<div class="event-location">{performance.location != null ? performance.location : ''}</div>
-			<div class="event-time">
-				{intlFormat(
-					new Date(performance.dateAndTime),
-					{
-						hour: '2-digit',
-						minute: '2-digit'
-					},
-					{ locale: 'nb-NO' }
-				)}
-			</div>
+			{#if !single_performance}
+				<div class="event-time">
+					{intlFormat(
+						new Date(performance.dateAndTime),
+						{
+							hour: '2-digit',
+							minute: '2-digit'
+						},
+						{ locale: 'nb-NO' }
+					)}
+				</div>
+			{/if}
 		</div>
 	</div>
 	{#if !is_workshop && (show_info || only_selected)}

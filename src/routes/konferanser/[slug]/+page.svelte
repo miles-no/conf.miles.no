@@ -13,11 +13,17 @@
 	import InformationCard from '../../../components/InformationCard.svelte';
 	import PerformanceCard from '../../../components/PerformanceCard.svelte';
 	import { formatConferenceDateRange } from '$lib';
+	import imageUrlBuilder from '@sanity/image-url';
+	import { client } from '$lib/sanityClient';
 	export let data = {};
 	export let conference = data.conference;
 	export let user = data.user;
 
-	const start_time = conference.itinerary ? conference.itinerary[0]?.events[0].startTime : '';
+	const totEvents = conference.itinerary[0]?.events.length;
+	const end_time = conference.itinerary[0]?.events[totEvents - 1].endTime
+		? conference.itinerary[0]?.events[totEvents - 1].endTime
+		: conference.itinerary[0]?.events[totEvents - 1].startTime;
+
 	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
 
 	const formatDeadline = (deadline) => {
@@ -90,10 +96,16 @@
 
 	const eventDetails = {
 		Dato: date,
-		Tidspunkt: start_time ? start_time : '',
+		Tidspunkt: conference.startTime + '-' + end_time,
 		Lokasjon: conference.location ? conference.location : '',
 		Påmeldingsfrist: deadline ? deadline : ''
 	};
+
+	const builder = imageUrlBuilder(client);
+
+	function urlFor(source) {
+		return builder.image(source);
+	}
 </script>
 
 <svelte:head>
@@ -113,19 +125,36 @@
 			{/if}
 		</div>
 	{:else}
+		<div>
+			<img
+				style="width: 100%; border-radius: 10px;"
+				alt=""
+				src={conference.imageUrl
+					? urlFor(conference.imageUrl).width(2000).quality(100).url()
+					: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
+			/>
+		</div>
 		<h1 class="title mdc-typography--headline4">{conference.title}</h1>
-
-		<TabBar tabs={['Informasjon', 'Program']} let:tab bind:active={activeTab}>
-			<!-- Note: the `tab` property is required! -->
-			<Tab {tab} minWidth>
-				<Label>{tab}</Label>
-			</Tab>
-		</TabBar>
+		<div class="tabs-container">
+			<TabBar
+				tabs={['Informasjon', 'Program']}
+				let:tab
+				bind:active={activeTab}
+				style="width:fit-content"
+			>
+				<!-- Note: the `tab` property is required! -->
+				<Tab {tab} minWidth>
+					<Label>{tab}</Label>
+				</Tab>
+			</TabBar>
+		</div>
 
 		{#if activeTab === 'Informasjon'}
 			<LayoutGrid style="width:100%">
-				<Cell spanDevices={{ desktop: 7, tablet: 8, phone: 4 }} style="margin-right:2rem;"
-					><div class="description-section">{conference.description}</div></Cell
+				<Cell spanDevices={{ desktop: 7, tablet: 8, phone: 4 }}
+					><div class="description-section">
+						{conference.description}
+					</div></Cell
 				>
 				<Cell spanDevices={{ desktop: 5, tablet: 8, phone: 4 }}
 					><div class="info-section">
@@ -145,7 +174,7 @@
 				>
 				{#if conference.performances}
 					<Cell span={12} style="margin-top:1rem;">
-						<div class="mdc-typography--headline6">BIDRAG:</div>
+						<div class="mdc-typography--headline6">FOREDRAGSHOLDERE:</div>
 
 						<div class="contributions-section">
 							<LayoutGrid style="padding-left:0px; padding-right:0px;">
@@ -176,22 +205,51 @@
 <style>
 	.title {
 		font-weight: bold;
+		font-size: 1.5rem;
 	}
 	.container {
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
 	}
-
+	.tabs-container {
+		widows: 100%;
+		display: flex;
+		justify-content: center;
+	}
 	.info-section {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
 		width: 100%;
-		min-width: 356px;
 	}
 
 	.description-section {
+		text-align: center;
 		white-space: pre-wrap;
+	}
+
+	img {
+		height: 200px;
+	}
+
+	@media (min-width: 576px) {
+		img {
+			height: 300px;
+		}
+		.info-section {
+			min-width: 356px;
+		}
+		.title {
+			font-weight: bold;
+			font-size: 2.125rem;
+		}
+		.tabs-container {
+			justify-content: left;
+		}
+		.description-section {
+			text-align: start;
+			margin-right: 2rem;
+		}
 	}
 </style>
