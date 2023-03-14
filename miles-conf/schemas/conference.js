@@ -45,16 +45,10 @@ export default {
 			validation: (Rule) => Rule.required()
 		},
 		{
-			title: 'Start time',
-			name: 'startTime',
+			title: 'Timeperiod',
+			name: 'timeperiod',
 			type: 'string',
-			description: 'Start time for the event, e.g 10:00. Independent from itinerary.',
-			validation: (Rule) =>
-				Rule.custom((time) => {
-					if (time) {
-						return isValidTime(time) ? true : 'The field must be in HH:MM format.';
-					}
-				})
+			description: 'Timeperiod for the event, e.g 10:00-14:00. Independent from itinerary.'
 		},
 		{
 			title: 'End date',
