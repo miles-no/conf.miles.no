@@ -13,7 +13,6 @@ export async function load() {
 			Authorization: `${env.CONF_API_KEY}`
 		}
 	});
-	const offices = await responseOffices.json();
 
 	const responseUsers = await fetch(usersUrl, {
 		mode: 'same-origin',
@@ -21,6 +20,8 @@ export async function load() {
 			Authorization: `${env.CONF_API_KEY}`
 		}
 	});
+
+	const offices = await responseOffices.json();
 	const users = await responseUsers.json();
 
 	const data = {
