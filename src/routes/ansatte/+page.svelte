@@ -22,7 +22,7 @@
 		<div class="accordion">
 			<h1>Ansatte</h1>
 
-			{#each data.offices as office}
+			<!-- {#each data.offices as office}
 				<hr />
 				<div class="container" on:click={isActive} on:keydown={isActive}>
 					<div class="label">{office.name}</div>
@@ -45,7 +45,7 @@
 					</div>
 				</div>
 				<hr />
-			{/each}
+			{/each} -->
 		</div>
 	</div>
 </div>
