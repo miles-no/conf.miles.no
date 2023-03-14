@@ -6,7 +6,7 @@ export const csr = true;
 
 export async function load() {
 	const officesUrl = 'http://127.0.0.1:3000/api/cvpartner/offices';
-	const usersUrl = 'http://conf.miles.no/api/cvpartner/users';
+	const usersUrl = 'http://127.0.0.1:3000/api/cvpartner/users';
 	const responseOffices = await fetch(officesUrl, {
 		mode: 'same-origin',
 		headers: {
@@ -25,7 +25,7 @@ export async function load() {
 	const users = await responseUsers.json();
 
 	const data = {
-		offices: offices
+		offices: offices,
 		users: users
 	};
 	return {
