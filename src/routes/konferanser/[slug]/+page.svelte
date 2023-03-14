@@ -15,6 +15,7 @@
 	import { formatConferenceDateRange } from '$lib';
 	import imageUrlBuilder from '@sanity/image-url';
 	import { client } from '$lib/sanityClient';
+	import { PortableText } from '@portabletext/svelte';
 	export let data = {};
 	export let conference = data.conference;
 	export let user = data.user;
@@ -151,11 +152,9 @@
 
 		{#if activeTab === 'Informasjon'}
 			<LayoutGrid style="width:100%">
-				<Cell spanDevices={{ desktop: 7, tablet: 8, phone: 4 }}
-					><div class="description-section">
-						{conference.description}
-					</div></Cell
-				>
+				<Cell spanDevices={{ desktop: 7, tablet: 8, phone: 4 }}>
+					<PortableText value={conference.description} />
+				</Cell>
 				<Cell spanDevices={{ desktop: 5, tablet: 8, phone: 4 }}
 					><div class="info-section">
 						<Button
