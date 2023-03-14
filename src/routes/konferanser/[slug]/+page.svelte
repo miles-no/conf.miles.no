@@ -19,10 +19,10 @@
 	export let conference = data.conference;
 	export let user = data.user;
 
-	const totEvents = conference.itinerary[0]?.events.length;
-	const end_time = conference.itinerary[0]?.events[totEvents - 1].endTime
-		? conference.itinerary[0]?.events[totEvents - 1].endTime
-		: conference.itinerary[0]?.events[totEvents - 1].startTime;
+	// const totEvents = conference.itinerary[0]?.events.length;
+	// const end_time = conference.itinerary[0]?.events[totEvents - 1].endTime
+	// 	? conference.itinerary[0]?.events[totEvents - 1].endTime
+	// 	: conference.itinerary[0]?.events[totEvents - 1].startTime;
 
 	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
 
@@ -96,7 +96,7 @@
 
 	const eventDetails = {
 		Dato: date,
-		Tidspunkt: conference.startTime + '-' + end_time,
+		Tidspunkt: conference.timeperiod,
 		Lokasjon: conference.location ? conference.location : '',
 		Påmeldingsfrist: deadline ? deadline : ''
 	};
@@ -130,14 +130,14 @@
 				style="width: 100%; border-radius: 10px;"
 				alt=""
 				src={conference.imageUrl
-					? urlFor(conference.imageUrl).width(2000).quality(100).url()
+					? urlFor(conference.imageUrl).size(1300, 400).quality(100).url()
 					: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
 			/>
 		</div>
 		<h1 class="title mdc-typography--headline4">{conference.title}</h1>
 		<div class="tabs-container">
 			<TabBar
-				tabs={['Informasjon', 'Program']}
+				tabs={conference.itinerary ? ['Informasjon', 'Program'] : ['Informasjon']}
 				let:tab
 				bind:active={activeTab}
 				style="width:fit-content"
