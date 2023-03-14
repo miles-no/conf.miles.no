@@ -13,6 +13,8 @@
 	const isActive = async (event) => {
 		event.target.parentElement.classList.toggle('active');
 	};
+
+	console.log('data ansatte page: ', data);
 </script>
 
 <div class="container-fluid">

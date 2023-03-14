@@ -103,7 +103,6 @@ export async function fetchUsers(officeids: string[]): Promise<User[]> {
 		}
 	});
 	const data = await response.json();
-	console.log(data[0].image);
 	const users: User[] = data.map((user: any) => {
 		return {
 			id: user.user_id,
