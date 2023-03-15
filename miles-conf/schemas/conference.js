@@ -26,7 +26,7 @@ export default {
 		},
 		{
 			name: 'description',
-			type: 'text',
+			type: 'portableText',
 			title: 'Description'
 		},
 		{

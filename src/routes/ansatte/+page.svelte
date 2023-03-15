@@ -1,50 +1,61 @@
 <script>
 	import { each } from 'svelte/internal';
-	import Card, {
-		Content,
-		PrimaryAction,
-		Media,
-		MediaContent,
-		Actions,
-		ActionButtons,
-		ActionIcons
-	} from '@smui/card';
+	import Card from '@smui/card';
+	import Button, { Label, Icon } from '@smui/button';
+
 	export let data = {};
 	const isActive = async (event) => {
 		event.target.parentElement.classList.toggle('active');
 	};
-
-	console.log('data ansatte page: ', data);
 </script>
 
-<div class="container-fluid">
-	<div class="accordion-body">
-		<div class="accordion">
-			<h1>Ansatte</h1>
-
-			{#each data.offices as office}
-				<hr />
-				<div class="container" on:click={isActive} on:keydown={isActive}>
-					<div class="label">{office.name}</div>
-					<div class="container-fluid content">
-						<div class="row">
-							{#each data.users.filter((u) => u.office == office.name) as user}
-								<div class="col">
-									<Card>
-										<Media class="card-media-16x9" aspectRatio="16x9">
-											<img src={user.profileImage} class="card-img-top" alt={user.name} />
-										</Media>
-
-										<div class="card-body">
-											<p class="card-text">{user.name}</p>
-										</div>
-									</Card>
-								</div>
-							{/each}
-						</div>
+<div class="container-fluid" style="padding: 4rem;">
+	<h1 class=" mdc-typography--headline2" style="text-align: left;">Vi er Miles</h1>
+	<div class="container-lg" style="display: flex; flex-direction: column; gap:1rem;">
+		<div class="filter-container">
+			<div class="filter-wrapper">
+				<Button variant="outlined">
+					<Label>Oslo</Label>
+				</Button>
+				<Button variant="outlined">
+					<Label>Bergen</Label>
+				</Button>
+				<Button variant="outlined">
+					<Label>Trondheim</Label>
+				</Button>
+				<Button variant="outlined">
+					<Label>Stavanger/Haugesund</Label>
+				</Button>
+				<Button variant="outlined">
+					<Label>Ålesund</Label>
+				</Button>
+			</div>
+			<div class="filter-wrapper">
+				<Button variant="outlined" class="button-shaped-round">
+					<Label>Utviklere</Label>
+				</Button>
+				<Button variant="outlined" class="button-shaped-round">
+					<Label>Designere</Label>
+				</Button>
+				<Button variant="outlined" class="button-shaped-round">
+					<Label>Prosjektledere</Label>
+				</Button>
+			</div>
+		</div>
+		<div class="employee-container">
+			{#each data.users as user}
+				<Card padded style="gap:1rem; width:fit-content;">
+					<div>
+						<img
+							src={user.profileImage
+								? user.profileImage
+								: 'https://media.istockphoto.com/id/1214428300/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=vftMdLhldDx9houN4V-g3C9k0xl6YeBcoB_Rk6Trce0='}
+							class="card-img-top"
+							alt={user.name}
+						/>
 					</div>
-				</div>
-				<hr />
+					<div class="employee-name">{user.name}</div>
+				</Card>
 			{/each}
 		</div>
 	</div>
@@ -135,7 +146,24 @@
 		content: '-';
 		font-size: 30px;
 	}
-
+	.filter-container {
+		display: flex;
+		flex-direction: column;
+		align-items: end;
+		gap: 1rem;
+	}
+	.filter-wrapper {
+		display: flex;
+		gap: 1rem;
+	}
+	.employee-container {
+		display: flex;
+		justify-content: space-between;
+		row-gap: 1.5rem;
+		flex-wrap: wrap;
+		border: 1px solid;
+		padding: 1rem;
+	}
 	img {
 		height: 200px;
 		width: 200px;
