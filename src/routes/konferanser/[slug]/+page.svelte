@@ -9,7 +9,7 @@
 	import TabBar from '@smui/tab-bar';
 	import Button, { Icon } from '@smui/button';
 	import LayoutGrid, { Cell, InnerGrid } from '@smui/layout-grid';
-
+	import { Media, MediaContent } from '@smui/card';
 	import InformationCard from '../../../components/InformationCard.svelte';
 	import PerformanceCard from '../../../components/PerformanceCard.svelte';
 	import { formatConferenceDateRange } from '$lib';
@@ -126,15 +126,14 @@
 			{/if}
 		</div>
 	{:else}
-		<div>
-			<img
-				style="width: 100%; border-radius: 10px;"
-				alt=""
-				src={conference.imageUrl
-					? urlFor(conference.imageUrl).size(1300, 400).quality(100).url()
-					: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
-			/>
-		</div>
+		<img
+			style="width: 100%; border-radius: 10px; max-height: 400px;"
+			alt=""
+			src={conference.imageUrl
+				? urlFor(conference.imageUrl).fit('clip').size(1600, 500).quality(100).url()
+				: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
+		/>
+
 		<h1 class="title mdc-typography--headline4">{conference.title}</h1>
 		<div class="tabs-container">
 			<TabBar
@@ -228,14 +227,14 @@
 		white-space: pre-wrap;
 	}
 
-	img {
+	/* img {
 		height: 200px;
-	}
+	} */
 
 	@media (min-width: 576px) {
-		img {
+		/* img {
 			height: 300px;
-		}
+		} */
 		.info-section {
 			min-width: 356px;
 		}
