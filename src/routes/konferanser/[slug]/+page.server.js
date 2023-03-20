@@ -3,8 +3,7 @@ import { getUserFromCookie } from '$lib/server/auth';
 import { redirect } from '@sveltejs/kit';
 
 export const prerender = false;
-// export const ssr = true;
-// export const csr = true;
+export const ssr = true;
 
 export async function load({ params, cookies }) {
 	const { slug } = params;
