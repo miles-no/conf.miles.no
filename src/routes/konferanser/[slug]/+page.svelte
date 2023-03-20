@@ -116,10 +116,6 @@
 	<meta property="og:image:height" content="630" />
 
 	<meta property="og:title" content="{conference.title} | Miles" />
-	<meta
-		property="og:url"
-		content="https://konferanser.azurewebsites.net/konferanser/{conference.slug}"
-	/>
 	<meta property="og:description" content={conference.title} />
 </svelte:head>
 
