@@ -116,7 +116,7 @@
 		property="og:url"
 		content="https://konferanser.azurewebsites.net/konferanser/{conference.slug}"
 	/>
-	<meta content={urlFor(conference.imageUrl).url()} property="og:image" />
+	<meta content={conference.imageUrl} property="og:image" />
 </svelte:head>
 
 <class class="container">
