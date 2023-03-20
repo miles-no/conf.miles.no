@@ -111,6 +111,11 @@
 
 <svelte:head>
 	<title>{conference.title} | Miles</title>
+	<meta content="{conference.title} | Miles" property="og:title" />
+	<meta
+		property="og:url"
+		content="https://konferanser.azurewebsites.net/konferanser/{conference.slug}"
+	/>
 	<meta content={urlFor(conference.imageUrl).url()} property="og:image" />
 </svelte:head>
 
