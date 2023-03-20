@@ -111,10 +111,7 @@
 
 <svelte:head>
 	<title>{conference.title} | Miles</title>
-	<meta
-		property="og:image"
-		content="https://norskfriluftsliv.no/wp-content/uploads/2017/08/5-perspektiv.jpg"
-	/>
+	<meta property="og:image" content={conference.imageUrl} />
 	<meta property="og:image:width" content="800" />
 	<meta property="og:image:height" content="600" />
 
