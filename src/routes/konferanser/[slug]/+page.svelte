@@ -111,9 +111,9 @@
 
 <svelte:head>
 	<title>{conference.title} | Miles</title>
-	<meta property="og:image" content={conference.imageUrl} />
-	<meta property="og:image:width" content="800" />
-	<meta property="og:image:height" content="600" />
+	<meta property="og:image" content={urlFor(conference.imageUrl).size(1200, 630).url()} />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
 
 	<meta property="og:title" content="{conference.title} | Miles" />
 	<meta
@@ -123,7 +123,7 @@
 	<meta property="og:description" content={conference.title} />
 </svelte:head>
 
-<class class="container">
+<div class="container">
 	<!-- {@debug performanceDays} -->
 	<BreadCrumb {conference} />
 	{#if user.isAuthenticated}
@@ -208,7 +208,7 @@
 			</div>
 		{/if}
 	{/if}
-</class>
+</div>
 
 <style>
 	.title {

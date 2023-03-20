@@ -2,7 +2,7 @@ import { fetchConference } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth';
 import { redirect } from '@sveltejs/kit';
 
-export const prerender = false;
+export const prerender = true;
 
 export async function load({ params, cookies }) {
 	const { slug } = params;
