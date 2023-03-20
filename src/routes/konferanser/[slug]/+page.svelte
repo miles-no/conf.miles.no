@@ -111,6 +111,7 @@
 
 <svelte:head>
 	<title>{conference.title} | Miles</title>
+	<meta content={urlFor(conference.imageUrl).url()} property="og:image" />
 </svelte:head>
 
 <class class="container">
