@@ -21,7 +21,6 @@
 	export let user = data.user;
 	export let pageUrl = data.url;
 
-	console.log(conference.description);
 	// const totEvents = conference.itinerary[0]?.events.length;
 	// const end_time = conference.itinerary[0]?.events[totEvents - 1].endTime
 	// 	? conference.itinerary[0]?.events[totEvents - 1].endTime
