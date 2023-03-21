@@ -17,6 +17,7 @@
 		"@babel/preset-env": "^7.20.2",
 		"@material/typography": "^14.0.0",
 		"@playwright/test": "^1.30.0",
+		"@portabletext/svelte": "^2.0.0",
 		"@smui/card": "^7.0.0-beta.0",
 		"@smui/common": "^7.0.0-beta.0",
 		"@smui/fab": "^7.0.0-beta.0",
@@ -47,7 +48,6 @@
 	"dependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
 		"@lukeed/uuid": "^2.0.0",
-		"@portabletext/svelte": "^1.0.1",
 		"@sanity/client": "^3.4.1",
 		"@sanity/image-url": "^1.0.2",
 		"cookie": "^0.5.0",

@@ -3,7 +3,7 @@
 	import Card, { Content } from '@smui/card';
 	export let information = {};
 
-	console.log(information);
+	// console.log(information);
 </script>
 
 <Card padded>
