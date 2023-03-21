@@ -119,7 +119,7 @@
 	<meta property="og:title" content="{conference.title} | Miles" />
 	<meta property="og:description" content={toPlainText(conference.description)} />
 	<meta property="og:url" content={pageUrl} />
-
+	<meta property="fb:app_id" content="966242223397117" />
 	<meta property="twitter:card" content="summary_large_image" />
 	<meta property="twitter:title" content="{conference.title} | Miles" />
 	<meta property="twitter:description" content={toPlainText(conference.description)} />
