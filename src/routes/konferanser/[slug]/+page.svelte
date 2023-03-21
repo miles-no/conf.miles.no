@@ -15,12 +15,13 @@
 	import { formatConferenceDateRange } from '$lib';
 	import imageUrlBuilder from '@sanity/image-url';
 	import { client } from '$lib/sanityClient';
-	import { PortableText } from '@portabletext/svelte';
+	import { PortableText, toPlainText } from '@portabletext/svelte';
 	export let data = {};
 	export let conference = data.conference;
 	export let user = data.user;
 	export let pageUrl = data.url;
 
+	console.log(conference.description);
 	// const totEvents = conference.itinerary[0]?.events.length;
 	// const end_time = conference.itinerary[0]?.events[totEvents - 1].endTime
 	// 	? conference.itinerary[0]?.events[totEvents - 1].endTime
@@ -49,7 +50,7 @@
 		return a;
 	};
 
-	console.log(conference);
+	// console.log(conference);
 	const deadline =
 		conference.deadline &&
 		`${formatDeadline(conference.deadline)[0]},${formatDeadline(conference.deadline)[1]}`;
@@ -160,8 +161,7 @@
 		{#if activeTab === 'Informasjon'}
 			<LayoutGrid style="width:100%">
 				<Cell spanDevices={{ desktop: 7, tablet: 8, phone: 4 }}>
-					<!-- <PortableText value={conference.description} /> -->
-					her skal det være beskrivelse
+					<PortableText value={conference.description} onMissingComponent={false} />
 				</Cell>
 				<Cell spanDevices={{ desktop: 5, tablet: 8, phone: 4 }}
 					><div class="info-section">
