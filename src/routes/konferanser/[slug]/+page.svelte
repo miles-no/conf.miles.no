@@ -115,10 +115,16 @@
 	<meta property="og:image" content={urlFor(conference.imageUrl).size(1200, 630).url()} />
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
-
+	<meta property="og:type" content="article" />
 	<meta property="og:title" content="{conference.title} | Miles" />
-	<meta property="og:description" content={conference.title} />
+	<meta property="og:description" content={toPlainText(conference.description)} />
 	<meta property="og:url" content={pageUrl} />
+
+	<meta property="twitter:card" content="summary_large_image" />
+	<meta property="twitter:title" content="{conference.title} | Miles" />
+	<meta property="twitter:description" content={toPlainText(conference.description)} />
+	<meta property="twitter:site" content="@miles_no" />
+	<meta property="twitter:image" content={urlFor(conference.imageUrl).size(1200, 630).url()} />
 </svelte:head>
 
 <div class="container">
