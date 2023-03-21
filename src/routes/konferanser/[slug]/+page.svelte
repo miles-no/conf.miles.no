@@ -19,6 +19,7 @@
 	export let data = {};
 	export let conference = data.conference;
 	export let user = data.user;
+	export let pageUrl = data.url;
 
 	// const totEvents = conference.itinerary[0]?.events.length;
 	// const end_time = conference.itinerary[0]?.events[totEvents - 1].endTime
@@ -117,6 +118,7 @@
 
 	<meta property="og:title" content="{conference.title} | Miles" />
 	<meta property="og:description" content={conference.title} />
+	<meta property="og:url" content={pageUrl} />
 </svelte:head>
 
 <div class="container">
@@ -158,7 +160,8 @@
 		{#if activeTab === 'Informasjon'}
 			<LayoutGrid style="width:100%">
 				<Cell spanDevices={{ desktop: 7, tablet: 8, phone: 4 }}>
-					<PortableText value={conference.description} />
+					<!-- <PortableText value={conference.description} /> -->
+					her skal det være beskrivelse
 				</Cell>
 				<Cell spanDevices={{ desktop: 5, tablet: 8, phone: 4 }}
 					><div class="info-section">
