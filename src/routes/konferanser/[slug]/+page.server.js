@@ -5,7 +5,7 @@ import { redirect } from '@sveltejs/kit';
 export const prerender = false;
 export const ssr = true;
 
-export async function load({ params, cookies }) {
+export async function load({ params, cookies, url }) {
 	const { slug } = params;
 
 	const conference = await fetchConference(slug);
@@ -22,6 +22,7 @@ export async function load({ params, cookies }) {
 
 	return {
 		user: user,
-		conference: conference.conference
+		conference: conference.conference,
+		url: url.href
 	};
 }
