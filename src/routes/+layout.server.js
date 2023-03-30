@@ -8,7 +8,6 @@ export async function load({ params, locals }) {
 	const { slug = '', konferanse = '' } = params;
 
 	const result = await fetchSiteSettings(slug, konferanse);
-
 	return {
 		settings: {
 			siteLogo: result.siteLogo,

@@ -26,15 +26,16 @@
 </svelte:head>
 
 <div class="container">
-	{#if !user.isAuthenticated}<ExternalContent {conferences} />{:else}<Conferences {conferences} />
-		{#if !allConferencesLoaded}
-			<Hoverable let:hovering={active}>
-				<!-- svelte-ignore a11y-missing-attribute -->
-				<div class="p-2 generic-link" class:active on:click={loadAllConferences}>
-					Se alle konferanser
-				</div>
-			</Hoverable>
-		{/if}{/if}
+	<ExternalContent {conferences} />
+
+	{#if user.isAuthenticated && !allConferencesLoaded}
+		<Hoverable let:hovering={active}>
+			<!-- svelte-ignore a11y-missing-attribute -->
+			<div class="p-2 generic-link" class:active on:click={loadAllConferences}>
+				Se alle konferanser
+			</div>
+		</Hoverable>
+	{/if}
 </div>
 
 <style>

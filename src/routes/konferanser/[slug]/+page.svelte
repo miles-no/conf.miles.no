@@ -21,11 +21,6 @@
 	export let user = data.user;
 	export let pageUrl = data.url;
 
-	// const totEvents = conference.itinerary[0]?.events.length;
-	// const end_time = conference.itinerary[0]?.events[totEvents - 1].endTime
-	// 	? conference.itinerary[0]?.events[totEvents - 1].endTime
-	// 	: conference.itinerary[0]?.events[totEvents - 1].startTime;
-
 	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
 
 	const formatDeadline = (deadline) => {
@@ -49,7 +44,7 @@
 		return a;
 	};
 
-	// console.log(conference);
+	console.log(conference);
 	const deadline =
 		conference.deadline &&
 		`${formatDeadline(conference.deadline)[0]},${formatDeadline(conference.deadline)[1]}`;
@@ -112,7 +107,12 @@
 
 <svelte:head>
 	<title>{conference.title} | Miles</title>
-	<meta property="og:image" content={urlFor(conference.imageUrl).size(1200, 630).url()} />
+	<meta
+		property="og:image"
+		content={conference.imageUrl
+			? urlFor(conference.imageUrl).size(1200, 630).url()
+			: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
+	/>
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
 	<meta property="og:type" content="article" />
@@ -124,7 +124,12 @@
 	<meta property="twitter:title" content="{conference.title} | Miles" />
 	<meta property="twitter:description" content={toPlainText(conference.description)} />
 	<meta property="twitter:site" content="@miles_no" />
-	<meta property="twitter:image" content={urlFor(conference.imageUrl).size(1200, 630).url()} />
+	<meta
+		property="twitter:image"
+		content={conference.imageUrl
+			? urlFor(conference.imageUrl).size(1200, 630).url()
+			: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
+	/>
 </svelte:head>
 
 <div class="container">
