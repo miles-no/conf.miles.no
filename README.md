@@ -1,4 +1,5 @@
 # conf.miles.no
+###Current design is found in figma, currently using as much SvelteUI as possible : https://www.figma.com/file/H8zTatXT7ipebcjNb4hg90/Konferansesider?node-id=410%3A2&t=zIK5HcR8bXgOv0E9-1
 
 ## Development
 
