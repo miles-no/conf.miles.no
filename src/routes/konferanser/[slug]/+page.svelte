@@ -27,7 +27,6 @@
 	// 	: conference.itinerary[0]?.events[totEvents - 1].startTime;
 
 	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
-
 	const formatDeadline = (deadline) => {
 		const deadline_formated =
 			deadline &&
@@ -49,7 +48,6 @@
 		return a;
 	};
 
-	// console.log(conference);
 	const deadline =
 		conference.deadline &&
 		`${formatDeadline(conference.deadline)[0]},${formatDeadline(conference.deadline)[1]}`;
@@ -112,19 +110,31 @@
 
 <svelte:head>
 	<title>{conference.title} | Miles</title>
-	<meta property="og:image" content={urlFor(conference.imageUrl).size(1200, 630).url()} />
+	<meta
+		property="og:image"
+		content={conference.imageUrl ? urlFor(conference.imageUrl).size(1200, 630).url() : undefined}
+	/>
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
 	<meta property="og:type" content="article" />
 	<meta property="og:title" content="{conference.title} | Miles" />
-	<meta property="og:description" content={toPlainText(conference.description)} />
+	<meta
+		property="og:description"
+		content={conference.description ? toPlainText(conference.description) : undefined}
+	/>
 	<meta property="og:url" content={pageUrl} />
 	<meta property="fb:app_id" content="966242223397117" />
 	<meta property="twitter:card" content="summary_large_image" />
 	<meta property="twitter:title" content="{conference.title} | Miles" />
-	<meta property="twitter:description" content={toPlainText(conference.description)} />
+	<meta
+		property="twitter:description"
+		content={conference.description ? toPlainText(conference.description) : undefined}
+	/>
 	<meta property="twitter:site" content="@miles_no" />
-	<meta property="twitter:image" content={urlFor(conference.imageUrl).size(1200, 630).url()} />
+	<meta
+		property="twitter:image"
+		content={conference.imageUrl ? urlFor(conference.imageUrl).size(1200, 630).url() : undefined}
+	/>
 </svelte:head>
 
 <div class="container">
@@ -140,14 +150,15 @@
 			{/if}
 		</div>
 	{:else}
-		<img
-			style="width: 100%; border-radius: 10px; max-height: 400px;"
-			alt=""
-			src={conference.imageUrl
-				? urlFor(conference.imageUrl).fit('clip').size(1600, 500).quality(100).url()
-				: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
-		/>
-
+		{#if conference.imageUrl}
+			<img
+				style="width: 100%; border-radius: 10px; max-height: 400px;"
+				alt=""
+				src={conference.imageUrl
+					? urlFor(conference.imageUrl).fit('clip').size(1600, 500).quality(100).url()
+					: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
+			/>
+		{/if}
 		<h1 class="title mdc-typography--headline4">{conference.title}</h1>
 		<div class="tabs-container">
 			<TabBar
