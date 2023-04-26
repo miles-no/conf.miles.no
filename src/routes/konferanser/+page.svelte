@@ -23,8 +23,6 @@
 	$: filteredConferences = filterByTags.filter((conf) =>
 		conf.title.toLowerCase().includes(searchTerm)
 	);
-	$: console.log('list', filterByTags);
-	$: console.log('selected', selected);
 
 	let options = [
 		{
