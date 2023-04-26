@@ -1,5 +1,6 @@
 <script>
 	import Conferences from '../components/Conferences.svelte';
+	import Dashboard from '../components/Dashboard.svelte';
 	import ExternalContent from '../components/ExternalContent.svelte';
 	import Hoverable from '../components/Hoverable.svelte';
 	export let data = {};
@@ -26,7 +27,7 @@
 </svelte:head>
 
 <div class="container">
-	{#if !user.isAuthenticated}<ExternalContent {conferences} />{:else}<Conferences {conferences} />
+	{#if !user.isAuthenticated}<ExternalContent {conferences} />{:else}<Dashboard {conferences} />
 		{#if !allConferencesLoaded}
 			<Hoverable let:hovering={active}>
 				<!-- svelte-ignore a11y-missing-attribute -->

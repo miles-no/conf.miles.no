@@ -50,6 +50,28 @@ export async function fetchConferences(user) {
 	};
 }
 
+export async function fetchExternalConferences(user) {
+	const officeId = user.cvpartnerOfficeId;
+	let externalConferences = await client.fetch(/* groq */ `
+        *[_type == "externalConference"] | order(endDate desc) {
+            ...,
+            "slug": slug.current,
+            "imageUrl": image.asset->url,
+        }
+    `);
+	if (!user.isAuthenticated) {
+		// conferences = conferences.filter((c) => c.showExternally || !c.internal);
+		externalConferences = externalConferences.filter((c) => c.showExternally);
+	} else {
+		externalConferences = externalConferences.filter(
+			(c) => !c.visibleTo || c.visibleTo?.includes(officeId) || c.visibleTo?.length == 0
+		);
+	}
+	return {
+		externalConferences
+	};
+}
+
 export async function fetchConference(slug) {
 	const conference = await client.fetch(
 		/* groq */ `
@@ -112,3 +134,4 @@ export async function fetchConferencePerformance(konferanse, slug) {
 		conference: conference
 	};
 }
+
