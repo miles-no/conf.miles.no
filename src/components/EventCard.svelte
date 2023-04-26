@@ -2,15 +2,12 @@
 	import { formatConferenceDateRange } from '$lib';
 	import Card, {
 		Content,
-		PrimaryAction,
 		Media,
 		MediaContent,
 		Actions,
 		ActionButtons,
-		ActionIcons
 	} from '@smui/card';
 	import Button, { Label } from '@smui/button';
-	import IconButton, { Icon } from '@smui/icon-button';
 	import imageUrlBuilder from '@sanity/image-url';
 	import { client } from '$lib/sanityClient';
 

@@ -9,7 +9,6 @@
 	import TabBar from '@smui/tab-bar';
 	import Button, { Icon } from '@smui/button';
 	import LayoutGrid, { Cell, InnerGrid } from '@smui/layout-grid';
-	import { Media, MediaContent } from '@smui/card';
 	import InformationCard from '../../../components/InformationCard.svelte';
 	import PerformanceCard from '../../../components/PerformanceCard.svelte';
 	import { formatConferenceDateRange } from '$lib';
@@ -140,7 +139,69 @@
 <div class="container">
 	<!-- {@debug performanceDays} -->
 	<BreadCrumb {conference} />
-	{#if user.isAuthenticated}
+
+	{#if conference.imageUrl}
+		<img
+			style="width: 100%; border-radius: 10px; max-height: 400px;"
+			alt=""
+			src={conference.imageUrl
+				? urlFor(conference.imageUrl).fit('clip').size(1600, 500).quality(100).url()
+				: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
+		/>
+	{/if}
+	<h1 class="title mdc-typography--headline4">{conference.title}</h1>
+	<div class="tabs-container">
+		<TabBar
+			tabs={conference.itinerary ? ['Informasjon', 'Program'] : ['Informasjon']}
+			let:tab
+			bind:active={activeTab}
+			style="width:fit-content"
+		>
+			<!-- Note: the `tab` property is required! -->
+			<Tab {tab} minWidth>
+				<Label>{tab}</Label>
+			</Tab>
+		</TabBar>
+	</div>
+
+	{#if activeTab === 'Informasjon'}
+		<LayoutGrid style="width:100%">
+			<Cell spanDevices={{ desktop: 7, tablet: 8, phone: 4 }}>
+				<PortableText value={conference.description} onMissingComponent={false} />
+			</Cell>
+			<Cell spanDevices={{ desktop: 5, tablet: 8, phone: 4 }}
+				><div class="info-section">
+					<Button
+						href={conference.signupLink}
+						target="_blank"
+						touch
+						variant="raised"
+						style="width: 100%"
+					>
+						<Icon class="material-icons">add</Icon>
+						<Label>Meld deg på</Label>
+					</Button>
+					<InformationCard information={eventDetails} />
+				</div></Cell
+			>
+			{#if conference.performances}
+				<Cell span={12} style="margin-top:1rem;">
+					<div class="mdc-typography--headline6">FOREDRAGSHOLDERE:</div>
+
+					<div class="contributions-section">
+						<LayoutGrid style="padding-left:0px; padding-right:0px;">
+							{#each conference.performances as performance}
+								<Cell spanDevices={{ desktop: 6, tablet: 8, phone: 4 }}>
+									<PerformanceCard {performance} rootSlug={conference.slug} />
+								</Cell>
+							{/each}
+						</LayoutGrid>
+					</div></Cell
+				>
+			{/if}
+		</LayoutGrid>
+		<div />
+	{:else}
 		<DaySelect options={dates} bind:selected={day} />
 		<div class="pt-4">
 			{#if conference.internal}
@@ -149,79 +210,6 @@
 				<ExternalConferenceProgram {conference} {day} />
 			{/if}
 		</div>
-	{:else}
-		{#if conference.imageUrl}
-			<img
-				style="width: 100%; border-radius: 10px; max-height: 400px;"
-				alt=""
-				src={conference.imageUrl
-					? urlFor(conference.imageUrl).fit('clip').size(1600, 500).quality(100).url()
-					: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
-			/>
-		{/if}
-		<h1 class="title mdc-typography--headline4">{conference.title}</h1>
-		<div class="tabs-container">
-			<TabBar
-				tabs={conference.itinerary ? ['Informasjon', 'Program'] : ['Informasjon']}
-				let:tab
-				bind:active={activeTab}
-				style="width:fit-content"
-			>
-				<!-- Note: the `tab` property is required! -->
-				<Tab {tab} minWidth>
-					<Label>{tab}</Label>
-				</Tab>
-			</TabBar>
-		</div>
-
-		{#if activeTab === 'Informasjon'}
-			<LayoutGrid style="width:100%">
-				<Cell spanDevices={{ desktop: 7, tablet: 8, phone: 4 }}>
-					<PortableText value={conference.description} onMissingComponent={false} />
-				</Cell>
-				<Cell spanDevices={{ desktop: 5, tablet: 8, phone: 4 }}
-					><div class="info-section">
-						<Button
-							href={conference.signupLink}
-							target="_blank"
-							touch
-							variant="raised"
-							style="width: 100%"
-						>
-							<Icon class="material-icons">add</Icon>
-							<Label>Meld deg på</Label>
-						</Button>
-
-						<InformationCard information={eventDetails} />
-					</div></Cell
-				>
-				{#if conference.performances}
-					<Cell span={12} style="margin-top:1rem;">
-						<div class="mdc-typography--headline6">FOREDRAGSHOLDERE:</div>
-
-						<div class="contributions-section">
-							<LayoutGrid style="padding-left:0px; padding-right:0px;">
-								{#each conference.performances as performance}
-									<Cell spanDevices={{ desktop: 6, tablet: 8, phone: 4 }}>
-										<PerformanceCard {performance} rootSlug={conference.slug} />
-									</Cell>
-								{/each}
-							</LayoutGrid>
-						</div></Cell
-					>
-				{/if}
-			</LayoutGrid>
-			<div />
-		{:else}
-			<DaySelect options={dates} bind:selected={day} />
-			<div class="pt-4">
-				{#if conference.internal}
-					<InternalConferenceProgram {conference} {day} />
-				{:else}
-					<ExternalConferenceProgram {conference} {day} />
-				{/if}
-			</div>
-		{/if}
 	{/if}
 </div>
 
