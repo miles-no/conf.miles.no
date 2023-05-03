@@ -1,15 +1,11 @@
 <script>
+	import Fa from 'svelte-fa';
+	import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 	import { formatConferenceDateRange } from '$lib';
-	import Card, {
-		Content,
-		Media,
-		MediaContent,
-		Actions,
-		ActionButtons,
-	} from '@smui/card';
-	import Button, { Label } from '@smui/button';
+	import Card, { Content, Media, MediaContent } from '@smui/card';
 	import imageUrlBuilder from '@sanity/image-url';
 	import { client } from '$lib/sanityClient';
+	import Tag from './tag/Tag.svelte';
 
 	export let event;
 	const date = formatConferenceDateRange(event.startDate, event.endDate);
@@ -39,26 +35,22 @@
 			</Media>
 
 			<Content>
-				<div class="title mdc-typography--headline6">
-					{event.title}
+				<div class="card-container-content-info">
+					<div class="date-location-container">
+						<span aria-hidden={true}>{date}</span>
+						<span aria-hidden={true}>
+							<Fa icon={faLocationDot} size="lg" />
+							{event.location}
+						</span>
+					</div>
+					<div class="title mdc-typography--headline6">
+						<span aria-label={`${event.title} den ${date} i ${event.location} `}>{event.title}</span
+						>
+					</div>
 				</div>
-				<div class="mdc-typography--body1">{date}</div>
+				<!-- TODO -->
+				<Tag ariaHidden={true}>Faglig påfyll</Tag>
 			</Content>
-
-			<Actions>
-				<ActionButtons>
-					<Button on:click={() => console.log('action clicked')} href="konferanser/{event.slug}">
-						<Label>Les mer</Label>
-					</Button>
-				</ActionButtons>
-				<!-- <ActionIcons>
-				<IconButton
-					class="material-icons"
-					on:click={() => console.log('share clicked')}
-					title="Share">share</IconButton
-				>
-			</ActionIcons> -->
-			</Actions>
 		</Card>
 	</a>
 </div>
@@ -69,7 +61,26 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
+
 	a {
 		text-decoration: none;
+	}
+
+	.date-location-container {
+		display: flex;
+		justify-content: space-between;
+		color: #636363;
+		font-weight: 500;
+		font-size: 0.9rem;
+	}
+
+	.date-location-container svg {
+		padding-left: 0.33rem;
+	}
+
+	.card-container-content-info {
+		display: flex;
+		flex-direction: column;
+		padding-bottom: 1.18rem;
 	}
 </style>
