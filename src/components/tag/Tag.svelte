@@ -9,7 +9,9 @@
 	<slot />
 </span>
 
-<style>
+<style lang="scss">
+	@use '../../styles/colors' as *;
+
 	.tag-container {
 		display: inline-flex;
 		align-items: center;
@@ -29,32 +31,32 @@
 	}
 
 	.primary.filled {
-		background: #0288d1;
-		color: #fff;
+		background: $blue;
+		color: $white;
 	}
 
 	.primary.outlined {
-		border-color: #0288d1;
-		color: #0288d1;
+		border-color: $blue;
+		color: $blue;
 	}
 
 	.success.filled {
-		background: #2e7d32;
-		color: #fff;
+		background: $green;
+		color: $white;
 	}
 
 	.success.outlined {
-		border-color: #2e7d32;
-		color: #2e7d32;
+		border-color: $green;
+		color: $green;
 	}
 
 	.error.filled {
-		background: #d32f2f;
-		color: #fff;
+		background: $red;
+		color: $white;
 	}
 
 	.error.outlined {
-		border-color: #d32f2f;
-		color: #d32f2f;
+		border-color: $red;
+		color: $red;
 	}
 </style>
