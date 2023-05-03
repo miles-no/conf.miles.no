@@ -1,11 +1,8 @@
-<script>
-	// filled, outlined
-	export let variant = 'filled';
-	// primary, success, error
-	export let color = 'primary';
-	// medium, small
-	export let size = 'small';
-	export let ariaHidden = false;
+<script lang="ts">
+	export let variant: 'filled' | 'outlined' = 'filled';
+	export let color: 'primary' | 'success' | 'error' = 'primary';
+	export let size: 'medium' | 'small' = 'small';
+	export let ariaHidden: boolean = false;
 </script>
 
 <span class={`tag-container ${size} ${variant} ${color}`} aria-hidden={ariaHidden}>
