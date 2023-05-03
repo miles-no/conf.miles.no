@@ -3,7 +3,6 @@
 	import Footer from '../components/Footer.svelte';
 	import Header from '../components/Header.svelte';
 	import '../styles/_mixin.scss';
-	import '../styles/_colors.scss';
 
 	export let data = {};
 	const settings = data.settings;

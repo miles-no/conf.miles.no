@@ -1,8 +1,16 @@
 <script>
+	import Button, { Label } from '@smui/button';
 	import { endOfDay } from 'date-fns';
 	import LayoutGrid, { Cell } from '@smui/layout-grid';
 	import EventCard from './EventCard.svelte';
+	import Tag from './tag/Tag.svelte';
+	import { Location } from '../enums/location';
+
 	export let conferences = [];
+
+	const locations = Object.values(Location);
+
+	console.log(locations);
 
 	$: being = conferences.filter(
 		(conf) =>
@@ -12,13 +20,80 @@
 	$: done = conferences.filter((conf) => new Date(conf.endDate) < Date.now());
 </script>
 
-<div>
-	<h1 class="mdc-typography--headline4 pt-4" style="font-weight: bold;">Dette skjer i Miles:</h1>
-	<LayoutGrid>
-		{#each to_be.reverse() as conference (conference.title)}
-			<Cell>
-				<EventCard event={conference} />
-			</Cell>
-		{/each}
-	</LayoutGrid>
+<div class="page-container">
+	<h1 class="page-container-title">Dette skjer hos oss i Miles</h1>
+	<div class="page-container-filter">
+		<div class="page-container-filter-content">
+			<p>Lokasjon</p>
+			<div class="page-container-filter-content-options">
+				{#each locations as city}
+					<Button
+						variant="outlined"
+						class="page-container-filter-content-options-btn button-shaped-round"
+					>
+						<Label>{city}</Label>
+					</Button>
+				{/each}
+			</div>
+		</div>
+		<div class="page-container-filter-content">
+			<p>Jeg ønsker</p>
+			<div class="page-container-filter-content-options">
+				<Tag variant="outlined" color="error" size="small">Sosial påfyll</Tag>
+			</div>
+		</div>
+	</div>
+	<div class="page-container-content">
+		<LayoutGrid>
+			{#each to_be.reverse() as conference (conference.title)}
+				<Cell>
+					<EventCard event={conference} />
+				</Cell>
+			{/each}
+		</LayoutGrid>
+	</div>
 </div>
+
+<style lang="scss">
+	@use '../styles/colors' as *;
+
+	.page-container-title {
+		font-size: 2.5rem;
+		letter-spacing: 1.3px;
+		font-weight: 700;
+	}
+
+	.page-container-filter {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		padding-bottom: 1.5rem;
+	}
+
+	.page-container-filter-content {
+		display: flex;
+		align-self: flex-end;
+		gap: 2rem;
+		width: 50%;
+
+		p {
+			letter-spacing: 1.3px;
+			font-weight: 600;
+		}
+	}
+
+	.page-container-filter-content-options {
+		display: flex;
+		gap: 0.4rem;
+	}
+
+	* :global(.page-container-filter-content-options-btn) {
+		border-color: $red;
+		color: $red;
+	}
+
+	.page-container-content {
+		border: 1px solid $black;
+		border-radius: 0.5rem;
+	}
+</style>
