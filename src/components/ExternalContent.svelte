@@ -1,16 +1,12 @@
-<script>
-	import Button, { Label } from '@smui/button';
+<script lang="ts">
 	import { endOfDay } from 'date-fns';
 	import LayoutGrid, { Cell } from '@smui/layout-grid';
 	import EventCard from './EventCard.svelte';
 	import Tag from './tag/Tag.svelte';
-	import { Location } from '../enums/location';
+	import LocationButtonGroup from './button/location-button-group/LocationButtonGroup.svelte';
+	import type { LocationType } from '../enums/location';
 
 	export let conferences = [];
-
-	const locations = Object.values(Location);
-
-	console.log(locations);
 
 	$: being = conferences.filter(
 		(conf) =>
@@ -18,24 +14,14 @@
 	);
 	$: to_be = conferences.filter((conf) => new Date(conf.startDate) >= Date.now());
 	$: done = conferences.filter((conf) => new Date(conf.endDate) < Date.now());
+
+	let selectedCity: LocationType | undefined = undefined;
 </script>
 
 <div class="page-container">
 	<h1 class="page-container-title">Dette skjer hos oss i Miles</h1>
 	<div class="page-container-filter">
-		<div class="page-container-filter-content">
-			<p>Lokasjon</p>
-			<div class="page-container-filter-content-options">
-				{#each locations as city}
-					<Button
-						variant="outlined"
-						class="page-container-filter-content-options-btn button-shaped-round"
-					>
-						<Label>{city}</Label>
-					</Button>
-				{/each}
-			</div>
-		</div>
+		<LocationButtonGroup bind:selectedCity />
 		<div class="page-container-filter-content">
 			<p>Jeg ønsker</p>
 			<div class="page-container-filter-content-options">
@@ -80,16 +66,6 @@
 			letter-spacing: 1.3px;
 			font-weight: 600;
 		}
-	}
-
-	.page-container-filter-content-options {
-		display: flex;
-		gap: 0.4rem;
-	}
-
-	* :global(.page-container-filter-content-options-btn) {
-		border-color: $red;
-		color: $red;
 	}
 
 	.page-container-content {
