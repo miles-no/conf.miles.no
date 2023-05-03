@@ -1,6 +1,8 @@
 <script>
+	import Fa from 'svelte-fa';
+	import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 	import { formatConferenceDateRange } from '$lib';
-	import Card, { Content, Media, MediaContent, Actions, ActionButtons } from '@smui/card';
+	import Card, { Content, Media, MediaContent } from '@smui/card';
 	import imageUrlBuilder from '@sanity/image-url';
 	import { client } from '$lib/sanityClient';
 	import Tag from './tag/Tag.svelte';
@@ -36,7 +38,10 @@
 				<div class="card-container-content-info">
 					<div class="date-location-container">
 						<span aria-hidden={true}>{date}</span>
-						<span aria-hidden={true}>{event.location}</span>
+						<span aria-hidden={true}>
+							<Fa icon={faLocationDot} size="lg" />
+							{event.location}
+						</span>
 					</div>
 					<div class="title mdc-typography--headline6">
 						<span aria-label={`${event.title} den ${date} i ${event.location} `}>{event.title}</span
@@ -67,6 +72,10 @@
 		color: #636363;
 		font-weight: 500;
 		font-size: 0.9rem;
+	}
+
+	.date-location-container svg {
+		padding-left: 0.33rem;
 	}
 
 	.card-container-content-info {
