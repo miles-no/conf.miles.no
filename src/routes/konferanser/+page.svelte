@@ -4,14 +4,12 @@
 	import Cell from '@smui/layout-grid/src/Cell.svelte';
 	import ConferenceCard from '../../components/conferance/ConferenceCard/ConferenceCard.svelte';
 	import Textfield from '@smui/textfield';
-	import HelperText from '@smui/select/helper-text';
 	import Checkbox from '@smui/checkbox';
 	import FormField from '@smui/form-field';
 
 	export let data = {};
 	export let externalConferences = data.externalConferences;
-	export let conferences = data.conferences;
-	export let user = data.user;
+	let user = data.user;
 	let selected = [];
 
 	$: searchTerm = '';
@@ -68,7 +66,7 @@
 		<LayoutGrid>
 			{#each filteredConferences as conference, index}
 				<Cell>
-					<ConferenceCard {conference} {index} />
+					<ConferenceCard {conference} {index} {user} />
 				</Cell>
 			{/each}
 		</LayoutGrid>
@@ -95,6 +93,7 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
+		flex-wrap: wrap;
 		width: 100%;
 	}
 	.tagWrapper {

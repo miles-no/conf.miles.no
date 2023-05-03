@@ -68,7 +68,7 @@ export default {
 			type: 'string',
 			description: 'The current type of ticket that is available'
 		},
-        {
+		{
 			title: 'Price',
 			name: 'price',
 			type: 'string',
@@ -76,14 +76,18 @@ export default {
 		},
 		{
 			title: 'Category',
-			name:"categoryTag",
-			type: "array",
-			of: [{type:"string"}],
-			options:{
-
-				list:  [{title: "Smidig", value:"Smidig"}, {title: "UX/Design", value:"UX/Design"}, {title: "Utvikling", value:"Utvikling"}],
+			name: 'categoryTag',
+			type: 'array',
+			of: [{ type: 'string' }],
+			options: {
+				list: [
+					{ title: 'Smidig', value: 'Smidig' },
+					{ title: 'UX/Design', value: 'UX/Design' },
+					{ title: 'Utvikling', value: 'Utvikling' }
+				]
 			},
-			description:"For who is the conference relevant?"
+			validation: (Rule) => Rule.required(),
+			description: 'For who is the conference relevant?'
 		},
 
 		{
@@ -107,21 +111,40 @@ export default {
 		{
 			title: 'Homepage',
 			name: 'url',
-			type: 'url',
+			type: 'url'
 		},
 		{
-			title: 'Attending',
-			name: 'attending',
+			title: 'Relevent Employees',
+			name: 'employees',
 			type: 'array',
-			of: [{type: "string"}]
-		},
-		{
-			title: 'Interested',
-			name: 'interested',
-			type: 'array',
-			of: [{type: "string"}]
-		},
-		
-		
+			of: [
+				{
+					title: 'Employee Status',
+					type: 'object',
+					fields: [
+						{
+							name: 'email',
+							title: 'Email',
+							type: 'string',
+							validation: (Rule) => Rule.required().email(),
+							unique: true
+						},
+						{
+							name: 'status',
+							title: 'Status',
+							type: 'string',
+							options: {
+								list: [
+									{ title: 'Attending', value: 'attending' },
+									{ title: 'Interested', value: 'interested' },
+									{ title: 'Not Going', value: 'notGoing' }
+								]
+							},
+							validation: (Rule) => Rule.required()
+						}
+					]
+				}
+			]
+		}
 	]
 };
