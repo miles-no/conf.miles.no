@@ -6,15 +6,21 @@
 	import Button, { Label } from '@smui/button';
 	import { PortableText } from '@portabletext/svelte';
 	import Dialog, { Content } from '@smui/dialog';
-	import IconButton, { Icon } from '@smui/icon-button';
+	import IconButton from '@smui/icon-button';
+	import { applyAction, deserialize } from '$app/forms';
+	import { invalidateAll } from '$app/navigation';
+	import { ConferenceEmployeeStatus } from './conferenceEmployeeStatusEnum';
 	/**
 	 * @type {boolean}
 	 */
 	export let open;
+
 	/**
-	 * @type {{ startDate: any; endDate: any; imageUrl: any; title: any; location: any; url: any; description: any; slug: any; }}
+	 * @type {{ startDate: any; endDate: any; employees: any[]; _id: any; imageUrl: any; title: any; location: any; url: any; price: any; categoryTag: any; description: any; }}
 	 */
 	export let conference;
+	export let user;
+
 	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
 	const builder = imageUrlBuilder(client);
 
@@ -22,8 +28,45 @@
 		return builder.image(source);
 	}
 
-	let participationStatus = ['Påmeldt', 'Kanskje ', 'Ikke interresert'];
-	let selected;
+	function createFormElement(name, value) {
+		const element = document.createElement('input');
+		element.type = 'hidden';
+		element.name = name;
+		element.value = value;
+		return element;
+	}
+
+	let key = conference.employees?.find((e) => e.email === user.email)?.status || 'notGoing';
+	$: selected = key;
+
+	async function handleSubmit() {
+		const form = document.createElement('form');
+		const docId = createFormElement('conferenceId', conference._id);
+		const status = createFormElement('status', selected);
+
+		form.appendChild(docId);
+		form.appendChild(status);
+
+		let data = new FormData(form);
+		let result;
+
+		const response = await fetch('?/updateStatus', {
+			method: 'POST',
+			body: data
+		});
+		result = deserialize(await response.text());
+
+		/** @type {import('@sveltejs/kit').ActionResult} */
+		if (result) {
+			if (result.type === 'success') {
+				// re-run all `load` functions, following the successful update
+				await invalidateAll();
+			}
+			applyAction(result);
+		}
+	}
+	const statusEntries = Object.entries(ConferenceEmployeeStatus);
+	console.log(statusEntries);
 </script>
 
 <Dialog bind:open noContentPadding sheet aria-describedby="sheet-no-padding-content">
@@ -66,15 +109,15 @@
 			<h5>Min status:</h5>
 			<div class="actionWrapper">
 				<div>
-					<select bind:value={selected} on:change={() => console.log('do something')}>
-						{#each participationStatus as status}
-							<option value={status}>
-								{status}
+					<select bind:value={selected} on:change={handleSubmit}>
+						{#each statusEntries as [statusKey, statusValue]}
+							<option value={statusKey}>
+								{statusValue}
 							</option>
 						{/each}
 					</select>
 				</div>
-				<Button variant="raised" href="konferanser/{conference.slug}">
+				<Button variant="raised">
 					<Label>Se flere detaljer</Label>
 				</Button>
 			</div>
