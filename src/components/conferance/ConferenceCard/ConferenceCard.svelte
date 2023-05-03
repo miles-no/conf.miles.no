@@ -8,6 +8,7 @@
 
 	export let conference;
 	export let index;
+	export let user;
 	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
 	const builder = imageUrlBuilder(client);
 
@@ -51,7 +52,7 @@
 			</Content>
 		</Card>
 	</div>
-	<ConferenceModal bind:open {conference} />
+	<ConferenceModal bind:open {conference} {user} />
 </div>
 
 <style>
