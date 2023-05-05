@@ -51,12 +51,12 @@
 	}
 
 	.error.filled {
-		background: $red;
+		background: $primary-red;
 		color: $white;
 	}
 
 	.error.outlined {
-		border-color: $red;
-		color: $red;
+		border-color: $primary-red;
+		color: $primary-red;
 	}
 </style>

@@ -23,11 +23,15 @@
 </script>
 
 <svelte:head>
+	<link rel="stylesheet" href="../../src/app.scss" />
+
 	<title>Miles @ Conferences</title>
 </svelte:head>
 
 <div class="container">
-	{#if !user.isAuthenticated}<ExternalContent {conferences} />{:else}<Dashboard {conferences} />
+	{#if !user.isAuthenticated}<ExternalContent {conferences} />{:else}<ExternalContent
+			{conferences}
+		/>
 		{#if !allConferencesLoaded}
 			<Hoverable let:hovering={active}>
 				<!-- svelte-ignore a11y-missing-attribute -->

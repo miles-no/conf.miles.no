@@ -1,0 +1,17 @@
+@use '@material/button/mixins' as mdc-button;
+@use './styles/colors' as *;
+
+.button-shaped-round {
+	@include mdc-button.shape-radius(100%);
+}
+
+.chip-container {
+	background-color: $white;
+	border: 1px solid $primary-red;
+	color: $primary-red;
+
+	&.chip--selected {
+		border: 1px solid $primary-red;
+		background-color: $primary-red-light;
+	}
+}
