@@ -18,6 +18,7 @@
 		"@material/typography": "^14.0.0",
 		"@playwright/test": "^1.30.0",
 		"@portabletext/svelte": "^2.0.0",
+		"@smui/button": "^7.0.0-beta.8",
 		"@smui/card": "^7.0.0-beta.0",
 		"@smui/checkbox": "^7.0.0-beta.3",
 		"@smui/common": "^7.0.0-beta.0",
@@ -54,7 +55,6 @@
 	"type": "module",
 	"dependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
-		"@fortawesome/free-solid-svg-icons": "^6.4.0",
 		"@lukeed/uuid": "^2.0.0",
 		"@mdi/js": "^7.2.96",
 		"@sanity/client": "^3.4.1",
@@ -65,7 +65,6 @@
 		"dotenv": "^16.0.3",
 		"lucide-svelte": "^0.112.0",
 		"query-string": "^8.1.0",
-		"svelte-fa": "^3.0.3",
 		"svelte-navigator": "^3.2.2",
 		"uuid": "^9.0.0",
 		"zod": "^3.20.6"

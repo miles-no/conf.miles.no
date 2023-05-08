@@ -1,16 +1,18 @@
 <script lang="ts">
 	export let variant: 'filled' | 'outlined' = 'filled';
-	export let color: 'primary' | 'success' | 'error' = 'primary';
+	export let color: 'info' | 'success' | 'error' = 'info';
 	export let size: 'medium' | 'small' = 'small';
 	export let ariaHidden: boolean = false;
 </script>
 
-<span class={`tag-container ${size} ${variant} ${color}`} aria-hidden={ariaHidden}>
+<span class={`tag ${size} ${variant} ${color}`} aria-hidden={ariaHidden}>
 	<slot />
 </span>
 
-<style>
-	.tag-container {
+<style lang="scss">
+	@use '../../styles/colors' as *;
+
+	.tag {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -26,35 +28,5 @@
 
 	.small {
 		font-size: 0.87rem;
-	}
-
-	.primary.filled {
-		background: #0288d1;
-		color: #fff;
-	}
-
-	.primary.outlined {
-		border-color: #0288d1;
-		color: #0288d1;
-	}
-
-	.success.filled {
-		background: #2e7d32;
-		color: #fff;
-	}
-
-	.success.outlined {
-		border-color: #2e7d32;
-		color: #2e7d32;
-	}
-
-	.error.filled {
-		background: #d32f2f;
-		color: #fff;
-	}
-
-	.error.outlined {
-		border-color: #d32f2f;
-		color: #d32f2f;
 	}
 </style>

@@ -4,12 +4,13 @@
 
 // Svelte Colors!
 @use '@material/theme/index' as theme with (
-	$primary: #dd282e,
+	$primary: #a82424,
 	$secondary: #676778,
 	$surface: #fff,
 	$background: #fff,
 	$error: color-palette.$red-900
 );
+
 // Import all the styles for the classes.
 @use '@material/typography/mdc-typography';
 // The following classes become available:
@@ -36,6 +37,11 @@
 // If you just want to use these, and not the classes, you can instead just
 // @use '@material/typography/index' as typography, and your CSS file will be smaller.
 //
+
+// Button Styles
+@use '@material/button/index' as button-theme with (
+	$outline-color: #a82424
+);
 
 html,
 body {
@@ -101,4 +107,42 @@ big {
 b,
 strong {
 	font-weight: bold;
+}
+
+button {
+	text-transform: none !important;
+}
+
+.grey-text {
+	color: #595959;
+}
+
+.tag.info.filled {
+	background: #025c8d;
+	color: #fff;
+}
+
+.tag.info.outlined {
+	border-color: #025c8d;
+	color: #025c8d;
+}
+
+.tag.success.filled {
+	background: #266429;
+	color: #fff;
+}
+
+.tag.success.outlined {
+	border-color: #266429;
+	color: #266429;
+}
+
+.tag.error.filled {
+	background: #a82424;
+	color: #fff;
+}
+
+.tag.error.outlined {
+	border-color: #a82424;
+	color: #a82424;
 }

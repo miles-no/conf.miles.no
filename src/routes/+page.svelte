@@ -23,7 +23,8 @@
 </script>
 
 <svelte:head>
-	<title>Miles @ Conferences</title>
+	<link rel="stylesheet" href="../../src/app.scss" />
+	<title>Dette skjer hos oss i Miles - Miles</title>
 </svelte:head>
 
 <div class="container">
