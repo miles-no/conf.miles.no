@@ -4,7 +4,7 @@
 
 // Svelte Colors! (Dark Theme)
 @use '@material/theme/index' as theme with (
-	$primary: #dd282e,
+	$primary: #e97276,
 	$secondary: color.scale(#676778, $whiteness: -10%),
 	$surface: color.adjust(color-palette.$grey-900, $blue: +4),
 	$background: #000,
@@ -12,7 +12,7 @@
 );
 
 @use '@material/button/index' as button-theme with (
-	$outline-color: #dd282e
+	$outline-color: #e97276
 );
 
 // Import all the styles for the classes.
@@ -115,4 +115,34 @@ button {
 
 .grey-text {
 	color: color.scale(#ffffff, $lightness: -15%);
+}
+
+.tag.info.filled {
+	background: #025c8d;
+	color: #ffffff;
+}
+
+.tag.info.outlined {
+	border-color: #35b7fd;
+	color: #35b7fd;
+}
+
+.tag.success.filled {
+	background: #266427;
+	color: #ffffff;
+}
+
+.tag.success.outlined {
+	border-color: #57c159;
+	color: #57c159;
+}
+
+.tag.error.filled {
+	background: #ac1b1d;
+	color: #ffffff;
+}
+
+.tag.error.outlined {
+	border-color: #ee9697;
+	color: #ee9697;
 }

@@ -51,7 +51,7 @@
 					</div>
 				</div>
 				<!-- TODO -->
-				<Tag ariaHidden={true}>{Event.Faglig}</Tag>
+				<Tag color="info" ariaHidden={true}>{Event.Faglig}</Tag>
 			</Content>
 		</Card>
 	</a>
