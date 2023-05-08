@@ -18,7 +18,6 @@
 	$: showedEvents = [...futureEvents];
 
 	$: {
-		console.log(selectedCity);
 		if (selectedCity) {
 			showedEvents = futureEvents
 				.filter((conf: IConference) =>
@@ -42,7 +41,7 @@
 	<h1 class="page-container-title">Dette skjer hos oss i Miles</h1>
 	<div class="page-container-filter">
 		<LocationButtonGroup bind:selectedCity />
-		<EventTypeButtonGroup bind:selectedEvent />
+		<EventTypeButtonGroup isExternal bind:selectedEvent />
 	</div>
 	<div class="page-container-content">
 		<LayoutGrid>

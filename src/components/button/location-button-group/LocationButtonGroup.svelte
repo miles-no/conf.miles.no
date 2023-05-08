@@ -1,31 +1,33 @@
 <script lang="ts">
-	import Chip, { Set, Text } from '@smui/chips';
+	import Button, { Label } from '@smui/button';
 	import { Location } from '../../../enums/location';
 	import type { LocationType } from '../../../enums/location';
+
 	export let selectedCity: LocationType | undefined = undefined;
 	const locations: LocationType[] = Object.values(Location);
 </script>
 
-<div class="location-chips-container">
+<div class="location-btn-group-container">
 	<span>Lokasjon</span>
-	<div class="location-chips-container-options">
-		<Set chips={locations} let:chip>
-			<Chip
-				{chip}
-				ripple={false}
-				class={`chip-container ${selectedCity === chip ? 'chip--selected' : ''}`}
-				selected={selectedCity === chip}
-				on:click={() => (selectedCity = chip)}
+	<div class="location-btn-group-container-options">
+		{#each locations as city}
+			<Button
+				variant="outlined"
+				class={`location-btn-group-container-options-btn button-shaped-round ${
+					selectedCity === city ? 'mdc-ripple-upgraded--background-focused' : ''
+				}`}
+				on:click={() => (selectedCity = city)}
+				selected={selectedCity === city}
 			>
-				<Text>{chip}</Text>
-			</Chip>
-		</Set>
+				<Label>{city}</Label>
+			</Button>
+		{/each}
 	</div>
 </div>
 
 <style lang="scss">
 	@use '../../../styles/colors' as *;
-	.location-chips-container {
+	.location-btn-group-container {
 		display: flex;
 		align-self: flex-end;
 		align-items: center;
@@ -35,6 +37,11 @@
 		span {
 			letter-spacing: 1.3px;
 			font-weight: 600;
+		}
+
+		.location-btn-group-container-options {
+			display: flex;
+			gap: 0.4rem;
 		}
 	}
 </style>

@@ -12,7 +12,7 @@
 	let darkTheme: MediaQueryList | boolean | undefined = undefined;
 
 	onMount(() => {
-		darkTheme = window.matchMedia('(prefers-color-scheme: dark)');
+		darkTheme = window.matchMedia('(prefers-color-scheme: light)');
 	});
 </script>
 
