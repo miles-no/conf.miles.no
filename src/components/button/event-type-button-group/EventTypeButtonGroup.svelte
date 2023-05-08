@@ -29,12 +29,20 @@
 </div>
 
 <style lang="scss">
+	@media (min-width: 599px) {
+		.eventtype-btn-group-container {
+			display: flex;
+			align-self: flex-end;
+			align-items: center;
+			width: 45rem !important;
+		}
+	}
+
 	.eventtype-btn-group-container {
 		display: flex;
 		align-self: flex-end;
 		align-items: center;
 		gap: 2rem;
-		width: 50%;
 
 		span {
 			letter-spacing: 1.3px;

@@ -26,13 +26,18 @@
 </div>
 
 <style lang="scss">
+	@media (min-width: 599px) {
+		.location-btn-group-container {
+			display: flex;
+			align-self: flex-end;
+			align-items: center;
+			width: 45rem !important;
+		}
+	}
+
 	.location-btn-group-container {
 		display: flex;
-		align-self: flex-end;
-		align-items: center;
 		gap: 2rem;
-		width: 50%;
-
 		span {
 			letter-spacing: 1.3px;
 			font-weight: 600;
