@@ -14,7 +14,7 @@
 			<Button
 				variant="outlined"
 				class={`location-btn-group-container-options-btn button-shaped-round ${
-					selectedCity === city ? 'mdc-ripple-upgraded--background-focused' : ''
+					selectedCity === city ? 'btn--selected' : ''
 				}`}
 				on:click={() => (selectedCity = city)}
 				selected={selectedCity === city}
@@ -26,7 +26,6 @@
 </div>
 
 <style lang="scss">
-	@use '../../../styles/colors' as *;
 	.location-btn-group-container {
 		display: flex;
 		align-self: flex-end;
@@ -42,6 +41,10 @@
 		.location-btn-group-container-options {
 			display: flex;
 			gap: 0.4rem;
+		}
+		* :global(.btn--selected) {
+			background-color: #f6e8e7;
+			color: #96171c;
 		}
 	}
 </style>

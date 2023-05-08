@@ -17,7 +17,7 @@
 			<Button
 				variant="outlined"
 				class={`eventtype-btn-group-container-options-btn button-shaped-round ${
-					selectedEvent === event ? 'mdc-ripple-upgraded--background-focused' : ''
+					selectedEvent === event ? 'btn--selected' : ''
 				}`}
 				on:click={() => (selectedEvent = event)}
 				selected={selectedEvent === event}
@@ -29,7 +29,6 @@
 </div>
 
 <style lang="scss">
-	@use '../../../styles/colors' as *;
 	.eventtype-btn-group-container {
 		display: flex;
 		align-self: flex-end;
@@ -44,6 +43,11 @@
 		.eventtype-btn-group-container-options {
 			display: flex;
 			gap: 0.4rem;
+		}
+
+		* :global(.btn--selected) {
+			background-color: #f6e8e7;
+			color: #96171c;
 		}
 	}
 </style>

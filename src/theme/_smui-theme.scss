@@ -11,11 +11,6 @@
 	$error: color-palette.$red-900
 );
 
-// Button Styles
-@use '@material/button/index' as button-theme with (
-	$outline-color: #a82424
-);
-
 // Import all the styles for the classes.
 @use '@material/typography/mdc-typography';
 // The following classes become available:
@@ -42,6 +37,11 @@
 // If you just want to use these, and not the classes, you can instead just
 // @use '@material/typography/index' as typography, and your CSS file will be smaller.
 //
+
+// Button Styles
+@use '@material/button/index' as button-theme with (
+	$outline-color: #a82424
+);
 
 html,
 body {

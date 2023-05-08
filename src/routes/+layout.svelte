@@ -9,10 +9,10 @@
 		authInfo = data.user;
 	}
 
-	let darkTheme: MediaQueryList | boolean | undefined = undefined;
+	let darkTheme: boolean | undefined = undefined;
 
 	onMount(() => {
-		darkTheme = window.matchMedia('(prefers-color-scheme: light)');
+		darkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
 	});
 </script>
 
