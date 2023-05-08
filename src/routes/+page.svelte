@@ -24,7 +24,7 @@
 
 <svelte:head>
 	<link rel="stylesheet" href="../../src/app.scss" />
-	<title>Miles @ Conferences</title>
+	<title>Dette skjer hos oss i Miles - Miles</title>
 </svelte:head>
 
 <div class="container">
