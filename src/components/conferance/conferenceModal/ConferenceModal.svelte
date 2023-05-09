@@ -117,9 +117,7 @@
 						{/each}
 					</select>
 				</div>
-				<Button variant="raised">
-					<Label>Se flere detaljer</Label>
-				</Button>
+				<a href={`/konferanser/ekstern/${conference.slug}`}>Se flere detaljer </a>
 			</div>
 		</div>
 	</Content>
