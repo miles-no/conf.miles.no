@@ -1,7 +1,8 @@
+import type { ConferenceCategoryType } from '../enums/conference-category';
 import type { IDescription, IImage } from './conference';
 
 export interface IExternalConference {
-	categoryTag: string[];
+	categoryTag: ConferenceCategoryType[];
 	endDate: string;
 	_createdAt: string;
 	location: string;
