@@ -40,7 +40,6 @@
 
     let showModal = false
     function toggleShowModal() {
-        console.log("!visible")
         showModal = !showModal;
     }
 </script>
