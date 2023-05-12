@@ -2,10 +2,11 @@
 	import LayoutGrid from '@smui/layout-grid';
 	import Button, { Icon, Label } from '@smui/button';
 	import Cell from '@smui/layout-grid/src/Cell.svelte';
-	import ConferenceCard from '../../components/conferance/ConferenceCard/ConferenceCard.svelte';
+	import ConferenceCard from '../../components/conference/ConferenceCard/ConferenceCard.svelte';
 	import Textfield from '@smui/textfield';
 	import Checkbox from '@smui/checkbox';
 	import FormField from '@smui/form-field';
+    import NewConferenceModal from "../../components/conference/NewConferenceModal/NewConferenceModal.svelte";
 
 	export let data = {};
 	export let externalConferences = data.externalConferences;
@@ -36,12 +37,21 @@
 			disabled: false
 		}
 	];
+
+    let showModal = false
+    function toggleShowModal() {
+        console.log("!visible")
+        showModal = !showModal;
+    }
 </script>
 
 <div class="container">
+    {#if showModal}
+        <NewConferenceModal on:toggleNewConferenceModal={toggleShowModal} />
+    {/if}
 	<div class="topRow">
 		<h1>Konferanser</h1>
-		<Button variant="raised">
+		<Button variant="raised" on:click={toggleShowModal}>
 			<Label>Registrer ny</Label>
 		</Button>
 	</div>
