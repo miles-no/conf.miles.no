@@ -4,10 +4,16 @@
 
 	const statusEntries = Object.entries(Status);
 	export let selectedStatus: StatusType | undefined = undefined;
+
+	let innerWidth = 0;
+
+	$: label = innerWidth > 1234 ? 'Min status:' : 'Status';
 </script>
 
+<svelte:window bind:innerWidth />
+
 <div class="conference-status">
-	<p>Min status:</p>
+	<p>{label}</p>
 	<Select
 		class="conference-status-select"
 		variant="outlined"
