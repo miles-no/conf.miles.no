@@ -3,13 +3,13 @@
 	import { formatConferenceDateRange } from '$lib';
 	import imageUrlBuilder from '@sanity/image-url';
 	import { client } from '$lib/sanityClient';
-	import Button, { Label } from '@smui/button';
 	import { PortableText } from '@portabletext/svelte';
 	import Dialog, { Content } from '@smui/dialog';
 	import IconButton from '@smui/icon-button';
 	import { applyAction, deserialize } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { ConferenceEmployeeStatus } from './conferenceEmployeeStatusEnum';
+	import { Status } from '../../../enums/status';
+	import ConferenceInformation from '../conference-information/ConferenceInformation.svelte';
 	/**
 	 * @type {boolean}
 	 */
@@ -65,7 +65,7 @@
 			applyAction(result);
 		}
 	}
-	const statusEntries = Object.entries(ConferenceEmployeeStatus);
+	const statusEntries = Object.entries(Status);
 	console.log(statusEntries);
 </script>
 
@@ -86,15 +86,7 @@
 		<div class="content">
 			<h1>{conference.title}</h1>
 			<div class="compactInfo">
-				<div class="info">
-					<div class="mdc-typography--body1">{date}</div>
-					<div class="mdc-typography--body1">{conference.location}</div>
-					<div class="mdc-typography--body1">earlybird 1 mars</div>
-					{#if conference.url}
-						<a href={conference.url}>{conference.url}</a>
-					{/if}
-					<div class="mdc-typography--body1">{conference.price}</div>
-				</div>
+				<ConferenceInformation {conference} />
 				<div class="tagWrapper">
 					{#each conference.categoryTag as activityType}
 						<ActivityTypeTag {activityType} />

@@ -9,7 +9,7 @@
 	const date = formatConferenceDateRange(conference?.startDate, conference?.endDate);
 </script>
 
-<Paper variant="unelevated">
+<Paper class="conference-information-tag-container" variant="unelevated">
 	<Content class="conference-information-tag grey-text">
 		<div>
 			<p class="visuallyhidden">{`dato: ${date}`}</p>
@@ -62,23 +62,27 @@
 	}
 
 	// Mobile
-	:global(.conference-information-tag) {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		font-weight: 600;
-		letter-spacing: 1px;
-		:global(p) {
+	:global(.conference-information-tag-container) {
+		padding: 0 !important;
+
+		:global(.conference-information-tag) {
 			display: flex;
+			flex-direction: column;
 			gap: 0.5rem;
-			align-items: center;
+			font-weight: 600;
+			letter-spacing: 1px;
+			:global(p) {
+				display: flex;
+				gap: 0.5rem;
+				align-items: center;
+			}
 		}
 	}
 
 	// Desktop
-	@media (min-width: 850px) {
+	@media (min-width: 900px) {
 		:global(.conference-information-tag) {
-			display: grid;
+			display: grid !important;
 			grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
 		}
 	}
