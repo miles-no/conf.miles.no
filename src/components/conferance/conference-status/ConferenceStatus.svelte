@@ -39,7 +39,6 @@
 		font-weight: 600;
 
 		:global(.conference-status-select) {
-			width: 70%;
 			background-color: #ffcd2957;
 			border-radius: 5px;
 			:global(.mdc-select__anchor) {
