@@ -19,7 +19,9 @@
         align-items: flex-start;
     }
 
-    .labeled-field :global(label) {
+    .labeled-field :global(label),
+    .labeled-field :global(input)
+    {
         width: 100%;
     }
 
