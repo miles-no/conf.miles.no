@@ -1,19 +1,20 @@
 <script>
     import JustifiedRow from "../../form/JustifiedRow.svelte";
-    import HelperText from "@smui/textfield/helper-text";
     import TextField from "../../form/TextField.svelte";
+    import DatePicker from "../../form/DatePicker.svelte";
 
     let name='', url=''
 </script>
 
 <form>
     <JustifiedRow>
-        <TextField bind:value={name} label="Navn på konferanse" placeholder="Navn" required width="60%"/>
-        <TextField bind:value={url} label="URL" placeholder="www.url.no" required width="36%"/>
+        <TextField bind:value={name} label="Navn på konferanse" placeholder="Navn" width="60%" required />
+        <TextField bind:value={url} label="URL" placeholder="www.url.no" width="36%" required />
     </JustifiedRow>
 
     <JustifiedRow>
-        <!-- 2 x DATE FIELDS! -->
+        <DatePicker label="Startdato" width="48%" required />
+        <DatePicker label="Sluttdato" width="48%" required />
     </JustifiedRow>
 </form>
 

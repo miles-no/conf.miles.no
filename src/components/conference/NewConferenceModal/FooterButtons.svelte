@@ -1,6 +1,6 @@
 <script>
     import Button, {Icon, Label} from "@smui/button";
-    import JustifiedRow from "./JustifiedRow.svelte";
+    import JustifiedRow from "../../form/JustifiedRow.svelte";
 </script>
 
 <JustifiedRow className="footer-buttons">
