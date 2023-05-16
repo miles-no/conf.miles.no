@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { IExternalConference } from '../../../model/external-conference';
-	import Paper from '@smui/paper';
 	import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
 
 	export let externalConference: IExternalConference;
@@ -11,11 +10,7 @@
 	const registeredPerson = externalConference.employees.filter(
 		(person) => person.status !== 'interested'
 	);
-
-	let innerWidth = 0;
 </script>
-
-<svelte:window bind:innerWidth />
 
 <div class="conference-attendance">
 	<Accordion>
@@ -28,6 +23,8 @@
 							<li>{person.email}</li>
 						{/each}
 					</ul>
+				{:else}
+					<p>Ingen interesserte</p>
 				{/if}
 			</Content>
 		</Panel>

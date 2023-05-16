@@ -38,7 +38,7 @@
 					<h1>{externalConference.title}</h1>
 					<hr class="grey-text" />
 					<ConferenceInformation conference={externalConference} />
-					<div>
+					<div class="conference-details-main-content-tags-container">
 						{#each externalConference.categoryTag as categoryType}
 							<ConferenceCategoryTag category={categoryType} />
 						{/each}
@@ -124,6 +124,10 @@
 				flex-direction: column;
 				gap: 2rem;
 			}
+			.conference-details-main-content-tags-container {
+				display: flex;
+				gap: 1rem;
+			}
 		}
 
 		.conference-details-content-info-status {
@@ -163,14 +167,24 @@
 				gap: 2rem;
 			}
 		}
+	}
 
-		.conference-details-main-content-status {
+	@media (max-width: 1050px) {
+		.conference-details-status {
 			display: none !important;
+		}
+
+		.conference-details {
+			display: flex !important;
+
+			.conference-details-main-content-description {
+				display: flex !important;
+			}
 		}
 	}
 
-	@media (max-width: 901px) {
-		.conference-details-status {
+	@media (min-width: 1051px) {
+		.conference-details-main-content-status {
 			display: none !important;
 		}
 	}

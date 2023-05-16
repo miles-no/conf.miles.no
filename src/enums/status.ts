@@ -1,7 +1,7 @@
 export enum Status {
-	Interested = 'Interresert',
-	Attending = 'Påmeldt',
-	Not_Going = 'Ikke interresert'
+	attending = 'Interresert',
+	interested = 'Påmeldt',
+	notGoing = 'Ikke interresert'
 }
 
 export type StatusType = 'Jeg er interessert' | 'Påmeldt' | 'Ikke interresert';

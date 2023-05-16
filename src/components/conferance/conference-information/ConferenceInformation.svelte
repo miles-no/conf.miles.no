@@ -4,9 +4,9 @@
 	import type { IExternalConference } from '../../../model/external-conference';
 	import { formatConferenceDateRange } from '$lib';
 
-	export let conference: IExternalConference | undefined = undefined;
+	export let conference: IExternalConference;
 
-	const date = formatConferenceDateRange(conference?.startDate, conference?.endDate);
+	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
 </script>
 
 <Paper class="conference-information-tag-container" variant="unelevated">
@@ -19,32 +19,32 @@
 			</p>
 		</div>
 		<div>
-			<p class="visuallyhidden">{`sted: ${conference?.location}`}</p>
+			<p class="visuallyhidden">{`sted: ${conference.location}`}</p>
 			<p aria-hidden={true}>
 				<Icon class="material-icons" alt="">location_on</Icon>
-				{conference?.location}
+				{conference.location}
 			</p>
 		</div>
 		<div>
-			<p class="visuallyhidden">{`billetttype: ${conference?.tickettype}`}</p>
+			<p class="visuallyhidden">{`billetttype: ${conference.tickettype}`}</p>
 			<p aria-hidden={true}>
 				<Icon class="material-icons" alt="">notifications_active</Icon>
-				{conference?.tickettype}
+				{conference.tickettype}
 			</p>
 		</div>
 		<div>
 			<p>
 				<Icon class="material-icons" alt="">link</Icon>
-				<a aria-label={`lenke til ${conference?.title}`} href={conference?.url}>
-					{conference?.url}
+				<a aria-label={`lenke til ${conference.title}`} href={conference.url}>
+					{conference.url}
 				</a>
 			</p>
 		</div>
 		<div>
-			<p class="visuallyhidden">{`pris: ${conference?.price}`}</p>
+			<p class="visuallyhidden">{`pris: ${conference.price}`}</p>
 			<p aria-hidden={true}>
 				<Icon class="material-icons" alt="">payments</Icon>
-				{conference?.price}
+				{conference.price}
 			</p>
 		</div>
 	</Content>
@@ -80,10 +80,11 @@
 	}
 
 	// Desktop
-	@media (min-width: 900px) {
+	@media (min-width: 950px) {
 		:global(.conference-information-tag) {
-			display: grid !important;
-			grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+			display: flex !important;
+			flex-direction: row !important;
+			gap: 3rem !important;
 		}
 	}
 </style>
