@@ -3,7 +3,7 @@
     import { fade } from 'svelte/transition';
     import IconButton from "@smui/icon-button";
     import Form from "./Form.svelte";
-    import FooterButtons from "./FooterButtons.svelte";
+    import FooterButtons from "../../form/FooterButtons.svelte";
     const dispatch = createEventDispatcher();
 
     function toggleModal() {
@@ -47,6 +47,7 @@
         border-radius: 7px;
         position: relative;
     }
+    /* FIXME: Global = bad, but how to do this better? */
     :global(.modal-button.material-icons) {
         position: absolute;
         top: 27px;
@@ -59,7 +60,6 @@
     }
 
     .modal-box h2 {
-
         font-family: var(--mdc-typography-headline1-font-family, var(--mdc-typography-font-family, Inter, Roboto, sans-serif)); ;
         font-style: normal;
         font-weight: 700;
