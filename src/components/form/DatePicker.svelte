@@ -5,64 +5,83 @@
     import LabeledField from "./LabeledField.svelte";
     import {Icon} from "@smui/common";
     import Textfield from "@smui/textfield";
+    import { getClickOutsideParentElementFunc } from "./clickOutsideParent.js";
 
     export let date = null, width, label, required, placeholder, earliest, latest;
 
     let rawDate = null;
-    let textDate = null;
+    let textDate = '';
+    let valid=false;
 
     const norwegianLocale = {
         weekdays: ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø'],
         months: ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember']
     };
 
+    const uid = parseInt(Math.random()*Math.pow(36,8)).toString(36);
+    const uniqueContainerClassName = "datepicker-" + uid;
+    const clickOutsideDatepicker = getClickOutsideParentElementFunc(uniqueContainerClassName, "outsideDatepickerClick");
+
     let pickerVisible = false;
     function showPicker() {
-        console.log("Show")
         pickerVisible = true;
     }
-    function hidePicker() {
-        console.log("Hide")
-        setTimeout(()=>{
-            pickerVisible = false;
-        }, 100)
+    function hidePicker(event) {
+        pickerVisible = false;
     }
-    beforeUpdate(()=>{
-        console.log("Before:", date)
-        //hidePicker();
-    });
+
+    async function handleKeyDown(event) {
+        if (event.key === 'Escape') {
+            hidePicker();
+        }
+    }
+
+    let displayedPlaceholder = placeholder;
+
+    function hidePlaceholder() {
+        displayedPlaceholder = undefined;
+    }
+    function handlePlaceholder() {
+        displayedPlaceholder = !(textDate.trim()) ? placeholder : undefined;
+    }
+
+    onMount(handlePlaceholder);
+    // TODO
     afterUpdate(()=>{
-        console.log("After:", date)
+        //console.log("date:", date, "\ntextDate:", textDate, "\nrawDate:", rawDate)
         //hidePicker();
     });
 
+    // TODO
     onMount(()=>{
         // Bound date selection between now and twenty years ahead
         earliest = earliest || new Date();
         latest = latest || new Date(new Date(earliest).setFullYear(earliest.getFullYear() + 20));
-    })
-
-    function handleKeyDown(event) {
-        console.log("Event:", event);
-    }
+    });
 
 </script>
 
-<LabeledField label={label} required width={width} on:blur={hidePicker}>
-    <div class="datepicker" on:focus={showPicker}>
-        <!--DateInput
-                bind:value={date}
-                min={earliest}
-                max={latest}
-                placeholder={placeholder}
-                format="yyyy-MM-dd HH:mm"
-        /-->
-        <Textfield variant="outlined" bind:value={rawDate} label={placeholder} on:keyDown={handleKeyDown}>
+<LabeledField label={label} required width={width}>
+    <div
+            class="datepicker-root {uniqueContainerClassName}"
+            on:focus={showPicker}
+            use:clickOutsideDatepicker
+            on:outsideDatepickerClick={hidePicker}
+    >
+        <Textfield
+                variant="outlined"
+                bind:value={textDate}
+                label={displayedPlaceholder}
+                on:focus={hidePlaceholder}
+                on:blur={handlePlaceholder}
+                on:keydown={handleKeyDown}
+        >
             <Icon class="material-icons" slot="trailingIcon">today</Icon>
         </Textfield>
 
         {#if pickerVisible}
-            <div class="calendar" out:fade={{duration:200}}>
+            <div class="calendar" out:fade={{duration:100}}
+            >
                 <DatePicker
                         bind:value={rawDate}
                         min={earliest}
@@ -77,16 +96,23 @@
 <style>
     .datepicker,
     .calendar,
-    .datepicker :global(.date-time-picker) {
+    .datepicker-root :global(.date-time-picker) {
         width: 100%;
     }
-    .datepicker input {
+    .datepicker-root input {
         z-index: 1;
         background-color: transparent;
     }
 
-    .datepicker {
+    .datepicker-root {
         position: relative;
+        width: 100%;
+    }
+
+    .datepicker-root i {
+        z-index: 0;
+        top: 6px;
+        right: 12px;
     }
 
     .calendar {
@@ -94,9 +120,8 @@
         z-index: 50;
     }
 
-    .datepicker i {
-        z-index: 0;
-        top: 6px;
-        right: 12px;
+    .calendar :global(.cell.disabled) {
+        visibility: visible !important;
+        opacity: 7%;
     }
 </style>

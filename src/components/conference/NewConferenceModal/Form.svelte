@@ -13,8 +13,8 @@
     </JustifiedRow>
 
     <JustifiedRow>
-        <DatePicker label="Startdato" width="48%" required />
-        <DatePicker label="Sluttdato" width="48%" required />
+        <DatePicker label="Startdato" width="48%" required placeholder="dd.mm yyyy" />
+        <DatePicker label="Sluttdato" width="48%" required placeholder="dd.mm yyyy"/>
     </JustifiedRow>
 </form>
 
