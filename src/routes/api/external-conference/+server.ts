@@ -11,12 +11,13 @@ const client = sanityClient({
 	useCdn: false
 });
 
-export const POST = (async ({ request }) => {
+// /api/external-conference PUT
+export const PUT = (async ({ request }) => {
 	const externalConference = (await request.json()) as IExternalConference;
 	const res = await client
 		.patch(externalConference._id)
 		.set({ ...externalConference, slug: { _type: 'slug', current: externalConference.slug } })
 		.commit();
 
-	return json({ id: res._id }, { status: 201 });
+	return json({ success: true });
 }) satisfies RequestHandler;
