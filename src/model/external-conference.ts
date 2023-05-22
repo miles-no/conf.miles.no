@@ -1,4 +1,5 @@
 import type { ConferenceCategoryType } from '../enums/conference-category';
+import type { StatusKeyType } from '../enums/status';
 import type { IDescription, IImage } from './conference';
 
 export interface IExternalConference {
@@ -22,8 +23,8 @@ export interface IExternalConference {
 	url: string;
 }
 
-interface IEmployee {
-	status: string;
+export interface IEmployee {
+	status: StatusKeyType;
 	_key: string;
 	email: string;
 }
