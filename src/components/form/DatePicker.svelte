@@ -1,7 +1,7 @@
 <script>
-    import { afterUpdate, beforeUpdate, onMount } from 'svelte';
+    import { afterUpdate, onMount } from 'svelte';
     import { fade } from 'svelte/transition';
-    import { DateInput, DatePicker } from 'date-picker-svelte'
+    import { DatePicker } from 'date-picker-svelte'
     import LabeledField from "./LabeledField.svelte";
     import {Icon} from "@smui/common";
     import Textfield from "@smui/textfield";
@@ -18,6 +18,7 @@
         months: ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember']
     };
 
+    // Each datepicker gets a unique ID to isolate open/close behavior
     const uid = parseInt(Math.random()*Math.pow(36,8)).toString(36);
     const uniqueContainerClassName = "datepicker-" + uid;
     const clickOutsideDatepicker = getClickOutsideParentElementFunc(uniqueContainerClassName, "outsideDatepickerClick");
@@ -34,7 +35,15 @@
         if (event.key === 'Escape') {
             hidePicker();
         }
+        if (event.key === 'Tab') {
+            lastElement = document.querySelector("."+uniqueContainerClassName+" .calendar .dropdown.year select");
+            if (event.target === lastElement) {
+                hidePicker();
+            }
+
+        }
     }
+
 
     let displayedPlaceholder = placeholder;
 
@@ -42,21 +51,28 @@
         displayedPlaceholder = undefined;
     }
     function handlePlaceholder() {
-        displayedPlaceholder = !(textDate.trim()) ? placeholder : undefined;
+        displayedPlaceholder = !(textDate.trim())
+            ? placeholder
+            : undefined;
     }
 
-    onMount(handlePlaceholder);
+
+
     // TODO
     afterUpdate(()=>{
-        //console.log("date:", date, "\ntextDate:", textDate, "\nrawDate:", rawDate)
+        // console.log("date:", date, "\ntextDate:", textDate, "\nrawDate:", rawDate, "\n", typeof rawDate)
         //hidePicker();
     });
+
+    let lastElement;
 
     // TODO
     onMount(()=>{
         // Bound date selection between now and twenty years ahead
         earliest = earliest || new Date();
         latest = latest || new Date(new Date(earliest).setFullYear(earliest.getFullYear() + 20));
+
+        handlePlaceholder();
     });
 
 </script>
@@ -67,6 +83,7 @@
             on:focus={showPicker}
             use:clickOutsideDatepicker
             on:outsideDatepickerClick={hidePicker}
+            on:keydown={handleKeyDown}
     >
         <Textfield
                 variant="outlined"
@@ -74,14 +91,12 @@
                 label={displayedPlaceholder}
                 on:focus={hidePlaceholder}
                 on:blur={handlePlaceholder}
-                on:keydown={handleKeyDown}
         >
             <Icon class="material-icons" slot="trailingIcon">today</Icon>
         </Textfield>
 
         {#if pickerVisible}
-            <div class="calendar" out:fade={{duration:100}}
-            >
+            <div class="calendar" out:fade={{duration:100}}>
                 <DatePicker
                         bind:value={rawDate}
                         min={earliest}

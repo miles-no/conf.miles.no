@@ -3,10 +3,12 @@
     import TextField from "../../form/TextField.svelte";
     import DatePicker from "../../form/DatePicker.svelte";
 
-    let name='', url=''
+    export let formId;
+
+    let name='', url='';
 </script>
 
-<form>
+<form id={formId}>
     <JustifiedRow>
         <TextField bind:value={name} label="Navn på konferanse" placeholder="Navn" width="60%" required />
         <TextField bind:value={url} label="URL" placeholder="www.url.no" width="36%" required />
