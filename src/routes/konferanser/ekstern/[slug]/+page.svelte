@@ -2,66 +2,95 @@
 	import ConferenceInformation from '../../../../components/conferance/conference-information/ConferenceInformation.svelte';
 	import type { IPageLoadData } from './+page.server';
 	import Paper, { Content } from '@smui/paper';
-	import CircularProgress from '@smui/circular-progress';
-
-	import type { StatusType } from '../../../../enums/status';
 	import ConferenceCategoryTag from '../../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
 	import ConferenceStatus from '../../../../components/conferance/conference-status/ConferenceStatus.svelte';
 	import ConferenceAttendance from '../../../../components/conferance/conference-attendance/ConferenceAttendance.svelte';
+	import type { IEmployee } from '../../../../model/external-conference';
+	import { v4 as uuidv4 } from 'uuid';
+	import { applyAction } from '$app/forms';
+	import { invalidateAll } from '$app/navigation';
+	import type { StatusKeyType } from '../../../../enums/status';
 
-	export let data: IPageLoadData | undefined = undefined;
+	export let data: IPageLoadData;
+	$: conference = data.conference;
+	$: user = data.user;
+	$: selectedStatus = data?.myStatus;
 
-	const externalConference = data?.conference ?? undefined;
-	const user = data?.user;
-	let selectedStatus: StatusType | undefined = undefined;
-	let innerWidth = 0;
+	const updateEmployeesStatus = (newStatus: StatusKeyType): IEmployee[] => {
+		const { employees } = conference;
+		const existingAttendee = employees.find((attendee) => attendee.email === user.email);
+		if (existingAttendee) {
+			return employees.map((attendee) => {
+				if (attendee.email === user.email) {
+					return {
+						...attendee,
+						status: newStatus
+					};
+				}
+				return attendee;
+			});
+		} else {
+			return [...employees, { email: user.email, _key: uuidv4(), status: newStatus }];
+		}
+	};
+
+	const onSelectStatus = async (event: any) => {
+		const newStatus = event.target.dataset.value;
+		if (newStatus && newStatus !== selectedStatus) {
+			const response = await fetch('/api/external-conference', {
+				method: 'PUT',
+				body: JSON.stringify({
+					...conference,
+					employees: updateEmployeesStatus(newStatus)
+				})
+			});
+			const result = await response.json();
+			if (result.success) {
+				// re-run all `load` functions, following the successful update
+				await invalidateAll();
+			}
+			applyAction(result);
+		}
+	};
 </script>
 
 <svelte:head>
 	<title>
-		{`${externalConference?.title ? externalConference.title : 'Side ikke funnet'} - Miles`}
+		{`${conference?.title ? conference.title : 'Side ikke funnet'} - Miles`}
 	</title>
 </svelte:head>
 
-<svelte:window bind:innerWidth />
-
-{#if externalConference === undefined}
-	<div class="spinner-container">
-		<CircularProgress class="spinner" indeterminate />
-	</div>
-{:else}
-	<Paper class="paper-container" variant="unelevated">
-		<Content>
-			<img src={externalConference.imageUrl} alt="" />
-			<div class="conference-details">
-				<div class="conference-details-main-content">
-					<h1>{externalConference.title}</h1>
+<Paper class="paper-container" variant="unelevated">
+	<Content>
+		<img src={conference.imageUrl} alt="" />
+		<div class="conference-details">
+			<div class="conference-details-main-content">
+				<h1>{conference.title}</h1>
+				<hr class="grey-text" />
+				<ConferenceInformation {conference} />
+				<div class="conference-details-main-content-tags-container">
+					{#each conference.categoryTag as categoryType}
+						<ConferenceCategoryTag category={categoryType} />
+					{/each}
 					<hr class="grey-text" />
-					<ConferenceInformation conference={externalConference} />
-					<div class="conference-details-main-content-tags-container">
-						{#each externalConference.categoryTag as categoryType}
-							<ConferenceCategoryTag category={categoryType} />
-						{/each}
-						<hr class="grey-text" />
-					</div>
-					<div class="conference-details-main-content-status">
-						<ConferenceStatus bind:selectedStatus />
-						<ConferenceAttendance {externalConference} />
-					</div>
-					<div class="conference-details-main-content-description">
-						<h2 class="visuallyhidden">Om konferanse</h2>
-						<p>{externalConference.description[0].children[0].text}</p>
-						<div class="conference-details-main-content-description-comment">Kommentarer</div>
-					</div>
 				</div>
-				<div class="conference-details-status">
-					<ConferenceStatus bind:selectedStatus />
-					<ConferenceAttendance {externalConference} />
+				<div class="conference-details-main-content-status">
+					<ConferenceStatus bind:selectedStatus {onSelectStatus} />
+					<ConferenceAttendance {conference} />
+				</div>
+				<div class="conference-details-main-content-description">
+					<h2 class="visuallyhidden">Om konferanse</h2>
+					<p>{conference.description[0].children[0].text}</p>
+					<div class="conference-details-main-content-description-comment">Kommentarer</div>
 				</div>
 			</div>
-		</Content>
-	</Paper>
-{/if}
+			<div class="conference-details-status">
+				<ConferenceStatus bind:selectedStatus {onSelectStatus} />
+				<ConferenceAttendance {conference} />
+			</div>
+		</div>
+	</Content>
+</Paper>
 
 <style lang="scss">
 	@use '../../../../styles/mixin' as *;

@@ -1,10 +1,11 @@
 <script lang="ts">
 	import Select, { Option } from '@smui/select';
-	import { Status, type StatusType } from '../../../enums/status';
+	import { Status, type StatusKeyType } from '../../../enums/status';
+
+	export let selectedStatus: StatusKeyType | undefined = undefined;
+	export let onSelectStatus: (event: any) => void;
 
 	const statusEntries = Object.entries(Status);
-	export let selectedStatus: StatusType | undefined = undefined;
-
 	let innerWidth = 0;
 
 	$: label = innerWidth > 1234 ? 'Min status:' : 'Status';
@@ -13,16 +14,18 @@
 <svelte:window bind:innerWidth />
 
 <div class="conference-status">
-	<p>{label}</p>
+	<label for="status">{label}</label>
 	<Select
+		id="status"
+		name="status"
 		class="conference-status-select"
 		variant="outlined"
 		label="Velg status"
 		bind:value={selectedStatus}
 	>
-		<Option value="" />
+		<Option value={undefined} />
 		{#each statusEntries as [statusKey, statusValue]}
-			<Option value={statusKey}>{statusValue}</Option>
+			<Option value={statusKey} on:click={onSelectStatus}>{statusValue}</Option>
 		{/each}
 	</Select>
 </div>

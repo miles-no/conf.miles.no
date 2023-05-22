@@ -2,24 +2,20 @@
 	import type { IExternalConference } from '../../../model/external-conference';
 	import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
 
-	export let externalConference: IExternalConference;
+	export let conference: IExternalConference;
 
-	const interestedPerson = externalConference.employees.filter(
-		(person) => person.status === 'interested'
-	);
-	const registeredPerson = externalConference.employees.filter(
-		(person) => person.status !== 'interested'
-	);
+	$: interestedList = conference.employees.filter((person) => person.status === 'interested');
+	$: attendingList = conference.employees.filter((person) => person.status === 'attending');
 </script>
 
 <div class="conference-attendance">
 	<Accordion>
 		<Panel>
-			<Header>{`Interessert (${interestedPerson?.length})`}</Header>
+			<Header>{`Interessert (${interestedList?.length})`}</Header>
 			<Content>
-				{#if interestedPerson && interestedPerson.length > 0}
+				{#if interestedList && interestedList.length > 0}
 					<ul>
-						{#each interestedPerson as person}
+						{#each interestedList as person}
 							<li>{person.email}</li>
 						{/each}
 					</ul>
@@ -29,11 +25,11 @@
 			</Content>
 		</Panel>
 		<Panel>
-			<Header>{`Påmeldt (${registeredPerson?.length})`}</Header>
+			<Header>{`Påmeldt (${attendingList?.length})`}</Header>
 			<Content>
-				{#if registeredPerson && registeredPerson.length > 0}
+				{#if attendingList && attendingList.length > 0}
 					<ul>
-						{#each registeredPerson as person}
+						{#each attendingList as person}
 							<li>{person.email}</li>
 						{/each}
 					</ul>
