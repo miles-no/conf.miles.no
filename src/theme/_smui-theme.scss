@@ -168,3 +168,12 @@ button {
 	color: #931f1f;
 	background-color: #f9e6e6;
 }
+
+.select-with-background {
+	background-color: #ffeeb7;
+	.mdc-select__selected-text {
+		color: #fff;
+		letter-spacing: 1px;
+		font-weight: 600;
+	}
+}

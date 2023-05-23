@@ -148,3 +148,9 @@ button {
 	border-color: #ee9697;
 	color: #ee9697;
 }
+
+.select-with-background {
+	.mdc-select__selected-text {
+		color: #000 !important;
+	}
+}

@@ -1,17 +1,28 @@
 <script lang="ts">
 	import type { IExternalConference } from '../../../model/external-conference';
 	import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
+	import darkTheme from '../../../stores/theme-store';
+	import IconButton, { Icon } from '@smui/icon-button';
 
 	export let conference: IExternalConference;
 
 	$: interestedList = conference.employees.filter((person) => person.status === 'interested');
 	$: attendingList = conference.employees.filter((person) => person.status === 'attending');
+
+	let panel1Open = false;
+	let panel2Open = false;
 </script>
 
-<div class="conference-attendance">
+<div class={`${$darkTheme ? 'dark-theme-accordion-container' : 'accordion-container'} `}>
 	<Accordion>
-		<Panel>
-			<Header>{`Interessert (${interestedList?.length})`}</Header>
+		<Panel bind:open={panel1Open}>
+			<Header
+				>{`Interessert (${interestedList?.length})`}
+				<IconButton slot="icon" toggle pressed={panel1Open}>
+					<Icon class="material-icons" on>expand_less</Icon>
+					<Icon class="material-icons">expand_more</Icon>
+				</IconButton>
+			</Header>
 			<Content>
 				{#if interestedList && interestedList.length > 0}
 					<ul>
@@ -24,8 +35,14 @@
 				{/if}
 			</Content>
 		</Panel>
-		<Panel>
-			<Header>{`Påmeldt (${attendingList?.length})`}</Header>
+		<Panel bind:open={panel2Open}>
+			<Header
+				>{`Påmeldt (${attendingList?.length})`}
+				<IconButton slot="icon" toggle pressed={panel2Open}>
+					<Icon class="material-icons" on>expand_less</Icon>
+					<Icon class="material-icons">expand_more</Icon>
+				</IconButton>
+			</Header>
 			<Content>
 				{#if attendingList && attendingList.length > 0}
 					<ul>
@@ -42,6 +59,11 @@
 </div>
 
 <style lang="scss">
+	@use '../../../styles//mixin' as *;
+
+	.dark-theme-accordion-container {
+		@include boxshadow();
+	}
 	ul {
 		padding: 0;
 		li {

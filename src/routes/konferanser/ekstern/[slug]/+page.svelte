@@ -64,11 +64,11 @@
 	</title>
 </svelte:head>
 
-<Paper class="paper-container" variant="unelevated">
-	<Content>
-		<img src={conference.imageUrl} alt="" />
-		<div class="conference-details">
-			<div class="conference-details-main-content">
+<div>
+	<img src={conference.imageUrl} alt="" />
+	<div class="conference-details">
+		<Paper variant="unelevated">
+			<Content class="conference-details-main-content">
 				<h1>{conference.title}</h1>
 				<ConferenceInformation {conference} />
 				<div class="conference-details-main-content-tags-container">
@@ -76,6 +76,7 @@
 						<ConferenceCategoryTag category={categoryType} />
 					{/each}
 				</div>
+				<!-- show on mobile, hide on desktop -->
 				<div class="conference-details-main-content-status">
 					<ConferenceStatus {selectedStatus} {onSelectStatus} />
 					<ConferenceAttendance {conference} />
@@ -85,31 +86,24 @@
 					<p>{conference.description[0].children[0].text}</p>
 					<div class="conference-details-main-content-description-comment">Kommentarer</div>
 				</div>
-			</div>
-			<div class="conference-details-status">
+			</Content>
+		</Paper>
+
+		<!-- show on desktop, hide on mobile -->
+		<Paper class="conference-details-status-container" variant="unelevated">
+			<Content class="conference-details-status">
 				<ConferenceStatus {selectedStatus} {onSelectStatus} />
 				<ConferenceAttendance {conference} />
-			</div>
-		</div>
-	</Content>
-</Paper>
+			</Content>
+		</Paper>
+	</div>
+</div>
 
 <style lang="scss">
 	@use '../../../../styles/mixin' as *;
 
 	.visuallyhidden {
 		@include visuallyhidden();
-	}
-
-	.spinner-container {
-		height: 70rem;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		:global(.spinner) {
-			height: 10rem;
-			width: 10rem;
-		}
 	}
 
 	// Mobile
@@ -132,29 +126,25 @@
 		object-fit: cover;
 	}
 
-	:global(.paper-container) {
-		padding: 0 !important;
-	}
-
 	.conference-details {
 		display: flex;
 		flex-direction: column;
 		padding: 1rem;
 		gap: 2rem;
 
-		.conference-details-main-content {
+		:global(.conference-details-main-content) {
 			display: flex;
 			flex-direction: column;
 			gap: 2rem;
-			.conference-details-main-content-status {
-				display: flex;
-				flex-direction: column;
-				gap: 2rem;
-			}
-			.conference-details-main-content-tags-container {
-				display: flex;
-				gap: 1rem;
-			}
+		}
+		.conference-details-main-content-status {
+			display: flex;
+			flex-direction: column;
+			gap: 2rem;
+		}
+		.conference-details-main-content-tags-container {
+			display: flex;
+			gap: 1rem;
 		}
 
 		.conference-details-content-info-status {
@@ -182,15 +172,14 @@
 		.conference-details {
 			display: grid !important;
 			grid-template-columns: 1fr 0.5fr;
-			padding: 2rem 3rem;
 
-			.conference-details-main-content {
-				.conference-details-main-content-description {
+			:global(.conference-details-main-content) {
+				:global(.conference-details-main-content-description) {
 					display: grid;
 					grid-template-columns: 1fr 0.5fr;
 				}
 			}
-			.conference-details-status {
+			:global(.conference-details-status) {
 				display: flex;
 				flex-direction: column;
 				gap: 2rem;
@@ -199,7 +188,7 @@
 	}
 
 	@media (max-width: 1050px) {
-		.conference-details-status {
+		:global(.conference-details-status-container) {
 			display: none !important;
 		}
 
