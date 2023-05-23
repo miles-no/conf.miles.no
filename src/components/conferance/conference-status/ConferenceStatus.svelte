@@ -21,7 +21,7 @@
 		class="conference-status-select"
 		variant="outlined"
 		label="Velg status"
-		bind:value={selectedStatus}
+		value={selectedStatus}
 	>
 		<Option value={undefined} />
 		{#each statusEntries as [statusKey, statusValue]}

@@ -9,7 +9,9 @@
 	import { v4 as uuidv4 } from 'uuid';
 	import { applyAction } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import type { StatusKeyType } from '../../../../enums/status';
+	import { Status, type StatusKeyType } from '../../../../enums/status';
+	import { getContext } from 'svelte';
+	import type { IToastContextProps } from '../../../../components/toast/toast-context';
 
 	export let data: IPageLoadData;
 	$: conference = data.conference;
@@ -34,8 +36,13 @@
 		}
 	};
 
+	const toastContext = getContext<IToastContextProps>('toastContext');
+	toastContext.setTitle('Vellykket');
+
 	const onSelectStatus = async (event: any) => {
-		const newStatus = event.target.dataset.value;
+		const newStatus = event.target.dataset.value as StatusKeyType;
+		toastContext.setDescription(`Status oppdatert til ${Status[newStatus].toLowerCase()} `);
+
 		if (newStatus && newStatus !== selectedStatus) {
 			const response = await fetch('/api/external-conference', {
 				method: 'PUT',
@@ -50,6 +57,7 @@
 				await invalidateAll();
 			}
 			applyAction(result);
+			toastContext.showToast();
 		}
 	};
 </script>
@@ -75,7 +83,7 @@
 					<hr class="grey-text" />
 				</div>
 				<div class="conference-details-main-content-status">
-					<ConferenceStatus bind:selectedStatus {onSelectStatus} />
+					<ConferenceStatus {selectedStatus} {onSelectStatus} />
 					<ConferenceAttendance {conference} />
 				</div>
 				<div class="conference-details-main-content-description">
@@ -85,7 +93,7 @@
 				</div>
 			</div>
 			<div class="conference-details-status">
-				<ConferenceStatus bind:selectedStatus {onSelectStatus} />
+				<ConferenceStatus {selectedStatus} {onSelectStatus} />
 				<ConferenceAttendance {conference} />
 			</div>
 		</div>

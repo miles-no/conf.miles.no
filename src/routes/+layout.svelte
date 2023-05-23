@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import Header from '../components/Header.svelte';
+	import Toast from '../components/toast/Toast.svelte';
 
 	export let data: any = {};
 	const settings = data.settings;
@@ -29,10 +30,12 @@
 	{/if}
 </svelte:head>
 
-<Header {settings} {authInfo} bind:darkTheme />
-<main class="pb-5">
-	<slot />
-</main>
+<Toast>
+	<Header {settings} {authInfo} bind:darkTheme />
+	<main class="pb-5">
+		<slot />
+	</main>
+</Toast>
 
 <!-- <Footer /> -->
 <style>
