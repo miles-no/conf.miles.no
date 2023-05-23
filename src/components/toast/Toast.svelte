@@ -3,6 +3,7 @@
 	import { setContext } from 'svelte';
 	import type { IToastContextProps } from './toast-context';
 	import type { ToastType } from 'svelte-toasts/types/common';
+	import darkTheme from '../../stores/theme-store';
 
 	let type: ToastType = 'success';
 	let title: string;
@@ -14,7 +15,7 @@
 			description: description,
 			duration: 5000, // 0 or negative to avoid auto-remove
 			placement: 'bottom-right',
-			theme: 'light',
+			theme: darkTheme ? 'dark' : 'light',
 			type: type
 		});
 	};
