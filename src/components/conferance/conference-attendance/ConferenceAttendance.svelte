@@ -18,7 +18,7 @@
 		<Panel bind:open={panel1Open}>
 			<Header
 				>{`Interessert (${interestedList?.length})`}
-				<IconButton slot="icon" toggle pressed={panel1Open}>
+				<IconButton slot="icon" toggle pressed={panel1Open} tabindex={-1}>
 					<Icon class="material-icons" on>expand_less</Icon>
 					<Icon class="material-icons">expand_more</Icon>
 				</IconButton>
@@ -38,7 +38,7 @@
 		<Panel bind:open={panel2Open}>
 			<Header
 				>{`Påmeldt (${attendingList?.length})`}
-				<IconButton slot="icon" toggle pressed={panel2Open}>
+				<IconButton slot="icon" toggle pressed={panel2Open} tabindex={-1}>
 					<Icon class="material-icons" on>expand_less</Icon>
 					<Icon class="material-icons">expand_more</Icon>
 				</IconButton>
