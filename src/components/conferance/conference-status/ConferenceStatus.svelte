@@ -13,10 +13,8 @@
 	<div class="conference-status-select-container">
 		<Select
 			id="status"
-			name="status"
 			class="select-with-background conference-status-select-container-select"
 			variant="outlined"
-			label="Velg status"
 			value={selectedStatus}
 		>
 			<Option value={undefined} />
@@ -50,12 +48,6 @@
 			:global(.mdc-select__anchor) {
 				height: 2.5rem;
 			}
-
-			// :global(.mdc-select__selected-text) {
-			// 	letter-spacing: 1px;
-			// 	color: #000;
-			// 	font-weight: 600;
-			// }
 		}
 	}
 </style>

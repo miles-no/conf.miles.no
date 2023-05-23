@@ -78,13 +78,18 @@
 				</div>
 				<!-- show on mobile, hide on desktop -->
 				<div class="conference-details-main-content-status">
-					<ConferenceStatus {selectedStatus} {onSelectStatus} />
-					<ConferenceAttendance {conference} />
+					<div>
+						<h2 class="visuallyhidden">Min status</h2>
+						<ConferenceStatus {selectedStatus} {onSelectStatus} />
+					</div>
+					<div>
+						<h2 class="visuallyhidden">Deltaker</h2>
+						<ConferenceAttendance {conference} />
+					</div>
 				</div>
 				<div class="conference-details-main-content-description">
 					<h2 class="visuallyhidden">Om konferanse</h2>
 					<p>{conference.description[0].children[0].text}</p>
-					<div class="conference-details-main-content-description-comment">Kommentarer</div>
 				</div>
 			</Content>
 		</Paper>
@@ -92,8 +97,14 @@
 		<!-- show on desktop, hide on mobile -->
 		<Paper class="conference-details-status-container" variant="unelevated">
 			<Content class="conference-details-status">
-				<ConferenceStatus {selectedStatus} {onSelectStatus} />
-				<ConferenceAttendance {conference} />
+				<div>
+					<h2 class="visuallyhidden">Min status</h2>
+					<ConferenceStatus {selectedStatus} {onSelectStatus} />
+				</div>
+				<div>
+					<h2 class="visuallyhidden">Deltaker</h2>
+					<ConferenceAttendance {conference} />
+				</div>
 			</Content>
 		</Paper>
 	</div>
@@ -108,11 +119,6 @@
 
 	// Mobile
 	h1 {
-		font-weight: 600;
-	}
-
-	h2 {
-		font-size: 1rem;
 		font-weight: 600;
 	}
 
@@ -152,19 +158,6 @@
 			flex-direction: column;
 			gap: 2rem;
 		}
-
-		.conference-details-main-content-description {
-			display: flex;
-			flex-direction: column;
-			gap: 2rem;
-			.conference-details-main-content-description-comment {
-				height: 11rem;
-				background: rgba(217, 217, 217, 0.32);
-				border-radius: 10px;
-				// TODO: remove this when comments has been implemented
-				display: none;
-			}
-		}
 	}
 
 	// Desktop
@@ -173,12 +166,6 @@
 			display: grid !important;
 			grid-template-columns: 1fr 0.5fr;
 
-			:global(.conference-details-main-content) {
-				:global(.conference-details-main-content-description) {
-					display: grid;
-					grid-template-columns: 1fr 0.5fr;
-				}
-			}
 			:global(.conference-details-status) {
 				display: flex;
 				flex-direction: column;
@@ -194,10 +181,6 @@
 
 		.conference-details {
 			display: flex !important;
-
-			.conference-details-main-content-description {
-				display: flex !important;
-			}
 		}
 	}
 

@@ -15,12 +15,15 @@
 
 <div class={`${$darkTheme ? 'dark-theme-accordion-container' : 'accordion-container'} `}>
 	<Accordion>
-		<Panel bind:open={panel1Open}>
-			<Header
-				>{`Interessert (${interestedList?.length})`}
-				<IconButton slot="icon" toggle pressed={panel1Open} tabindex={-1}>
-					<Icon class="material-icons" on>expand_less</Icon>
-					<Icon class="material-icons">expand_more</Icon>
+		<Panel bind:open={panel1Open} aria-expanded={panel1Open}>
+			<Header>
+				<p class="visuallyhidden">{`Antall interessert: ${interestedList?.length}`}</p>
+				<p aria-hidden={true}>
+					{`Interessert (${interestedList?.length})`}
+				</p>
+				<IconButton slot="icon" pressed={panel1Open} tabindex={-1} aria-hidden="true">
+					<Icon class="material-icons" on aria-label="">expand_less</Icon>
+					<Icon class="material-icons" aria-label="">expand_more</Icon>
 				</IconButton>
 			</Header>
 			<Content>
@@ -35,12 +38,15 @@
 				{/if}
 			</Content>
 		</Panel>
-		<Panel bind:open={panel2Open}>
-			<Header
-				>{`Påmeldt (${attendingList?.length})`}
-				<IconButton slot="icon" toggle pressed={panel2Open} tabindex={-1}>
-					<Icon class="material-icons" on>expand_less</Icon>
-					<Icon class="material-icons">expand_more</Icon>
+		<Panel bind:open={panel2Open} aria-expanded={panel2Open}>
+			<Header>
+				<p class="visuallyhidden">{`Antall påmeldt: ${attendingList?.length}`}</p>
+				<p aria-hidden={true}>
+					{`Påmeldt (${attendingList?.length})`}
+				</p>
+				<IconButton slot="icon" pressed={panel2Open} tabindex={-1} aria-hidden={true}>
+					<Icon class="material-icons" on aria-label="">expand_less</Icon>
+					<Icon class="material-icons" aria-label="">expand_more</Icon>
 				</IconButton>
 			</Header>
 			<Content>
@@ -59,11 +65,19 @@
 </div>
 
 <style lang="scss">
-	@use '../../../styles//mixin' as *;
+	@use '../../../styles/mixin' as *;
+
+	.visuallyhidden {
+		@include visuallyhidden();
+	}
 
 	.dark-theme-accordion-container {
 		@include boxshadow();
 	}
+	p {
+		margin: 0;
+	}
+
 	ul {
 		padding: 0;
 		li {
