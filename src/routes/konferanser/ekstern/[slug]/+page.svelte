@@ -70,13 +70,11 @@
 		<div class="conference-details">
 			<div class="conference-details-main-content">
 				<h1>{conference.title}</h1>
-				<hr class="grey-text" />
 				<ConferenceInformation {conference} />
 				<div class="conference-details-main-content-tags-container">
 					{#each conference.categoryTag as categoryType}
 						<ConferenceCategoryTag category={categoryType} />
 					{/each}
-					<hr class="grey-text" />
 				</div>
 				<div class="conference-details-main-content-status">
 					<ConferenceStatus {selectedStatus} {onSelectStatus} />
@@ -122,10 +120,6 @@
 	h2 {
 		font-size: 1rem;
 		font-weight: 600;
-	}
-
-	hr {
-		display: none;
 	}
 
 	p {
@@ -177,6 +171,8 @@
 				height: 11rem;
 				background: rgba(217, 217, 217, 0.32);
 				border-radius: 10px;
+				// TODO: remove this when comments has been implemented
+				display: none;
 			}
 		}
 	}
