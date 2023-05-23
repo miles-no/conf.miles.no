@@ -1,5 +1,5 @@
 <script>
-    export let className;
+    export let className=null;
 </script>
 
 <div class={"justified-row" + (className ? ' ' + className : '')}><slot /></div>

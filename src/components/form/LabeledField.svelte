@@ -1,5 +1,5 @@
 <script>
-    export let width, label, required;
+    export let width, label, required=false;
 </script>
 
 <div class="labeled-field" style:width={width}>
