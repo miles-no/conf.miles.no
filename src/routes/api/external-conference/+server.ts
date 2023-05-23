@@ -13,11 +13,16 @@ const client = sanityClient({
 
 // /api/external-conference PUT
 export const PUT = (async ({ request }) => {
-	const externalConference = (await request.json()) as IExternalConference;
-	const res = await client
-		.patch(externalConference._id)
-		.set({ ...externalConference, slug: { _type: 'slug', current: externalConference.slug } })
-		.commit();
+	try {
+		const externalConference = (await request.json()) as IExternalConference;
+		await client
+			.patch(externalConference._id)
+			.set({ ...externalConference, slug: { _type: 'slug', current: externalConference.slug } })
+			.commit();
 
-	return json({ success: true });
+		return json({ success: true });
+	} catch (error) {
+		console.error(`/api/external-conference: ${error}`);
+		return json({ success: false });
+	}
 }) satisfies RequestHandler;

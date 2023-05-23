@@ -5,59 +5,55 @@
 	import ConferenceCategoryTag from '../../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
 	import ConferenceStatus from '../../../../components/conferance/conference-status/ConferenceStatus.svelte';
 	import ConferenceAttendance from '../../../../components/conferance/conference-attendance/ConferenceAttendance.svelte';
-	import type { IEmployee } from '../../../../model/external-conference';
-	import { v4 as uuidv4 } from 'uuid';
 	import { applyAction } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import { Status, type StatusKeyType } from '../../../../enums/status';
 	import { getContext } from 'svelte';
 	import type { IToastContextProps } from '../../../../components/toast/toast-context';
+	import { updateEmployeesStatus } from '../../../../utils/conference-utils';
 
 	export let data: IPageLoadData;
 	$: conference = data.conference;
 	$: user = data.user;
 	$: selectedStatus = data?.myStatus;
+	const toastContext = getContext<IToastContextProps>('toastContext');
 
-	const updateEmployeesStatus = (newStatus: StatusKeyType): IEmployee[] => {
-		const { employees } = conference;
-		const existingAttendee = employees.find((attendee) => attendee.email === user.email);
-		if (existingAttendee) {
-			return employees.map((attendee) => {
-				if (attendee.email === user.email) {
-					return {
-						...attendee,
-						status: newStatus
-					};
-				}
-				return attendee;
-			});
-		} else {
-			return [...employees, { email: user.email, _key: uuidv4(), status: newStatus }];
-		}
+	const createSuccessToastBody = (statusText: string) => {
+		toastContext.setType('success');
+		toastContext.setTitle('Vellykket');
+		toastContext.setDescription(`Status oppdatert til ${statusText} `);
 	};
 
-	const toastContext = getContext<IToastContextProps>('toastContext');
-	toastContext.setTitle('Vellykket');
+	const createErrorToastBody = (statusText: string) => {
+		toastContext.setType('error');
+		toastContext.setTitle('Feil');
+		toastContext.setDescription(`Det oppstod en feil ved oppdatering av status til ${statusText} `);
+	};
 
 	const onSelectStatus = async (event: any) => {
 		const newStatus = event.target.dataset.value as StatusKeyType;
-		toastContext.setDescription(`Status oppdatert til ${Status[newStatus].toLowerCase()} `);
+		const statusText = Status[newStatus].toLowerCase();
 
 		if (newStatus && newStatus !== selectedStatus) {
 			const response = await fetch('/api/external-conference', {
 				method: 'PUT',
 				body: JSON.stringify({
 					...conference,
-					employees: updateEmployeesStatus(newStatus)
+					employees: updateEmployeesStatus(conference.employees, newStatus, user.email)
 				})
 			});
 			const result = await response.json();
 			if (result.success) {
+				createSuccessToastBody(statusText);
+
 				// re-run all `load` functions, following the successful update
 				await invalidateAll();
+				toastContext.showToast();
+			} else {
+				createErrorToastBody(statusText);
+				toastContext.showToast();
 			}
 			applyAction(result);
-			toastContext.showToast();
 		}
 	};
 </script>
