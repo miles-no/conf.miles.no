@@ -3,7 +3,7 @@
     import { fade } from 'svelte/transition';
     import IconButton from "@smui/icon-button";
     import Form from "./Form.svelte";
-    import FooterButtons from "./FooterButtons.svelte";
+    import FooterButtons from "./ButtonFooterLine.svelte";
     const dispatch = createEventDispatcher();
 
     function toggleModal() {
@@ -30,6 +30,7 @@
     let firstElement, lastElement;
 
     onMount(() => {
+
         firstElement = document.querySelector("#"+formId+" .labeled-field .textfield input");
         lastElement = document.getElementById(closeButtonId);
         createTabCycle(firstElement, lastElement);
@@ -46,8 +47,9 @@
 >
     <div class="modal-box">
         <h2>Registrer en ny konferanse</h2>
+
         <Form formId={formId} />
-        <FooterButtons />
+
         <IconButton
                 id={closeButtonId}
                 on:click={toggleModal}
@@ -107,14 +109,7 @@
 
     .modal-box :global(.mdc-icon-button:active .mdc-icon-button__ripple::before),
     .modal-box :global(.mdc-icon-button:focus .mdc-icon-button__ripple::before) {
-        background-color: red;
-        opacity: 0.42;
+        background-color: black;
+        opacity: 0.07;
     }
 </style>
-
-<!-- Close the modal when clicking the background?
-Add to the .modal div:
-   on:click={toggleModal}
-And decorate the cursor in CSS? Eg.:
-    cursor: s-resize
--->

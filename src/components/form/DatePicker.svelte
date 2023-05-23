@@ -1,141 +1,89 @@
 <script>
     import { afterUpdate, onMount } from 'svelte';
-    import { fade } from 'svelte/transition';
-    import { DatePicker } from 'date-picker-svelte'
+    import { DateInput } from 'date-picker-svelte'
     import LabeledField from "./LabeledField.svelte";
     import {Icon} from "@smui/common";
-    import Textfield from "@smui/textfield";
-    import { getClickOutsideParentElementFunc } from "./clickOutsideParent.js";
+    import { createEventDispatcher } from 'svelte';
 
-    export let date = null, width, label, required, placeholder, earliest, latest;
 
-    let rawDate = null;
-    let textDate = '';
-    let valid=false;
+    export let date = null, format="dd.MM yyyy HH:mm";
+    export let width, label, required, earliest, latest, intervalWarning;
+
+    let valid;
+
+    const dispatch = createEventDispatcher();
 
     const norwegianLocale = {
         weekdays: ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø'],
         months: ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember']
     };
 
-    // Each datepicker gets a unique ID to isolate open/close behavior
-    const uid = parseInt(Math.random()*Math.pow(36,8)).toString(36);
-    const uniqueContainerClassName = "datepicker-" + uid;
-    const clickOutsideDatepicker = getClickOutsideParentElementFunc(uniqueContainerClassName, "outsideDatepickerClick");
-
-    let pickerVisible = false;
-    function showPicker() {
-        pickerVisible = true;
-    }
-    function hidePicker(event) {
-        pickerVisible = false;
-    }
-
-    async function handleKeyDown(event) {
-        if (event.key === 'Escape') {
-            hidePicker();
-        }
-        if (event.key === 'Tab') {
-            lastElement = document.querySelector("."+uniqueContainerClassName+" .calendar .dropdown.year select");
-            if (event.target === lastElement) {
-                hidePicker();
-            }
-
-        }
-    }
-
-
-    let displayedPlaceholder = placeholder;
-
-    function hidePlaceholder() {
-        displayedPlaceholder = undefined;
-    }
-    function handlePlaceholder() {
-        displayedPlaceholder = !(textDate.trim())
-            ? placeholder
-            : undefined;
-    }
-
-
-
-    // TODO
-    afterUpdate(()=>{
-        // console.log("date:", date, "\ntextDate:", textDate, "\nrawDate:", rawDate, "\n", typeof rawDate)
-        //hidePicker();
+    afterUpdate( () => {
+        dispatch("refreshDate");
     });
-
-    let lastElement;
-
-    // TODO
-    onMount(()=>{
-        // Bound date selection between now and twenty years ahead
-        earliest = earliest || new Date();
-        latest = latest || new Date(new Date(earliest).setFullYear(earliest.getFullYear() + 20));
-
-        handlePlaceholder();
-    });
-
 </script>
 
 <LabeledField label={label} required width={width}>
     <div
-            class="datepicker-root {uniqueContainerClassName}"
-            on:focus={showPicker}
-            use:clickOutsideDatepicker
-            on:outsideDatepickerClick={hidePicker}
-            on:keydown={handleKeyDown}
+            class="datepicker-root"
+            class:warning={intervalWarning}
+            class:valid={!intervalWarning && valid && date}
     >
-        <Textfield
-                variant="outlined"
-                bind:value={textDate}
-                label={displayedPlaceholder}
-                on:focus={hidePlaceholder}
-                on:blur={handlePlaceholder}
-        >
-            <Icon class="material-icons" slot="trailingIcon">today</Icon>
-        </Textfield>
-
-        {#if pickerVisible}
-            <div class="calendar" out:fade={{duration:100}}>
-                <DatePicker
-                        bind:value={rawDate}
-                        min={earliest}
-                        max={latest}
-                        locale={norwegianLocale}
-                />
-            </div>
-        {/if}
+        <DateInput
+                bind:value={date}
+                bind:valid={valid}
+                min={earliest}
+                max={latest}
+                locale={norwegianLocale}
+                format={format}
+                placeholder={format.replace(/y/g, 'Å').replace(/d/g, "D").replace(/[H]/g, "t")}
+                closeOnSelection
+        />
+        <Icon class="material-icons" slot="trailingIcon">{intervalWarning ? "warning" : (valid && date) ? "check" : "today"}</Icon>
     </div>
 </LabeledField>
 
 <style>
-    .datepicker,
-    .calendar,
-    .datepicker-root :global(.date-time-picker) {
-        width: 100%;
-    }
-    .datepicker-root input {
-        z-index: 1;
-        background-color: transparent;
-    }
 
     .datepicker-root {
         position: relative;
         width: 100%;
     }
 
-    .datepicker-root i {
-        z-index: 0;
-        top: 6px;
-        right: 12px;
+    .datepicker-root :global(.date-time-field) {
+        width: 100%;
+        height: 56px;
     }
 
-    .calendar {
+    .datepicker-root :global(.picker.visible) {
+        width: 100%;
+    }
+    .datepicker-root :global(.picker.visible > *) {
+        width: 100%;
+    }
+
+    .datepicker-root :global(input) {
+        z-index: 1;
+        background-color: transparent;
+        height: 100%;
+        padding-left: 16px
+    }
+
+    .datepicker-root :global(i) {
         position: absolute;
-        z-index: 50;
+        z-index: 0;
+        top: 16px;
+        right: 12px;
+        opacity: 50%;
+    }
+    .datepicker-root.valid :global(i) {
+        color: darkgreen;
+    }
+    .datepicker-root.warning :global(i) {
+        color: darkred;
     }
 
-    .calendar :global(.cell.disabled) {
+    .datepicker-root :global(.cell.disabled) {
         visibility: visible !important;
         opacity: 7%;
     }

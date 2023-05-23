@@ -15,7 +15,6 @@
 </JustifiedRow>
 
 <style>
-    /* FIXME: Global = bad, but how to do this better? */
     :global(.footer-buttons button) {
         color: #000;
         border: 1px solid #000;
