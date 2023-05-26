@@ -2,14 +2,16 @@
 	import Select, { Option } from '@smui/select';
 	import { Status, type StatusKeyType } from '../../../enums/status';
 
+	export let title: string = 'Status';
+	export let flexType: 'column' | 'row' = 'column';
 	export let selectedStatus: StatusKeyType | undefined = undefined;
 	export let onSelectStatus: (event: any) => void;
 
 	const statusEntries = Object.entries(Status);
 </script>
 
-<div class="conference-status">
-	<label for="status">Status</label>
+<div class={`conference-status ${flexType}`}>
+	<label for="status">{title}</label>
 	<div class="conference-status-select-container">
 		<Select
 			id="status"
@@ -33,9 +35,9 @@
 	.conference-status {
 		display: flex;
 		gap: 0.7rem;
-		align-items: center;
 		font-weight: 600;
 		height: 5rem;
+		align-items: center;
 	}
 
 	.conference-status-select-container {

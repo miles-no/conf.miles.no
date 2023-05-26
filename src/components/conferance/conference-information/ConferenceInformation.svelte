@@ -84,7 +84,9 @@
 		:global(.conference-information-tag) {
 			display: flex !important;
 			flex-direction: row !important;
-			gap: 3rem !important;
+			flex-wrap: wrap;
+			column-gap: 4rem !important;
+			row-gap: 1rem !important;
 		}
 	}
 </style>

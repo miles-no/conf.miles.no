@@ -3,8 +3,8 @@
 	import Card, { Content, Media, MediaContent } from '@smui/card';
 	import imageUrlBuilder from '@sanity/image-url';
 	import { client } from '$lib/sanityClient';
-	import ActivityTypeTag from '../ActivityTypeTag.svelte';
 	import ConferenceModal from '../conferenceModal/ConferenceModal.svelte';
+	import ConferenceCategoryTag from '../../tag/conference-category-tag/ConferenceCategoryTag.svelte';
 
 	export let conference;
 	export let index;
@@ -46,7 +46,7 @@
 				</div>
 				<div class="tagWrapper">
 					{#each conference.categoryTag as activityType}
-						<ActivityTypeTag {activityType} />
+						<ConferenceCategoryTag category={activityType} />
 					{/each}
 				</div>
 			</Content>

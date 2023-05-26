@@ -1,8 +1,5 @@
 <script>
-	import ActivityTypeTag from '../ActivityTypeTag.svelte';
 	import { formatConferenceDateRange } from '$lib';
-	import imageUrlBuilder from '@sanity/image-url';
-	import { client } from '$lib/sanityClient';
 	import { PortableText } from '@portabletext/svelte';
 	import Dialog, { Content } from '@smui/dialog';
 	import IconButton from '@smui/icon-button';
@@ -10,6 +7,9 @@
 	import { invalidateAll } from '$app/navigation';
 	import { Status } from '../../../enums/status';
 	import ConferenceInformation from '../conference-information/ConferenceInformation.svelte';
+	import ConferenceCategoryTag from '../../tag/conference-category-tag/ConferenceCategoryTag.svelte';
+	import ConferenceStatus from '../conference-status/ConferenceStatus.svelte';
+	import { urlFor } from '../../../utils/sanityclient-utils';
 	/**
 	 * @type {boolean}
 	 */
@@ -22,11 +22,6 @@
 	export let user;
 
 	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
-	const builder = imageUrlBuilder(client);
-
-	function urlFor(source) {
-		return builder.image(source);
-	}
 
 	function createFormElement(name, value) {
 		const element = document.createElement('input');
@@ -37,12 +32,12 @@
 	}
 
 	let key = conference.employees?.find((e) => e.email === user.email)?.status || 'notGoing';
-	$: selected = key;
+	$: selectedStatus = key;
 
 	async function handleSubmit() {
 		const form = document.createElement('form');
 		const docId = createFormElement('conferenceId', conference._id);
-		const status = createFormElement('status', selected);
+		const status = createFormElement('status', selectedStatus);
 
 		form.appendChild(docId);
 		form.appendChild(status);
@@ -70,7 +65,7 @@
 </script>
 
 <Dialog bind:open noContentPadding sheet aria-describedby="sheet-no-padding-content">
-	<Content id="sheet-no-padding-content">
+	<Content id="sheet-no-padding-content" class="dialog-container">
 		<IconButton action="close" class="material-icons">close</IconButton>
 		<div class="imageWrapper">
 			<img
@@ -80,7 +75,8 @@
 					? urlFor(conference.imageUrl).size(900, 300).quality(100).url()
 					: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
 				height="300"
-				width="500"
+				width="
+				500"
 			/>
 		</div>
 		<div class="content">
@@ -89,7 +85,7 @@
 				<ConferenceInformation {conference} />
 				<div class="tagWrapper">
 					{#each conference.categoryTag as activityType}
-						<ActivityTypeTag {activityType} />
+						<ConferenceCategoryTag category={activityType} />
 					{/each}
 				</div>
 			</div>
@@ -98,24 +94,20 @@
 					<PortableText value={conference.description} />
 				{/if}
 			</div>
-			<h5>Min status:</h5>
 			<div class="actionWrapper">
-				<div>
-					<select bind:value={selected} on:change={handleSubmit}>
-						{#each statusEntries as [statusKey, statusValue]}
-							<option value={statusKey}>
-								{statusValue}
-							</option>
-						{/each}
-					</select>
-				</div>
+				<ConferenceStatus
+					title="Min status"
+					{selectedStatus}
+					onSelectStatus={handleSubmit}
+					flexType="row"
+				/>
 				<a href={`/konferanser/ekstern/${conference.slug}`}>Se flere detaljer </a>
 			</div>
 		</div>
 	</Content>
 </Dialog>
 
-<style>
+<style lang="scss">
 	.imageWrapper {
 		height: 200px;
 	}
@@ -147,8 +139,11 @@
 	}
 	.actionWrapper {
 		display: flex;
-		gap: 1rem;
 		justify-content: space-between;
-		flex-wrap: wrap;
+
+		a {
+			display: flex;
+			align-items: end;
+		}
 	}
 </style>
