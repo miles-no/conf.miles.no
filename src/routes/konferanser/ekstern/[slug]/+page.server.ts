@@ -16,14 +16,15 @@ export const prerender = false;
 
 export const load = (async ({ params, cookies }): Promise<IPageLoadData> => {
 	const user = getUserFromCookie(cookies.get('session'));
-	const data = await fetchExternalConferences(user);
-	const externalConferences = data.externalConferences as unknown as IExternalConference[];
-	const conference = externalConferences.find((item) => item.slug === params.slug);
-	const status = conference?.employees.find((i) => i.email === user?.email)?.status;
 
 	if (!user.isAuthenticated) {
 		throw redirect(307, '/login');
 	}
+
+	const data = await fetchExternalConferences(user);
+	const externalConferences = data.externalConferences as unknown as IExternalConference[];
+	const conference = externalConferences.find((item) => item.slug === params.slug);
+	const status = conference?.employees.find((i) => i.email === user?.email)?.status;
 
 	if (!conference) {
 		throw error(404, 'Side ikke funnet');

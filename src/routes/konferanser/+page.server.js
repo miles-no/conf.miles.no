@@ -6,11 +6,12 @@ export const prerender = false;
 
 export async function load({ cookies }) {
 	const user = getUserFromCookie(cookies.get('session'));
-	const externalConferences = await fetchExternalConferences(user);
 
 	if (!user.isAuthenticated) {
 		throw redirect(307, '/login');
 	}
+
+	const externalConferences = await fetchExternalConferences(user);
 
 	if (!externalConferences) {
 		return {
