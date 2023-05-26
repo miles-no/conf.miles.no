@@ -15,7 +15,7 @@
 			description: description,
 			duration: 5000, // 0 or negative to avoid auto-remove
 			placement: 'bottom-right',
-			theme: darkTheme ? 'dark' : 'light',
+			theme: $darkTheme ? 'dark' : 'light',
 			type: type
 		});
 	};
@@ -31,11 +31,18 @@
 		type = toastType;
 	};
 
+	const createToastBody = (toastType: ToastType, titleText: string, descriptionText: string) => {
+		type = toastType;
+		title = titleText;
+		description = descriptionText;
+	};
+
 	const toastContext = {
 		showToast,
 		setTitle,
 		setDescription,
-		setType
+		setType,
+		createToastBody
 	};
 
 	setContext<IToastContextProps>('toastContext', toastContext);

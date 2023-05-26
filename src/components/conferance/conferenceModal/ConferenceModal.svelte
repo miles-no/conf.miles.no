@@ -1,67 +1,64 @@
-<script>
-	import { formatConferenceDateRange } from '$lib';
+<script lang="ts">
 	import { PortableText } from '@portabletext/svelte';
 	import Dialog, { Content } from '@smui/dialog';
 	import IconButton from '@smui/icon-button';
-	import { applyAction, deserialize } from '$app/forms';
+	import { applyAction } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { Status } from '../../../enums/status';
+	import { Status, type StatusKeyType } from '../../../enums/status';
 	import ConferenceInformation from '../conference-information/ConferenceInformation.svelte';
 	import ConferenceCategoryTag from '../../tag/conference-category-tag/ConferenceCategoryTag.svelte';
 	import ConferenceStatus from '../conference-status/ConferenceStatus.svelte';
 	import { urlFor } from '../../../utils/sanityclient-utils';
+	import { updateEmployeesStatus } from '../../../utils/conference-utils';
+	import { getContext } from 'svelte';
+	import type { IToastContextProps } from '../../toast/toast-context';
+	import type { User } from '$lib/types/user';
+	import type { IExternalConference } from '../../../model/external-conference';
 	/**
 	 * @type {boolean}
 	 */
-	export let open;
+	export let open: boolean = false;
 
 	/**
 	 * @type {{ startDate: any; endDate: any; employees: any[]; _id: any; imageUrl: any; title: any; location: any; url: any; price: any; categoryTag: any; description: any; }}
 	 */
-	export let conference;
-	export let user;
+	export let conference: IExternalConference;
+	export let user: User;
 
-	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
+	const toastContext = getContext<IToastContextProps>('toastContext');
 
-	function createFormElement(name, value) {
-		const element = document.createElement('input');
-		element.type = 'hidden';
-		element.name = name;
-		element.value = value;
-		return element;
-	}
-
-	let key = conference.employees?.find((e) => e.email === user.email)?.status || 'notGoing';
+	let key = conference.employees?.find((e) => e.email === user.email)?.status;
 	$: selectedStatus = key;
 
-	async function handleSubmit() {
-		const form = document.createElement('form');
-		const docId = createFormElement('conferenceId', conference._id);
-		const status = createFormElement('status', selectedStatus);
+	const onSelectStatus = async (event: any) => {
+		const newStatus = event.target.dataset.value as StatusKeyType;
+		const statusText = Status[newStatus].toLowerCase();
 
-		form.appendChild(docId);
-		form.appendChild(status);
+		if (newStatus && newStatus !== selectedStatus) {
+			const response = await fetch('/api/external-conference', {
+				method: 'PUT',
+				body: JSON.stringify({
+					...conference,
+					employees: updateEmployeesStatus(conference.employees, newStatus, user.email)
+				})
+			});
+			const result = await response.json();
+			if (result.success) {
+				toastContext.createToastBody('success', 'Vellykket', `Status oppdatert til ${statusText}`);
 
-		let data = new FormData(form);
-		let result;
-
-		const response = await fetch('?/updateStatus', {
-			method: 'POST',
-			body: data
-		});
-		result = deserialize(await response.text());
-
-		/** @type {import('@sveltejs/kit').ActionResult} */
-		if (result) {
-			if (result.type === 'success') {
 				// re-run all `load` functions, following the successful update
 				await invalidateAll();
+			} else {
+				toastContext.createToastBody(
+					'error',
+					'Feil',
+					`Det oppstod en feil ved oppdatering av status til ${statusText}`
+				);
 			}
+			toastContext.showToast();
 			applyAction(result);
 		}
-	}
-	const statusEntries = Object.entries(Status);
-	console.log(statusEntries);
+	};
 </script>
 
 <Dialog bind:open noContentPadding sheet aria-describedby="sheet-no-padding-content">
@@ -95,12 +92,7 @@
 				{/if}
 			</div>
 			<div class="actionWrapper">
-				<ConferenceStatus
-					title="Min status"
-					{selectedStatus}
-					onSelectStatus={handleSubmit}
-					flexType="row"
-				/>
+				<ConferenceStatus title="Min status" {selectedStatus} {onSelectStatus} flexType="row" />
 				<a href={`/konferanser/ekstern/${conference.slug}`}>Se flere detaljer </a>
 			</div>
 		</div>

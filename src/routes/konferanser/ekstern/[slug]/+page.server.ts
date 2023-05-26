@@ -4,11 +4,12 @@ import { fetchExternalConferences } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth';
 import type { IExternalConference } from '../../../../model/external-conference';
 import type { StatusKeyType } from '../../../../enums/status';
+import type { User } from '$lib/types/user';
 
 export interface IPageLoadData {
 	conference: IExternalConference;
 	myStatus: StatusKeyType | undefined;
-	user: any;
+	user: User;
 }
 
 export const load = (async ({ params, cookies }): Promise<IPageLoadData> => {

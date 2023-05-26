@@ -19,18 +19,6 @@
 	$: selectedStatus = data?.myStatus;
 	const toastContext = getContext<IToastContextProps>('toastContext');
 
-	const createSuccessToastBody = (statusText: string) => {
-		toastContext.setType('success');
-		toastContext.setTitle('Vellykket');
-		toastContext.setDescription(`Status oppdatert til ${statusText} `);
-	};
-
-	const createErrorToastBody = (statusText: string) => {
-		toastContext.setType('error');
-		toastContext.setTitle('Feil');
-		toastContext.setDescription(`Det oppstod en feil ved oppdatering av status til ${statusText} `);
-	};
-
 	const onSelectStatus = async (event: any) => {
 		const newStatus = event.target.dataset.value as StatusKeyType;
 		const statusText = Status[newStatus].toLowerCase();
@@ -45,15 +33,19 @@
 			});
 			const result = await response.json();
 			if (result.success) {
-				createSuccessToastBody(statusText);
+				toastContext.createToastBody('success', 'Vellykket', `Status oppdatert til ${statusText}`);
 
 				// re-run all `load` functions, following the successful update
 				await invalidateAll();
-				toastContext.showToast();
 			} else {
-				createErrorToastBody(statusText);
-				toastContext.showToast();
+				toastContext.createToastBody(
+					'error',
+					'Feil',
+					`Det oppstod en feil ved oppdatering av status til ${statusText}`
+				);
 			}
+
+			toastContext.showToast();
 			applyAction(result);
 		}
 	};

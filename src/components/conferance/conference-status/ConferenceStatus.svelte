@@ -19,7 +19,7 @@
 			variant="outlined"
 			value={selectedStatus}
 		>
-			<Option value={undefined} />
+			<Option value={undefined}>Velg status</Option>
 			{#each statusEntries as [statusKey, statusValue]}
 				<Option value={statusKey} on:click={onSelectStatus}>{statusValue}</Option>
 			{/each}
