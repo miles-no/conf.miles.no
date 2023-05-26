@@ -4,7 +4,11 @@
 
 	export let settings = [];
 	export let authInfo = {};
+<<<<<<< HEAD
 	export let isDarkTheme: boolean | undefined = undefined;
+=======
+	export let darkTheme: MediaQueryList | boolean | undefined = undefined;
+>>>>>>> dev
 </script>
 
 <header class="header-container">
@@ -23,8 +27,13 @@
 				</ul>
 			</div>
 		</nav>
+<<<<<<< HEAD
 		<Button class="header-container-nav-theme-btn" on:click={() => (isDarkTheme = !isDarkTheme)}>
 			<Label>{isDarkTheme ? 'Light mode' : 'Dark mode'}</Label>
+=======
+		<Button class="header-container-nav-theme-btn" on:click={() => (darkTheme = !darkTheme)}>
+			<Label>{darkTheme ? 'Light mode' : 'Dark mode'}</Label>
+>>>>>>> dev
 		</Button>
 	</div>
 </header>

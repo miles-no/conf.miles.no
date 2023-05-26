@@ -30,7 +30,11 @@ interface IPerformance {
 	_key: string;
 }
 
+<<<<<<< HEAD
 export interface IDescription {
+=======
+interface IDescription {
+>>>>>>> dev
 	_type: string;
 	style: string;
 	_key: string;
@@ -38,7 +42,11 @@ export interface IDescription {
 	children: IChildren[];
 }
 
+<<<<<<< HEAD
 export interface IImage {
+=======
+interface IImage {
+>>>>>>> dev
 	alt: string;
 	asset: IAsset;
 	crop: ICrop;
@@ -62,7 +70,11 @@ interface ICrop {
 	right: number;
 }
 
+<<<<<<< HEAD
 export interface IAsset {
+=======
+interface IAsset {
+>>>>>>> dev
 	_ref: string;
 	_type: string;
 }
@@ -92,14 +104,22 @@ interface IInfo {
 	children: IChildren[];
 }
 
+<<<<<<< HEAD
 export interface IChildren {
+=======
+interface IChildren {
+>>>>>>> dev
 	_type: string;
 	marks: string[];
 	text: string;
 	_key: string;
 }
 
+<<<<<<< HEAD
 export interface ImarkDefs {
+=======
+interface ImarkDefs {
+>>>>>>> dev
 	_key: string;
 	_type: string;
 	href: string;

@@ -43,8 +43,11 @@
 	$outline-color: #a82424
 );
 
+<<<<<<< HEAD
 @use '@material/select';
 
+=======
+>>>>>>> dev
 html,
 body {
 	background-color: theme.$surface;
@@ -122,11 +125,16 @@ button {
 }
 
 .tag.info.filled {
+<<<<<<< HEAD
 	background: #02527e;
+=======
+	background: #025c8d;
+>>>>>>> dev
 	color: #fff;
 }
 
 .tag.info.outlined {
+<<<<<<< HEAD
 	border-color: #02527e;
 	color: #02527e;
 }
@@ -139,10 +147,19 @@ button {
 
 .tag.success.filled {
 	background: #225923;
+=======
+	border-color: #025c8d;
+	color: #025c8d;
+}
+
+.tag.success.filled {
+	background: #266429;
+>>>>>>> dev
 	color: #fff;
 }
 
 .tag.success.outlined {
+<<<<<<< HEAD
 	border-color: #225923;
 	color: #225923;
 }
@@ -155,10 +172,19 @@ button {
 
 .tag.error.filled {
 	background: #931f1f;
+=======
+	border-color: #266429;
+	color: #266429;
+}
+
+.tag.error.filled {
+	background: #a82424;
+>>>>>>> dev
 	color: #fff;
 }
 
 .tag.error.outlined {
+<<<<<<< HEAD
 	border-color: #931f1f;
 	color: #931f1f;
 }
@@ -176,4 +202,8 @@ button {
 		letter-spacing: 1px;
 		font-weight: 600;
 	}
+=======
+	border-color: #a82424;
+	color: #a82424;
+>>>>>>> dev
 }
