@@ -1,4 +1,4 @@
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { fetchExternalConferences } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth';
@@ -18,6 +18,10 @@ export const load = (async ({ params, cookies }): Promise<IPageLoadData> => {
 	const externalConferences = data.externalConferences as unknown as IExternalConference[];
 	const conference = externalConferences.find((item) => item.slug === params.slug);
 	const status = conference?.employees.find((i) => i.email === user?.email)?.status;
+
+	if (!user.isAuthenticated) {
+		throw redirect(307, '/login');
+	}
 
 	if (!conference) {
 		throw error(404, 'Side ikke funnet');
