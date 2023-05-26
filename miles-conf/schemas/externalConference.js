@@ -25,7 +25,8 @@ export default {
 		{
 			name: 'description',
 			type: 'portableText',
-			title: 'Description'
+			title: 'Description',
+			validation: (Rule) => Rule.required()
 		},
 		{
 			title: 'Slug',
@@ -106,7 +107,8 @@ export default {
 						isHighlighted: true
 					}
 				}
-			]
+			],
+			validation: (Rule) => Rule.required()
 		},
 		{
 			title: 'Homepage',
