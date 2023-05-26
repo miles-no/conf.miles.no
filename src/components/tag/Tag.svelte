@@ -1,9 +1,5 @@
 <script lang="ts">
-<<<<<<< HEAD
 	export let variant: 'filled' | 'outlined' | 'outlined-with-bg' = 'filled';
-=======
-	export let variant: 'filled' | 'outlined' = 'filled';
->>>>>>> dev
 	export let color: 'info' | 'success' | 'error' = 'info';
 	export let size: 'medium' | 'small' = 'small';
 	export let ariaHidden: boolean = false;

@@ -28,10 +28,6 @@
 </div>
 
 <style lang="scss">
-	p {
-		margin-bottom: 0;
-	}
-
 	.conference-status {
 		display: flex;
 		gap: 0.7rem;
