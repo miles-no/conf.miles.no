@@ -81,11 +81,13 @@
 						<ConferenceAttendance {conference} />
 					</div>
 				</div>
-				<div class="conference-details-main-content-description">
-					<h2 class="visuallyhidden">Om konferanse</h2>
-					<PortableText value={conference.description} />
-					<!-- <div class="conference-details-main-content-description-comment">Kommentarer</div> -->
-				</div>
+				{#if conference.description?.length > 0}
+					<div class="conference-details-main-content-description">
+						<h2 class="visuallyhidden">Om konferanse</h2>
+						<PortableText value={conference.description} />
+						<!-- <div class="conference-details-main-content-description-comment">Kommentarer</div> -->
+					</div>
+				{/if}
 			</Content>
 		</Paper>
 
