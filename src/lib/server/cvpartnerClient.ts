@@ -1,27 +1,41 @@
 // @ts-ignore
 import { env } from '$env/dynamic/private';
-import { Cv } from '../types/cv';
-import { Office } from '../types/office';
-import { User } from '../types/user';
+import type { Cv } from '../types/cv';
+import type { Office } from '../types/office';
+import type { User } from '../types/user';
 
-export async function fetchUser(email: string): Promise<User> {
-	const response: Response = await fetch(`${env.CVPARTNER_BASE}/api/v1/users/find?email=${email}`, {
-		method: 'GET',
-		mode: 'same-origin',
-		headers: {
-			Authorization: `Token token=${env.CVPARTNER_API_KEY}`
+export async function fetchUser(email: string): Promise<User | null> {
+	try {
+		const response: Response = await fetch(
+			`${env.CVPARTNER_BASE}/api/v1/users/find?email=${email}`,
+			{
+				method: 'GET',
+				mode: 'same-origin',
+				headers: {
+					Authorization: `Token token=${env.CVPARTNER_API_KEY}`
+				}
+			}
+		);
+
+		if (response.status === 404) {
+			console.error(`GET User from CVPARTNER. User with email ${email} does not exist`);
+			return null;
 		}
-	});
-	const data = await response.json();
-	const user: User = {
-		id: data.id,
-		cvid: '',
-		email: data.email,
-		name: data.name,
-		office: data.office_id,
-		profileImage: data.image.url
-	};
-	return user;
+
+		const data = await response.json();
+		const user: User = {
+			id: data.id,
+			cvid: '',
+			email: data.email,
+			name: data.name,
+			office: data.office_id,
+			profileImage: data.image.url
+		};
+		return user;
+	} catch (error: any) {
+		console.error(`GET User from CVPARTNER failed for ${email}. ${error}`);
+		throw new Error(`GET User from CVPARTNER failed for ${email}`);
+	}
 }
 
 export async function fetchUserById(userid: string): Promise<User> {
