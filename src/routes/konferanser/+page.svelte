@@ -38,6 +38,12 @@
 	];
 </script>
 
+<svelte:head>
+	<title>
+		{'Konferanser - Miles'}
+	</title>
+</svelte:head>
+
 <div class="container">
 	<div class="topRow">
 		<h1>Konferanser</h1>

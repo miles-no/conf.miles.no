@@ -12,6 +12,7 @@
 	import type { IToastContextProps } from '../../../../components/toast/toast-context';
 	import { updateEmployeesStatus } from '../../../../utils/conference-utils';
 	import { urlFor } from '../../../../utils/sanityclient-utils';
+	import { PortableText } from '@portabletext/svelte';
 
 	export let data: IPageLoadData;
 	$: conference = data.conference;
@@ -57,7 +58,7 @@
 	</title>
 </svelte:head>
 
-<div>
+<div class="conference-details-container">
 	<img src={urlFor(conference.imageUrl).size(900, 300).quality(100).url()} alt="" />
 	<div class="conference-details">
 		<Paper variant="unelevated">
@@ -80,11 +81,13 @@
 						<ConferenceAttendance {conference} />
 					</div>
 				</div>
-				<div class="conference-details-main-content-description">
-					<h2 class="visuallyhidden">Om konferanse</h2>
-					<p>{conference.description[0].children[0].text}</p>
-					<!-- <div class="conference-details-main-content-description-comment">Kommentarer</div> -->
-				</div>
+				{#if conference.description?.length > 0}
+					<div class="conference-details-main-content-description">
+						<h2 class="visuallyhidden">Om konferanse</h2>
+						<PortableText value={conference.description} />
+						<!-- <div class="conference-details-main-content-description-comment">Kommentarer</div> -->
+					</div>
+				{/if}
 			</Content>
 		</Paper>
 
@@ -125,11 +128,10 @@
 		width: 100%;
 		object-fit: cover;
 	}
-
 	.conference-details {
 		display: flex;
 		flex-direction: column;
-		padding: 1rem;
+		// padding: 1rem;
 		gap: 2rem;
 
 		:global(.conference-details-main-content) {
@@ -167,6 +169,10 @@
 
 	// Desktop
 	@media (min-width: 900px) {
+		.conference-details-container {
+			padding: 2rem 5rem 8rem 5rem;
+		}
+
 		.conference-details {
 			display: grid !important;
 			grid-template-columns: 1fr 0.5fr;

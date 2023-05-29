@@ -11,42 +11,56 @@
 
 <Paper class="conference-information-tag-container" variant="unelevated">
 	<Content class="conference-information-tag grey-text">
-		<div>
-			<p class="visuallyhidden">{`dato: ${date}`}</p>
-			<p aria-hidden={true}>
-				<Icon class="material-icons" alt="">event</Icon>
-				{date}
-			</p>
-		</div>
-		<div>
-			<p class="visuallyhidden">{`sted: ${conference.location}`}</p>
-			<p aria-hidden={true}>
-				<Icon class="material-icons" alt="">location_on</Icon>
-				{conference.location}
-			</p>
-		</div>
-		<div>
-			<p class="visuallyhidden">{`billetttype: ${conference.tickettype}`}</p>
-			<p aria-hidden={true}>
-				<Icon class="material-icons" alt="">notifications_active</Icon>
-				{conference.tickettype}
-			</p>
-		</div>
-		<div>
-			<p>
-				<Icon class="material-icons" alt="">link</Icon>
-				<a aria-label={`lenke til ${conference.title}`} href={conference.url}>
-					{conference.url}
-				</a>
-			</p>
-		</div>
-		<div>
-			<p class="visuallyhidden">{`pris: ${conference.price}`}</p>
-			<p aria-hidden={true}>
-				<Icon class="material-icons" alt="">payments</Icon>
-				{conference.price}
-			</p>
-		</div>
+		{#if conference.startDate && conference.endDate}
+			<div>
+				<p class="visuallyhidden">{`dato: ${date}`}</p>
+				<p aria-hidden={true}>
+					<Icon class="material-icons" alt="">event</Icon>
+					{date}
+				</p>
+			</div>
+		{/if}
+
+		{#if conference.location}
+			<div>
+				<p class="visuallyhidden">{`sted: ${conference.location}`}</p>
+				<p aria-hidden={true}>
+					<Icon class="material-icons" alt="">location_on</Icon>
+					{conference.location}
+				</p>
+			</div>
+		{/if}
+
+		{#if conference.tickettype}
+			<div>
+				<p class="visuallyhidden">{`billetttype: ${conference.tickettype}`}</p>
+				<p aria-hidden={true}>
+					<Icon class="material-icons" alt="">notifications_active</Icon>
+					{conference.tickettype}
+				</p>
+			</div>
+		{/if}
+
+		{#if conference.url}
+			<div>
+				<p>
+					<Icon class="material-icons" alt="">link</Icon>
+					<a aria-label={`lenke til ${conference.title}`} href={conference.url}>
+						{conference.url}
+					</a>
+				</p>
+			</div>
+		{/if}
+
+		{#if conference.price}
+			<div>
+				<p class="visuallyhidden">{`pris: ${conference.price}`}</p>
+				<p aria-hidden={true}>
+					<Icon class="material-icons" alt="">payments</Icon>
+					{conference.price}
+				</p>
+			</div>
+		{/if}
 	</Content>
 </Paper>
 
