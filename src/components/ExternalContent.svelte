@@ -17,15 +17,16 @@
 	);
 	$: showedEvents = [...futureEvents];
 
-	$: {
-		if (selectedCity) {
-			showedEvents = futureEvents
-				.filter((conf: IConference) =>
-					conf.location?.toLowerCase().includes(selectedCity!.toLowerCase())
-				)
-				.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
-		}
-	}
+	// TODO: clearify if filter should be in this page
+	// $: {
+	// 	if (selectedCity) {
+	// 		showedEvents = futureEvents
+	// 			.filter((conf: IConference) =>
+	// 				conf.location?.toLowerCase().includes(selectedCity!.toLowerCase())
+	// 			)
+	// 			.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
+	// 	}
+	// }
 
 	// TODO: filter event type
 	// $: {
@@ -39,10 +40,11 @@
 
 <div class="page-container">
 	<h1 class="page-container-title">Dette skjer hos oss i Miles</h1>
-	<div class="page-container-filter">
+	<!-- TODO: clearify if filter should be in this page -->
+	<!-- <div class="page-container-filter">
 		<LocationButtonGroup bind:selectedCity />
 		<EventTypeButtonGroup isExternal bind:selectedEvent />
-	</div>
+	</div> -->
 	<div class="page-container-content">
 		<LayoutGrid>
 			{#each showedEvents as conference (conference.title)}
