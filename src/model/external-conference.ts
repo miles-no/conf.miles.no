@@ -10,7 +10,7 @@ export interface IExternalConference {
 	image: IImage;
 	startDate: string;
 	_id: string;
-	employees: IEmployee[];
+	employees?: IEmployee[];
 	description: IDescription[];
 	price: string;
 	_type: string;

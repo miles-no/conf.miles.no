@@ -29,7 +29,7 @@
 				method: 'PUT',
 				body: JSON.stringify({
 					...conference,
-					employees: updateEmployeesStatus(conference.employees, newStatus, user.email)
+					employees: updateEmployeesStatus(conference?.employees ?? [], newStatus, user.email)
 				})
 			});
 			const result = await response.json();
