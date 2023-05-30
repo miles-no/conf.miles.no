@@ -23,8 +23,8 @@ export const load = (async ({ params, cookies }): Promise<IPageLoadData> => {
 
 	const data = await fetchExternalConferences(user);
 	const externalConferences = data.externalConferences as unknown as IExternalConference[];
-	const conference = externalConferences.find((item) => item.slug === params.slug);
-	const status = conference?.employees.find((i) => i.email === user?.email)?.status;
+	const conference = externalConferences?.find((item) => item.slug === params.slug);
+	const status = conference?.employees?.find((i) => i.email === user?.email)?.status;
 
 	if (!conference) {
 		throw error(404, 'Side ikke funnet');
