@@ -13,6 +13,7 @@
 	import { updateEmployeesStatus } from '../../../../utils/conference-utils';
 	import { urlFor } from '../../../../utils/sanityclient-utils';
 	import { PortableText } from '@portabletext/svelte';
+	import { Icon } from '@smui/button';
 
 	export let data: IPageLoadData;
 	$: conference = data.conference;
@@ -59,7 +60,15 @@
 </svelte:head>
 
 <div class="conference-details-container">
-	<img src={urlFor(conference.imageUrl).size(900, 300).quality(100).url()} alt="" />
+	<div class="conference-details-container-image">
+		{#if conference?.imageUrl}
+			<img src={urlFor(conference.imageUrl).size(900, 300).quality(100).url()} alt="" />
+		{:else}
+			<div class="conference-details-container-no-image">
+				<Icon class="material-icons no-image" alt="">hide_image</Icon>
+			</div>
+		{/if}
+	</div>
 	<div class="conference-details">
 		<Paper variant="unelevated">
 			<Content class="conference-details-main-content">
@@ -128,6 +137,23 @@
 		width: 100%;
 		object-fit: cover;
 	}
+
+	.conference-details-container-image {
+		padding-bottom: 1rem;
+
+		.conference-details-container-no-image {
+			background-color: lightgrey;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 15rem;
+
+			:global(.material-icons.no-image) {
+				font-size: 5rem;
+			}
+		}
+	}
+
 	.conference-details {
 		display: flex;
 		flex-direction: column;
