@@ -2,24 +2,16 @@
 	import { Icon } from '@smui/button';
 	import { formatConferenceDateRange } from '$lib';
 	import Card, { Content, Media, MediaContent } from '@smui/card';
-	import imageUrlBuilder from '@sanity/image-url';
-	import { client } from '$lib/sanityClient';
 	import Tag from './tag/Tag.svelte';
-	import { Event } from '../enums/event';
 	import type { IConference } from '../model/conference';
+	import { urlFor } from '../utils/sanityclient-utils';
 
-	export let event: IConference | undefined = undefined;
+	export let event: IConference;
 	const date = formatConferenceDateRange(event?.startDate, event?.endDate);
-
-	const builder = imageUrlBuilder(client);
-
-	function urlFor(source: string) {
-		return builder.image(source);
-	}
 </script>
 
 <div class="card-container">
-	<a href="konferanser/{event?.slug}">
+	<a href="konferanser/{event.slug}">
 		<Card>
 			<Media class="card-media-16x9" aspectRatio="16x9">
 				<MediaContent>
@@ -39,10 +31,12 @@
 				<div class="card-container-content-info">
 					<div class="date-location-container grey-text">
 						<span aria-hidden={true}>{date}</span>
-						<span aria-hidden={true}>
-							<Icon class="material-icons">location_on</Icon>
-							{event?.location}
-						</span>
+						{#if event?.visibleTo}
+							<span aria-hidden={true}>
+								<Icon class="material-icons">location_on</Icon>
+								{event?.visibleTo}
+							</span>
+						{/if}
 					</div>
 					<div class="title mdc-typography--headline6">
 						<span aria-label={`${event?.title} den ${date} i ${event?.location} `}
@@ -50,8 +44,11 @@
 						>
 					</div>
 				</div>
-				<!-- TODO -->
-				<Tag color="info" ariaHidden={true}>{Event.Faglig}</Tag>
+				<div class="card-container-content-tags">
+					{#each event.eventType as type}
+						<Tag color="info" ariaHidden={true}>{type}</Tag>
+					{/each}
+				</div>
 			</Content>
 		</Card>
 	</a>
@@ -85,6 +82,11 @@
 		display: flex;
 		flex-direction: column;
 		padding-bottom: 1.18rem;
+		gap: 0.5rem;
+	}
+
+	.card-container-content-tags {
+		display: flex;
 		gap: 0.5rem;
 	}
 </style>
