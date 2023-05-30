@@ -1,3 +1,5 @@
+import type { EventType } from '../enums/event';
+
 export interface IConference {
 	_rev: string;
 	itinerary: IItinerary[];
@@ -20,6 +22,8 @@ export interface IConference {
 	location?: string;
 	slug: string;
 	_id: string;
+	eventType: EventType[];
+	visibleTo: string;
 }
 
 interface IPerformance {
