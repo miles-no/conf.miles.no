@@ -6,8 +6,8 @@
 
 	export let conference: IExternalConference;
 
-	$: interestedList = conference.employees.filter((person) => person.status === 'interested');
-	$: attendingList = conference.employees.filter((person) => person.status === 'attending');
+	$: interestedList = conference.employees?.filter((person) => person.status === 'interested');
+	$: attendingList = conference.employees?.filter((person) => person.status === 'attending');
 
 	let panel1Open = false;
 	let panel2Open = false;
@@ -17,9 +17,9 @@
 	<Accordion>
 		<Panel bind:open={panel1Open} aria-expanded={panel1Open}>
 			<Header>
-				<p class="visuallyhidden">{`Antall interessert: ${interestedList?.length}`}</p>
+				<p class="visuallyhidden">{`Antall interessert: ${interestedList?.length ?? 0}`}</p>
 				<p aria-hidden={true}>
-					{`Interessert (${interestedList?.length})`}
+					{`Interessert (${interestedList?.length ?? 0})`}
 				</p>
 				<IconButton slot="icon" pressed={panel1Open} tabindex={-1} aria-hidden="true">
 					<Icon class="material-icons" on aria-label="">expand_less</Icon>
@@ -40,9 +40,9 @@
 		</Panel>
 		<Panel bind:open={panel2Open} aria-expanded={panel2Open}>
 			<Header>
-				<p class="visuallyhidden">{`Antall påmeldt: ${attendingList?.length}`}</p>
+				<p class="visuallyhidden">{`Antall påmeldt: ${attendingList?.length ?? 0}`}</p>
 				<p aria-hidden={true}>
-					{`Påmeldt (${attendingList?.length})`}
+					{`Påmeldt (${attendingList?.length ?? 0})`}
 				</p>
 				<IconButton slot="icon" pressed={panel2Open} tabindex={-1} aria-hidden={true}>
 					<Icon class="material-icons" on aria-label="">expand_less</Icon>
