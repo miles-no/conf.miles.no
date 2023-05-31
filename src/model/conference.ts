@@ -2,7 +2,7 @@ import type { EventType } from '../enums/event';
 
 export interface IConference {
 	_rev: string;
-	itinerary: IItinerary[];
+	itinerary?: IItinerary[];
 	showExternally: boolean;
 	internal: boolean;
 	signupLink: string;

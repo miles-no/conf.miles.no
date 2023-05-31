@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import BreadCrumb from '../../../components/BreadCrumb.svelte';
 	import { intlFormat } from 'date-fns';
 	import DaySelect from '../../../components/DaySelect.svelte';
@@ -8,88 +8,41 @@
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
 	import Button, { Icon } from '@smui/button';
-	import LayoutGrid, { Cell, InnerGrid } from '@smui/layout-grid';
+	import LayoutGrid, { Cell } from '@smui/layout-grid';
 	import InformationCard from '../../../components/InformationCard.svelte';
 	import PerformanceCard from '../../../components/PerformanceCard.svelte';
 	import { formatConferenceDateRange } from '$lib';
-	import imageUrlBuilder from '@sanity/image-url';
-	import { client } from '$lib/sanityClient';
 	import { PortableText, toPlainText } from '@portabletext/svelte';
+	import type { IConference } from '../../../model/conference';
+	import { urlFor } from '../../../utils/sanityclient-utils';
+
 	export let data = {};
-	export let conference = data.conference;
-	export let user = data.user;
+	export let conference = data.conference as IConference;
 	export let pageUrl = data.url;
 
-	// const totEvents = conference.itinerary[0]?.events.length;
-	// const end_time = conference.itinerary[0]?.events[totEvents - 1].endTime
-	// 	? conference.itinerary[0]?.events[totEvents - 1].endTime
-	// 	: conference.itinerary[0]?.events[totEvents - 1].startTime;
-
 	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
-	const formatDeadline = (deadline) => {
-		const deadline_formated =
-			deadline &&
-			new Date(new Date(deadline).getTime() - new Date(deadline).getTimezoneOffset() * 60000)
-				.toISOString()
-				.split('T');
-		const deadline_date = formatConferenceDateRange(deadline_formated[0], deadline_formated[0]);
-		const deadline_time_array = deadline_formated[1].split(':');
-		deadline_time_array.splice(2);
-		const deadline_time = deadline_time_array.join(':');
 
-		return [deadline_date, deadline_time];
-	};
+	const deadline = conference.deadline
+		? intlFormat(
+				Date.parse(conference.deadline),
+				{ day: '2-digit', month: 'long', hour: '2-digit', minute: '2-digit' },
+				{ locale: 'nb-NO' }
+		  )
+		: '-';
 
-	const getDaysArray = (s, e) => {
-		for (var a = [], d = new Date(s); d <= new Date(e); d.setDate(d.getDate() + 1)) {
-			a.push(new Date(d));
-		}
-		return a;
-	};
+	const eventDays = conference.itinerary
+		? conference.itinerary
+				.sort((a, b) => Date.parse(a.itineraryDate) - Date.parse(b.itineraryDate))
+				.map((i) => new Date(i.itineraryDate).toDateString())
+		: [];
 
-	const deadline =
-		conference.deadline &&
-		`${formatDeadline(conference.deadline)[0]},${formatDeadline(conference.deadline)[1]}`;
+	const dateOptions = eventDays.map((date) => [
+		date,
+		intlFormat(Date.parse(date), { weekday: 'long' }, { locale: 'nb-NO' }),
+		intlFormat(Date.parse(date), { day: '2-digit', month: 'long' }, { locale: 'nb-NO' })
+	]);
 
-	// Using all dates from start to end
-	$: performanceDays =
-		conference.performances == null
-			? conference.itinerary == null
-				? []
-				: conference.itinerary
-						.map((m) => {
-							return new Date(m.itineraryDate);
-						})
-						.sort()
-						.reverse()
-						.map((m) => {
-							return new Date(m).toDateString();
-						})
-			: conference.performances
-					.map((m) => {
-						return new Date(m.dateAndTime);
-					})
-					.sort()
-					.map((m) => {
-						return new Date(m).toDateString();
-					});
-
-	$: startDate = performanceDays.length > 0 ? performanceDays[0] : conference.startDate;
-	$: endDate =
-		performanceDays.length > 0 ? performanceDays[performanceDays.length - 1] : conference.endDate;
-
-	$: dates = getDaysArray(startDate, endDate)
-		.filter((f) => performanceDays.includes(f.toDateString()))
-		.map((date) => [
-			date.toDateString(),
-			intlFormat(date, { weekday: 'long' }, { locale: 'nb-NO' }),
-			intlFormat(date, { day: '2-digit', month: 'long' }, { locale: 'nb-NO' })
-		]);
-
-	$: day =
-		new Date() >= new Date(startDate) && new Date() < new Date(endDate)
-			? new Date().toDateString()
-			: new Date(startDate).toDateString();
+	let selectedDay = eventDays[0];
 
 	let activeTab = 'Informasjon';
 
@@ -99,12 +52,6 @@
 		Lokasjon: conference.location ? conference.location : '',
 		Påmeldingsfrist: deadline ? deadline : ''
 	};
-
-	const builder = imageUrlBuilder(client);
-
-	function urlFor(source) {
-		return builder.image(source);
-	}
 </script>
 
 <svelte:head>
@@ -137,7 +84,6 @@
 </svelte:head>
 
 <div class="container">
-	<!-- {@debug performanceDays} -->
 	<BreadCrumb {conference} />
 
 	{#if conference.imageUrl}
@@ -202,12 +148,12 @@
 		</LayoutGrid>
 		<div />
 	{:else}
-		<DaySelect options={dates} bind:selected={day} />
+		<DaySelect options={dateOptions} bind:selected={selectedDay} />
 		<div class="pt-4">
 			{#if conference.internal}
-				<InternalConferenceProgram {conference} {day} />
+				<InternalConferenceProgram {conference} day={selectedDay} />
 			{:else}
-				<ExternalConferenceProgram {conference} {day} />
+				<ExternalConferenceProgram {conference} day={selectedDay} />
 			{/if}
 		</div>
 	{/if}
