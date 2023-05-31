@@ -1,3 +1,5 @@
+import type { EventType } from '../enums/event';
+
 export interface IConference {
 	_rev: string;
 	itinerary: IItinerary[];
@@ -20,6 +22,8 @@ export interface IConference {
 	location?: string;
 	slug: string;
 	_id: string;
+	eventType: EventType[];
+	visibleTo: string;
 }
 
 interface IPerformance {
@@ -30,7 +34,7 @@ interface IPerformance {
 	_key: string;
 }
 
-interface IDescription {
+export interface IDescription {
 	_type: string;
 	style: string;
 	_key: string;
@@ -38,7 +42,7 @@ interface IDescription {
 	children: IChildren[];
 }
 
-interface IImage {
+export interface IImage {
 	alt: string;
 	asset: IAsset;
 	crop: ICrop;
@@ -62,7 +66,7 @@ interface ICrop {
 	right: number;
 }
 
-interface IAsset {
+export interface IAsset {
 	_ref: string;
 	_type: string;
 }
@@ -92,14 +96,14 @@ interface IInfo {
 	children: IChildren[];
 }
 
-interface IChildren {
+export interface IChildren {
 	_type: string;
 	marks: string[];
 	text: string;
 	_key: string;
 }
 
-interface ImarkDefs {
+export interface ImarkDefs {
 	_key: string;
 	_type: string;
 	href: string;

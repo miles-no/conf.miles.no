@@ -29,7 +29,8 @@ export async function fetchSiteSettings(slug, konferanse) {
 }
 
 export async function fetchConferences(user) {
-	const officeId = user.cvpartnerOfficeId;
+	// OfficeId can be undefined if user does not exist in CVPartner
+	const officeId = user?.cvpartnerOfficeId;
 	let conferences = await client.fetch(/* groq */ `
         *[_type == "conference"] | order(endDate desc) {
             ...,
@@ -38,12 +39,10 @@ export async function fetchConferences(user) {
         }
     `);
 	if (!user.isAuthenticated) {
-		// conferences = conferences.filter((c) => c.showExternally || !c.internal);
 		conferences = conferences.filter((c) => c.showExternally);
-	} else {
-		conferences = conferences.filter(
-			(c) => !c.visibleTo || c.visibleTo?.includes(officeId) || c.visibleTo?.length == 0
-		);
+	} else if (officeId) {
+		// If the user exist in CVPartner, show only conferences for the office the user belongs to. Otherwise, show all conferences
+		conferences = conferences.filter((c) => c.visibleTo?.includes(officeId));
 	}
 	return {
 		conferences
@@ -51,7 +50,8 @@ export async function fetchConferences(user) {
 }
 
 export async function fetchExternalConferences(user) {
-	const officeId = user.cvpartnerOfficeId;
+	// OfficeId can be undefined if user does not exist in CVPartner
+	const officeId = user?.cvpartnerOfficeId;
 	let externalConferences = await client.fetch(/* groq */ `
         *[_type == "externalConference"] | order(endDate desc) {
             ...,
@@ -62,10 +62,9 @@ export async function fetchExternalConferences(user) {
 	if (!user.isAuthenticated) {
 		// conferences = conferences.filter((c) => c.showExternally || !c.internal);
 		externalConferences = externalConferences.filter((c) => c.showExternally);
-	} else {
-		externalConferences = externalConferences.filter(
-			(c) => !c.visibleTo || c.visibleTo?.includes(officeId) || c.visibleTo?.length == 0
-		);
+	} else if (officeId) {
+		// If the user exist in CVPartner, show only conferences for the office the user belongs to. Otherwise, show all conferences
+		externalConferences = externalConferences.filter((c) => c.visibleTo?.includes(officeId));
 	}
 	return {
 		externalConferences
@@ -134,4 +133,3 @@ export async function fetchConferencePerformance(konferanse, slug) {
 		conference: conference
 	};
 }
-

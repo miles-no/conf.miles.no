@@ -27,7 +27,8 @@ export default {
 		{
 			name: 'description',
 			type: 'portableText',
-			title: 'Description'
+			title: 'Description',
+			validation: (Rule) => Rule.required()
 		},
 		{
 			title: 'Slug',
@@ -124,6 +125,21 @@ export default {
 				}
 			],
 			fieldset: 'internal'
+		},
+		{
+			title: 'EventType',
+			name: 'eventType',
+			type: 'array',
+			of: [{ type: 'string' }],
+			options: {
+				list: [
+					{ title: 'Sosial', value: 'Sosial' },
+					{ title: 'Faglig', value: 'Faglig' },
+					{ title: 'SMiles', value: 'SMiles' }
+				]
+			},
+			validation: (Rule) => Rule.required(),
+			description: 'Event type'
 		}
 	]
 };

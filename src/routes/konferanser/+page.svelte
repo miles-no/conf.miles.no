@@ -44,6 +44,12 @@
     }
 </script>
 
+<svelte:head>
+	<title>
+		{'Konferanser - Miles'}
+	</title>
+</svelte:head>
+
 <div class="container">
     {#if showModal}
         <NewConferenceModal on:toggleNewConferenceModal={toggleShowModal} />

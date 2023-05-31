@@ -43,6 +43,8 @@
 	$outline-color: #a82424
 );
 
+@use '@material/select';
+
 html,
 body {
 	background-color: theme.$surface;
@@ -52,19 +54,21 @@ body {
 a {
 	color: #000000;
 }
+
 a:hover {
-	color: color.scale(#000000, $lightness: -25%);
+	color: #d32f2f !important;
 }
+
+a:focus-visible {
+	outline-color: #d32f2f !important;
+}
+
 a:visited {
 	color: color.scale(#000000, $lightness: -35%);
 }
 
 html {
 	@include typography.typography('body1');
-}
-
-h1 {
-	@include typography.typography('headline1');
 }
 
 h2 {
@@ -118,31 +122,58 @@ button {
 }
 
 .tag.info.filled {
-	background: #025c8d;
+	background: #02527e;
 	color: #fff;
 }
 
 .tag.info.outlined {
-	border-color: #025c8d;
-	color: #025c8d;
+	border-color: #02527e;
+	color: #02527e;
+}
+
+.tag.info.outlined-with-bg {
+	border-color: #02527e;
+	color: #02527e;
+	background-color: #e5eef3;
 }
 
 .tag.success.filled {
-	background: #266429;
+	background: #225923;
 	color: #fff;
 }
 
 .tag.success.outlined {
-	border-color: #266429;
-	color: #266429;
+	border-color: #225923;
+	color: #225923;
+}
+
+.tag.success.outlined-with-bg {
+	border-color: #225923;
+	color: #225923;
+	background-color: #e3f4e4;
 }
 
 .tag.error.filled {
-	background: #a82424;
+	background: #931f1f;
 	color: #fff;
 }
 
 .tag.error.outlined {
-	border-color: #a82424;
-	color: #a82424;
+	border-color: #931f1f;
+	color: #931f1f;
+}
+
+.tag.error.outlined-with-bg {
+	border-color: #931f1f;
+	color: #931f1f;
+	background-color: #f9e6e6;
+}
+
+.select-with-background {
+	background-color: #ffeeb7;
+	.mdc-select__selected-text {
+		color: #fff;
+		letter-spacing: 1px;
+		font-weight: 600;
+	}
 }

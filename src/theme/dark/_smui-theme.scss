@@ -52,20 +52,21 @@ body {
 a {
 	color: color.scale(#ffffff, $lightness: -15%);
 }
+
 a:hover {
-	color: color.scale(#ffffff, $lightness: -25%);
+	color: #d32f2f !important;
 }
+
+a:focus-visible {
+	outline-color: #d32f2f !important;
+}
+
 a:visited {
 	color: color.scale(#ffffff, $lightness: -15%);
 }
 
 html {
 	@include typography.typography('body1');
-}
-
-h1 {
-	@include typography.typography('headline1');
-	color: color.scale(#ffffff, $lightness: -15%);
 }
 
 h2 {
@@ -146,4 +147,14 @@ button {
 .tag.error.outlined {
 	border-color: #ee9697;
 	color: #ee9697;
+}
+
+.select-with-background {
+	.mdc-select__selected-text {
+		color: #000 !important;
+	}
+
+	.mdc-select__dropdown-icon {
+		fill: #000 !important;
+	}
 }
