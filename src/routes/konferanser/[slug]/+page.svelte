@@ -15,6 +15,7 @@
 	import { PortableText, toPlainText } from '@portabletext/svelte';
 	import type { IConference } from '../../../model/conference';
 	import { urlFor } from '../../../utils/sanityclient-utils';
+	import NoImage from '../../../components/no-image/NoImage.svelte';
 
 	export let data = {};
 	export let conference = data.conference as IConference;
@@ -94,6 +95,8 @@
 				? urlFor(conference.imageUrl).fit('clip').size(1600, 500).quality(100).url()
 				: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
 		/>
+	{:else}
+		<NoImage />
 	{/if}
 	<h1 class="title mdc-typography--headline4">{conference.title}</h1>
 	<div class="tabs-container">
