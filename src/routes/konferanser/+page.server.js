@@ -11,7 +11,7 @@ export async function load({ cookies }) {
 		throw redirect(307, '/login');
 	}
 
-	const externalConferences = await fetchExternalConferences(user);
+	const externalConferences = await fetchExternalConferences();
 
 	if (!externalConferences) {
 		return {

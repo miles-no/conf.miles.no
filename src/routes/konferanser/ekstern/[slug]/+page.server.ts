@@ -21,7 +21,7 @@ export const load = (async ({ params, cookies }): Promise<IPageLoadData> => {
 		throw redirect(307, '/login');
 	}
 
-	const data = await fetchExternalConferences(user);
+	const data = await fetchExternalConferences();
 	const externalConferences = data.externalConferences as unknown as IExternalConference[];
 	const conference = externalConferences?.find((item) => item.slug === params.slug);
 	const status = conference?.employees?.find((i) => i.email === user?.email)?.status;
