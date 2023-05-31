@@ -3,21 +3,22 @@
     import LabeledField from "../../form/LabeledField.svelte";
     import FormField from "@smui/form-field";
     import Checkbox from "@smui/checkbox";
+    import {ConferenceCategory} from "../../../enums/conference-category.ts";
 
-    let options = ['UX/Design','Smidig','Utvikling','Prosjektledelse','Admin'];
+    let categories = Object.keys(ConferenceCategory).map(enumKey => ConferenceCategory[enumKey]);
     let selected = [];
 </script>
 
 <div class="checkbox-line">
     <LabeledField label="Fagområde" width="100%">
         <JustifiedRow>
-            {#each options as option}
+            {#each categories as category}
                 <FormField>
                     <Checkbox
                             bind:group={selected}
-                            value={option}
+                            value={category}
                     />
-                    <span slot="label">{option}</span>
+                    <span slot="label">{category}</span>
                 </FormField>
             {/each}
         </JustifiedRow>
