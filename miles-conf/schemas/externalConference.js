@@ -80,13 +80,15 @@ export default {
 			name: 'categoryTag',
 			type: 'array',
 			of: [{ type: 'string' }],
-			options: {
-				list: [
-					{ title: 'Smidig', value: 'Smidig' },
-					{ title: 'UX/Design', value: 'UX/Design' },
-					{ title: 'Utvikling', value: 'Utvikling' }
-				]
-			},
+            options: {
+                list: [
+                    { title: 'Smidig', value: 'Smidig' },
+                    { title: 'UX/Design', value: 'UX/Design' },
+                    { title: 'Utvikling', value: 'Utvikling' },
+                    { title: 'Prosjektledelse', value: 'Prosjektledelse' },
+                    { title: 'Admin', value: 'Admin' }
+                ]
+            },
 			validation: (Rule) => Rule.required(),
 			description: 'For who is the conference relevant?'
 		},
