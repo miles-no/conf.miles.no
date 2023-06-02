@@ -38,7 +38,11 @@
 	<div class="top-content">
 		<div>
 			<h2>Ditt neste arrangement</h2>
-			<NextEventCard {myNextEvent} handleModal={() => (open = !open)} />
+			{#if myNextEvent}
+				<NextEventCard {myNextEvent} handleModal={() => (open = !open)} />
+			{:else}
+				<p>Du har ingen påmeldte arrangement</p>
+			{/if}
 		</div>
 	</div>
 	<LayoutGrid>
@@ -64,11 +68,14 @@
 			{/each}
 		</Cell>
 	</LayoutGrid>
-	<ConferenceModal bind:open conference={myNextEvent} {user} />
+	{#if myNextEvent}
+		<ConferenceModal bind:open conference={myNextEvent} {user} />
+	{/if}
 </div>
 
 <style lang="scss">
 	@use '../styles/mixin' as *;
+	@use '../styles/colors' as *;
 
 	.dashboard-container {
 		h2 {
