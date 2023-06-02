@@ -39,7 +39,6 @@
 	.conference-status-select-container {
 		width: 100%;
 		:global(.conference-status-select-container-select) {
-			// background-color: #ffeeb7;
 			border-radius: 5px;
 			width: 100%;
 

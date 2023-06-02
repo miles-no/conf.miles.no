@@ -52,7 +52,7 @@
 			</Content>
 		</Card>
 	</div>
-	<ConferenceModal bind:open {conference} {user} />
+	<ConferenceModal bind:open {conference} {user} isExternalConference />
 </div>
 
 <style>
