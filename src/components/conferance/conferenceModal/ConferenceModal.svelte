@@ -18,6 +18,7 @@
 	 * @type {boolean}
 	 */
 	export let open: boolean = false;
+	export let isExternalConference: boolean = false;
 
 	/**
 	 * @type {{ startDate: any; endDate: any; employees: any[]; _id: any; imageUrl: any; title: any; location: any; url: any; price: any; categoryTag: any; description: any; }}
@@ -59,6 +60,10 @@
 			applyAction(result);
 		}
 	};
+
+	$: detailsPage = isExternalConference
+		? `/konferanser/ekstern/${conference.slug}`
+		: `/konferanser/${conference.slug}`;
 </script>
 
 <Dialog bind:open noContentPadding sheet aria-describedby="sheet-no-padding-content">
@@ -93,7 +98,7 @@
 			</div>
 			<div class="actionWrapper">
 				<ConferenceStatus title="Min status" {selectedStatus} {onSelectStatus} flexType="row" />
-				<a href={`/konferanser/ekstern/${conference.slug}`}>Se flere detaljer </a>
+				<a href={detailsPage}>Se flere detaljer </a>
 			</div>
 		</div>
 	</Content>
