@@ -23,10 +23,12 @@
 		(conf: IConference) => Date.parse(conf.endDate) < Date.now()
 	);
 
-	const todaysEvents = conferences.filter(
-		(conf: IConference) =>
-			Date.parse(conf.startDate) <= Date.now() && Date.now() <= Date.parse(conf.endDate)
-	);
+	const nextEvent = conferences
+		.filter(
+			(conf: IConference) =>
+				Date.parse(conf.startDate) <= Date.now() && Date.now() <= Date.parse(conf.endDate)
+		)
+		.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))[0];
 
 	let open = false;
 </script>
@@ -41,9 +43,9 @@
 	</div>
 	<LayoutGrid>
 		<Cell span={4}>
-			{#if todaysEvents.length > 0}
+			{#if nextEvent}
 				<h2>Det neste arrangementet</h2>
-				<EventCard event={todaysEvents[todaysEvents.length - 1]} />
+				<EventCard event={nextEvent} />
 			{:else if futureEvents.length > 0}
 				<h2>Det neste arrangementet</h2>
 				<EventCard event={futureEvents[futureEvents.length - 1]} />

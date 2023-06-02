@@ -1,10 +1,17 @@
 <script lang="ts">
+	import { intlFormat } from 'date-fns';
 	import type { IConference } from '../../model/conference';
 	import Tag from '../tag/Tag.svelte';
 	import { Icon } from '@smui/button';
 
 	export let myNextEvent: IConference;
 	export let handleModal: () => void;
+
+	$: startDate = intlFormat(
+		Date.parse(myNextEvent.startDate),
+		{ day: '2-digit', month: 'short', year: 'numeric' },
+		{ locale: 'nb-NO' }
+	);
 </script>
 
 <div class="your-next-event">
@@ -13,8 +20,8 @@
 			<div class="information">
 				<p class="title">{myNextEvent.title}</p>
 				<div>
-					<p>
-						{myNextEvent.startDate}
+					<p class="startdate">
+						{startDate}
 					</p>
 					<p class="location">
 						<Icon class="material-icons">business</Icon>
@@ -39,7 +46,7 @@
 
 		p {
 			margin-bottom: 0.3rem;
-			letter-spacing: 0.16px;
+			letter-spacing: 0.3px;
 		}
 
 		button {
@@ -63,6 +70,10 @@
 				gap: 5rem;
 				.title {
 					font-weight: 600;
+				}
+
+				.startdate {
+					text-decoration: underline;
 				}
 
 				.location {
