@@ -62,11 +62,7 @@
 			{/each}
 		</Cell>
 	</LayoutGrid>
-	<ConferenceModal
-		bind:open
-		conference={{ ...myNextEvent, price: '', url: '', tickettype: '', categoryTag: ['Smidig'] }}
-		{user}
-	/>
+	<ConferenceModal bind:open conference={myNextEvent} {user} />
 </div>
 
 <style lang="scss">
