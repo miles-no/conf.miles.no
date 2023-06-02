@@ -19,7 +19,7 @@
 	{#if !user.isAuthenticated}
 		<ExternalContent {conferences} />
 	{:else}
-		<Dashboard {conferences} />
+		<Dashboard {conferences} {user} />
 	{/if}
 </div>
 
