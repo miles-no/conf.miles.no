@@ -20,10 +20,12 @@
 			<div class="information">
 				<p class="title">{myNextEvent.title}</p>
 				<div>
-					<p class="startdate">
+					<p class="visuallyhidden">{`Dato: ${myNextEvent.startDate}`}</p>
+					<p class="startdate" aria-hidden={true}>
 						{startDate}
 					</p>
-					<p class="location">
+					<p class="visuallyhidden">{`Sted: ${myNextEvent.visibleTo}`}</p>
+					<p class="location" aria-hidden={true}>
 						<Icon class="material-icons">business</Icon>
 						{myNextEvent.visibleTo}
 					</p>
@@ -39,11 +41,12 @@
 
 <style lang="scss">
 	@use '../../styles/colors' as *;
-
+	@use '../../styles/mixin' as *;
+	// Mobile
 	.your-next-event {
-		display: flex;
-		flex-direction: column;
-
+		.visuallyhidden {
+			@include visuallyhidden();
+		}
 		p {
 			margin-bottom: 0.3rem;
 			letter-spacing: 0.3px;
@@ -62,24 +65,22 @@
 			gap: 1rem;
 			border-radius: 0.5rem;
 			background-color: $light-gray;
-			padding: 1rem 1rem 2.5rem 1rem;
+			padding: 1rem;
 
 			.information {
-				display: flex;
-				justify-content: space-between;
-				gap: 5rem;
 				.title {
 					font-weight: 600;
 				}
 
 				.startdate {
+					display: flex;
 					text-decoration: underline;
 				}
 
 				.location {
 					display: flex;
-					align-items: center;
-					font-size: min(3vw, 14px);
+					align-items: end;
+					font-size: min(5vw, 14px);
 				}
 			}
 
@@ -88,6 +89,24 @@
 				justify-content: flex-start;
 				align-items: center;
 				gap: 0.5rem;
+			}
+		}
+	}
+
+	// Desktop
+	@media (min-width: 900px) {
+		.your-next-event {
+			display: flex;
+			flex-direction: column;
+
+			.your-next-event-content {
+				padding: 1rem 1rem 2.5rem 1rem;
+
+				.information {
+					display: flex;
+					justify-content: space-between;
+					gap: 2rem;
+				}
 			}
 		}
 	}
