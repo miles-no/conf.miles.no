@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { formatConferenceDateRange } from '$lib';
 	import Card, { Content, Media, MediaContent } from '@smui/card';
 	import imageUrlBuilder from '@sanity/image-url';
@@ -19,8 +19,8 @@
 	let open = false;
 </script>
 
-<div class="card-container">
-	<div on:click={() => (open = true)} on:keydown={() => (open = true)}>
+<div>
+	<div role="button" on:click={() => (open = true)} on:keypress={() => (open = true)} tabindex={0}>
 		<Card>
 			<Media class="card-media-16x9" aspectRatio="16x9">
 				<MediaContent>
@@ -56,17 +56,12 @@
 </div>
 
 <style>
-	.card-container {
-		cursor: pointer;
-	}
 	.title {
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
-	a {
-		text-decoration: none;
-	}
+
 	.dateLocationWrapper {
 		display: flex;
 		flex-direction: row;
