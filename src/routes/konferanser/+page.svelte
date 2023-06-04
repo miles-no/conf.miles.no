@@ -69,9 +69,9 @@
 	</div>
 	<div>
 		<LayoutGrid>
-			{#each filteredConferences as conference, index}
+			{#each filteredConferences as conference}
 				<Cell>
-					<ConferenceCard {conference} {index} {user} />
+					<ConferenceCard {conference} {user} />
 				</Cell>
 			{/each}
 		</LayoutGrid>
