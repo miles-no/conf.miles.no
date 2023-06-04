@@ -69,9 +69,4 @@
 		gap: 1rem;
 		padding-bottom: 1.5rem;
 	}
-
-	.page-container-content {
-		border: 1px solid $black;
-		border-radius: 0.5rem;
-	}
 </style>

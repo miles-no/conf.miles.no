@@ -1,26 +1,22 @@
-<script>
+<script lang="ts">
 	import { formatConferenceDateRange } from '$lib';
 	import Card, { Content, Media, MediaContent } from '@smui/card';
-	import imageUrlBuilder from '@sanity/image-url';
-	import { client } from '$lib/sanityClient';
 	import ConferenceModal from '../conferenceModal/ConferenceModal.svelte';
 	import ConferenceCategoryTag from '../../tag/conference-category-tag/ConferenceCategoryTag.svelte';
+	import type { IExternalConference } from '../../../model/external-conference';
+	import type { User } from '$lib/types/user';
+	import { urlFor } from '../../../utils/sanityclient-utils';
 
-	export let conference;
-	export let index;
-	export let user;
+	export let conference: IExternalConference;
+	export let user: User;
+
 	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
-	const builder = imageUrlBuilder(client);
-
-	function urlFor(source) {
-		return builder.image(source);
-	}
 
 	let open = false;
 </script>
 
-<div class="card-container">
-	<div on:click={() => (open = true)} on:keydown={() => (open = true)}>
+<div>
+	<div role="button" on:click={() => (open = true)} on:keypress={() => (open = true)} tabindex={0}>
 		<Card>
 			<Media class="card-media-16x9" aspectRatio="16x9">
 				<MediaContent>
@@ -56,17 +52,12 @@
 </div>
 
 <style>
-	.card-container {
-		cursor: pointer;
-	}
 	.title {
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
-	a {
-		text-decoration: none;
-	}
+
 	.dateLocationWrapper {
 		display: flex;
 		flex-direction: row;

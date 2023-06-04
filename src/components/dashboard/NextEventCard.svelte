@@ -14,49 +14,52 @@
 	);
 </script>
 
-<div class="your-next-event">
-	<button on:click={handleModal}>
-		<div class="your-next-event-content">
-			<div class="information">
-				<p class="title">{myNextEvent.title}</p>
-				<div>
-					<p class="visuallyhidden">{`Dato: ${myNextEvent.startDate}`}</p>
-					<p class="startdate" aria-hidden={true}>
-						{startDate}
-					</p>
-					<p class="visuallyhidden">{`Sted: ${myNextEvent.visibleTo}`}</p>
-					<p class="location" aria-hidden={true}>
-						<Icon class="material-icons">business</Icon>
-						{myNextEvent.visibleTo}
-					</p>
-				</div>
-			</div>
-			<div class="status" aria-hidden={true}>
-				<p>Status:</p>
-				<Tag color="success" ariaHidden={true}>Påmeldt</Tag>
+<div
+	class="gray-bg-card your-next-event"
+	role="button"
+	tabindex={0}
+	on:click={handleModal}
+	on:keypress={handleModal}
+>
+	<div class="gray-bg-card-content your-next-event-content">
+		<div class="information">
+			<p class="title">{myNextEvent.title}</p>
+			<div>
+				<p class="visuallyhidden">{`Dato: ${myNextEvent.startDate}`}</p>
+				<p class="startdate" aria-hidden={true}>
+					{startDate}
+				</p>
+				<p class="visuallyhidden">{`Sted: ${myNextEvent.visibleTo}`}</p>
+				<p class="location" aria-hidden={true}>
+					<Icon class="material-icons">business</Icon>
+					{myNextEvent.visibleTo}
+				</p>
 			</div>
 		</div>
-	</button>
+		<div class="status" aria-hidden={true}>
+			<p>Status:</p>
+			<Tag color="success" ariaHidden={true}>Påmeldt</Tag>
+		</div>
+	</div>
 </div>
 
 <style lang="scss">
 	@use '../../styles/colors' as *;
 	@use '../../styles/mixin' as *;
+
 	// Mobile
 	.your-next-event {
+		border: 1px solid black;
+		border-radius: 0.5rem;
+		padding: 0.4rem;
+
 		.visuallyhidden {
 			@include visuallyhidden();
 		}
+
 		p {
 			margin-bottom: 0.3rem;
 			letter-spacing: 0.3px;
-		}
-
-		button {
-			border: 1px solid black;
-			border-radius: 0.5rem;
-			background-color: #fff;
-			padding: 0.4rem;
 		}
 
 		.your-next-event-content {
@@ -64,7 +67,6 @@
 			flex-direction: column;
 			gap: 1rem;
 			border-radius: 0.5rem;
-			background-color: $light-gray;
 			padding: 1rem;
 
 			.information {

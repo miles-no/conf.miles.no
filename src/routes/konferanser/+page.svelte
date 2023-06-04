@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import LayoutGrid from '@smui/layout-grid';
 	import Button, { Icon, Label } from '@smui/button';
 	import Cell from '@smui/layout-grid/src/Cell.svelte';
@@ -6,36 +6,31 @@
 	import Textfield from '@smui/textfield';
 	import Checkbox from '@smui/checkbox';
 	import FormField from '@smui/form-field';
+	import type { IExternalConferencesPageLoadData } from './+page.server';
+	import { ConferenceCategory } from '../../enums/conference-category';
+	import type { ConferenceCategoryType } from '../../enums/conference-category';
 
-	export let data = {};
+	export let data: IExternalConferencesPageLoadData;
 	export let externalConferences = data.externalConferences;
 	let user = data.user;
-	let selected = [];
 
+	let selectedCategoryType: ConferenceCategoryType[] = [];
 	$: searchTerm = '';
 	$: filterByTags =
-		selected.length > 0
-			? externalConferences.filter((conf) => conf.categoryTag.some((tag) => selected.includes(tag)))
+		selectedCategoryType.length > 0
+			? externalConferences.filter((conf) =>
+					conf.categoryTag.some((tag) => selectedCategoryType.includes(tag))
+			  )
 			: externalConferences;
 
 	$: filteredConferences = filterByTags.filter((conf) =>
 		conf.title.toLowerCase().includes(searchTerm)
 	);
 
-	let options = [
-		{
-			name: 'Utvikling',
-			disabled: false
-		},
-		{
-			name: 'UX/Design',
-			disabled: false
-		},
-		{
-			name: 'Smidig',
-			disabled: false
-		}
-	];
+	let options = Object.values(ConferenceCategory).map((category) => ({
+		name: category,
+		disabled: false
+	}));
 </script>
 
 <svelte:head>
@@ -61,18 +56,22 @@
 			{#each options as option}
 				<div>
 					<FormField>
-						<Checkbox bind:group={selected} value={option.name} disabled={option.disabled} />
+						<Checkbox
+							bind:group={selectedCategoryType}
+							value={option.name}
+							disabled={option.disabled}
+						/>
 						<span slot="label">{option.name}{option.disabled ? ' (disabled)' : ''}</span>
 					</FormField>
 				</div>
 			{/each}
 		</div>
 	</div>
-	<div class="contentRow">
+	<div>
 		<LayoutGrid>
-			{#each filteredConferences as conference, index}
+			{#each filteredConferences as conference}
 				<Cell>
-					<ConferenceCard {conference} {index} {user} />
+					<ConferenceCard {conference} {user} />
 				</Cell>
 			{/each}
 		</LayoutGrid>
@@ -106,13 +105,5 @@
 		display: flex;
 		flex-direction: row;
 		gap: 1rem;
-	}
-
-	.contentRow {
-		height: auto;
-		width: 100%;
-		border: 1px solid red;
-		padding: 1rem;
-		border-radius: 1rem;
 	}
 </style>
