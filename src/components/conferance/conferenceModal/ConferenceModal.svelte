@@ -85,11 +85,13 @@
 			<h1>{conference.title}</h1>
 			<div class="compactInfo">
 				<ConferenceInformation {conference} />
-				<div class="tagWrapper">
-					{#each conference.categoryTag as activityType}
-						<ConferenceCategoryTag category={activityType} />
-					{/each}
-				</div>
+				{#if conference.categoryTag}
+					<div class="tagWrapper">
+						{#each conference.categoryTag as activityType}
+							<ConferenceCategoryTag category={activityType} />
+						{/each}
+					</div>
+				{/if}
 			</div>
 			<div>
 				{#if conference.description}

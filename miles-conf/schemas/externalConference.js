@@ -89,7 +89,6 @@ export default {
 					{ title: 'Admin', value: 'Admin' }
 				]
 			},
-			validation: (Rule) => Rule.required(),
 			description: 'For who is the conference relevant?'
 		},
 		{

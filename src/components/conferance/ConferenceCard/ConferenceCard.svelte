@@ -40,11 +40,13 @@
 				<div class="title mdc-typography--headline6">
 					{conference.title}
 				</div>
-				<div class="tagWrapper">
-					{#each conference.categoryTag as activityType}
-						<ConferenceCategoryTag category={activityType} />
-					{/each}
-				</div>
+				{#if conference.categoryTag}
+					<div class="tagWrapper">
+						{#each conference.categoryTag as activityType}
+							<ConferenceCategoryTag category={activityType} />
+						{/each}
+					</div>
+				{/if}
 			</Content>
 		</Card>
 	</div>
