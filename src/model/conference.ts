@@ -17,7 +17,7 @@ export interface IConference {
 	title: string;
 	_createdAt: string;
 	description: IDescription[];
-	performances: IPerformance[];
+	performances?: IPerformance[];
 	startDate: string;
 	deadline: string;
 	imageUrl: string;
@@ -31,7 +31,7 @@ export interface IConference {
 	categoryTag?: ConferenceCategoryType[];
 }
 
-interface IPerformance {
+export interface IPerformance {
 	internal?: boolean;
 	dateAndTime: string;
 	_type: string;
