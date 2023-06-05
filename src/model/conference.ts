@@ -34,6 +34,7 @@ export interface IConference {
 export interface IPerformance {
 	internal?: boolean;
 	dateAndTime: string;
+	location: string;
 	_type: string;
 	_key: string;
 	submission: ISubmission;

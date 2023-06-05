@@ -18,6 +18,10 @@
 	import type { IPerformance } from '../../../../model/conference';
 	import ExternalConferencePerformanceCard from '../../../../components/conferance/external-conference-perfermance-card/ExternalConferencePerformanceCard.svelte';
 
+	interface Test {
+		[key: string]: IPerformance[];
+	}
+
 	export let data: IPageLoadData;
 	$: conference = data.conference;
 	$: user = data.user;
@@ -31,16 +35,21 @@
 			{ locale: 'nb-NO' }
 		);
 
-	$: allDates = new Set(conference?.performances?.map((p) => formatDate(p.dateAndTime)));
+	$: allDates = Array.from(
+		new Set(conference?.performances?.map((p) => formatDate(p.dateAndTime)))
+	);
 
-	$: performanceMapByDate = Array.from(allDates)?.reduce((prev, cur) => {
-		return {
-			...prev,
-			[cur]: conference?.performances?.filter((p) => formatDate(p.dateAndTime) === cur)
-		};
-	}, {});
-
-	$: milesPerformances = Object.entries(performanceMapByDate) as [string, IPerformance][];
+	$: performanceMapByDate = allDates?.reduce((previousValue, currentValue) => {
+		const filtered = conference?.performances?.filter(
+			(p) => formatDate(p.dateAndTime) === currentValue
+		);
+		if (filtered !== undefined) {
+			return {
+				...previousValue,
+				[currentValue]: filtered
+			};
+		}
+	}, {} as Test | undefined);
 
 	const onSelectStatus = async (event: any) => {
 		const newStatus = event.target.dataset.value as StatusKeyType;
@@ -118,14 +127,14 @@
 						<!-- <div class="conference-details-main-content-description-comment">Kommentarer</div> -->
 					</div>
 				{/if}
-				{#if conference.performances}
+				{#if allDates && performanceMapByDate}
 					<div class="conference-details-main-content-miles-bidrag">
 						<h2>Miles bidrag</h2>
 						<div class="miles-bidrag-content">
-							{#each milesPerformances as [key, value]}
+							{#each allDates as date}
 								<div class="miles-bidrag-content-per-day">
-									<p class="date">{key}</p>
-									{#each value as performance}
+									<h3 class="date">{date}</h3>
+									{#each performanceMapByDate[date] as performance}
 										<ExternalConferencePerformanceCard {performance} />
 									{/each}
 								</div>
@@ -168,6 +177,11 @@
 	h2 {
 		font-size: 1.3rem;
 		font-weight: 500;
+	}
+
+	h3 {
+		font-size: 1rem;
+		margin: 0;
 	}
 
 	p {
@@ -264,14 +278,6 @@
 				display: flex;
 				flex-direction: column;
 				gap: 2rem;
-			}
-
-			.conference-details-main-content-miles-bidrag {
-				.miles-bidrag-content {
-					display: grid;
-					grid-template-columns: repeat(2, 1fr);
-					gap: 1rem;
-				}
 			}
 		}
 	}
