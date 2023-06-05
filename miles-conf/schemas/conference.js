@@ -1,5 +1,3 @@
-import { isValidTime } from './objects/itineraryEvent';
-
 export default {
 	name: 'conference',
 	type: 'document',
