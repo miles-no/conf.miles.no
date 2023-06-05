@@ -127,7 +127,7 @@ export default {
 			fieldset: 'internal'
 		},
 		{
-			title: 'EventType',
+			title: 'Event type',
 			name: 'eventType',
 			type: 'array',
 			of: [{ type: 'string' }],
@@ -188,7 +188,6 @@ export default {
 					{ title: 'Admin', value: 'Admin' }
 				]
 			},
-			validation: (Rule) => Rule.required(),
 			description: 'For who is the conference relevant?'
 		}
 	]

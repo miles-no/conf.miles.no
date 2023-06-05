@@ -27,7 +27,7 @@ export interface IConference {
 	eventType: EventType[];
 	visibleTo: string;
 	employees?: IEmployee[];
-	categoryTag: ConferenceCategoryType[];
+	categoryTag?: ConferenceCategoryType[];
 }
 
 interface IPerformance {

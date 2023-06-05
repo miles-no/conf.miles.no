@@ -41,15 +41,6 @@ export async function fetchConferences(user) {
 		conferences = conferences.filter((c) => c.showExternally);
 	}
 
-	// TODO: remove this after assigned category to all conferences
-	conferences = conferences.map((c) => {
-		if (!c.categoryTag) {
-			return { ...c, categoryTag: ['Utvikling'] };
-		}
-
-		return { ...c };
-	});
-
 	return {
 		conferences
 	};

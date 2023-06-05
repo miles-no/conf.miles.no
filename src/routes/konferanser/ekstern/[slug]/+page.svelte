@@ -72,11 +72,13 @@
 			<Content class="conference-details-main-content">
 				<h1>{conference.title}</h1>
 				<ConferenceInformation {conference} />
-				<div class="conference-details-main-content-tags-container">
-					{#each conference.categoryTag as categoryType}
-						<ConferenceCategoryTag category={categoryType} />
-					{/each}
-				</div>
+				{#if conference.categoryTag}
+					<div class="conference-details-main-content-tags-container">
+						{#each conference.categoryTag as categoryType}
+							<ConferenceCategoryTag category={categoryType} />
+						{/each}
+					</div>
+				{/if}
 				<!-- show on mobile, hide on desktop -->
 				<div class="conference-details-main-content-status">
 					<div>
