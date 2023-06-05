@@ -1,8 +1,11 @@
+import type { ConferenceCategoryType } from '../enums/conference-category';
 import type { EventType } from '../enums/event';
+import type { StatusKeyType } from '../enums/status';
 
 export interface IConference {
+	_id: string;
 	_rev: string;
-	itinerary: IItinerary[];
+	itinerary?: IItinerary[];
 	showExternally: boolean;
 	internal: boolean;
 	signupLink: string;
@@ -21,9 +24,10 @@ export interface IConference {
 	_type: string;
 	location?: string;
 	slug: string;
-	_id: string;
 	eventType: EventType[];
-	visibleTo: string;
+	visibleTo: string[];
+	employees?: IEmployee[];
+	categoryTag?: ConferenceCategoryType[];
 }
 
 interface IPerformance {
@@ -107,4 +111,10 @@ export interface ImarkDefs {
 	_key: string;
 	_type: string;
 	href: string;
+}
+
+export interface IEmployee {
+	status: StatusKeyType;
+	_key: string;
+	email: string;
 }

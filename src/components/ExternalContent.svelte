@@ -1,10 +1,8 @@
 <script lang="ts">
 	import LayoutGrid, { Cell } from '@smui/layout-grid';
 	import EventCard from './EventCard.svelte';
-	import LocationButtonGroup from './button/location-button-group/LocationButtonGroup.svelte';
 	import type { LocationType } from '../enums/location';
 	import type { EventType } from '../enums/event';
-	import EventTypeButtonGroup from './button/event-type-button-group/EventTypeButtonGroup.svelte';
 	import type { IConference } from '../model/conference';
 
 	export let conferences: IConference[] = [];
@@ -70,10 +68,5 @@
 		flex-direction: column;
 		gap: 1rem;
 		padding-bottom: 1.5rem;
-	}
-
-	.page-container-content {
-		border: 1px solid $black;
-		border-radius: 0.5rem;
 	}
 </style>

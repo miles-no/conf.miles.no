@@ -1,5 +1,3 @@
-import { isValidTime } from './objects/itineraryEvent';
-
 export default {
 	name: 'conference',
 	type: 'document',
@@ -127,7 +125,7 @@ export default {
 			fieldset: 'internal'
 		},
 		{
-			title: 'EventType',
+			title: 'Event type',
 			name: 'eventType',
 			type: 'array',
 			of: [{ type: 'string' }],
@@ -140,6 +138,55 @@ export default {
 			},
 			validation: (Rule) => Rule.required(),
 			description: 'Event type'
+		},
+		{
+			title: 'Relevent Employees',
+			name: 'employees',
+			type: 'array',
+			of: [
+				{
+					title: 'Employee Status',
+					type: 'object',
+					fields: [
+						{
+							name: 'email',
+							title: 'Email',
+							type: 'string',
+							validation: (Rule) => Rule.required().email(),
+							unique: true
+						},
+						{
+							name: 'status',
+							title: 'Status',
+							type: 'string',
+							options: {
+								list: [
+									{ title: 'Attending', value: 'attending' },
+									{ title: 'Interested', value: 'interested' },
+									{ title: 'Not Going', value: 'notGoing' }
+								]
+							},
+							validation: (Rule) => Rule.required()
+						}
+					]
+				}
+			]
+		},
+		{
+			title: 'Category',
+			name: 'categoryTag',
+			type: 'array',
+			of: [{ type: 'string' }],
+			options: {
+				list: [
+					{ title: 'Smidig', value: 'Smidig' },
+					{ title: 'UX/Design', value: 'UX/Design' },
+					{ title: 'Utvikling', value: 'Utvikling' },
+					{ title: 'Prosjektledelse', value: 'Prosjektledelse' },
+					{ title: 'Admin', value: 'Admin' }
+				]
+			},
+			description: 'For who is the conference relevant?'
 		}
 	]
 };

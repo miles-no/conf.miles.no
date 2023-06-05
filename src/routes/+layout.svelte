@@ -37,12 +37,36 @@
 </svelte:head>
 
 <Toast>
+	<a href="#main" class="skip-to-main-content-link">Hopp til hovedinnhold</a>
 	<Header {settings} {authInfo} bind:isDarkTheme />
-	<main class="pb-5">
+	<main class="pb-5" id="main">
 		<slot />
 	</main>
 </Toast>
 
 <!-- <Footer /> -->
-<style>
+<style lang="scss">
+	@use '../styles/colors' as *;
+
+	.skip-to-main-content-link {
+		display: flex;
+		align-items: center;
+		padding: 1rem;
+		background: $miles-red;
+		height: 2.5rem;
+		left: 50%;
+		font-weight: 600;
+		position: absolute;
+		transform: translateY(-100%);
+		transition: transform 0.3s;
+		color: #fff;
+		&:hover {
+			color: #fff !important;
+		}
+
+		&:focus,
+		&:active {
+			transform: translateY(0%);
+		}
+	}
 </style>

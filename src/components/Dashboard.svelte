@@ -1,51 +1,95 @@
-<script>
+<script lang="ts">
 	import Conference from './Conference.svelte';
 	import LayoutGrid, { Cell } from '@smui/layout-grid';
-
-	import { endOfDay } from 'date-fns';
 	import EventCard from './EventCard.svelte';
 	import SmallConferenceCard from './SmallConferenceCard.svelte';
-	export let conferences = [];
+	import type { IConference } from '../model/conference';
+	import NextEventCard from './dashboard/NextEventCard.svelte';
+	import type { User } from '$lib/types/user';
+	import ConferenceModal from './conferance/conferenceModal/ConferenceModal.svelte';
 
-	$: being = conferences.filter(
-		(conf) =>
-			new Date(conf.startDate) <= Date.now() && Date.now() <= endOfDay(new Date(conf.endDate))
+	export let conferences: IConference[];
+	export let user: User;
+
+	$: myNextEvent = conferences
+		.filter((c) => c.employees?.map((e) => e.email).includes(user.email))
+		.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))[0];
+
+	const futureEvents = conferences.filter(
+		(conf: IConference) => Date.parse(conf.startDate) >= Date.now()
 	);
-	$: to_be = conferences.filter((conf) => new Date(conf.startDate) >= Date.now());
-	$: done = conferences.filter((conf) => new Date(conf.endDate) < Date.now());
-	console.log(done);
+
+	const pastEvents = conferences.filter(
+		(conf: IConference) => Date.parse(conf.endDate) < Date.now()
+	);
+
+	const nextEvent = conferences
+		.filter(
+			(conf: IConference) =>
+				Date.parse(conf.startDate) <= Date.now() && Date.now() <= Date.parse(conf.endDate)
+		)
+		.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))[0];
+
+	let open = false;
 </script>
 
-<div>
+<div class="dashboard-container">
+	<h1 class="visuallyhidden">Dette skjer hos oss i Miles</h1>
+	<div class="top-content">
+		<div>
+			<h2>Ditt neste arrangement</h2>
+			{#if myNextEvent}
+				<NextEventCard {myNextEvent} handleModal={() => (open = !open)} />
+			{:else}
+				<p>Du har ingen påmeldte arrangement</p>
+			{/if}
+		</div>
+	</div>
 	<LayoutGrid>
 		<Cell span={4}>
-			{#if being.length > 0}
-				<h1>Det neste arrangementet</h1>
-				<EventCard event={to_be[to_be.length - 1]} />
-			{:else if to_be.length > 0}
-				<h1>Det neste arrangementet</h1>
-				<EventCard event={to_be[to_be.length - 1]} />
+			{#if nextEvent}
+				<h2>Det neste arrangementet</h2>
+				<EventCard event={nextEvent} />
+			{:else if futureEvents.length > 0}
+				<h2>Det neste arrangementet</h2>
+				<EventCard event={futureEvents[futureEvents.length - 1]} />
 			{/if}
 		</Cell>
 		<Cell span={8}>
-			<h1>Kommende arrangementer</h1>
-			{#each to_be.reverse() as conference (conference.title)}
+			<h2>Kommende arrangementer</h2>
+			{#each futureEvents.reverse() as conference (conference.title)}
 				<SmallConferenceCard {conference} />
 			{/each}
 		</Cell>
 		<Cell span={8}>
-			<h1>Tidligere arrangementer</h1>
-			{#each done.reverse() as conference (conference.title)}
+			<h2>Tidligere arrangementer</h2>
+			{#each pastEvents.reverse() as conference (conference.title)}
 				<Conference {conference} />
 			{/each}
 		</Cell>
 	</LayoutGrid>
+	{#if myNextEvent}
+		<ConferenceModal bind:open conference={myNextEvent} {user} />
+	{/if}
 </div>
 
-<style>
-	.heading {
-		font-weight: 300;
-		margin: 1em 0 0.25em 1vw;
-		font-size: 300%;
+<style lang="scss">
+	@use '../styles/mixin' as *;
+	@use '../styles/colors' as *;
+
+	.dashboard-container {
+		h2 {
+			font-size: 1.25rem;
+			letter-spacing: 0.16px;
+			font-weight: 600;
+			text-transform: uppercase;
+		}
+	}
+	.visuallyhidden {
+		@include visuallyhidden();
+	}
+	.top-content {
+		display: flex;
+		gap: 1rem;
 	}
 </style>

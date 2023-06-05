@@ -6,4 +6,9 @@ export enum ConferenceCategory {
     Admin = 'Admin'
 }
 
-export type ConferenceCategoryType = 'UX/Design' | 'Utvikling' | 'Smidig' | 'Prosjektledelse' | 'Admin';
+export type ConferenceCategoryType =
+	| 'UX/Design'
+	| 'Utvikling'
+	| 'Smidig'
+	| 'Prosjektledelse'
+	| 'Admin';

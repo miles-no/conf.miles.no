@@ -31,7 +31,7 @@
 			</div>
 		{/if}
 
-		{#if conference.tickettype}
+		{#if conference?.tickettype}
 			<div>
 				<p class="visuallyhidden">{`billetttype: ${conference.tickettype}`}</p>
 				<p aria-hidden={true}>

@@ -84,13 +84,13 @@ export default {
 				list: [
 					{ title: 'Smidig', value: 'Smidig' },
 					{ title: 'UX/Design', value: 'UX/Design' },
-					{ title: 'Utvikling', value: 'Utvikling' }
+					{ title: 'Utvikling', value: 'Utvikling' },
+					{ title: 'Prosjektledelse', value: 'Prosjektledelse' },
+					{ title: 'Admin', value: 'Admin' }
 				]
 			},
-			validation: (Rule) => Rule.required(),
 			description: 'For who is the conference relevant?'
 		},
-
 		{
 			title: 'Image',
 			name: 'image',

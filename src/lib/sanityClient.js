@@ -29,8 +29,6 @@ export async function fetchSiteSettings(slug, konferanse) {
 }
 
 export async function fetchConferences(user) {
-	// OfficeId can be undefined if user does not exist in CVPartner
-	const officeId = user?.cvpartnerOfficeId;
 	let conferences = await client.fetch(/* groq */ `
         *[_type == "conference"] | order(endDate desc) {
             ...,
@@ -38,20 +36,17 @@ export async function fetchConferences(user) {
             "imageUrl": image.asset->url,
         }
     `);
+
 	if (!user.isAuthenticated) {
 		conferences = conferences.filter((c) => c.showExternally);
-	} else if (officeId) {
-		// If the user exist in CVPartner, show only conferences for the office the user belongs to. Otherwise, show all conferences
-		conferences = conferences.filter((c) => c.visibleTo?.includes(officeId));
 	}
+
 	return {
 		conferences
 	};
 }
 
-export async function fetchExternalConferences(user) {
-	// OfficeId can be undefined if user does not exist in CVPartner
-	const officeId = user?.cvpartnerOfficeId;
+export async function fetchExternalConferences() {
 	let externalConferences = await client.fetch(/* groq */ `
         *[_type == "externalConference"] | order(endDate desc) {
             ...,
@@ -59,13 +54,7 @@ export async function fetchExternalConferences(user) {
             "imageUrl": image.asset->url,
         }
     `);
-	if (!user.isAuthenticated) {
-		// conferences = conferences.filter((c) => c.showExternally || !c.internal);
-		externalConferences = externalConferences.filter((c) => c.showExternally);
-	} else if (officeId) {
-		// If the user exist in CVPartner, show only conferences for the office the user belongs to. Otherwise, show all conferences
-		externalConferences = externalConferences.filter((c) => c.visibleTo?.includes(officeId));
-	}
+
 	return {
 		externalConferences
 	};

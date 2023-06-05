@@ -53,14 +53,6 @@ a {
 	color: color.scale(#ffffff, $lightness: -15%);
 }
 
-a:hover {
-	color: #d32f2f !important;
-}
-
-a:focus-visible {
-	outline-color: #d32f2f !important;
-}
-
 a:visited {
 	color: color.scale(#ffffff, $lightness: -15%);
 }
@@ -156,5 +148,13 @@ button {
 
 	.mdc-select__dropdown-icon {
 		fill: #000 !important;
+	}
+}
+
+.gray-bg-card {
+	background-color: #212125 !important;
+	color: #d9d9d9 !important;
+	.gray-bg-card-content {
+		background-color: #212125 !important;
 	}
 }

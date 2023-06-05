@@ -1,7 +1,13 @@
 import { fetchConferences } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth.js';
+import type { User } from 'lucide-svelte';
+import type { IConference } from '../model/conference';
 
-let allConferencesLoaded = false;
+export interface IPageLoadData {
+	conferences: IConference[];
+	user: User;
+}
+
 export async function load({ cookies }) {
 	const user = getUserFromCookie(cookies.get('session'));
 	const conferences = await fetchConferences(user);
@@ -11,7 +17,6 @@ export async function load({ cookies }) {
 			status: 404
 		};
 	}
-	allConferencesLoaded = true;
 	return {
 		user: user,
 		conferences: conferences.conferences
