@@ -1,8 +1,8 @@
 <script>
-    export let className=null;
+    export let addClass=null;
 </script>
 
-<div class={"justified-row" + (className ? ' ' + className : '')}><slot /></div>
+<div class={`justified-row ${addClass || ''}`}><slot /></div>
 
 <style>
     .justified-row {

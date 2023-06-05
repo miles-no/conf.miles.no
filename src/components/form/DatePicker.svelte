@@ -7,7 +7,7 @@
 
 
     export let date = null, format="dd.MM yyyy HH:mm";
-    export let width, label, required, earliest, latest, intervalWarning;
+    export let width, label, required, earliest, latest, intervalWarning=false;
 
     let valid;
 
@@ -44,7 +44,6 @@
 </LabeledField>
 
 <style>
-
     .datepicker-root {
         position: relative;
         width: 100%;
@@ -86,5 +85,11 @@
     .datepicker-root :global(.cell.disabled) {
         visibility: visible !important;
         opacity: 7%;
+    }
+
+    @media (max-width: 450px) {
+        .datepicker-root :global(.material-icons) {
+            display: none;
+        }
     }
 </style>

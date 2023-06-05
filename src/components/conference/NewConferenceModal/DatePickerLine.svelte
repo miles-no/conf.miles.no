@@ -1,8 +1,9 @@
 <script>
     import JustifiedRow from "../../form/JustifiedRow.svelte";
     import DatePicker from "../../form/DatePicker.svelte";
+    import {startDate, endDate, intervalWarning} from "./newConferenceStores.js";
 
-    let startDate = null, endDate = null, intervalWarning = false;
+
 
     function addYears(originalDate, yearsToAdd) {
         return new Date(new Date(originalDate).setFullYear(originalDate.getFullYear() + yearsToAdd));
@@ -11,7 +12,7 @@
     let latest = addYears(earliest, 10);
 
     function updateIntervalWarning() {
-        intervalWarning = !!startDate && !!endDate && startDate > endDate;
+        intervalWarning.set(!!$startDate && !!$endDate && $startDate > $endDate);
     }
 </script>
 
@@ -20,20 +21,24 @@
             label="Startdato"
             width="48%"
             required
-            bind:date={startDate}
+            bind:date={$startDate}
             {earliest}
             {latest}
             on:refreshDate={updateIntervalWarning}
-            {intervalWarning}
+            intervalWarning={$intervalWarning}
     />
     <DatePicker
             label="Sluttdato"
             width="48%"
             required
-            bind:date={endDate}
+            bind:date={$endDate}
             {earliest}
             {latest}
             on:refreshDate={updateIntervalWarning}
-            {intervalWarning}
+            intervalWarning={$intervalWarning}
     />
 </JustifiedRow>
+
+<style>
+    /* .datepicker-root*/
+</style>
