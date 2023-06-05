@@ -16,4 +16,4 @@
 	};
 </script>
 
-<Tag variant="outlined-with-bg" color={getTagColor(category)} ariaHidden={true}>{category}</Tag>
+<Tag variant="outlined-with-bg" color={TAG_COLORS[category]} ariaHidden={true}>{category}</Tag>
