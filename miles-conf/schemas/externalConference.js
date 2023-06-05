@@ -60,7 +60,8 @@ export default {
 			title: 'Performances',
 			name: 'performances',
 			type: 'array',
-			of: [{ type: 'performance' }]
+			of: [{ type: 'performance' }],
+			description: `Miles´s contribution to the event`
 		},
 		{ title: 'Signup Deadline', name: 'deadline', type: 'datetime', fieldset: 'signUp' },
 		{

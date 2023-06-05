@@ -52,6 +52,11 @@ export async function fetchExternalConferences() {
             ...,
             "slug": slug.current,
             "imageUrl": image.asset->url,
+            performances[]{
+                dateAndTime,
+                location,
+                submission->{..., "slug": slug.current, authors[]->{..., "imageUrl": image.asset->url}}
+            }
         }
     `);
 
