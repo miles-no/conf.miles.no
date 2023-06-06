@@ -6,13 +6,19 @@
 	import { formatDate } from '../../../utils/date-time-utils';
 	import Avatar from '../../avatar/Avatar.svelte';
 	import { PortableText } from '@portabletext/svelte';
+	import { addMinutes } from 'date-fns';
 
 	export let open: boolean;
 	export let performance: IPerformance;
 	export let conferenceSlug: string;
 
-	$: date = new Date(performance.dateAndTime);
-	$: time = `${date.getHours()}:${date.getMinutes()}`;
+	$: duration =
+		formatDate(performance.dateAndTime, { hour: 'numeric', minute: 'numeric' }) +
+		' - ' +
+		formatDate(
+			addMinutes(new Date(performance.dateAndTime), performance.submission.duration).toString(),
+			{ hour: 'numeric', minute: 'numeric' }
+		);
 </script>
 
 <Dialog
@@ -47,7 +53,7 @@
 						</p>
 						<p>
 							<Icon class="material-icons">schedule</Icon>
-							{time}
+							{duration}
 						</p>
 						<p>
 							<Icon class="material-icons">location_on</Icon>
@@ -58,9 +64,12 @@
 				<hr />
 				<div class="description-container">
 					<PortableText value={performance.submission.description} />
-					<a href={`/konferanser/${conferenceSlug}/agenda/${performance.submission.slug}`}
-						>Se flere detaljer</a
+					<a
+						href={`/konferanser/${conferenceSlug}/agenda/${performance.submission.slug}`}
+						on:click={() => (open = !open)}
 					>
+						Se flere detaljer
+					</a>
 				</div>
 			</div>
 		</div>
@@ -91,6 +100,9 @@
 				gap: 1rem;
 
 				.author-list {
+					display: flex;
+					flex-direction: column;
+					gap: 0.5rem;
 					list-style: none;
 					margin: 0;
 					padding: 0;

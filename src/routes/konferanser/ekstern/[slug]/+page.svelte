@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ConferenceInformation from '../../../../components/conferance/conference-information/ConferenceInformation.svelte';
-	import type { IPageLoadData } from './+page.server';
+	import type { IExternalConferenceSlugPageLoadData } from './+page.server';
 	import Paper, { Content } from '@smui/paper';
 	import ConferenceCategoryTag from '../../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
 	import ConferenceStatus from '../../../../components/conferance/conference-status/ConferenceStatus.svelte';
@@ -23,7 +23,7 @@
 		[key: string]: IPerformance[];
 	}
 
-	export let data: IPageLoadData;
+	export let data: IExternalConferenceSlugPageLoadData;
 	$: conference = data.conference;
 	$: user = data.user;
 	$: selectedStatus = data?.myStatus;
@@ -34,11 +34,11 @@
 	let selectedPerformance: IPerformance;
 
 	$: allDates = Array.from(
-		new Set(conference?.performances?.map((p) => formatDate(p.dateAndTime, formatOption)))
+		new Set(conference.performances?.map((p) => formatDate(p.dateAndTime, formatOption)))
 	);
 
 	$: performanceMapByDate = allDates?.reduce((previousValue, currentValue) => {
-		const filtered = conference?.performances?.filter(
+		const filtered = conference.performances?.filter(
 			(p) => formatDate(p.dateAndTime, formatOption) === currentValue
 		);
 		if (filtered !== undefined) {
@@ -91,7 +91,7 @@
 
 <svelte:head>
 	<title>
-		{`${conference?.title ? conference.title : 'Side ikke funnet'} - Miles`}
+		{`${conference.title} - Miles`}
 	</title>
 </svelte:head>
 
@@ -133,6 +133,7 @@
 						<!-- <div class="conference-details-main-content-description-comment">Kommentarer</div> -->
 					</div>
 				{/if}
+
 				{#if allDates && performanceMapByDate}
 					<div class="conference-details-main-content-miles-bidrag">
 						<h2>Miles bidrag</h2>

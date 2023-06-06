@@ -85,6 +85,9 @@
 				}
 
 				.author-list {
+					display: flex;
+					flex-direction: column;
+					gap: 0.5rem;
 					list-style: none;
 					margin: 0;
 					padding: 0;

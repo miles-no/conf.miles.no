@@ -12,7 +12,7 @@ export interface IExternalConferencesPageLoadData {
 
 export const prerender = false;
 
-export const load = (async ({ params, cookies }): Promise<IExternalConferencesPageLoadData> => {
+export const load = (async ({ cookies }): Promise<IExternalConferencesPageLoadData> => {
 	const user = getUserFromCookie(cookies.get('session'));
 
 	if (!user.isAuthenticated) {

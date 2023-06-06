@@ -100,7 +100,7 @@
 			</div>
 			<div class="actionWrapper">
 				<ConferenceStatus title="Min status" {selectedStatus} {onSelectStatus} flexType="row" />
-				<a href={detailsPage}>Se flere detaljer </a>
+				<a href={detailsPage} on:click={() => (open = !open)}>Se flere detaljer </a>
 			</div>
 		</div>
 	</Content>
