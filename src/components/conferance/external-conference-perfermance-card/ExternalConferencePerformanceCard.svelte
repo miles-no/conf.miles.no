@@ -1,16 +1,10 @@
 <script lang="ts">
 	import type { IPerformance } from '../../../model/conference';
-	import { intlFormat } from 'date-fns';
 	import { Icon } from '@smui/button';
+	import { formatDate, type IFormatOptions } from '../../../utils/date-time-utils';
 
 	export let performance: IPerformance;
-
-	const formatDate = (date: string) =>
-		intlFormat(
-			Date.parse(date),
-			{ day: '2-digit', month: 'long', year: 'numeric' },
-			{ locale: 'nb-NO' }
-		);
+	const formatOption: IFormatOptions = { day: '2-digit', month: 'long', year: 'numeric' };
 
 	$: date = new Date(performance.dateAndTime);
 	$: time = `${date.getHours()}:${date.getMinutes()}`;
@@ -22,7 +16,7 @@
 			<div class="date-location">
 				<p>
 					<Icon class="material-icons">calendar_month</Icon>
-					{formatDate(performance.dateAndTime)}
+					{formatDate(performance.dateAndTime, formatOption)}
 				</p>
 				<p>
 					<Icon class="material-icons">location_on</Icon>

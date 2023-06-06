@@ -14,11 +14,11 @@
 	import { urlFor } from '../../../../utils/sanityclient-utils';
 	import { PortableText } from '@portabletext/svelte';
 	import NoImage from '../../../../components/no-image/NoImage.svelte';
-	import { intlFormat } from 'date-fns';
 	import type { IPerformance } from '../../../../model/conference';
 	import ExternalConferencePerformanceCard from '../../../../components/conferance/external-conference-perfermance-card/ExternalConferencePerformanceCard.svelte';
+	import { formatDate, type IFormatOptions } from '../../../../utils/date-time-utils';
 
-	interface Test {
+	interface IPerformanceMapByDate {
 		[key: string]: IPerformance[];
 	}
 
@@ -27,21 +27,15 @@
 	$: user = data.user;
 	$: selectedStatus = data?.myStatus;
 	const toastContext = getContext<IToastContextProps>('toastContext');
-
-	const formatDate = (date: string) =>
-		intlFormat(
-			Date.parse(date),
-			{ weekday: 'long', day: '2-digit', month: 'long' },
-			{ locale: 'nb-NO' }
-		);
+	const formatOption: IFormatOptions = { weekday: 'long', day: '2-digit', month: 'long' };
 
 	$: allDates = Array.from(
-		new Set(conference?.performances?.map((p) => formatDate(p.dateAndTime)))
+		new Set(conference?.performances?.map((p) => formatDate(p.dateAndTime, formatOption)))
 	);
 
 	$: performanceMapByDate = allDates?.reduce((previousValue, currentValue) => {
 		const filtered = conference?.performances?.filter(
-			(p) => formatDate(p.dateAndTime) === currentValue
+			(p) => formatDate(p.dateAndTime, formatOption) === currentValue
 		);
 		if (filtered !== undefined) {
 			return {
@@ -49,7 +43,7 @@
 				[currentValue]: filtered
 			};
 		}
-	}, {} as Test | undefined);
+	}, {} as IPerformanceMapByDate | undefined);
 
 	const onSelectStatus = async (event: any) => {
 		const newStatus = event.target.dataset.value as StatusKeyType;
@@ -132,8 +126,8 @@
 						<h2>Miles bidrag</h2>
 						<div class="miles-bidrag-content">
 							{#each allDates as date}
+								<h3 class="date">{date}</h3>
 								<div class="miles-bidrag-content-per-day">
-									<h3 class="date">{date}</h3>
 									{#each performanceMapByDate[date] as performance}
 										<ExternalConferencePerformanceCard {performance} />
 									{/each}
@@ -229,12 +223,13 @@
 			display: flex;
 			flex-direction: column;
 
+			.date {
+				text-transform: uppercase;
+			}
+
 			.miles-bidrag-content {
 				background-color: $very-light-gray;
 				border-radius: 1rem;
-				.date {
-					text-transform: uppercase;
-				}
 				padding: 1rem;
 				.miles-bidrag-content-per-day {
 					display: flex;
@@ -278,6 +273,15 @@
 				display: flex;
 				flex-direction: column;
 				gap: 2rem;
+			}
+
+			.conference-details-main-content-miles-bidrag {
+				.miles-bidrag-content {
+					.miles-bidrag-content-per-day {
+						display: grid;
+						grid-template-columns: repeat(2, 1fr);
+					}
+				}
 			}
 		}
 	}
