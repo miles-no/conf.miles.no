@@ -2,15 +2,23 @@
 	import type { IPerformance } from '../../../model/conference';
 	import { Icon } from '@smui/button';
 	import { formatDate, type IFormatOptions } from '../../../utils/date-time-utils';
+	import Avatar from '../../avatar/Avatar.svelte';
 
 	export let performance: IPerformance;
+	export let handleModal: (id: string) => void;
 	const formatOption: IFormatOptions = { day: '2-digit', month: 'long', year: 'numeric' };
 
 	$: date = new Date(performance.dateAndTime);
 	$: time = `${date.getHours()}:${date.getMinutes()}`;
 </script>
 
-<div class="external-conference-perfermance-card-container" role="button" tabindex={0}>
+<div
+	class="external-conference-perfermance-card-container"
+	role="button"
+	tabindex={0}
+	on:click={() => handleModal(performance._key)}
+	on:keypress={() => handleModal(performance._key)}
+>
 	<div class="content">
 		<div class="date-location-container">
 			<div class="date-location">
@@ -35,8 +43,7 @@
 			<ul class="author-list">
 				{#each performance.submission.authors as author}
 					<li>
-						<img src={author.imageUrl} alt={author.name} />
-						<p>{author.name}</p>
+						<Avatar imageUrl={author.imageUrl} alt={author.image.alt} name={author.name} />
 					</li>
 				{/each}
 			</ul>
@@ -79,19 +86,6 @@
 
 					p {
 						margin: 0;
-					}
-
-					li {
-						display: flex;
-						align-items: center;
-						gap: 1rem;
-
-						img {
-							border: 1px solid black;
-							border-radius: 50%;
-							height: 4rem;
-							width: 4rem;
-						}
 					}
 				}
 			}

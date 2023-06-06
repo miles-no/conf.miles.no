@@ -17,6 +17,7 @@
 	import type { IPerformance } from '../../../../model/conference';
 	import ExternalConferencePerformanceCard from '../../../../components/conferance/external-conference-perfermance-card/ExternalConferencePerformanceCard.svelte';
 	import { formatDate, type IFormatOptions } from '../../../../utils/date-time-utils';
+	import PerformanceModal from '../../../../components/modal/performance-modal/PerformanceModal.svelte';
 
 	interface IPerformanceMapByDate {
 		[key: string]: IPerformance[];
@@ -26,8 +27,11 @@
 	$: conference = data.conference;
 	$: user = data.user;
 	$: selectedStatus = data?.myStatus;
+
 	const toastContext = getContext<IToastContextProps>('toastContext');
 	const formatOption: IFormatOptions = { weekday: 'long', day: '2-digit', month: 'long' };
+	let open = false;
+	let selectedPerformance: IPerformance;
 
 	$: allDates = Array.from(
 		new Set(conference?.performances?.map((p) => formatDate(p.dateAndTime, formatOption)))
@@ -73,6 +77,14 @@
 
 			toastContext.showToast();
 			applyAction(result);
+		}
+	};
+
+	const onOpenModal = (key: string) => {
+		const foundPerformance = conference.performances?.find((p) => p._key === key);
+		if (foundPerformance) {
+			selectedPerformance = foundPerformance;
+			open = !open;
 		}
 	};
 </script>
@@ -129,7 +141,7 @@
 								<h3 class="date">{date}</h3>
 								<div class="miles-bidrag-content-per-day">
 									{#each performanceMapByDate[date] as performance}
-										<ExternalConferencePerformanceCard {performance} />
+										<ExternalConferencePerformanceCard {performance} handleModal={onOpenModal} />
 									{/each}
 								</div>
 							{/each}
@@ -153,6 +165,13 @@
 			</Content>
 		</Paper>
 	</div>
+	{#if selectedPerformance}
+		<PerformanceModal
+			performance={selectedPerformance}
+			conferenceSlug={conference.slug}
+			bind:open
+		/>
+	{/if}
 </div>
 
 <style lang="scss">
@@ -194,7 +213,6 @@
 	.conference-details {
 		display: flex;
 		flex-direction: column;
-		// padding: 1rem;
 		gap: 2rem;
 
 		:global(.conference-details-main-content) {

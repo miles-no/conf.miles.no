@@ -13,6 +13,7 @@
 	export let performance = data.performance;
 	export let submission = data.submission;
 
+	$: console.log('data', data);
 	let submissionTranslation = {
 		presentation: 'Foredrag',
 		lightningTalk: 'Lyntale',
