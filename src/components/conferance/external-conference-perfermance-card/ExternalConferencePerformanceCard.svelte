@@ -22,14 +22,19 @@
 	<div class="content">
 		<div class="date-location-container">
 			<div class="date-location">
-				<p>
-					<Icon class="material-icons">calendar_month</Icon>
-					{formatDate(performance.dateAndTime, formatOption)}
-				</p>
-				<p>
-					<Icon class="material-icons">location_on</Icon>
-					{performance.location}
-				</p>
+				{#if performance.dateAndTime}
+					<p>
+						<Icon class="material-icons">calendar_month</Icon>
+						{formatDate(performance.dateAndTime, formatOption)}
+					</p>
+				{/if}
+
+				{#if performance.location}
+					<p>
+						<Icon class="material-icons">location_on</Icon>
+						{performance.location}
+					</p>
+				{/if}
 			</div>
 			<div>
 				<p>
