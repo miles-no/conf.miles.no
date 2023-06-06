@@ -12,8 +12,6 @@ export interface IPageLoadData {
 	user: User;
 }
 
-export const prerender = false;
-
 export const load = (async ({ params, cookies }): Promise<IPageLoadData> => {
 	const user = getUserFromCookie(cookies.get('session'));
 
