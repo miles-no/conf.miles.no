@@ -10,8 +10,8 @@
 	$: time = `${date.getHours()}:${date.getMinutes()}`;
 </script>
 
-<div class="external-conference-perfermance-card-container gray-bg-card" role="button" tabindex={0}>
-	<div class="content gray-bg-card-content">
+<div class="external-conference-perfermance-card-container" role="button" tabindex={0}>
+	<div class="content">
 		<div class="date-location-container">
 			<div class="date-location">
 				<p>
@@ -47,13 +47,13 @@
 <style lang="scss">
 	.external-conference-perfermance-card-container {
 		p {
-			color: #808080;
-			font-weight: 600;
+			color: #575757;
 		}
 
 		.content {
 			padding: 1rem;
 			border-radius: 0.5rem;
+			background-color: #cfcfcf;
 
 			.date-location-container {
 				display: flex;

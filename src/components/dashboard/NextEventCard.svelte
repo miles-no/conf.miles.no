@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { intlFormat } from 'date-fns';
 	import type { IConference } from '../../model/conference';
 	import Tag from '../tag/Tag.svelte';
 	import { Icon } from '@smui/button';
+	import { formatDate } from '../../utils/date-time-utils';
 
 	export let myNextEvent: IConference;
 	export let handleModal: () => void;
 
-	$: startDate = intlFormat(
-		Date.parse(myNextEvent.startDate),
-		{ day: '2-digit', month: 'short', year: 'numeric' },
-		{ locale: 'nb-NO' }
-	);
+	$: startDate = formatDate(myNextEvent.startDate, {
+		day: '2-digit',
+		month: 'short',
+		year: 'numeric'
+	});
 </script>
 
 <div

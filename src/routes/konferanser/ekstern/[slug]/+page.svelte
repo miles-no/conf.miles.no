@@ -124,7 +124,7 @@
 				{#if allDates && performanceMapByDate}
 					<div class="conference-details-main-content-miles-bidrag">
 						<h2>Miles bidrag</h2>
-						<div class="miles-bidrag-content">
+						<div class="miles-bidrag-content light-gray-bg-color">
 							{#each allDates as date}
 								<h3 class="date">{date}</h3>
 								<div class="miles-bidrag-content-per-day">
@@ -157,7 +157,6 @@
 
 <style lang="scss">
 	@use '../../../../styles/mixin' as *;
-	@use '../../../../styles/colors' as *;
 
 	.visuallyhidden {
 		@include visuallyhidden();
@@ -225,12 +224,12 @@
 
 			.date {
 				text-transform: uppercase;
+				font-weight: 600;
 			}
 
 			.miles-bidrag-content {
-				background-color: $very-light-gray;
 				border-radius: 1rem;
-				padding: 1rem;
+				padding: 1.5rem;
 				.miles-bidrag-content-per-day {
 					display: flex;
 					flex-direction: column;
