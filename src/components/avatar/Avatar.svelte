@@ -16,16 +16,11 @@
 		display: flex;
 		align-items: center;
 		gap: 1rem;
-
-		p {
-			margin: 0;
-		}
-
 		img {
 			border: 1px solid black;
 			border-radius: 50%;
-			height: 4rem;
-			width: 4rem;
+			height: 3rem;
+			width: 3rem;
 		}
 	}
 </style>

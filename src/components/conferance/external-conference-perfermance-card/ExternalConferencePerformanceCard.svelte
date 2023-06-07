@@ -3,6 +3,7 @@
 	import { Icon } from '@smui/button';
 	import { formatDate, type IFormatOptions } from '../../../utils/date-time-utils';
 	import Avatar from '../../avatar/Avatar.svelte';
+	import StackAvatars from '../../avatar/stack-avatars/StackAvatars.svelte';
 
 	export let performance: IPerformance;
 	export let handleModal: (id: string) => void;
@@ -19,7 +20,7 @@
 	on:click={() => handleModal(performance._key)}
 	on:keypress={() => handleModal(performance._key)}
 >
-	<div class="content">
+	<div class="content external-conference-perfermance-card-content">
 		<div class="date-location-container">
 			<div class="date-location">
 				{#if performance.dateAndTime}
@@ -45,27 +46,24 @@
 		</div>
 		<div class="title-author-container">
 			<p class="title">{performance.submission.title}</p>
-			<ul class="author-list">
-				{#each performance.submission.authors as author}
-					<li>
-						<Avatar imageUrl={author.imageUrl} alt={author.image.alt} name={author.name} />
-					</li>
-				{/each}
-			</ul>
+			{#if performance.submission.authors.length === 1}
+				<Avatar
+					imageUrl={performance.submission.authors[0].imageUrl}
+					alt={performance.submission.authors[0].image.alt}
+					name={performance.submission.authors[0].name}
+				/>
+			{:else}
+				<StackAvatars authorList={performance.submission.authors} />
+			{/if}
 		</div>
 	</div>
 </div>
 
 <style lang="scss">
 	.external-conference-perfermance-card-container {
-		p {
-			color: #575757;
-		}
-
 		.content {
 			padding: 1rem;
 			border-radius: 0.5rem;
-			background-color: #cfcfcf;
 
 			.date-location-container {
 				display: flex;
@@ -81,20 +79,6 @@
 			.title-author-container {
 				.title {
 					font-weight: 600;
-					color: black;
-				}
-
-				.author-list {
-					display: flex;
-					flex-direction: column;
-					gap: 0.5rem;
-					list-style: none;
-					margin: 0;
-					padding: 0;
-
-					p {
-						margin: 0;
-					}
 				}
 			}
 		}
