@@ -31,19 +31,21 @@
 		<IconButton action="close" class="material-icons close-btn">close</IconButton>
 		<div class="performance-modal-content-container">
 			<h1 class="title">{performance.submission.title}</h1>
-			<hr />
+			<hr aria-hidden={true} />
 			<div class="performance-modal-content">
 				<div class="author-date-location-container">
+					<p class="visuallyhidden">Foredragsholder</p>
 					<ul class="author-list">
 						{#each performance.submission.authors as author}
 							<li>
-								<Avatar imageUrl={author.imageUrl} alt={author.image.alt} name={author.name} />
+								<Avatar imageUrl={author.imageUrl} name={author.name} />
 							</li>
 						{/each}
 					</ul>
 					<div class="information">
 						<p>
 							<Icon class="material-icons">calendar_month</Icon>
+							<span class="visuallyhidden">Dato</span>
 							{formatDate(performance.dateAndTime, {
 								weekday: 'long',
 								day: '2-digit',
@@ -53,16 +55,19 @@
 						</p>
 						<p>
 							<Icon class="material-icons">schedule</Icon>
+							<span class="visuallyhidden">Varighet</span>
 							{duration}
 						</p>
 						<p>
 							<Icon class="material-icons">location_on</Icon>
+							<span class="visuallyhidden">Sted</span>
 							{performance.location}
 						</p>
 					</div>
 				</div>
-				<hr />
+				<hr aria-hidden={true} />
 				<div class="description-container">
+					<h2 class="visuallyhidden">Om foredrag</h2>
 					<PortableText value={performance.submission.description} />
 					<a
 						href={`/konferanser/${conferenceSlug}/agenda/${performance.submission.slug}`}
@@ -77,6 +82,11 @@
 </Dialog>
 
 <style lang="scss">
+	@use '../../../styles/mixin' as *;
+
+	.visuallyhidden {
+		@include visuallyhidden();
+	}
 	.performance-modal-content-container {
 		margin-top: 2rem;
 
@@ -96,12 +106,12 @@
 			.author-date-location-container {
 				display: flex;
 				flex-direction: column;
-				align-items: center;
 				gap: 1rem;
 
 				.author-list {
 					display: flex;
 					flex-direction: column;
+					justify-content: center;
 					gap: 0.5rem;
 					list-style: none;
 					margin: 0;

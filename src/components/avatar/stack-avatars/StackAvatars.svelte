@@ -8,7 +8,7 @@
 <ul class="stack-avatars">
 	{#each authorList as author}
 		<li class="stack-avatars-tooltip">
-			<Avatar imageUrl={author.imageUrl} alt={author.image.alt} />
+			<Avatar imageUrl={author.imageUrl} />
 			<span class="tooltiptext">{author.name}</span>
 		</li>
 	{/each}

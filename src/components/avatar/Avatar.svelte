@@ -1,6 +1,7 @@
 <script lang="ts">
 	export let imageUrl: string;
-	export let alt: string;
+	// decorative image must be given null alternative text
+	export let alt: string = '';
 	export let name: string | undefined = undefined;
 </script>
 

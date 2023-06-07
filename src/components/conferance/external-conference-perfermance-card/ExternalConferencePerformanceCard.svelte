@@ -9,8 +9,17 @@
 	export let handleModal: (id: string) => void;
 	const formatOption: IFormatOptions = { day: '2-digit', month: 'long', year: 'numeric' };
 
-	$: date = new Date(performance.dateAndTime);
+	const {
+		submission,
+		dateAndTime,
+		location,
+		submission: { authors }
+	} = performance;
+
+	$: date = new Date(dateAndTime);
 	$: time = `${date.getHours()}:${date.getMinutes()}`;
+	$: authorsName = authors.map((author) => author.name);
+	$: ariaLabel = `${submission.title} av ${authorsName}. Klokke ${time} i ${location}`;
 </script>
 
 <div
@@ -19,21 +28,22 @@
 	tabindex={0}
 	on:click={() => handleModal(performance._key)}
 	on:keypress={() => handleModal(performance._key)}
+	aria-label={ariaLabel}
 >
-	<div class="content external-conference-perfermance-card-content">
+	<div class="content external-conference-perfermance-card-content" aria-hidden={true}>
 		<div class="date-location-container">
 			<div class="date-location">
-				{#if performance.dateAndTime}
+				{#if dateAndTime}
 					<p>
 						<Icon class="material-icons">calendar_month</Icon>
-						{formatDate(performance.dateAndTime, formatOption)}
+						{formatDate(dateAndTime, formatOption)}
 					</p>
 				{/if}
 
-				{#if performance.location}
+				{#if location}
 					<p>
 						<Icon class="material-icons">location_on</Icon>
-						{performance.location}
+						{location}
 					</p>
 				{/if}
 			</div>
@@ -45,15 +55,11 @@
 			</div>
 		</div>
 		<div class="title-author-container">
-			<p class="title">{performance.submission.title}</p>
-			{#if performance.submission.authors.length === 1}
-				<Avatar
-					imageUrl={performance.submission.authors[0].imageUrl}
-					alt={performance.submission.authors[0].image.alt}
-					name={performance.submission.authors[0].name}
-				/>
+			<p class="title">{submission.title}</p>
+			{#if authors.length === 1}
+				<Avatar imageUrl={authors[0].imageUrl} name={authors[0].name} />
 			{:else}
-				<StackAvatars authorList={performance.submission.authors} />
+				<StackAvatars authorList={authors} />
 			{/if}
 		</div>
 	</div>
