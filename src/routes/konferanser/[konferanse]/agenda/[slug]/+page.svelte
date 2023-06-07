@@ -1,9 +1,7 @@
 <script>
-	import { PortableText } from '@portabletext/svelte';
-	import { CalendarClock, Clock, MapPin, Tags, Megaphone, Zap, Wrench } from 'lucide-svelte';
-	import LayoutGrid, { Cell, InnerGrid } from '@smui/layout-grid';
+	import { CalendarClock, Clock, Megaphone, Zap, Wrench } from 'lucide-svelte';
+	import LayoutGrid, { Cell } from '@smui/layout-grid';
 
-	import { Icon, Label } from '@smui/common';
 	import { intlFormat, addMinutes } from 'date-fns';
 	import Author from '../../../../../components/Author.svelte';
 	import BreadCrumb from '../../../../../components/BreadCrumb.svelte';

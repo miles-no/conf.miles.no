@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ConferenceInformation from '../../../../components/conferance/conference-information/ConferenceInformation.svelte';
-	import type { IPageLoadData } from './+page.server';
+	import type { IExternalConferenceSlugPageLoadData } from './+page.server';
 	import Paper, { Content } from '@smui/paper';
 	import ConferenceCategoryTag from '../../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
 	import ConferenceStatus from '../../../../components/conferance/conference-status/ConferenceStatus.svelte';
@@ -14,12 +14,40 @@
 	import { urlFor } from '../../../../utils/sanityclient-utils';
 	import { PortableText } from '@portabletext/svelte';
 	import NoImage from '../../../../components/no-image/NoImage.svelte';
+	import type { IPerformance } from '../../../../model/conference';
+	import ExternalConferencePerformanceCard from '../../../../components/conferance/external-conference-perfermance-card/ExternalConferencePerformanceCard.svelte';
+	import { formatDate, type IFormatOptions } from '../../../../utils/date-time-utils';
+	import PerformanceModal from '../../../../components/modal/performance-modal/PerformanceModal.svelte';
 
-	export let data: IPageLoadData;
+	interface IPerformanceMapByDate {
+		[key: string]: IPerformance[];
+	}
+
+	export let data: IExternalConferenceSlugPageLoadData;
 	$: conference = data.conference;
 	$: user = data.user;
 	$: selectedStatus = data?.myStatus;
+
 	const toastContext = getContext<IToastContextProps>('toastContext');
+	const formatOption: IFormatOptions = { weekday: 'long', day: '2-digit', month: 'long' };
+	let open = false;
+	let selectedPerformance: IPerformance;
+
+	$: allDates = Array.from(
+		new Set(conference.performances?.map((p) => formatDate(p.dateAndTime, formatOption)))
+	);
+
+	$: performanceMapByDate = allDates?.reduce((previousValue, currentValue) => {
+		const filtered = conference.performances?.filter(
+			(p) => formatDate(p.dateAndTime, formatOption) === currentValue
+		);
+		if (filtered !== undefined) {
+			return {
+				...previousValue,
+				[currentValue]: filtered
+			};
+		}
+	}, {} as IPerformanceMapByDate | undefined);
 
 	const onSelectStatus = async (event: any) => {
 		const newStatus = event.target.dataset.value as StatusKeyType;
@@ -51,11 +79,19 @@
 			applyAction(result);
 		}
 	};
+
+	const onOpenModal = (key: string) => {
+		const foundPerformance = conference.performances?.find((p) => p._key === key);
+		if (foundPerformance) {
+			selectedPerformance = foundPerformance;
+			open = !open;
+		}
+	};
 </script>
 
 <svelte:head>
 	<title>
-		{`${conference?.title ? conference.title : 'Side ikke funnet'} - Miles`}
+		{`${conference.title} - Miles`}
 	</title>
 </svelte:head>
 
@@ -97,6 +133,22 @@
 						<!-- <div class="conference-details-main-content-description-comment">Kommentarer</div> -->
 					</div>
 				{/if}
+
+				{#if allDates && performanceMapByDate}
+					<div class="conference-details-main-content-miles-bidrag">
+						<h2>Miles bidrag</h2>
+						<div class="miles-bidrag-content light-gray-bg-color">
+							{#each allDates as date}
+								<h3 class="date">{date}</h3>
+								<div class="miles-bidrag-content-per-day">
+									{#each performanceMapByDate[date] as performance}
+										<ExternalConferencePerformanceCard {performance} handleModal={onOpenModal} />
+									{/each}
+								</div>
+							{/each}
+						</div>
+					</div>
+				{/if}
 			</Content>
 		</Paper>
 
@@ -114,6 +166,13 @@
 			</Content>
 		</Paper>
 	</div>
+	{#if selectedPerformance}
+		<PerformanceModal
+			performance={selectedPerformance}
+			conferenceSlug={conference.slug}
+			bind:open
+		/>
+	{/if}
 </div>
 
 <style lang="scss">
@@ -126,6 +185,16 @@
 	// Mobile
 	h1 {
 		font-weight: 600;
+	}
+
+	h2 {
+		font-size: 1.3rem;
+		font-weight: 500;
+	}
+
+	h3 {
+		font-size: 1rem;
+		margin: 0;
 	}
 
 	p {
@@ -145,7 +214,6 @@
 	.conference-details {
 		display: flex;
 		flex-direction: column;
-		// padding: 1rem;
 		gap: 2rem;
 
 		:global(.conference-details-main-content) {
@@ -167,6 +235,27 @@
 			display: flex;
 			flex-direction: column;
 			gap: 2rem;
+		}
+
+		.conference-details-main-content-miles-bidrag {
+			display: flex;
+			flex-direction: column;
+
+			.date {
+				text-transform: uppercase;
+				font-weight: 600;
+			}
+
+			.miles-bidrag-content {
+				border-radius: 1rem;
+				padding: 1.5rem;
+				.miles-bidrag-content-per-day {
+					display: flex;
+					flex-direction: column;
+					gap: 1rem;
+					padding-bottom: 1rem;
+				}
+			}
 		}
 		// TODO: remove this when comments has been implemented
 		// .conference-details-main-content-description {
@@ -202,6 +291,15 @@
 				display: flex;
 				flex-direction: column;
 				gap: 2rem;
+			}
+
+			.conference-details-main-content-miles-bidrag {
+				.miles-bidrag-content {
+					.miles-bidrag-content-per-day {
+						display: grid;
+						grid-template-columns: repeat(2, 1fr);
+					}
+				}
 			}
 		}
 	}

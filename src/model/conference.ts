@@ -1,6 +1,7 @@
 import type { ConferenceCategoryType } from '../enums/conference-category';
 import type { EventType } from '../enums/event';
 import type { StatusKeyType } from '../enums/status';
+import type { ISubmission } from './submission';
 
 export interface IConference {
 	_id: string;
@@ -16,7 +17,7 @@ export interface IConference {
 	title: string;
 	_createdAt: string;
 	description: IDescription[];
-	performances: IPerformance[];
+	performances?: IPerformance[];
 	startDate: string;
 	deadline: string;
 	imageUrl: string;
@@ -30,12 +31,13 @@ export interface IConference {
 	categoryTag?: ConferenceCategoryType[];
 }
 
-interface IPerformance {
+export interface IPerformance {
 	internal?: boolean;
 	dateAndTime: string;
+	location: string;
 	_type: string;
-	submission: IAsset;
 	_key: string;
+	submission: ISubmission;
 }
 
 export interface IDescription {

@@ -1,4 +1,4 @@
-import { fetchConferencePerformance } from '$lib/sanityClient';
+import { fetchConferencePerformance, fetchExternalConferencePerformance } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth';
 import { redirect } from '@sveltejs/kit';
 
@@ -9,15 +9,20 @@ export const csr = true;
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params, cookies }) {
 	const { konferanse, slug } = params;
-	const conference = await fetchConferencePerformance(konferanse, slug);
+	let conference = await fetchConferencePerformance(konferanse, slug);
+
+	if (conference.conference === null) {
+		conference = await fetchExternalConferencePerformance(konferanse, slug);
+	}
+
 	const user = getUserFromCookie(cookies.get('session'));
-	if (!conference.conference || !conference.conference.performance) {
+	if (conference.conference === null || !conference.conference.performance) {
 		return {
 			status: 404
 		};
 	}
 	if (!user.isAuthenticated && !conference.conference.showExternally) {
-		throw redirect(307, '/');
+		throw redirect(307, '/login');
 	}
 
 	return {

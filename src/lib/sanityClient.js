@@ -52,6 +52,12 @@ export async function fetchExternalConferences() {
             ...,
             "slug": slug.current,
             "imageUrl": image.asset->url,
+            performances[]{
+                _key,
+                dateAndTime,
+                location,
+                submission->{..., "slug": slug.current, authors[]->{..., "imageUrl": image.asset->url}}
+            }
         }
     `);
 
@@ -90,6 +96,44 @@ export async function fetchConferencePerformance(konferanse, slug) {
 		/* groq */ `
             *[
         _type == "conference" &&
+        slug.current == $konferanse
+        ][0] {
+        ...,
+        "slug": slug.current,
+        "performance": performances[submission->slug.current match $slug][0]{
+            dateAndTime,
+            location,
+            performanceUrls,
+            submission->{
+            ...,
+            "slug": slug.current,
+            authors[]->{
+                ...,
+                "imageUrl": image.asset->url,
+                "socials": [
+                { "type": 'facebook', "handle": facebook },
+                { "type": 'twitter', "handle": twitter },
+                { "type": 'linkedin', "handle": linkedin },
+                { "type": 'instagram', "handle": instagram },
+                { "type": 'email', "handle": email }
+                ]
+            }
+            }
+        }
+        }
+        `,
+		{ konferanse, slug }
+	);
+	return {
+		conference: conference
+	};
+}
+
+export async function fetchExternalConferencePerformance(konferanse, slug) {
+	const conference = await client.fetch(
+		/* groq */ `
+            *[
+        _type == "externalConference" &&
         slug.current == $konferanse
         ][0] {
         ...,
