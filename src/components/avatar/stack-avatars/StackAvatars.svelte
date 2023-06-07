@@ -25,6 +25,7 @@
 	.stack-avatars-tooltip {
 		position: relative;
 		display: inline-block;
+		margin-right: 10px;
 	}
 
 	.stack-avatars-tooltip .tooltiptext {
@@ -42,17 +43,6 @@
 		margin-left: -60px;
 		opacity: 0;
 		transition: opacity 0.3s;
-	}
-
-	.tooltiptext::after {
-		content: '';
-		position: absolute;
-		top: 100%;
-		left: 50%;
-		margin-left: -5px;
-		border-width: 5px;
-		border-style: solid;
-		border-color: #fff transparent transparent transparent;
 	}
 
 	.stack-avatars-tooltip:hover .tooltiptext {

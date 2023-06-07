@@ -7,7 +7,6 @@
 	import Avatar from '../../avatar/Avatar.svelte';
 	import { PortableText } from '@portabletext/svelte';
 	import { addMinutes } from 'date-fns';
-	import darkTheme from '../../../stores/theme-store';
 
 	export let open: boolean;
 	export let performance: IPerformance;
@@ -28,7 +27,7 @@
 	aria-describedby="sheet-content"
 	surface$style="width: 720px; max-width: calc(100vw - 32px);"
 >
-	<Content class={$darkTheme ? 'performance-modal-dark' : 'performance-modal'}>
+	<Content class="performance-modal">
 		<IconButton action="close" class="material-icons close-btn">close</IconButton>
 		<div class="performance-modal-content-container">
 			<h1 class="title">{performance.submission.title}</h1>
@@ -78,15 +77,6 @@
 </Dialog>
 
 <style lang="scss">
-	:global(.performance-modal-dark.title) {
-		color: #ffffff99;
-		font-weight: 600;
-	}
-
-	:global(.performance-modal.title) {
-		color: #000;
-	}
-
 	.performance-modal-content-container {
 		margin-top: 2rem;
 
@@ -106,6 +96,7 @@
 			.author-date-location-container {
 				display: flex;
 				flex-direction: column;
+				align-items: center;
 				gap: 1rem;
 
 				.author-list {
