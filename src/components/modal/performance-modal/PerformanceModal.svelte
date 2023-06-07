@@ -28,7 +28,7 @@
 	surface$style="width: 720px; max-width: calc(100vw - 32px);"
 >
 	<Content class="performance-modal">
-		<IconButton action="close" class="material-icons close-btn">close</IconButton>
+		<IconButton action="close" class="material-icons">close</IconButton>
 		<div class="performance-modal-content-container">
 			<h1 class="title">{performance.submission.title}</h1>
 			<hr aria-hidden={true} />
