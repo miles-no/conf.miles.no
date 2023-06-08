@@ -47,7 +47,7 @@
 				[currentValue]: filtered
 			};
 		}
-	}, {} as IPerformanceMapByDate | undefined);
+	}, undefined as IPerformanceMapByDate | undefined);
 
 	const onSelectStatus = async (event: any) => {
 		const newStatus = event.target.dataset.value as StatusKeyType;
@@ -134,7 +134,7 @@
 					</div>
 				{/if}
 
-				{#if allDates && performanceMapByDate}
+				{#if allDates.length > 0 && performanceMapByDate}
 					<div class="conference-details-main-content-miles-bidrag">
 						<h2>Miles bidrag</h2>
 						<div class="miles-bidrag-content light-gray-bg-color">
