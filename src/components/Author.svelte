@@ -1,17 +1,8 @@
 <script>
 	import { PortableText } from '@portabletext/svelte';
-	import { Facebook, Twitter, Linkedin, Mail, Instagram, Building } from 'lucide-svelte';
-	import Card, {
-		Content,
-		PrimaryAction,
-		Media,
-		MediaContent,
-		Actions,
-		ActionButtons,
-		ActionIcons
-	} from '@smui/card';
-	import imageUrlBuilder from '@sanity/image-url';
-	import { client } from '$lib/sanityClient';
+	import { Facebook, Twitter, Linkedin, Mail, Instagram } from 'lucide-svelte';
+	import Card from '@smui/card';
+	import { urlFor } from '../utils/sanityclient-utils';
 	export let author = {};
 	const Icons = {
 		facebook: Facebook,
@@ -20,17 +11,11 @@
 		email: Mail,
 		instagram: Instagram
 	};
-
-	const builder = imageUrlBuilder(client);
-
-	function urlFor(source) {
-		return builder.image(source);
-	}
 </script>
 
 <Card>
 	<div class="heading-wrapper">
-		<div class="author-heading ">
+		<div class="author-heading">
 			<img
 				class="rounded-circle gray-scale"
 				alt={author.name}
@@ -51,7 +36,7 @@
 			>
 				{author.title ? author.title : ''}
 			</p>
-			<hr />
+			<hr aria-hidden={true} />
 		</div>
 	</div>
 	<div class="author-content">
