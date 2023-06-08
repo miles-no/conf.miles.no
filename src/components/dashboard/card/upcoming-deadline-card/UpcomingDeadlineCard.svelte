@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { IConference } from '../../../../model/conference';
-	import { formatDate, type IFormatOptions } from '../../../../utils/date-time-utils';
+	import { formatDate } from '../../../../utils/date-time-utils';
 
 	export let upcomingDeadlines: IConference[];
 </script>
@@ -8,8 +8,8 @@
 <div class="upcoming-deadline-card-container">
 	<ol class="upcoming-deadline-card-content">
 		{#each upcomingDeadlines as deadline}
-			<li class="gray-bg-card upcoming-deadline-card-row">
-				<div class="gray-bg-card-content upcoming-deadline-card-row-item title-container">
+			<li class="upcoming-deadline-card-row">
+				<div class="upcoming-deadline-card-row-item title-container">
 					<p>{deadline.title}</p>
 				</div>
 				<div class="upcoming-deadline-card-row-item date-container">
@@ -47,7 +47,6 @@
 	@use '../../../../styles/mixin' as *;
 
 	.upcoming-deadline-card-container {
-		border: 1px solid black;
 		padding: 0.4rem;
 		border-radius: 0.5rem;
 
@@ -86,11 +85,6 @@
 
 				.date-container {
 					display: flex;
-					background-color: #7dfb99;
-
-					div:first-child {
-						border-right: 1px solid #6edd86;
-					}
 				}
 			}
 		}

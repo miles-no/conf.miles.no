@@ -23,14 +23,14 @@
 </script>
 
 <div
-	class="gray-bg-card your-next-event"
+	class="your-next-event-container"
 	role="button"
 	aria-label={ariaLabel}
 	tabindex={0}
 	on:click={handleModal}
 	on:keypress={handleModal}
 >
-	<div class="gray-bg-card-content your-next-event-content" aria-hidden={true}>
+	<div class="your-next-event-content" aria-hidden={true}>
 		<div class="information">
 			<p class="title">{myNextEvent.title}</p>
 			<div>
@@ -57,8 +57,7 @@
 	@use '../../../../styles/mixin' as *;
 
 	// Mobile
-	.your-next-event {
-		border: 1px solid black;
+	.your-next-event-container {
 		border-radius: 0.5rem;
 		padding: 0.4rem;
 
@@ -72,8 +71,7 @@
 		}
 
 		.your-next-event-content {
-			display: flex;
-			flex-direction: column;
+			display: grid;
 			gap: 1rem;
 			border-radius: 0.5rem;
 			padding: 1rem;
@@ -106,7 +104,7 @@
 
 	// Desktop
 	@media (min-width: 900px) {
-		.your-next-event {
+		.your-next-event-container {
 			display: flex;
 			flex-direction: column;
 

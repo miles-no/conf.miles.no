@@ -1,0 +1,102 @@
+@use 'sass:color';
+
+.grey-text {
+	color: color.scale(#ffffff, $lightness: -15%);
+}
+
+.tag.info.filled {
+	background: #025c8d;
+	color: #ffffff;
+}
+
+.tag.info.outlined {
+	border-color: #35b7fd;
+	color: #35b7fd;
+}
+
+.tag.success.filled {
+	background: #266427;
+	color: #ffffff;
+}
+
+.tag.success.outlined {
+	border-color: #57c159;
+	color: #57c159;
+}
+
+.tag.error.filled {
+	background: #ac1b1d;
+	color: #ffffff;
+}
+
+.tag.error.outlined {
+	border-color: #ee9697;
+	color: #ee9697;
+}
+
+.select-with-background {
+	.mdc-select__selected-text {
+		color: #000 !important;
+	}
+
+	.mdc-select__dropdown-icon {
+		fill: #000 !important;
+	}
+}
+
+.light-gray-bg-color {
+	color: #fff;
+	background-color: #636363;
+}
+
+.external-conference-perfermance-card-content {
+	background-color: #212125;
+
+	p,
+	.title {
+		color: #d9d9d9;
+	}
+}
+
+.avatar-container {
+	p {
+		color: #d9d9d9;
+	}
+}
+
+.performance-modal {
+	h1 {
+		color: #fff;
+	}
+}
+
+.loader {
+	border: 5px solid #fff;
+}
+
+.upcoming-deadline-card-container {
+	border: 1px solid #d9d9d9;
+
+	.title-container {
+		background-color: #212125;
+		color: #d9d9d9;
+	}
+
+	.date-container {
+		background-color: #7dfb99;
+		color: black;
+
+		div:first-child {
+			border-right: 1px solid black;
+		}
+	}
+}
+
+.your-next-event-container {
+	border: 1px solid #d9d9d9;
+
+	.your-next-event-content {
+		background-color: #212125;
+		color: #d9d9d9;
+	}
+}
