@@ -48,15 +48,19 @@ export async function fetchConferences(user) {
 
 export async function fetchExternalConferences() {
 	let externalConferences = await client.fetch(/* groq */ `
-        *[_type == "externalConference"] | order(endDate desc) {
+        *[_type == "externalConference"] | order(startDate desc) {
             ...,
             "slug": slug.current,
             "imageUrl": image.asset->url,
-            performances[]{
-                _key,
-                dateAndTime,
-                location,
-                submission->{..., "slug": slug.current, authors[]->{..., "imageUrl": image.asset->url}}
+            performances[] | order(dateAndTime asc)
+            {...,
+                submission->{
+                    ...,
+                    authors[]->{
+                        ...,
+                        "imageUrl": image.asset->url
+                    }
+                }
             }
         }
     `);
