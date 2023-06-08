@@ -13,11 +13,28 @@
 	$: interestedPanelOpen =
 		interestedList?.map((employee) => employee.email).includes(email) ?? false;
 	$: attendingPanelOpen = attendingList?.map((employee) => employee.email).includes(email) ?? false;
+
+	const handleInterestedPanel = () => {
+		if (attendingPanelOpen) {
+			attendingPanelOpen = false;
+			interestedPanelOpen = true;
+		}
+	};
+	const handleAttendingPanel = () => {
+		if (interestedPanelOpen) {
+			interestedPanelOpen = false;
+			attendingPanelOpen = true;
+		}
+	};
 </script>
 
 <div class={`${$darkTheme ? 'dark-theme-accordion-container' : 'accordion-container'} `}>
 	<Accordion>
-		<Panel bind:open={interestedPanelOpen} aria-expanded={interestedPanelOpen}>
+		<Panel
+			bind:open={interestedPanelOpen}
+			aria-expanded={interestedPanelOpen}
+			on:click={handleInterestedPanel}
+		>
 			<Header>
 				<p class="visuallyhidden">{`Antall interessert: ${interestedList?.length ?? 0}`}</p>
 				<p aria-hidden={true}>
@@ -40,7 +57,11 @@
 				{/if}
 			</Content>
 		</Panel>
-		<Panel bind:open={attendingPanelOpen} aria-expanded={attendingPanelOpen}>
+		<Panel
+			bind:open={attendingPanelOpen}
+			aria-expanded={attendingPanelOpen}
+			on:click={handleAttendingPanel}
+		>
 			<Header>
 				<p class="visuallyhidden">{`Antall påmeldt: ${attendingList?.length ?? 0}`}</p>
 				<p aria-hidden={true}>
