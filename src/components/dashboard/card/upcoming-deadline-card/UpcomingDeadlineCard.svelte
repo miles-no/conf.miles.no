@@ -61,7 +61,7 @@
 		.upcoming-deadline-card-content {
 			display: grid;
 			gap: 0.5rem;
-			min-height: 15rem;
+			min-height: 16rem;
 			padding-left: 0;
 			margin-bottom: 0;
 
@@ -75,7 +75,7 @@
 
 			.upcoming-deadline-card-row {
 				display: grid;
-				grid-template-columns: 1fr 0.4fr;
+				grid-template-columns: 1fr 0.6fr;
 				gap: 0.5rem;
 				border-radius: 0.5rem;
 

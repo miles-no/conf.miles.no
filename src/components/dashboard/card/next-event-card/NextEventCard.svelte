@@ -110,7 +110,7 @@
 
 			.your-next-event-content {
 				padding: 1rem 1rem 2.5rem 1rem;
-				min-height: 15rem;
+				min-height: 16rem;
 
 				.information {
 					display: flex;

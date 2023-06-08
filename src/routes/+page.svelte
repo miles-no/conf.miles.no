@@ -13,13 +13,10 @@
 	<title>Dette skjer hos oss i Miles - Miles</title>
 </svelte:head>
 
-<div class="container">
+<div>
 	{#if user.isAuthenticated}
 		<Dashboard {conferences} {user} />
 	{:else}
 		<ExternalContent {conferences} />
 	{/if}
 </div>
-
-<style>
-</style>

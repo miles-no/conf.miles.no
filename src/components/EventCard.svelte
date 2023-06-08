@@ -7,7 +7,7 @@
 	import { urlFor } from '../utils/sanityclient-utils';
 
 	export let event: IConference;
-	const date = formatConferenceDateRange(event?.startDate, event?.endDate);
+	$: date = formatConferenceDateRange(event?.startDate, event?.endDate);
 </script>
 
 <div class="card-container">
@@ -38,10 +38,10 @@
 							</span>
 						{/if}
 					</div>
-					<div class="title mdc-typography--headline6">
-						<span aria-label={`${event?.title} den ${date} i ${event?.location} `}
-							>{event?.title}</span
-						>
+					<div class="title">
+						<span aria-label={`${event?.title} den ${date} i ${event?.location}`}>
+							{event?.title}
+						</span>
 					</div>
 				</div>
 				<div class="card-container-content-tags">
@@ -81,7 +81,7 @@
 	.card-container-content-info {
 		display: flex;
 		flex-direction: column;
-		padding-bottom: 1.18rem;
+		padding-bottom: 0.5rem;
 		gap: 0.5rem;
 	}
 
