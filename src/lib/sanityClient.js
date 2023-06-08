@@ -56,6 +56,7 @@ export async function fetchExternalConferences() {
             {...,
                 submission->{
                     ...,
+                    "slug": slug.current,
                     authors[]->{
                         ...,
                         "imageUrl": image.asset->url
