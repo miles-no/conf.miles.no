@@ -34,6 +34,7 @@
 			bind:open={interestedPanelOpen}
 			aria-expanded={interestedPanelOpen}
 			on:click={handleInterestedPanel}
+			on:keypress={handleInterestedPanel}
 		>
 			<Header>
 				<p class="visuallyhidden">{`Antall interessert: ${interestedList?.length ?? 0}`}</p>
@@ -61,6 +62,7 @@
 			bind:open={attendingPanelOpen}
 			aria-expanded={attendingPanelOpen}
 			on:click={handleAttendingPanel}
+			on:keypress={handleAttendingPanel}
 		>
 			<Header>
 				<p class="visuallyhidden">{`Antall påmeldt: ${attendingList?.length ?? 0}`}</p>
