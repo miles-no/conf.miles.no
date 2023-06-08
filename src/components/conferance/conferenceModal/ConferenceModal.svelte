@@ -66,7 +66,7 @@
 		: `/konferanser/${conference.slug}`;
 </script>
 
-<Dialog bind:open noContentPadding sheet aria-describedby="sheet-no-padding-content">
+<Dialog bind:open noContentPadding sheet aria-labelledby="modal-heading">
 	<Content id="sheet-no-padding-content" class="dialog-container">
 		<IconButton action="close" class="material-icons">close</IconButton>
 		<div class="imageWrapper">
@@ -82,7 +82,7 @@
 			/>
 		</div>
 		<div class="content">
-			<h1>{conference.title}</h1>
+			<h1 id="modal-heading">{conference.title}</h1>
 			<div class="compactInfo">
 				<ConferenceInformation {conference} />
 				{#if conference.categoryTag}

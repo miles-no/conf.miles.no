@@ -12,16 +12,25 @@
 		month: 'short',
 		year: 'numeric'
 	});
+
+	$: startDateFullMonth = formatDate(myNextEvent.startDate, {
+		day: '2-digit',
+		month: 'long',
+		year: 'numeric'
+	});
+
+	$: ariaLabel = `${myNextEvent.title} den ${startDateFullMonth} i ${myNextEvent.location}. Klikk for å se mer informasjon`;
 </script>
 
 <div
 	class="gray-bg-card your-next-event"
 	role="button"
+	aria-label={ariaLabel}
 	tabindex={0}
 	on:click={handleModal}
 	on:keypress={handleModal}
 >
-	<div class="gray-bg-card-content your-next-event-content">
+	<div class="gray-bg-card-content your-next-event-content" aria-hidden={true}>
 		<div class="information">
 			<p class="title">{myNextEvent.title}</p>
 			<div>

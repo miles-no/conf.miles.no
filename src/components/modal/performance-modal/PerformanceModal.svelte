@@ -26,11 +26,12 @@
 	sheet
 	aria-describedby="sheet-content"
 	surface$style="width: 720px; max-width: calc(100vw - 32px);"
+	aria-labelledby="modal-heading"
 >
 	<Content class="performance-modal">
 		<IconButton action="close" class="material-icons">close</IconButton>
 		<div class="performance-modal-content-container">
-			<h1 class="title">{performance.submission.title}</h1>
+			<h1 class="title" id="modal-heading">{performance.submission.title}</h1>
 			<hr aria-hidden={true} />
 			<div class="performance-modal-content">
 				<div class="author-date-location-container">
