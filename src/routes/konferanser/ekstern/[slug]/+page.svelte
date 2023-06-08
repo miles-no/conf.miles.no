@@ -30,8 +30,10 @@
 
 	const toastContext = getContext<IToastContextProps>('toastContext');
 	const formatOption: IFormatOptions = { weekday: 'long', day: '2-digit', month: 'long' };
+
 	let open = false;
 	let selectedPerformance: IPerformance;
+	let disableStatus: boolean = false;
 
 	$: allDates = Array.from(
 		new Set(conference.performances?.map((p) => formatDate(p.dateAndTime, formatOption)))
@@ -54,6 +56,7 @@
 		const statusText = Status[newStatus].toLowerCase();
 
 		if (newStatus && newStatus !== selectedStatus) {
+			disableStatus = true;
 			const response = await fetch('/api/external-conference', {
 				method: 'PUT',
 				body: JSON.stringify({
@@ -77,6 +80,7 @@
 
 			toastContext.showToast();
 			applyAction(result);
+			disableStatus = false;
 		}
 	};
 
@@ -119,7 +123,7 @@
 				<div class="conference-details-main-content-status">
 					<div>
 						<h2 class="visuallyhidden">Min status</h2>
-						<ConferenceStatus {selectedStatus} {onSelectStatus} />
+						<ConferenceStatus {selectedStatus} {onSelectStatus} disabled={disableStatus} />
 					</div>
 					<div>
 						<h2 class="visuallyhidden">Deltaker</h2>
@@ -157,7 +161,7 @@
 			<Content class="conference-details-status">
 				<div>
 					<h2 class="visuallyhidden">Min status</h2>
-					<ConferenceStatus {selectedStatus} {onSelectStatus} />
+					<ConferenceStatus {selectedStatus} {onSelectStatus} disabled={disableStatus} />
 				</div>
 				<div>
 					<h2 class="visuallyhidden">Deltaker</h2>
