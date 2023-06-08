@@ -5,23 +5,25 @@
 	import IconButton, { Icon } from '@smui/icon-button';
 
 	export let conference: IExternalConference;
+	export let email: string;
 
 	$: interestedList = conference.employees?.filter((person) => person.status === 'interested');
 	$: attendingList = conference.employees?.filter((person) => person.status === 'attending');
 
-	let panel1Open = false;
-	let panel2Open = false;
+	$: interestedPanelOpen =
+		interestedList?.map((employee) => employee.email).includes(email) ?? false;
+	$: attendingPanelOpen = attendingList?.map((employee) => employee.email).includes(email) ?? false;
 </script>
 
 <div class={`${$darkTheme ? 'dark-theme-accordion-container' : 'accordion-container'} `}>
 	<Accordion>
-		<Panel bind:open={panel1Open} aria-expanded={panel1Open}>
+		<Panel bind:open={interestedPanelOpen} aria-expanded={interestedPanelOpen}>
 			<Header>
 				<p class="visuallyhidden">{`Antall interessert: ${interestedList?.length ?? 0}`}</p>
 				<p aria-hidden={true}>
 					{`Interessert (${interestedList?.length ?? 0})`}
 				</p>
-				<IconButton slot="icon" pressed={panel1Open} tabindex={-1} aria-hidden="true">
+				<IconButton slot="icon" pressed={interestedPanelOpen} tabindex={-1} aria-hidden="true">
 					<Icon class="material-icons" on aria-label="">expand_less</Icon>
 					<Icon class="material-icons" aria-label="">expand_more</Icon>
 				</IconButton>
@@ -38,13 +40,13 @@
 				{/if}
 			</Content>
 		</Panel>
-		<Panel bind:open={panel2Open} aria-expanded={panel2Open}>
+		<Panel bind:open={attendingPanelOpen} aria-expanded={attendingPanelOpen}>
 			<Header>
 				<p class="visuallyhidden">{`Antall påmeldt: ${attendingList?.length ?? 0}`}</p>
 				<p aria-hidden={true}>
 					{`Påmeldt (${attendingList?.length ?? 0})`}
 				</p>
-				<IconButton slot="icon" pressed={panel2Open} tabindex={-1} aria-hidden={true}>
+				<IconButton slot="icon" pressed={attendingPanelOpen} tabindex={-1} aria-hidden={true}>
 					<Icon class="material-icons" on aria-label="">expand_less</Icon>
 					<Icon class="material-icons" aria-label="">expand_more</Icon>
 				</IconButton>

@@ -127,7 +127,7 @@
 					</div>
 					<div>
 						<h2 class="visuallyhidden">Deltaker</h2>
-						<ConferenceAttendance {conference} />
+						<ConferenceAttendance {conference} email={user.email} />
 					</div>
 				</div>
 				{#if conference.description?.length > 0}
@@ -165,7 +165,7 @@
 				</div>
 				<div>
 					<h2 class="visuallyhidden">Deltaker</h2>
-					<ConferenceAttendance {conference} />
+					<ConferenceAttendance {conference} email={user.email} />
 				</div>
 			</Content>
 		</Paper>
