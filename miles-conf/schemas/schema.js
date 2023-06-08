@@ -12,6 +12,7 @@ import urls from './objects/urls';
 import itinerary from './objects/itinerary';
 import itineraryEvent from './objects/itineraryEvent';
 import externalConference from './externalConference';
+import event from './event';
 
 export default createSchema({
   name: 'default',
@@ -21,6 +22,7 @@ export default createSchema({
     author,
     conference,
     externalConference,
+    event,
     submission,
 
     portableText,
