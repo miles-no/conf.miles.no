@@ -1,7 +1,7 @@
-import type { IConference } from './conference';
+import type { IEvent } from './event';
 
 export interface IExternalConference
-	extends Omit<IConference, 'visibleTo' | 'showExternally' | 'signupLink' | 'itinerary'> {
+	extends Omit<IEvent, 'visibleTo' | 'showExternally' | 'signupLink' | 'itinerary'> {
 	price?: string;
 	tickettype?: string;
 	url?: string;

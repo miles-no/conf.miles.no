@@ -1,12 +1,13 @@
-<script>
+<script lang="ts">
+	import type { IEvent, IPerformance, IItineraryEvent } from '../model/event';
 	import { intlFormat } from 'date-fns';
-	import { performances as performances_store } from '../stores/performances.ts';
+	import { performances as performances_store } from '../stores/performances';
 	import { PortableText } from '@portabletext/svelte';
-	export let performance;
-	export let event;
-	export let conference;
-	export let only_selected;
-	export let single_performance;
+	export let event: IEvent;
+	export let performance: IPerformance;
+	export let itineraryEvent: IItineraryEvent;
+	export let only_selected: boolean;
+	export let single_performance: boolean;
 
 	function setChecked() {
 		if (!only_selected) {
@@ -18,7 +19,7 @@
 	}
 
 	let show_info = single_performance ? true : false;
-	let is_workshop = event.description.toLowerCase() === 'workshop';
+	let is_workshop = itineraryEvent.description.toLowerCase() === 'workshop';
 	function handleClick() {
 		if (!single_performance) {
 			show_info = !show_info;
@@ -45,7 +46,7 @@
 					<div class="event-title">
 						<a
 							class="event-link"
-							href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}
+							href={`/arrangement/${event.slug}/agenda/${performance.submission.slug}`}
 							>{performance.submission.title} >></a
 						>
 					</div>
@@ -153,7 +154,7 @@
 		transform: scale(0);
 		transition: 120ms transform ease-in-out;
 		box-shadow: inset 1em 1em var(--form-control-color);
-		background-color: CanvasText;
+		bIItineraryEventr: CanvasText;
 	}
 	input[type='checkbox']:checked::before {
 		transform: scale(1);

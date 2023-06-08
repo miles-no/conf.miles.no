@@ -24,7 +24,7 @@ export const parseJwt = (token) => {
 	return JSON.parse(jsonPayload);
 };
 
-export const formatConferenceDateRange = (sDate, eDate) => {
+export const formatEventDateRange = (sDate, eDate) => {
 	const startDate = new Date(sDate);
 	const endDate = new Date(eDate);
 	if (getDay(startDate) === getDay(endDate)) {

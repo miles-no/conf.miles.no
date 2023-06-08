@@ -2,11 +2,11 @@
 	import Paper, { Content } from '@smui/paper';
 	import { Icon } from '@smui/button';
 	import type { IExternalConference } from '../../../model/external-conference';
-	import { formatConferenceDateRange } from '$lib';
+	import { formatEventDateRange } from '$lib';
 
 	export let conference: IExternalConference;
 
-	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
+	const date = formatEventDateRange(conference.startDate, conference.endDate);
 </script>
 
 <Paper class="conference-information-tag-container" variant="unelevated">

@@ -63,7 +63,7 @@
 
 	$: detailsPage = isExternalConference
 		? `/konferanser/ekstern/${conference.slug}`
-		: `/konferanser/${conference.slug}`;
+		: `/arrangement/${conference.slug}`;
 </script>
 
 <Dialog bind:open noContentPadding sheet aria-labelledby="modal-heading">

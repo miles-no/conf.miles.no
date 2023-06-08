@@ -4,7 +4,7 @@
 	import type { IPageLoadData } from './+page.server';
 
 	export let data: IPageLoadData;
-	export let conferences = data.conferences;
+	export let events = data.events;
 	export let user = data.user;
 </script>
 
@@ -15,9 +15,9 @@
 
 <div class="container">
 	{#if user.isAuthenticated}
-		<Dashboard {conferences} {user} />
+		<Dashboard {events} {user} />
 	{:else}
-		<ExternalContent {conferences} />
+		<ExternalContent {events} />
 	{/if}
 </div>
 

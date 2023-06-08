@@ -1,7 +1,8 @@
-<script>
+<script lang="ts">
+  	import type { IEvent } from '../model/event';
     import Card from '../components/Card.svelte';
-    export let conference;
-    export let performances = conference.performances || [];
+    export let event: IEvent;
+    export let performances = event.performances || [];
 </script>
 
 <style>
@@ -12,7 +13,7 @@
     <h1>No performances</h1>
   {:else}
     {#each performances as performance}
-      <Card performance={performance} conference={conference} />
+      <Card performance={performance} event={event} />
     {/each}
   {/if}
 </div>
