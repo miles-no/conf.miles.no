@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { IConference } from '../../model/conference';
-	import Tag from '../tag/Tag.svelte';
+	import type { IConference } from '../../../../model/conference';
+	import Tag from '../../../tag/Tag.svelte';
 	import { Icon } from '@smui/button';
-	import { formatDate } from '../../utils/date-time-utils';
+	import { formatDate } from '../../../../utils/date-time-utils';
 
 	export let myNextEvent: IConference;
 	export let handleModal: () => void;
@@ -12,16 +12,25 @@
 		month: 'short',
 		year: 'numeric'
 	});
+
+	$: startDateFullMonth = formatDate(myNextEvent.startDate, {
+		day: '2-digit',
+		month: 'long',
+		year: 'numeric'
+	});
+
+	$: ariaLabel = `${myNextEvent.title} den ${startDateFullMonth} i ${myNextEvent.location}. Klikk for å se mer informasjon`;
 </script>
 
 <div
-	class="gray-bg-card your-next-event"
+	class="your-next-event-container"
 	role="button"
+	aria-label={ariaLabel}
 	tabindex={0}
 	on:click={handleModal}
 	on:keypress={handleModal}
 >
-	<div class="gray-bg-card-content your-next-event-content">
+	<div class="your-next-event-content" aria-hidden={true}>
 		<div class="information">
 			<p class="title">{myNextEvent.title}</p>
 			<div>
@@ -44,12 +53,11 @@
 </div>
 
 <style lang="scss">
-	@use '../../styles/colors' as *;
-	@use '../../styles/mixin' as *;
+	@use '../../../../styles/colors' as *;
+	@use '../../../../styles/mixin' as *;
 
 	// Mobile
-	.your-next-event {
-		border: 1px solid black;
+	.your-next-event-container {
 		border-radius: 0.5rem;
 		padding: 0.4rem;
 
@@ -63,8 +71,7 @@
 		}
 
 		.your-next-event-content {
-			display: flex;
-			flex-direction: column;
+			display: grid;
 			gap: 1rem;
 			border-radius: 0.5rem;
 			padding: 1rem;
@@ -97,12 +104,13 @@
 
 	// Desktop
 	@media (min-width: 900px) {
-		.your-next-event {
+		.your-next-event-container {
 			display: flex;
 			flex-direction: column;
 
 			.your-next-event-content {
 				padding: 1rem 1rem 2.5rem 1rem;
+				min-height: 15rem;
 
 				.information {
 					display: flex;
