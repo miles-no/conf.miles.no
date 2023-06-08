@@ -4,7 +4,7 @@
 	import EventCard from './EventCard.svelte';
 	import SmallConferenceCard from './SmallConferenceCard.svelte';
 	import type { IConference } from '../model/conference';
-	import NextEventCard from './dashboard/NextEventCard.svelte';
+	import NextEventCard from './dashboard/card/next-event-card/NextEventCard.svelte';
 	import type { User } from '$lib/types/user';
 	import ConferenceModal from './conferance/conferenceModal/ConferenceModal.svelte';
 
@@ -43,6 +43,9 @@
 			{:else}
 				<p>Du har ingen påmeldte arrangement</p>
 			{/if}
+		</div>
+		<div>
+			<h2>Kommende frister</h2>
 		</div>
 	</div>
 	<LayoutGrid>

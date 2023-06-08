@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { IConference } from '../../model/conference';
-	import Tag from '../tag/Tag.svelte';
+	import type { IConference } from '../../../../model/conference';
+	import Tag from '../../../tag/Tag.svelte';
 	import { Icon } from '@smui/button';
-	import { formatDate } from '../../utils/date-time-utils';
+	import { formatDate } from '../../../../utils/date-time-utils';
 
 	export let myNextEvent: IConference;
 	export let handleModal: () => void;
@@ -44,8 +44,8 @@
 </div>
 
 <style lang="scss">
-	@use '../../styles/colors' as *;
-	@use '../../styles/mixin' as *;
+	@use '../../../../styles/colors' as *;
+	@use '../../../../styles/mixin' as *;
 
 	// Mobile
 	.your-next-event {
