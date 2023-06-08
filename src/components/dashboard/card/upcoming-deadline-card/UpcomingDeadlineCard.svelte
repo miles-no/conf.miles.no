@@ -3,26 +3,34 @@
 	import { formatDate, type IFormatOptions } from '../../../../utils/date-time-utils';
 
 	export let upcomingDeadlines: IConference[];
-
-	const formatOption: IFormatOptions = {
-		day: '2-digit',
-		month: 'short'
-	};
 </script>
 
 <div class="upcoming-deadline-card-container">
-	<div class="upcoming-deadline-card-content">
+	<ol class="upcoming-deadline-card-content">
 		{#each upcomingDeadlines as deadline}
-			<div class="gray-bg-card upcoming-deadline-card-row">
+			<li class="gray-bg-card upcoming-deadline-card-row">
 				<div class="gray-bg-card-content upcoming-deadline-card-row-item title-container">
 					<p>{deadline.title}</p>
 				</div>
 				<div class="upcoming-deadline-card-row-item date-container">
 					<div class="date-content">
-						<p>{formatDate(deadline.deadline, formatOption)}</p>
+						<p class="visuallyhidden">
+							{formatDate(deadline.deadline, {
+								day: '2-digit',
+								month: 'long',
+								year: 'numeric'
+							})}
+						</p>
+						<p aria-hidden={true}>
+							{formatDate(deadline.deadline, {
+								day: '2-digit',
+								month: 'short'
+							})}
+						</p>
 					</div>
 					<div class="date-content">
 						<p>
+							<span class="visuallyhidden">Klokke</span>
 							{formatDate(deadline.deadline, {
 								hour: '2-digit',
 								minute: '2-digit'
@@ -30,16 +38,22 @@
 						</p>
 					</div>
 				</div>
-			</div>
+			</li>
 		{/each}
-	</div>
+	</ol>
 </div>
 
 <style lang="scss">
+	@use '../../../../styles/mixin' as *;
+
 	.upcoming-deadline-card-container {
 		border: 1px solid black;
 		padding: 0.4rem;
 		border-radius: 0.5rem;
+
+		.visuallyhidden {
+			@include visuallyhidden();
+		}
 
 		p {
 			margin: 0;
@@ -49,6 +63,8 @@
 			display: grid;
 			gap: 0.5rem;
 			min-height: 15rem;
+			padding-left: 0;
+			margin-bottom: 0;
 
 			.title-container,
 			.date-content {
