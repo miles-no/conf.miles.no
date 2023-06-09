@@ -7,7 +7,7 @@ import { env as private_env } from '$env/dynamic/private';
 import { env as public_env } from '$env/dynamic/public';
 import { Submission } from '../types/submission';
 import { Author } from '../types/author';
-import { Conference } from '../types/conference';
+import type {ConferenceType} from '../types/conference';
 
 const client: SanityClient = sanityClient({
   projectId: public_env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
@@ -117,17 +117,20 @@ export async function createAuthor(author: Author) {
     return insertedAuthor;
 }
 
-export async function createConference(conference: Conference) {
+export async function createConference(conference: ConferenceType) {
     const conferenceDoc = {
         _type: 'conference',
+        slug: { _type: 'slug', current: conference.slug ?? generateSlug(conference.title) },
         title: conference.title,
-        slug: conference.slug,
         startDate: conference.startDate,
         endDate: conference.endDate,
-        internal: conference.internal,
-        url: conference.url
-    }
+        url: conference.url,
+        categoryTag: conference.categoryTag ?? [],
+        internal: false,
+    };
+
     const insertedConference: SanityDocument<any> = await client.create(conferenceDoc);
+    console.log(insertedConference._id);
 
     // client.assets
     //     .upload('image', createReadStream(''), {

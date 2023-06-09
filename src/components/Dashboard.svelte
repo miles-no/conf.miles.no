@@ -6,7 +6,7 @@
 	import type { IConference } from '../model/conference';
 	import NextEventCard from './dashboard/NextEventCard.svelte';
 	import type { User } from '$lib/types/user';
-	import ConferenceModal from './conferance/conferenceModal/ConferenceModal.svelte';
+	import ConferenceModal from './conference/conferenceModal/ConferenceModal.svelte';
 
 	export let conferences: IConference[];
 	export let user: User;

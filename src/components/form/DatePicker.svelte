@@ -6,7 +6,7 @@
     import { createEventDispatcher } from 'svelte';
 
 
-    export let date = null, format="dd.MM yyyy HH:mm";
+    export let date = null, format="dd.MM yyyy";
     export let width, label, required, earliest, latest, intervalWarning=false;
 
     let valid;
@@ -74,6 +74,7 @@
         top: 16px;
         right: 12px;
         opacity: 50%;
+        pointer-events: none;
     }
     .datepicker-root.valid :global(i) {
         color: darkgreen;

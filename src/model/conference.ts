@@ -5,10 +5,10 @@ import type { StatusKeyType } from '../enums/status';
 export interface IConference {
 	_id: string;
 	_rev: string;
-	itinerary?: IItinerary[];
-	showExternally: boolean;
+	itinerary?: IItinerary[];       //
+	showExternally: boolean;        //
 	internal: boolean;
-	signupLink: string;
+	signupLink: string;             //
 	startTime: string;
 	_updatedAt: string;
 	timeperiod: string;
@@ -25,7 +25,7 @@ export interface IConference {
 	location?: string;
 	slug: string;
 	eventType: EventType[];
-	visibleTo: string[];
+	visibleTo: string[];            //
 	employees?: IEmployee[];
 	categoryTag?: ConferenceCategoryType[];
 }

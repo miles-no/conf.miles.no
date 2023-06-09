@@ -8,5 +8,4 @@ export const selectedCategoryTags = writable([]);
 export const name= writable('');
 export const url= writable('');
 
-
 export const intervalWarning = writable(false);

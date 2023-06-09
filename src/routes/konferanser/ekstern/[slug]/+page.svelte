@@ -1,10 +1,10 @@
 <script lang="ts">
-	import ConferenceInformation from '../../../../components/conferance/conference-information/ConferenceInformation.svelte';
+	import ConferenceInformation from '../../../../components/conference/conference-information/ConferenceInformation.svelte';
 	import type { IPageLoadData } from './+page.server';
 	import Paper, { Content } from '@smui/paper';
 	import ConferenceCategoryTag from '../../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
-	import ConferenceStatus from '../../../../components/conferance/conference-status/ConferenceStatus.svelte';
-	import ConferenceAttendance from '../../../../components/conferance/conference-attendance/ConferenceAttendance.svelte';
+	import ConferenceStatus from '../../../../components/conference/conference-status/ConferenceStatus.svelte';
+	import ConferenceAttendance from '../../../../components/conference/conference-attendance/ConferenceAttendance.svelte';
 	import { applyAction } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import { Status, type StatusKeyType } from '../../../../enums/status';
