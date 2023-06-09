@@ -1,17 +1,17 @@
 export default {
-	name: 'externalConference',
+	name: 'event',
 	type: 'document',
-	title: 'External Conferences',
+	title: 'Events',
 	fieldsets: [
 		{ name: 'signUp', title: 'Signup' },
 		{
 			name: 'internal',
-			title: 'Internal Conference',
+			title: 'Internal Event',
 			hidden: ({ parent }) => !parent?.internal
 		},
 		{
 			name: 'external',
-			title: 'External Conference',
+			title: 'External Event',
 			hidden: ({ parent }) => parent?.internal
 		}
 	],
@@ -60,37 +60,34 @@ export default {
 			title: 'Performances',
 			name: 'performances',
 			type: 'array',
-			of: [{ type: 'performance' }],
-			description: `Miles contribution to the event`
+			of: [{ type: 'performance' }]
+		},
+		{
+			title: 'Link to signup',
+			name: 'signupLink',
+			type: 'url',
+			fieldset: 'signUp'
 		},
 		{ title: 'Signup Deadline', name: 'deadline', type: 'datetime', fieldset: 'signUp' },
 		{
-			title: 'TicketType',
-			name: 'tickettype',
-			type: 'string',
-			description: 'The current type of ticket that is available'
+			title: 'Internal',
+			name: 'internal',
+			type: 'boolean',
+			description: 'Event is hosted by Miles'
 		},
 		{
-			title: 'Price',
-			name: 'price',
-			type: 'string',
-			description: 'The cost of the conference at the current time'
-		},
-		{
-			title: 'Category',
-			name: 'categoryTag',
+			title: 'Visible to offices',
+			name: 'visibleTo',
 			type: 'array',
 			of: [{ type: 'string' }],
-			options: {
-				list: [
-					{ title: 'Smidig', value: 'Smidig' },
-					{ title: 'UX/Design', value: 'UX/Design' },
-					{ title: 'Utvikling', value: 'Utvikling' },
-					{ title: 'Prosjektledelse', value: 'Prosjektledelse' },
-					{ title: 'Admin', value: 'Admin' }
-				]
-			},
-			description: 'For who is the conference relevant?'
+			description:
+				'Internal Event will only be vissble to selected offices or all offices if non is selected'
+		},
+		{
+			title: 'Show externally',
+			name: 'showExternally',
+			type: 'boolean',
+			description: 'Make event visible to not-logged in users(external users)'
 		},
 		{
 			title: 'Image',
@@ -108,13 +105,39 @@ export default {
 						isHighlighted: true
 					}
 				}
-			],
-			validation: (Rule) => Rule.required()
+			]
 		},
 		{
 			title: 'Homepage',
 			name: 'url',
-			type: 'url'
+			type: 'url',
+			fieldset: 'external'
+		},
+		{
+			title: 'Itinerary',
+			name: 'itinerary',
+			type: 'array',
+			of: [
+				{
+					type: 'itinerary'
+				}
+			],
+			fieldset: 'internal'
+		},
+		{
+			title: 'Event type',
+			name: 'eventType',
+			type: 'array',
+			of: [{ type: 'string' }],
+			options: {
+				list: [
+					{ title: 'Sosial', value: 'Sosial' },
+					{ title: 'Faglig', value: 'Faglig' },
+					{ title: 'SMiles', value: 'SMiles' }
+				]
+			},
+			validation: (Rule) => Rule.required(),
+			description: 'Event type'
 		},
 		{
 			title: 'Relevent Employees',
@@ -148,6 +171,22 @@ export default {
 					]
 				}
 			]
+		},
+		{
+			title: 'Category',
+			name: 'categoryTag',
+			type: 'array',
+			of: [{ type: 'string' }],
+			options: {
+				list: [
+					{ title: 'Smidig', value: 'Smidig' },
+					{ title: 'UX/Design', value: 'UX/Design' },
+					{ title: 'Utvikling', value: 'Utvikling' },
+					{ title: 'Prosjektledelse', value: 'Prosjektledelse' },
+					{ title: 'Admin', value: 'Admin' }
+				]
+			},
+			description: 'For who is the Event relevant?'
 		}
 	]
 };

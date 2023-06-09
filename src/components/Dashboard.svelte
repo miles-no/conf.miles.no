@@ -4,9 +4,10 @@
 	import EventCard from './EventCard.svelte';
 	import SmallConferenceCard from './SmallConferenceCard.svelte';
 	import type { IConference } from '../model/conference';
-	import NextEventCard from './dashboard/NextEventCard.svelte';
+	import NextEventCard from './dashboard/card/next-event-card/NextEventCard.svelte';
 	import type { User } from '$lib/types/user';
 	import ConferenceModal from './conference/conferenceModal/ConferenceModal.svelte';
+	import UpcomingDeadlineCard from './dashboard/card/upcoming-deadline-card/UpcomingDeadlineCard.svelte';
 
 	export let conferences: IConference[];
 	export let user: User;
@@ -14,6 +15,15 @@
 	$: myNextEvent = conferences
 		.filter((c) => c.employees?.map((e) => e.email).includes(user.email))
 		.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))[0];
+
+	$: conferenceSortByDeadline = conferences
+		.filter((c) => c.deadline && Date.parse(c.deadline) > Date.parse(new Date().toDateString()))
+		.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
+
+	$: upcomingDeadlines =
+		conferenceSortByDeadline.length <= 3
+			? conferenceSortByDeadline
+			: conferenceSortByDeadline.splice(0, 3);
 
 	const futureEvents = conferences.filter(
 		(conf: IConference) => Date.parse(conf.startDate) >= Date.now()
@@ -42,6 +52,14 @@
 				<NextEventCard {myNextEvent} handleModal={() => (open = !open)} />
 			{:else}
 				<p>Du har ingen påmeldte arrangement</p>
+			{/if}
+		</div>
+		<div>
+			<h2>Kommende frister</h2>
+			{#if upcomingDeadlines.length > 0}
+				<UpcomingDeadlineCard {upcomingDeadlines} />
+			{:else}
+				<p>Ingen kommende frister</p>
 			{/if}
 		</div>
 	</div>
@@ -89,7 +107,8 @@
 		@include visuallyhidden();
 	}
 	.top-content {
-		display: flex;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
 		gap: 1rem;
 	}
 </style>
