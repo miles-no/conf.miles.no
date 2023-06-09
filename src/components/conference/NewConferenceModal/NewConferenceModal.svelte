@@ -3,7 +3,6 @@
     import { fade } from 'svelte/transition';
     import IconButton from "@smui/icon-button";
     import Form from "./Form.svelte";
-    import FooterButtons from "./ButtonFooterLine.svelte";
     const dispatch = createEventDispatcher();
 
     function toggleModal() {

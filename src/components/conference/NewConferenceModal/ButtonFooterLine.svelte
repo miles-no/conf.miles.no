@@ -3,14 +3,23 @@
     import JustifiedRow from "../../form/JustifiedRow.svelte";
     import {name, url, startDate, endDate, selectedCategoryTags, intervalWarning} from "./newConferenceStores.js";
 
-    function submit() {
-        alert("Implement me - submit data to sanity:\n" + JSON.stringify({
-            name: $name,
+    async function submit() {
+        const submitData = JSON.stringify({
+            title: $name,
             url: $url,
             startDate: $startDate,
             endDate: $endDate,
-            selectedCategoryTags: $selectedCategoryTags
-        }, null, 4));
+            categoryTag: $selectedCategoryTags
+        });
+        alert("Submitting data to sanity:\n" + submitData);
+
+        const response = await fetch('/api/create-ext-conference', {
+            method: 'POST',
+            body: submitData
+        });
+
+        const result = await response.json();
+        alert("Response:\n" + JSON.stringify(result, null, 2));
     }
 
     let disabled = true;

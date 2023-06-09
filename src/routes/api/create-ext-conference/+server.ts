@@ -14,7 +14,14 @@ const client = sanityClient({
     useCdn: false
 });
 
+const urlStartPattern = /^https?:\/\//;
+
 const verifyAndNormalizeConferenceData = (confData: ConferenceType) => {
+
+    if (!urlStartPattern.test(confData.url)) {
+        confData.url = 'https://' + confData.url;
+    }
+
     Conference.parse(confData);
 
     // Normalize dates (without time-of-day for external conferences), simplifies is-new check
@@ -36,11 +43,13 @@ const verifyAndNormalizeConferenceData = (confData: ConferenceType) => {
 
 const verifyConferenceIsNew = async (title: string, startDate: string) => {
     const duplicateResults = await client.fetch(`*[_type == "conference" && title == "${title}" && startDate == "${startDate}"]`);
+    console.log("DuplicateResults:", duplicateResults);
     if (duplicateResults && duplicateResults.length > 0) {
         throw Error("Conference with this title and start date already exists.");
     }
 
     const possibleDupeResults = await client.fetch(`*[_type == "conference" && title == "${title}"]`);
+    console.log("possibleDupeResults:", possibleDupeResults);
     if (!possibleDupeResults || possibleDupeResults.length < 1) {
         return undefined;
     }
@@ -48,7 +57,7 @@ const verifyConferenceIsNew = async (title: string, startDate: string) => {
     const now = new Date(new Date().toDateString());
     const likelyDupeResults = possibleDupeResults.filter((result, i) => {
         console.log("#",i,":", JSON.stringify(result, null, 2));
-        const endDate = new Date(result.endDate);
+        const endDate = new Date(result?.endDate);
         return (endDate > now);
     })
 
@@ -123,13 +132,21 @@ export const POST = (async ({ request }) => {
         warning = await verifyConferenceIsNew(newExternalConference.title, newExternalConference.startDate);
 
     } catch (userError) {
-        console.error(`POST /api/create-ext-conference: ${userError}`);
+        console.error(`POST /api/create-ext-conference: ${userError} (${typeof userError})`);
         console.error(`    ...from request: ${request}`);
+        console.log(JSON.stringify(Object.keys(userError.issues)));
+        const errorMessage = (userError?.issues)
+            ? (
+                `Conference data error(s): '${
+                    userError.issues.map(issue => issue.message).join("', '")
+                }'`
+              )
+            : userError.message;
         return json({
             success: false,
             ok: false,
-            status: 403,
-            statusText: "Conference data error: " + userError
+            status: 400,
+            statusText: errorMessage
         });
     }
 
