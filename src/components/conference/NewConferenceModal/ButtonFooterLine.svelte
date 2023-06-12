@@ -12,6 +12,9 @@
     } from "./newConferenceStores.ts";
     import Spinner from "./Spinner.svelte";
     import {submitAndHandleModal} from "./modalSubmitHandler.ts";
+    import {getContext} from "svelte";
+
+    const toastContext = getContext('toastContext');
 
     function submit() {
         const submitData = JSON.stringify({
@@ -22,7 +25,7 @@
             categoryTag: $selectedCategoryTags
         });
 
-        submitAndHandleModal(submitData);
+        submitAndHandleModal(submitData, toastContext);
     }
 
     let disabled = true;
