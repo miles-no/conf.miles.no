@@ -11,7 +11,6 @@
             endDate: $endDate,
             categoryTag: $selectedCategoryTags
         });
-        alert("Submitting data to sanity:\n" + submitData);
 
         const response = await fetch('/api/create-ext-conference', {
             method: 'POST',

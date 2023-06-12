@@ -43,27 +43,68 @@ const verifyAndNormalizeConferenceData = (confData: ConferenceType) => {
 
 const verifyConferenceIsNew = async (title: string, startDate: string) => {
     const duplicateResults = await client.fetch(`*[_type == "conference" && title == "${title}" && startDate == "${startDate}"]`);
-    console.log("DuplicateResults:", duplicateResults);
-    if (duplicateResults && duplicateResults.length > 0) {
+    if (duplicateResults && duplicateResults.length) {
+        console.error("Duplicate title-and-startdate conferences:", JSON.stringify(duplicateResults));
         throw Error("Conference with this title and start date already exists.");
     }
 
     const possibleDupeResults = await client.fetch(`*[_type == "conference" && title == "${title}"]`);
-    console.log("possibleDupeResults:", possibleDupeResults);
     if (!possibleDupeResults || possibleDupeResults.length < 1) {
         return undefined;
     }
 
+    console.warn("Possibly duplicated conferences:", JSON.stringify(possibleDupeResults));
     const now = new Date(new Date().toDateString());
-    const likelyDupeResults = possibleDupeResults.filter((result, i) => {
-        console.log("#",i,":", JSON.stringify(result, null, 2));
+    const likelyDupeResults = possibleDupeResults.filter((result: {endDate:string}, i:number) => {
         const endDate = new Date(result?.endDate);
         return (endDate > now);
     })
 
     return (likelyDupeResults.length)
-         ? (likelyDupeResults.length + " current or future conference(s) already registered with the title '" + title + "' (for example in the timespan " + likelyDupeResults[0].startDate + " - " + likelyDupeResults[0].endDate +").")
+         ? (likelyDupeResults.length + " current or future conference(s) already registered with this title (" + title + "). For example, found it in the timespan " + likelyDupeResults[0].startDate + " - " + likelyDupeResults[0].endDate +".")
         : undefined;
+}
+
+/*
+Consider moving to frontend?
+
+// https://dmitripavlutin.com/timeout-fetch-request/
+ */
+const fetchWithTimeout = async (url:string, options = {}) => {
+    const timeout = 10000;
+    const controller = new AbortController();
+    const id = setTimeout(() => {
+        console.warn("Conference-URL-checking request timed out: " + url);
+        controller.abort()
+    }, timeout);
+
+    const response = await fetch(url, {
+        ...options,
+        signal: controller.signal
+    });
+    clearTimeout(id);
+
+    return response;
+}
+
+const verifyConferenceUrl = async (url: string) => {
+    let checkResult;
+    try {
+        checkResult = await fetchWithTimeout(url, {method: 'HEAD'},);
+
+        if (checkResult.ok) {
+            return undefined;
+        }
+        console.warn(`Conference url (${url}) failed check: not .ok`);
+        console.warn("    status:    ", await checkResult.status);
+        console.warn("    statusText:", await checkResult.statusText);
+        console.warn("    headers:   ", await checkResult.headers, "\n");
+        return `Failed when checking fetch from conference URL: ${url}`;
+
+    } catch (e) {
+        console.log(e);
+        return `Failed when checking fetch from conference URL: ${url}`;
+    }
 }
 
 // /api/external-conference PUT
@@ -124,24 +165,30 @@ export const POST = (async ({ request }) => {
     */
 
 
-    let newExternalConference, warning;
+    let newExternalConference;
+    let warnings = [];
     try {
         newExternalConference = (await request.json()) as ConferenceType;
 
         verifyAndNormalizeConferenceData(newExternalConference);
-        warning = await verifyConferenceIsNew(newExternalConference.title, newExternalConference.startDate);
+        warnings.push(await verifyConferenceIsNew(newExternalConference.title, newExternalConference.startDate));
+        warnings.push(await verifyConferenceUrl(newExternalConference.url));
+        warnings = warnings.filter( w => !!w);
 
-    } catch (userError) {
+
+    } catch (userError: any) {
         console.error(`POST /api/create-ext-conference: ${userError} (${typeof userError})`);
-        console.error(`    ...from request: ${request}`);
-        console.log(JSON.stringify(Object.keys(userError.issues)));
+        //console.error(`    ...from request: ${request}`);
+        console.log("UserError.keys:", JSON.stringify(Object.keys((userError || {}).issues || {})));
+
         const errorMessage = (userError?.issues)
             ? (
                 `Conference data error(s): '${
-                    userError.issues.map(issue => issue.message).join("', '")
+                    userError.issues.map( (issue:{message:string}) => issue.message).join("', '")
                 }'`
               )
             : userError.message;
+
         return json({
             success: false,
             ok: false,
@@ -153,13 +200,22 @@ export const POST = (async ({ request }) => {
     try {
         //createConference(newExternalConference);
 
-        return json({
-            success: true,
-            ok: true,
-            statusText: warning
-                ? ("Warning: " +  warning)
-                : undefined
-        });
+        if (warnings && warnings.length) {
+            console.warn(`POST /api/create-ext-conference completed with ${warnings.length} warning(s): '${warnings.join("', '")}'`);
+            return json({
+                success: true,
+                ok: true,
+                statusText: `Completed with ${warnings.length} warning(s)`,
+                warnings
+            });
+
+        } else {
+            return json({
+                success: true,
+                ok: true,
+                statusText: "OK"
+            });
+        }
 
     } catch (error) {
         console.error(`POST /api/create-ext-conference: ${error}`);
