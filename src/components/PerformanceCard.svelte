@@ -1,11 +1,12 @@
-<script>
-	import Card, { Media, MediaContent } from '@smui/card';
-	export let rootSlug;
-	export let performance;
+<script lang="ts">
+	import type { IPerformance } from '../model/event';
+	import Card from '@smui/card';
+	export let rootSlug: string;
+	export let performance: IPerformance;
 </script>
 
 <div class="card-container">
-	<a href={`/konferanser/${rootSlug}/agenda/${performance.submission.slug}`}>
+	<a href={`/arrangement/${rootSlug}/agenda/${performance.submission.slug}`}>
 		<Card padded style="height:100%;">
 			<h2 class="submission-title mdc-typography--headline6">
 				{performance.submission.title}
@@ -28,7 +29,6 @@
 					</div>
 				</div>
 			{/each}
-			<!-- {performance.submission.description[0].children[0].text} -->
 		</Card>
 	</a>
 </div>

@@ -1,22 +1,22 @@
 <script lang="ts">
-	import Conference from './Conference.svelte';
+	import Event from './Event.svelte';
 	import LayoutGrid, { Cell } from '@smui/layout-grid';
 	import EventCard from './EventCard.svelte';
-	import SmallConferenceCard from './SmallConferenceCard.svelte';
-	import type { IConference } from '../model/conference';
+	import SmallEventCard from './SmallEventCard.svelte';
+	import type { IEvent } from '../model/event';
 	import NextEventCard from './dashboard/card/next-event-card/NextEventCard.svelte';
 	import type { User } from '$lib/types/user';
 	import ConferenceModal from './conferance/conferenceModal/ConferenceModal.svelte';
 	import UpcomingDeadlineCard from './dashboard/card/upcoming-deadline-card/UpcomingDeadlineCard.svelte';
 
-	export let conferences: IConference[];
+	export let events: IEvent[];
 	export let user: User;
 
-	$: myNextEvent = conferences
+	$: myNextEvent = events
 		.filter((c) => c.employees?.map((e) => e.email).includes(user.email))
 		.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))[0];
 
-	$: conferenceSortByDeadline = conferences
+	$: conferenceSortByDeadline = events
 		.filter((c) => c.deadline && Date.parse(c.deadline) > Date.parse(new Date().toDateString()))
 		.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
 
@@ -25,17 +25,17 @@
 			? conferenceSortByDeadline
 			: conferenceSortByDeadline.splice(0, 3);
 
-	const futureEvents = conferences.filter(
-		(conf: IConference) => Date.parse(conf.startDate) >= Date.now()
+	const futureEvents = events.filter(
+		(conf) => Date.parse(conf.startDate) >= Date.now()
 	);
 
-	const pastEvents = conferences.filter(
-		(conf: IConference) => Date.parse(conf.endDate) < Date.now()
+	const pastEvents = events.filter(
+		(conf) => Date.parse(conf.endDate) < Date.now()
 	);
 
-	const nextEvent = conferences
+	const nextEvent = events
 		.filter(
-			(conf: IConference) =>
+			(conf) =>
 				Date.parse(conf.startDate) <= Date.now() && Date.now() <= Date.parse(conf.endDate)
 		)
 		.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))[0];
@@ -75,14 +75,14 @@
 		</Cell>
 		<Cell span={8}>
 			<h2>Kommende arrangementer</h2>
-			{#each futureEvents.reverse() as conference (conference.title)}
-				<SmallConferenceCard {conference} />
+			{#each futureEvents.reverse() as event (event.title)}
+				<SmallEventCard {event} />
 			{/each}
 		</Cell>
 		<Cell span={8}>
 			<h2>Tidligere arrangementer</h2>
-			{#each pastEvents.reverse() as conference (conference.title)}
-				<Conference {conference} />
+			{#each pastEvents.reverse() as event (event.title)}
+				<Event {event} />
 			{/each}
 		</Cell>
 	</LayoutGrid>

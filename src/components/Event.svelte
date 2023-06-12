@@ -1,135 +1,61 @@
-<script>
-	import { PortableText } from '@portabletext/svelte';
-	import { compareAsc } from 'date-fns';
-	import { performances as performances_store } from '../stores/performances.ts';
-	import PerformanceRow from './PerformanceRow.svelte';
-	import { checkboxStore } from '../stores/checkbox_localstorage';
-
-	import { fly } from 'svelte/transition';
-	import { flip } from 'svelte/animate';
-
-	export let event;
-	export let conference;
-	export let day;
-
-	const getTimeslotPerformances = ({ startTime, endTime }) => {
-		const min = new Date(`${day} ${startTime}`).getTime();
-		const max = new Date(`${day} ${endTime}`).getTime();
-		if (conference.performances) {
-			return conference.performances
-				.filter(({ dateAndTime }) => {
-					const performanceTimestamp = new Date(dateAndTime).getTime();
-					return isNaN(max) //If max is NaN, the Event has no endTime
-						? performanceTimestamp === min //The perfomance sharing startTime with the event
-						: performanceTimestamp >= min && performanceTimestamp <= max;
-				})
-				.sort((a, b) => {
-					return compareAsc(new Date(a.dateAndTime), new Date(b.dateAndTime));
-				});
-		} else {
-			return [];
-		}
-	};
-	const single_performance = getTimeslotPerformances(event).length == 1;
-	const checkbox_key = 'Event-' + event._key;
-	$: only_selected = $checkboxStore[checkbox_key];
+<script lang="ts">
+	import type { IEvent } from '../model/event';
+	import TextPill from './TextPill.svelte';
+	import Hoverable from './Hoverable.svelte';
+	import { formatEventDateRange } from '$lib';
+	export let event: IEvent;
+	
+	const text = formatEventDateRange(event.startDate, event.endDate);
+	const startOfDay = new Date();
+	startOfDay.setDate(startOfDay.getDate());
+	startOfDay.setHours(0,0,0,0);
+	const isFinished = startOfDay.getTime() > new Date(event.endDate).getTime();
 </script>
 
-{#if event.containsPerformances && conference.performances}
-	<ul class="alt-ul">
-		{#if !single_performance}
-			<li>
-				<div class="selector-row  d-flex flex-column p-2">
-					<div class="selector-title">
-						Kryss av {event.description.toLowerCase() === 'lyntaler' ? 'lyntalene' : 'workshopen'} du
-						skal på
-					</div>
-					<label class="d-flex pt-2">
-						<input
-							type="checkbox"
-							checked={only_selected}
-							on:click={() => checkboxStore.flip(checkbox_key)}
-						/>
-						<div class="selector-text">
-							Vis kun {event.description === 'Lyntaler' ? ' valgte Lyntaler' : 'valgt Workshop'}
-						</div>
-					</label>
-				</div>
-			</li>
-		{/if}
-		{#each getTimeslotPerformances(event).filter((perf) => !only_selected || Boolean($performances_store[perf.submission._id])) as performance (performance.submission._id)}
-			<li
-				class="alt-li"
-				animate:flip={{ duration: 300, key: performance.submission._id }}
-				in:fly|local={{ y: -30, duration: 300, key: performance.submission._id }}
-			>
-				<PerformanceRow {only_selected} {event} {conference} {performance} {single_performance} />
-			</li>
-		{/each}
-	</ul>
-{/if}
-{#if event.info}
-	<div class="p-3">
-		<PortableText value={event.info} />
+<Hoverable let:hovering={active}>
+	<div class="mb-4" class:active>
+		<a href="/arrangement/{event.slug}">
+			<div class="box d-flex align-items-center flex-row">
+				<h3 class:isFinished>
+					{event.title}
+				</h3>
+				{#if active}
+					<TextPill {text} />
+				{/if}
+			</div>
+		</a>
 	</div>
-{/if}
+</Hoverable>
 
 <style>
-	.alt-ul {
-		padding: 0;
-		margin: 0;
-		list-style-type: none;
+	a {
+		text-decoration: none;
+		color: inherit;
 	}
-	.alt-li {
-		background: inherit;
+	.box {
+		padding: 0 8px;
+		height: 120px;
+	}	
+	h3 {
+		margin: 0 1.5vw;
+		color: inherit;
+		text-decoration: underline;
+		font-weight: 900;
+		font-size: 200%;
+		word-break: break-word;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+		-moz-box-orient: vertical;
 	}
-	.alt-li:nth-child(even) {
-		/* background: #fde9e9; */
+	.active {
+		background-color: black;
+		color: white;
 	}
-	input[type='checkbox'] {
-		-webkit-appearance: none;
-		appearance: none;
-		background-color: var(--form-background);
-		margin: 0;
-
-		font: inherit;
-		color: currentColor;
-		width: 1.15em;
-		height: 1.15em;
-		border: 0.15em solid currentColor;
-		border-radius: 0;
-		transform: translateY(-0.075em);
-
-		display: grid;
-		place-content: center;
-	}
-
-	input[type='checkbox']::before {
-		content: '';
-		width: 0.65em;
-		height: 0.65em;
-		border-radius: 0;
-		transform: scale(0);
-		transition: 120ms transform ease-in-out;
-		box-shadow: inset 1em 1em var(--form-control-color);
-		background-color: CanvasText;
-	}
-
-	input[type='checkbox']:checked::before {
-		transform: scale(1);
-	}
-
-	.selector-row {
-		/* background-color: #f2f2f2; */
-		border-bottom: 1px solid;
-	}
-	.selector-text {
-		font-weight: 300;
-		font-size: small;
-		margin-left: 0.5em;
-	}
-	.selector-title {
-		font-weight: 500;
-		font-size: medium;
+	.isFinished {
+		text-decoration: line-through;
 	}
 </style>

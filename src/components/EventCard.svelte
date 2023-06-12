@@ -1,17 +1,17 @@
 <script lang="ts">
 	import { Icon } from '@smui/button';
-	import { formatConferenceDateRange } from '$lib';
+	import { formatEventDateRange } from '$lib';
 	import Card, { Content, Media, MediaContent } from '@smui/card';
 	import Tag from './tag/Tag.svelte';
-	import type { IConference } from '../model/conference';
+	import type { IEvent } from '../model/event';
 	import { urlFor } from '../utils/sanityclient-utils';
 
-	export let event: IConference;
-	const date = formatConferenceDateRange(event?.startDate, event?.endDate);
+	export let event: IEvent;
+	const date = formatEventDateRange(event?.startDate, event?.endDate);
 </script>
 
 <div class="card-container">
-	<a href="konferanser/{event.slug}">
+	<a href="/arrangement/{event.slug}">
 		<Card>
 			<Media class="card-media-16x9" aspectRatio="16x9">
 				<MediaContent>

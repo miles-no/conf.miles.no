@@ -1,12 +1,13 @@
-<script>
-	export let performance;
-	export let conference;
+<script lang="ts">
+	import type { IEvent, IPerformance } from '../model/event';
+	export let event: IEvent;
+	export let performance: IPerformance;
 	export let compact = false;
 	import { formatDistanceToNowStrict, addMinutes, intlFormat } from 'date-fns';
 </script>
 
 <div class="h-100" style={compact ? 'padding: 0.25em' : 'padding: 0.5em'}>
-	<a href={`/konferanser/${conference.slug}/agenda/${performance.submission.slug}`}>
+	<a href={`/arrangement/${event.slug}/agenda/${performance.submission.slug}`}>
 		<div
 			class="d-flex flex-column justify-content-between background"
 			style={compact && 'padding: 1em'}

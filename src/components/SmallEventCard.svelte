@@ -1,24 +1,25 @@
-<script>
-	import Hoverable from '../components/Hoverable.svelte';
-	import { formatConferenceDateRange } from '$lib';
+<script lang="ts">
+	import type { IEvent } from '../model/event';
+	import Hoverable from './Hoverable.svelte';
+	import { formatEventDateRange } from '$lib';
 	/**
 	 * @type {{ startDate: any; endDate: string | number | Date; title: any; }}
 	 */
-	export let conference;
+	export let event: IEvent;
 
-	const dateRange = formatConferenceDateRange(conference.startDate, conference.endDate);
+	const dateRange = formatEventDateRange(event.startDate, event.endDate);
 	const startOfDay = new Date();
 	startOfDay.setDate(startOfDay.getDate());
 	startOfDay.setHours(0, 0, 0, 0);
-	const isFinished = startOfDay.getTime() > new Date(conference.endDate).getTime();
+	const isFinished = startOfDay.getTime() > new Date(event.endDate).getTime();
 </script>
 
 <Hoverable let:hovering={active}>
-	<a href="konferanser/{conference.slug}">
+	<a href="/arrangement/{event.slug}">
 		<div class="wrapper mdc-card">
 			<div class="titleWrapper">
 				<h5 style="margin-bottom: 0px;">
-					{conference.title}
+					{event.title}
 				</h5>
 			</div>
 			<div class="dateRange">
