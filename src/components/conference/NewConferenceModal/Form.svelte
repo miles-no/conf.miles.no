@@ -3,7 +3,7 @@
     import DatePickerLine from "./DatePickerLine.svelte";
     import ButtonFooterLine from "./ButtonFooterLine.svelte";
     import CheckboxLine from "./CheckboxLine.svelte";
-    import {pending} from "./newConferenceStores.js";
+    import {pending} from "./newConferenceStores.ts";
 
     export let formId;
 </script>

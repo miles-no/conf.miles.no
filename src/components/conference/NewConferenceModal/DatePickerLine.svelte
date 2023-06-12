@@ -1,7 +1,7 @@
 <script>
     import JustifiedRow from "../../form/JustifiedRow.svelte";
     import DatePicker from "../../form/DatePicker.svelte";
-    import {startDate, endDate, intervalWarning} from "./newConferenceStores.js";
+    import {startDate, endDate, intervalWarning} from "./newConferenceStores.ts";
 
 
 

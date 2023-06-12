@@ -8,23 +8,12 @@
         endDate,
         selectedCategoryTags,
         intervalWarning,
-        pending,
-        initModal
-    } from "./newConferenceStores.js";
+        pending
+    } from "./newConferenceStores.ts";
     import Spinner from "./Spinner.svelte";
+    import {submitAndHandleModal} from "./modalSubmitHandler.ts";
 
-
-    const alertError = (message, error, submitData) => {
-        alert(`😨 Something went wrong!\n\n${message}`);
-        console.log("Error when trying to create a new conference:");
-        console.error(error);
-        console.log("Submitted conference data:", submitData);
-        pending.set(false);
-    }
-
-    async function submit() {
-        pending.set(true);
-
+    function submit() {
         const submitData = JSON.stringify({
             title: $name,
             url: $url,
@@ -33,34 +22,7 @@
             categoryTag: $selectedCategoryTags
         });
 
-        try {
-            const response = await fetch('/api/create-ext-conference', {
-                method: 'POST',
-                body: submitData
-            });
-
-            const result = await response.json();
-
-
-            if (result?.ok) {
-                if (!(result?.warnings) || !result.warnings.length) {
-                    alert("👍 Success! The conference was created.");
-
-                } else {
-                    alert(`🤔 Better take a second look at things - the conference was created, but with result.warnings.length} warning message(s):\n\n- ` + result.warnings.join("\n- "));
-                    console.log(`The conference was created, but with ${result.warnings.length} warning message(s):`);
-                    result.warnings.forEach(warning => console.warn(`    - ${warning}`));
-                    console.log("Submitted conference data:", submitData);
-                }
-                initModal();
-
-            } else {
-                alertError(result.statusText, result.statusText, submitData);
-            }
-
-        } catch (e) {
-            alertError("See the console log for details.", e, submitData);
-        }
+        submitAndHandleModal(submitData);
     }
 
     let disabled = true;

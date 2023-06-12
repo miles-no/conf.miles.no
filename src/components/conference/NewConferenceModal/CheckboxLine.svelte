@@ -4,7 +4,7 @@
     import FormField from "@smui/form-field";
     import Checkbox from "@smui/checkbox";
     import {ConferenceCategory} from "../../../enums/conference-category.ts";
-    import {selectedCategoryTags} from "./newConferenceStores.js";
+    import {selectedCategoryTags} from "./newConferenceStores.ts";
 
     let categories = Object.keys(ConferenceCategory)
         .map(enumKey => ConferenceCategory[enumKey]);

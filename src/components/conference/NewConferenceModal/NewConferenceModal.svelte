@@ -3,7 +3,7 @@
     import { fade } from 'svelte/transition';
     import IconButton from "@smui/icon-button";
     import Form from "./Form.svelte";
-    import {displayNewConferenceModal, pending} from "./newConferenceStores.js";
+    import {displayNewConferenceModal, pending} from "./newConferenceStores.ts";
 
 
     function closeModal() {

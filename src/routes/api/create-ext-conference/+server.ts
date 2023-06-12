@@ -22,7 +22,7 @@ const verifyAndNormalizeConferenceData = (confData: ConferenceType) => {
         confData.url = 'https://' + confData.url;
     }
 
-    Conference.parse(confData);
+    Conference.safeParse(confData);
 
     // Normalize dates (without time-of-day for external conferences), simplifies is-new check
     // TODO: Verify it's actually unimportant according to figma sketches?
@@ -176,9 +176,9 @@ export const POST = (async ({ request }) => {
         warnings = warnings.filter( w => !!w);
 
 
+
     } catch (userError: any) {
         console.error(`POST /api/create-ext-conference: ${userError} (${typeof userError})`);
-        //console.error(`    ...from request: ${request}`);
         console.log("UserError.keys:", JSON.stringify(Object.keys((userError || {}).issues || {})));
 
         const errorMessage = (userError?.issues)
@@ -223,7 +223,7 @@ export const POST = (async ({ request }) => {
             success: false,
             ok: false,
             status: 500,
-            statusText: "Error when storing conference. See log for details.",
+            statusText: "Error when storing new conference. See server log for details.",
         });
     }
 
