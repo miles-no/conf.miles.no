@@ -198,7 +198,7 @@ export const POST = (async ({ request }) => {
     }
 
     try {
-        //createConference(newExternalConference);
+        createConference(newExternalConference);
 
         if (warnings && warnings.length) {
             console.warn(`POST /api/create-ext-conference completed with ${warnings.length} warning(s): '${warnings.join("', '")}'`);
