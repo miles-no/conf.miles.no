@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { IConference } from '../../../../model/conference';
+	import type { IEvent } from '../../../../model/event';
 	import Tag from '../../../tag/Tag.svelte';
 	import { Icon } from '@smui/button';
 	import { formatDate } from '../../../../utils/date-time-utils';
 
-	export let myNextEvent: IConference;
+	export let myNextEvent: IEvent;
 	export let handleModal: () => void;
 
 	$: startDate = formatDate(myNextEvent.startDate, {

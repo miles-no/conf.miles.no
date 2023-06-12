@@ -1,5 +1,5 @@
 import type { IAuthor } from './author';
-import type { IDescription } from './conference';
+import type { IDescription } from './event';
 
 export interface ISubmission {
 	slug: string;

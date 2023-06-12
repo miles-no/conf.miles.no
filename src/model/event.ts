@@ -3,7 +3,7 @@ import type { EventType } from '../enums/event';
 import type { StatusKeyType } from '../enums/status';
 import type { ISubmission } from './submission';
 
-export interface IConference {
+export interface IEvent {
 	_id: string;
 	_rev: string;
 	itinerary?: IItinerary[];       //
@@ -77,14 +77,14 @@ export interface IAsset {
 	_type: string;
 }
 
-interface IItinerary {
+export interface IItinerary {
 	_key: string;
-	events: IEvent[];
+	events: IItineraryEvent[];
 	itineraryDate: string;
 	_type: string;
 }
 
-interface IEvent {
+export interface IItineraryEvent {
 	startTime: string;
 	endTime?: string;
 	_key: string;

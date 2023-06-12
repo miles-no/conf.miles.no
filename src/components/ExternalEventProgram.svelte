@@ -1,17 +1,16 @@
-<script>
-	import { FileQuestion, ArrowLeft } from 'lucide-svelte';
+<script lang="ts">
+	import { ArrowLeft } from 'lucide-svelte';
 	import Performance from './Performance.svelte';
 	import { intlFormat } from 'date-fns';
-	import { fade, fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-	export let conference;
+	import type { IEvent } from '../model/event';
+	export let event: IEvent;
 	export let day;
 
-	console.log(day);
-
 	let performance_groups = [];
-	if (conference.performances) {
-		performance_groups = Object.values(conference.performances).reduce((pgs, e) => {
+	if (event.performances) {
+		performance_groups = Object.values(event.performances).reduce((pgs, e) => {
 			let timeStamp = new Date(e.dateAndTime);
 			let date = timeStamp.toDateString();
 			return {
@@ -26,7 +25,7 @@
 	$: times = performance_groups[day] || false;
 </script>
 
-{#if !conference.performances || !times}
+{#if !event.performances || !times}
 	<!-- <div class="d-flex flex-column mb-5">
 		<h1 class="mb-0">Her var det tomt, gitt.</h1>
 		<p class="mb-0">
@@ -68,7 +67,7 @@
 				<div class="row">
 					{#each performances as performance (performance.submission._id)}
 						<div class="col-sm-12 col-md-6 col-xl-4" style="padding: 0; maring: 0;">
-							<Performance {performance} {conference} />
+							<Performance {performance} event={event} />
 						</div>
 					{/each}
 				</div>

@@ -1,12 +1,12 @@
-<script>
-	import { format } from 'date-fns';
-	import Event from './Event.svelte';
+<script lang="ts">
+	import Happening from './Happening.svelte';
 	import { accordionStore } from '../stores/accordion_localstorage';
-	export let conference;
+	import type { IEvent } from '../model/event';
+	export let event: IEvent;
 	export let day;
 
-	$: itinerary = conference.itinerary
-		? conference.itinerary.find(
+	$: itinerary = event.itinerary
+		? event.itinerary.find(
 				(i) => new Date(i.itineraryDate).getDate() === new Date(day).getDate()
 		  )
 		: null;
@@ -15,30 +15,30 @@
 <span>
 	{#if itinerary}
 		<div class="accordion accordion-flush" id="eventAccordions">
-			{#each itinerary.events as event, index}
-				{@const is_open = Boolean($accordionStore?.['Accordion-' + event._key])}
+			{#each itinerary.events as happening, index}
+				{@const is_open = Boolean($accordionStore?.['Accordion-' + happening._key])}
 				<div>
 					<div class="accordion-item">
 						<div class="accordion-header" id="heading-{index}">
 							<button
 								class="accordion-button event-btn {is_open ? '' : 'collapsed'}"
-								class:accordion-hide={!event.containsPerformances && !event.info}
+								class:accordion-hide={!happening.containsPerformances && !happening.info}
 								type="button"
-								data-bs-toggle="collapse"
+							events-bs-toggle="collapse"
 								data-bs-target="#event-{index}"
 								aria-expanded={is_open ? 'true' : 'false'}
 								aria-controls="event-{index}"
-								on:click={() => accordionStore.flip('Accordion-' + event._key)}
+								on:click={() => accordionStore.flip('Accordion-' + happening._key)}
 							>
 								<div>
 									<div class="event-container">
 										<p class="event-times">
 											<span>
-												{`${event.startTime}${event.endTime ? ' - ' + event.endTime : ''}`}
+												{`${happening.startTime}${happening.endTime ? ' - ' + happening.endTime : ''}`}
 											</span>
 										</p>
 										<p class="event-description">
-											{event.description}
+											{happening.description}
 										</p>
 									</div>
 								</div>
@@ -46,14 +46,14 @@
 						</div>
 					</div>
 					<div>
-						{#if event.containsPerformances || event.info}
+						{#if happening.containsPerformances || happening.info}
 							<div
 								id="event-{index}"
 								class="accordion-collapse collapse {is_open ? 'show' : ''}"
 								aria-labelledby="heading-{index}"
 								data-bs-parent="eventAccordions"
 							>
-								<Event {day} {event} {conference} />
+								<Happening {day} {happening} {event} />
 							</div>
 						{/if}
 					</div>
@@ -64,7 +64,7 @@
 		<div class="d-flex flex-column mb-5">
 			<h1 class="mb-0">Her var det tomt, gitt.</h1>
 			<p class="mb-0">
-				Det er foreløpig ingen planlagte innslag fra Miles på {conference.title}.
+				Det er foreløpig ingen planlagte innslag fra Miles på {event.title}.
 			</p>
 		</div>
 	{/if}

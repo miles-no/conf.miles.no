@@ -3,15 +3,15 @@
 	import EventCard from './EventCard.svelte';
 	import type { LocationType } from '../enums/location';
 	import type { EventType } from '../enums/event';
-	import type { IConference } from '../model/conference';
+	import type { IEvent } from '../model/event';
 
-	export let conferences: IConference[] = [];
+	export let events: IEvent[] = [];
 
 	let selectedCity: LocationType | undefined = undefined;
 	let selectedEvent: EventType | undefined = undefined;
 
-	$: futureEvents = conferences.filter(
-		(conf: IConference) => Date.parse(conf.startDate) >= Date.now()
+	$: futureEvents = events.filter(
+		(conf) => Date.parse(conf.startDate) >= Date.now()
 	);
 	$: showedEvents = [...futureEvents];
 
@@ -19,7 +19,7 @@
 	// $: {
 	// 	if (selectedCity) {
 	// 		showedEvents = futureEvents
-	// 			.filter((conf: IConference) =>
+	// 			.filter((conf: IEvent) =>
 	// 				conf.location?.toLowerCase().includes(selectedCity!.toLowerCase())
 	// 			)
 	// 			.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
@@ -45,9 +45,9 @@
 	</div> -->
 	<div class="page-container-content">
 		<LayoutGrid>
-			{#each showedEvents as conference (conference.title)}
+			{#each showedEvents as event (event.title)}
 				<Cell>
-					<EventCard event={conference} />
+					<EventCard {event} />
 				</Cell>
 			{/each}
 		</LayoutGrid>

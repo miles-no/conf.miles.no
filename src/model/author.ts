@@ -1,4 +1,4 @@
-import type { IDescription, IImage } from './conference';
+import type { IDescription, IImage } from './event';
 
 export interface IAuthor {
 	bio: IDescription[];

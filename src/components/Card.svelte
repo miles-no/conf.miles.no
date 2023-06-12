@@ -1,10 +1,11 @@
-<script>
-	export let performance;
-	export let conference;
+<script lang="ts">
+	import type { IEvent, IPerformance } from '../model/event';
+	export let event: IEvent;
+	export let performance: IPerformance;
 </script>
 
 <div class="p-3">
-	<a href="{conference.slug}/agenda/{performance.submission.slug.current}">
+	<a href="{event.slug}/agenda/{performance.submission.slug}">
 		<div class="card milescard">
 			<div class="p-2">
 				<div class="datelocation">

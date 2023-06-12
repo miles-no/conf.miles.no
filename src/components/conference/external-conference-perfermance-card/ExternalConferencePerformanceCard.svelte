@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { IPerformance } from '../../../model/conference';
+	import type { IPerformance } from '../../../model/event';
 	import { Icon } from '@smui/button';
 	import { formatDate, type IFormatOptions } from '../../../utils/date-time-utils';
 	import Avatar from '../../avatar/Avatar.svelte';
