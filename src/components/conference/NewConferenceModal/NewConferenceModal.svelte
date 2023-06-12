@@ -1,12 +1,13 @@
 <script>
-    import {createEventDispatcher, onMount} from 'svelte';
+    import {onMount} from 'svelte';
     import { fade } from 'svelte/transition';
     import IconButton from "@smui/icon-button";
     import Form from "./Form.svelte";
-    const dispatch = createEventDispatcher();
+    import {displayNewConferenceModal, pending} from "./newConferenceStores.js";
 
-    function toggleModal() {
-        dispatch("toggleNewConferenceModal");
+
+    function closeModal() {
+        displayNewConferenceModal.set(false);
     }
 
     const formId = "newConferenceForm";
@@ -29,7 +30,6 @@
     let firstElement, lastElement;
 
     onMount(() => {
-
         firstElement = document.querySelector("#"+formId+" .labeled-field .textfield input");
         lastElement = document.getElementById(closeButtonId);
         createTabCycle(firstElement, lastElement);
@@ -50,8 +50,9 @@
         <Form formId={formId} />
 
         <IconButton
+                disabled={$pending}
                 id={closeButtonId}
-                on:click={toggleModal}
+                on:click={closeModal}
                 tabIndex="0"
                 class="modal-button material-icons"
         >

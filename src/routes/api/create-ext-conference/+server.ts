@@ -99,11 +99,11 @@ const verifyConferenceUrl = async (url: string) => {
         console.warn("    status:    ", await checkResult.status);
         console.warn("    statusText:", await checkResult.statusText);
         console.warn("    headers:   ", await checkResult.headers, "\n");
-        return `Failed when checking fetch from conference URL: ${url}`;
+        return `Couldn't reach the conference URL: ${url}`;
 
     } catch (e) {
         console.log(e);
-        return `Failed when checking fetch from conference URL: ${url}`;
+        return `Couldn't reach the conference URL: ${url}`;
     }
 }
 

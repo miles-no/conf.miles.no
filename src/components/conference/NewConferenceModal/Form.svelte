@@ -3,11 +3,12 @@
     import DatePickerLine from "./DatePickerLine.svelte";
     import ButtonFooterLine from "./ButtonFooterLine.svelte";
     import CheckboxLine from "./CheckboxLine.svelte";
+    import {pending} from "./newConferenceStores.js";
 
     export let formId;
 </script>
 
-<form id={formId}>
+<form id={formId} class:pending={$pending}>
     <NameAndUrlLine />
     <DatePickerLine />
     <CheckboxLine />
@@ -17,5 +18,10 @@
 <style>
     form {
         width: 100%;
+    }
+
+    .pending {
+        pointer-events: none;
+        opacity: 45%;
     }
 </style>

@@ -10,8 +10,9 @@
 	import type { IExternalConferencesPageLoadData } from './+page.server';
 	import { ConferenceCategory } from '../../enums/conference-category';
 	import type { ConferenceCategoryType } from '../../enums/conference-category';
+    import {displayNewConferenceModal} from "../../components/conference/NewConferenceModal/newConferenceStores";
 
-	export let data: IExternalConferencesPageLoadData;
+    export let data: IExternalConferencesPageLoadData;
 	export let externalConferences = data.externalConferences;
 	let user = data.user;
 
@@ -33,9 +34,8 @@
 		disabled: false
 	}));
 
-    let showModal = false
-    function toggleShowModal() {
-        showModal = !showModal;
+    function openModal() {
+        displayNewConferenceModal.set(true);
     }
 </script>
 
@@ -46,12 +46,12 @@
 </svelte:head>
 
 <div class="container">
-    {#if showModal}
-        <NewConferenceModal on:toggleNewConferenceModal={toggleShowModal} />
+    {#if $displayNewConferenceModal}
+        <NewConferenceModal/>
     {/if}
 	<div class="topRow">
 		<h1>Konferanser</h1>
-		<Button variant="raised" on:click={toggleShowModal}>
+		<Button variant="raised" on:click={openModal}>
 			<Label>Registrer ny</Label>
 		</Button>
 	</div>
