@@ -8,7 +8,7 @@
 	import { applyAction } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import { Status, type StatusKeyType } from '../../../../enums/status';
-	import { getContext } from 'svelte';
+    import {getContext, onMount} from 'svelte';
 	import type { IToastContextProps } from '../../../../components/toast/toast-context';
 	import { updateEmployeesStatus } from '../../../../utils/conference-utils';
 	import { urlFor } from '../../../../utils/sanityclient-utils';
@@ -18,6 +18,7 @@
 	import ExternalConferencePerformanceCard from '../../../../components/conference/external-conference-perfermance-card/ExternalConferencePerformanceCard.svelte';
 	import { formatDate, type IFormatOptions } from '../../../../utils/date-time-utils';
 	import PerformanceModal from '../../../../components/modal/performance-modal/PerformanceModal.svelte';
+    import type {ToastDataType} from "../../../../components/conference/NewConferenceModal/modalSubmitHandler";
 
 	interface IPerformanceMapByDate {
 		[key: string]: IPerformance[];
@@ -91,6 +92,30 @@
 			open = !open;
 		}
 	};
+
+
+    onMount( ()=> {
+        try {
+            if (typeof sessionStorage !== 'undefined') {
+                const sessionStorageKey = `new-conference-toast-` + conference.slug;
+                const toast: ToastDataType = JSON.parse(sessionStorage.getItem(sessionStorageKey));
+                if (toast && typeof toast === 'object') {
+                    const {type, title, description, duration} = toast;
+                    if (type) {
+                        toastContext.createToastBody(type, title, description);
+                    }
+                    if (duration) {
+                        toastContext.setDuration(duration);
+                    }
+                    toastContext.showToast();
+                }
+                sessionStorage.removeItem(sessionStorageKey);
+            }
+
+        } catch (e) {
+            console.warn(e);
+        }
+    });
 </script>
 
 <svelte:head>

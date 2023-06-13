@@ -1,11 +1,14 @@
 import {initModal, pending} from "./newConferenceStores.js";
 import type {IToastContextProps} from "../../toast/toast-context";
 
+import type {ToastType} from "svelte-toasts/types/common";
+import {makeid} from "../../../utils/conference-utils";
+
 
 const alertAndKeepModal = (message:string, error:string|Error, submitData:any, toastContext:IToastContextProps) => {
     toastContext.createToastBody(
         'error',
-        '❌ Something went wrong!',
+        'Something went wrong! ❌',
         message);
     console.log("Error when trying to create a new conference:");
     console.error(error);
@@ -14,6 +17,13 @@ const alertAndKeepModal = (message:string, error:string|Error, submitData:any, t
     toastContext.setDuration(-1);
     toastContext.showToast();
 }
+
+export type ToastDataType = {
+    type:ToastType,
+    title:string,
+    description:string,
+    duration?:number
+};
 
 export const submitAndHandleModal = async (submitData:BodyInit|null|undefined, toastContext:IToastContextProps) => {
     pending.set(true);
@@ -27,25 +37,35 @@ export const submitAndHandleModal = async (submitData:BodyInit|null|undefined, t
         const result = await response.json();
 
         if (result?.ok) {
+            const toast:ToastDataType = {
+                type:"success",
+                title:"",
+                description:""
+            };
+
             if (!(result?.warnings) || !result.warnings.length) {
-                toastContext.setDuration(5000);
-                toastContext.createToastBody('success', "✅ Success!", "The conference was created.");
+                toast.title="Success! ✅";
+                toast.description="The conference was created.";
 
             } else {
-                toastContext.createToastBody(
-                    'warning',
-                    '🤔 Created with warning(s)',
-                `The conference was created, but with ${result.warnings.length} warning message(s). Better take a second look at things:\n\n- ` + result.warnings.join("\n- "));
+                toast.duration = 10000 + 7000 * result.warnings.length;
+                toast.type='warning';
+                toast.title='Created with warning(s) 🤔';
+                toast.description=`The conference was created, but with ${result.warnings.length} warning message(s). Better take a second look at things:   '${result.warnings.join("',   '")}'`;
+
                 console.log(`The conference was created, but with ${result.warnings.length} warning message(s):`);
                 result.warnings.forEach( (warning:string) => console.warn(`    - ${warning}`));
                 console.log("Submitted conference data:", submitData);
-                toastContext.setDuration(-1);
             }
             initModal();
-            window.location.href = '/konferanser/ekstern/' + result.slug;
 
-            // TODO: Persist the toast WITH WARNINGS IF ANY across the navigation:
-            //toastContext.showToast();
+            // Store warning in sessionStorage for picking it back up after navigating to the created item:
+            if (typeof sessionStorage !== "undefined") {
+                const sessionStorageKey = `new-conference-toast-` + result.slug;
+                sessionStorage.setItem(sessionStorageKey, JSON.stringify(toast));
+            };
+
+            window.location.href = `/konferanser/ekstern/${result.slug}`;
 
         } else {
             alertAndKeepModal(result.statusText, result.statusText, submitData, toastContext);

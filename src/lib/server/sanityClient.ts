@@ -7,6 +7,7 @@ import type { ConferenceType } from '../types/conference';
 import { env as private_env } from '$env/dynamic/private';
 // @ts-ignore
 import { env as public_env } from '$env/dynamic/public';
+import {makeid} from "../../utils/conference-utils";
 
 const client: SanityClient = sanityClient({
 	projectId: public_env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
@@ -16,31 +17,16 @@ const client: SanityClient = sanityClient({
 	token: private_env.SANITY_TOKEN
 });
 
-function makeid(length: number): string {
-	let result = '';
-	const characters: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-	const charactersLength: number = characters.length;
-	let counter: number = 0;
-	while (counter < length) {
-		result += characters.charAt(Math.floor(Math.random() * charactersLength));
-		counter += 1;
-	}
-	return result;
-}
 
-// Gets a 5-character hash (range '10000' - 'zzzzz' is the base-36 of the numbers range 1679616 - 60466175)
-function get5charHash() {
-    return parseInt("" + (Math.floor(Math.random() * 58786559) + 1679616), 10).toString(36);
-}
 
 // If a slug already exists, recursively tries to add and increase an index.
-// To avoid excessive looping, after the 10 first attempts, tries random 6-character hashes instead of counting indices.
+// To avoid excessive looping, after the 10 first attempts, tries random 5-character hashes instead of counting indices.
 async function ensureUniqueSlug(slug: string, index: number = 1): Promise<string> {
     const suffix = (index < 2)
         ? ''
         : (index < 10)
             ? `-${index}`
-            : `-${get5charHash()}`
+            : `-${makeid(5)}`
     const attemptedSlug = slug + suffix;
 
     const existingSlugItems = await client.fetch(`*[slug == "${attemptedSlug}" || slug.current == "${attemptedSlug}"]`);
