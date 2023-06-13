@@ -75,6 +75,7 @@
 			gap: 1rem;
 			border-radius: 0.5rem;
 			padding: 1rem;
+			min-height: unset;
 
 			.information {
 				.title {
@@ -103,7 +104,7 @@
 	}
 
 	// Desktop
-	@media (min-width: 900px) {
+	@media (min-width: 960px) {
 		.your-next-event-container {
 			display: flex;
 			flex-direction: column;

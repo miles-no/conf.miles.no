@@ -64,6 +64,7 @@
 			gap: 0.5rem;
 			padding-left: 0;
 			margin-bottom: 0;
+			min-height: unset;
 
 			.title-container,
 			.date-content {
@@ -83,9 +84,9 @@
 		}
 	}
 
-	@media (min-width: 900px) {
+	@media (min-width: 960px) {
 		.upcoming-deadline-card-content {
-			min-height: 16rem;
+			min-height: 16rem !important;
 
 			.title-container,
 			.date-content {
