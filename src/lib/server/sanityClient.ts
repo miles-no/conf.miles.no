@@ -28,10 +28,35 @@ function makeid(length: number): string {
 	return result;
 }
 
-function generateSlug(string: string): string {
+// Gets a 5-character hash (range '10000' - 'zzzzz' is the base-36 of the numbers range 1679616 - 60466175)
+function get5charHash() {
+    return parseInt("" + (Math.floor(Math.random() * 58786559) + 1679616), 10).toString(36);
+}
+
+// If a slug already exists, recursively tries to add and increase an index.
+// To avoid excessive looping, after the 10 first attempts, tries random 6-character hashes instead of counting indices.
+async function ensureUniqueSlug(slug: string, index: number = 1): Promise<string> {
+    const suffix = (index < 2)
+        ? ''
+        : (index < 10)
+            ? `-${index}`
+            : `-${get5charHash()}`
+    const attemptedSlug = slug + suffix;
+
+    const existingSlugItems = await client.fetch(`*[slug == "${attemptedSlug}" || slug.current == "${attemptedSlug}"]`);
+
+    if (!existingSlugItems || !existingSlugItems.length) {
+        return attemptedSlug;
+    }
+    console.log("Dupe slugs:", JSON.stringify(existingSlugItems, null, 2));
+    return ensureUniqueSlug(slug, index + 1);
+};
+
+async function generateSlug(string: string): Promise<string> {
 	let slug: string = string.toLowerCase();
 	slug = slug.replace(' ', '-');
-	return slug;
+
+    return await ensureUniqueSlug(slug);
 }
 
 export async function createSubmission(submission: Submission, authors: Array<Author>) {
@@ -41,11 +66,11 @@ export async function createSubmission(submission: Submission, authors: Array<Au
 			_ref: a.id
 		};
 	});
-	submission.slug = generateSlug(submission.title);
+	submission.slug = await generateSlug(submission.title);
 	const submissionDoc = {
 		_type: 'submission',
 		title: submission.title,
-		slug: { _type: 'slug', current: generateSlug(submission.slug) },
+		slug: { _type: 'slug', current: await generateSlug(submission.slug) },
 		authors: authorReference,
 		submissionType: submission.submissionType,
 		description: [
@@ -73,7 +98,7 @@ export async function createSubmission(submission: Submission, authors: Array<Au
 }
 
 export async function createAuthor(author: Author) {
-	author.slug = generateSlug(author.name);
+	author.slug = await generateSlug(author.name);
 	const authorDoc = {
 		_type: 'author',
 		name: author.name,
@@ -119,7 +144,7 @@ export async function createAuthor(author: Author) {
 export async function createConference(conference: ConferenceType) {
     const conferenceDoc = {
         _type: 'externalConference',
-        slug: { _type: 'slug', current: conference.slug ?? generateSlug(conference.title) },
+        slug: { _type: 'slug', current: conference.slug ?? await generateSlug(conference.title) },
         title: conference.title,
         startDate: conference.startDate,
         endDate: conference.endDate,
