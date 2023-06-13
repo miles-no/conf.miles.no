@@ -46,45 +46,63 @@
 <style lang="scss">
 	@use '../../../../styles/mixin' as *;
 
+	.visuallyhidden {
+		@include visuallyhidden();
+	}
+
+	p {
+		margin: 0;
+	}
+
 	.upcoming-deadline-card-container {
 		padding: 0.4rem;
 		border-radius: 0.5rem;
 
-		.visuallyhidden {
-			@include visuallyhidden();
-		}
-
-		p {
-			margin: 0;
-		}
-
 		.upcoming-deadline-card-content {
 			display: grid;
+			list-style: none;
 			gap: 0.5rem;
-			min-height: 15rem;
 			padding-left: 0;
 			margin-bottom: 0;
+			min-height: unset;
+
+			.title-container,
+			.date-content {
+				padding: 0.5rem;
+				text-transform: capitalize;
+			}
+
+			.title-container {
+				border-radius: 0.5rem 0.5rem 0 0;
+			}
+
+			.date-container {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				border-radius: 0 0 0.5rem 0.5rem;
+			}
+		}
+	}
+
+	@media (min-width: 960px) {
+		.upcoming-deadline-card-content {
+			min-height: 16rem !important;
 
 			.title-container,
 			.date-content {
 				display: flex;
 				align-items: center;
 				padding: 1rem;
-				text-transform: capitalize;
 			}
 
 			.upcoming-deadline-card-row {
 				display: grid;
-				grid-template-columns: 1fr 0.4fr;
+				grid-template-columns: 1fr 0.6fr;
 				gap: 0.5rem;
 				border-radius: 0.5rem;
 
 				.upcoming-deadline-card-row-item {
 					border-radius: 0.5rem;
-				}
-
-				.date-container {
-					display: flex;
 				}
 			}
 		}
