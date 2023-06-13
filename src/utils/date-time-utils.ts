@@ -18,3 +18,9 @@ export interface IFormatOptions {
 
 export const formatDate = (date: string, formatOptions: IFormatOptions) =>
 	intlFormat(Date.parse(date), formatOptions, { locale: 'nb-NO' });
+
+// Timezone-safe YYYY-MM-DD
+export const formatDateYYYYMMDD = (date: Date) => {
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return date.toISOString().slice(0,10);
+};

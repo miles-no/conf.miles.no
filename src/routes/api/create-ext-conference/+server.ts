@@ -5,6 +5,7 @@ import type { ConferenceType} from "$lib/types/conference";
 
 import sanityClient from "@sanity/client";
 import {env} from "$env/dynamic/private";
+import {formatDateYYYYMMDD} from "../../../utils/date-time-utils";
 
 const client = sanityClient({
     projectId: env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
@@ -17,28 +18,19 @@ const client = sanityClient({
 const urlStartPattern = /^https?:\/\//;
 
 const verifyAndNormalizeConferenceData = (confData: ConferenceType) => {
-
     if (!urlStartPattern.test(confData.url)) {
         confData.url = 'https://' + confData.url;
     }
 
     Conference.safeParse(confData);
 
-    // Normalize dates (without time-of-day for external conferences), simplifies is-new check
-    // TODO: Verify it's actually unimportant according to figma sketches?
-    const startDate = new Date(new Date(confData.startDate).toDateString());
-    const endDate = new Date(new Date(confData.endDate).toDateString());
-    const now = new Date(new Date().toDateString());
-
-    if (startDate<now || endDate<now) {
+    const now = formatDateYYYYMMDD(new Date());
+    if (confData.startDate<now || confData.endDate<now) {
         throw Error("Start or end date can't be in the past");
     }
-    if (endDate < startDate) {
+    if (confData.endDate < confData.startDate) {
         throw Error("End date can't be before start date");
     }
-
-    confData.startDate = startDate.toString()
-    confData.endDate = endDate.toString()
 }
 
 const verifyConferenceIsNew = async (title: string, startDate: string) => {

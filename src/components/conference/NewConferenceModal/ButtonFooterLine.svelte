@@ -13,19 +13,24 @@
     import Spinner from "./Spinner.svelte";
     import {submitAndHandleModal} from "./modalSubmitHandler.ts";
     import {getContext} from "svelte";
+    import {formatDateYYYYMMDD} from "../../../utils/date-time-utils";
+
 
     const toastContext = getContext('toastContext');
 
+
+
+
     function submit() {
-        const submitData = JSON.stringify({
+        const submitData = {
             title: $name,
             url: $url,
-            startDate: $startDate,
-            endDate: $endDate,
+            startDate: formatDateYYYYMMDD($startDate),
+            endDate: formatDateYYYYMMDD($endDate),
             categoryTag: $selectedCategoryTags
-        });
+        };
 
-        submitAndHandleModal(submitData, toastContext);
+        submitAndHandleModal(JSON.stringify(submitData), toastContext);
     }
 
     let disabled = true;

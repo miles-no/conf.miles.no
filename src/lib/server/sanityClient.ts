@@ -118,7 +118,7 @@ export async function createAuthor(author: Author) {
 
 export async function createConference(conference: ConferenceType) {
     const conferenceDoc = {
-        _type: 'conference',
+        _type: 'externalConference',
         slug: { _type: 'slug', current: conference.slug ?? generateSlug(conference.title) },
         title: conference.title,
         startDate: conference.startDate,
