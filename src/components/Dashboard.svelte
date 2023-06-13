@@ -9,13 +9,20 @@
 	import TabBar from '@smui/tab-bar';
 	import Paper, { Content } from '@smui/paper';
 	import EventListContainer from './dashboard/container/event-list-container/EventListContainer.svelte';
+	import MyUpcomingEventsContainer from './dashboard/container/my-upcoming-events-container/MyUpcomingEventsContainer.svelte';
 
 	export let events: IEvent[];
 	export let user: User;
 
-	$: myNextEvent = events
-		.filter((c) => c.employees?.map((e) => e.email).includes(user.email))
-		.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))[0];
+	$: myUpcomingEvents = events
+		.filter(
+			(c) =>
+				c.employees?.map((e) => e.email).includes(user.email) &&
+				Date.parse(c.startDate) > Date.now()
+		)
+		.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
+
+	$: firstUpcomingEvent = myUpcomingEvents[0];
 
 	$: eventSortByDeadline = events
 		.filter((c) => c.deadline && Date.parse(c.deadline) > Date.now())
@@ -40,8 +47,8 @@
 	<div class="next-event-and-upcoming-deadline-container">
 		<div>
 			<h2>Ditt neste arrangement</h2>
-			{#if myNextEvent}
-				<NextEventCard {myNextEvent} handleModal={() => (open = !open)} />
+			{#if firstUpcomingEvent}
+				<NextEventCard myNextEvent={firstUpcomingEvent} handleModal={() => (open = !open)} />
 			{:else}
 				<p>Du har ingen påmeldte arrangement</p>
 			{/if}
@@ -64,21 +71,29 @@
 							<Label>{tab}</Label>
 						</Tab>
 					</TabBar>
-					{#if activeTab === 'Liste'}
-						<EventListContainer {events} />
-					{/if}
+					<div class="tab-content-container">
+						{#if activeTab === 'Liste'}
+							<EventListContainer {events} />
+						{/if}
+						{#if activeTab === 'Mine utvalgte'}
+							<div class="tab-content__my-upcoming-events-container">
+								<MyUpcomingEventsContainer {myUpcomingEvents} />
+							</div>
+						{/if}
+					</div>
 				</div>
 			</Content>
 		</Paper>
 
-		<Paper variant="outlined" class="my-chosen-container">
+		<Paper variant="outlined" class="dashboard-my-upcoming-events-container">
 			<Content>
-				<h2>Mine utvalgte</h2>
+				<h2>Mine arrangementer</h2>
+				<MyUpcomingEventsContainer {myUpcomingEvents} />
 			</Content>
 		</Paper>
 	</div>
-	{#if myNextEvent}
-		<ConferenceModal bind:open conference={myNextEvent} {user} />
+	{#if firstUpcomingEvent}
+		<ConferenceModal bind:open conference={firstUpcomingEvent} {user} />
 	{/if}
 </div>
 
@@ -106,12 +121,19 @@
 			justify-content: flex-end;
 		}
 
+		.tab-content-container {
+			padding-top: 1.5rem;
+		}
 		:global(.tab-container) {
 			padding: 1rem;
 		}
-
-		:global(.my-chosen-container) {
+		:global(.dashboard-my-upcoming-events-container) {
 			display: none;
+		}
+
+		:global(.tab-item) {
+			padding-left: 0.7rem;
+			padding-right: 0.7rem;
 		}
 	}
 
@@ -123,7 +145,7 @@
 				gap: 1rem;
 			}
 
-			:global(.my-chosen-container) {
+			:global(.dashboard-my-upcoming-events-container) {
 				display: none;
 			}
 
@@ -136,26 +158,25 @@
 	@media (min-width: 1280px) {
 		.main-content-container {
 			display: grid;
-			grid-template-columns: 1fr 0.3fr;
+			grid-template-columns: auto 0.3fr;
 			gap: 2rem;
 
-			.list-container {
-				li {
-					width: 22rem !important;
-				}
-			}
 			:global(.tab-container) {
-				height: 80rem;
-				overflow-y: scroll;
+				min-height: 80rem;
 			}
 
-			:global(.my-chosen-container) {
+			:global(.dashboard-my-upcoming-events-container) {
 				display: unset;
-				height: 80rem;
+				padding: 1rem;
+				min-height: 80rem;
 			}
 
 			:global(.tab-item:last-child) {
 				display: none !important;
+			}
+
+			.tab-content__my-upcoming-events-container {
+				display: none;
 			}
 		}
 	}

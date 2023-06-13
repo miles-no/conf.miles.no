@@ -3,7 +3,7 @@
 	import { formatDate } from '../../../../utils/date-time-utils';
 	import EventCard from '../../../EventCard.svelte';
 
-	export let events: IEvent[];
+	export let events: IEvent[] | undefined = undefined;
 
 	interface IEventMapByMonth {
 		[key: string]: IEvent[];
@@ -33,7 +33,9 @@
 
 <div class="event-list-container">
 	<h2 class="visuallyhidden">Alle arrangement</h2>
-	{#if allMonths.length > 0 && eventMapByMonth}
+	{#if !events}
+		<p>Ingen arrangement å vise</p>
+	{:else if allMonths.length > 0 && eventMapByMonth}
 		{#each allMonths as month}
 			<div>
 				<h3>{month}</h3>
@@ -86,15 +88,11 @@
 		}
 	}
 
-	@media (min-width: 970px) {
+	@media (min-width: 768px) {
 		.event-list-container {
 			.list-container {
-				display: flex;
-				flex-direction: row;
-				flex-wrap: wrap;
-				li {
-					width: 20rem;
-				}
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
 			}
 		}
 	}

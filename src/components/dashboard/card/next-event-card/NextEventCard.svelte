@@ -38,11 +38,13 @@
 				<p class="startdate" aria-hidden={true}>
 					{startDate}
 				</p>
-				<p class="visuallyhidden">{`Sted: ${myNextEvent.visibleTo}`}</p>
-				<p class="location" aria-hidden={true}>
-					<Icon class="material-icons">business</Icon>
-					{myNextEvent.visibleTo}
-				</p>
+				{#if myNextEvent.visibleTo}
+					<p class="visuallyhidden">{`Sted: ${myNextEvent.visibleTo}`}</p>
+					<p class="location" aria-hidden={true}>
+						<Icon class="material-icons">business</Icon>
+						{myNextEvent.visibleTo}
+					</p>
+				{/if}
 			</div>
 		</div>
 		<div class="status" aria-hidden={true}>
