@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { IExternalConference } from '../../../model/external-conference';
+	import type { IConference } from '../../../model/conference';
 	import Accordion, { Panel, Header, Content } from '@smui-extra/accordion';
 	import darkTheme from '../../../stores/theme-store';
 	import IconButton, { Icon } from '@smui/icon-button';
 
-	export let conference: IExternalConference;
+	export let conference: IConference;
 	export let email: string;
 
 	$: interestedList = conference.employees?.filter((person) => person.status === 'interested');

@@ -1,4 +1,4 @@
-import { fetchEventPerformance, fetchExternalConferencePerformance } from '$lib/sanityClient';
+import { fetchEventPerformance, fetchConferencePerformance } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth';
 import { redirect } from '@sveltejs/kit';
 
@@ -12,7 +12,7 @@ export async function load({ params, cookies }) {
 	let event = await fetchEventPerformance(arrangement, slug);
 
 	if (event === null) {
-		event = await fetchExternalConferencePerformance(arrangement, slug);
+		event = await fetchConferencePerformance(arrangement, slug);
 	}
 
 	const user = getUserFromCookie(cookies.get('session'));

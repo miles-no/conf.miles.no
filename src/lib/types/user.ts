@@ -1,12 +1,13 @@
 import { z } from 'zod';
 
 const user = z.object({
-    id: z.string(),
-    email: z.string().email(),
-    name: z.string(),
-    profileImage: z.string().url(),
-    office: z.string(),
-    cvid: z.string()
+    isAuthenticated: z.boolean(),
+    id: z.string().optional(),
+    email: z.string().email().optional(),
+    name: z.string().optional(),
+    profileImage: z.string().url().optional(),
+    office: z.string().optional(),
+    cvid: z.string().optional()
 });
 
 export type User = z.infer<typeof user>;

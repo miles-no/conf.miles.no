@@ -6,22 +6,22 @@
 	import Textfield from '@smui/textfield';
 	import Checkbox from '@smui/checkbox';
 	import FormField from '@smui/form-field';
-	import type { IExternalConferencesPageLoadData } from './+page.server';
+	import type { IConferencesPageLoadData } from './+page.server';
 	import { ConferenceCategory } from '../../enums/conference-category';
 	import type { ConferenceCategoryType } from '../../enums/conference-category';
 
-	export let data: IExternalConferencesPageLoadData;
-	export let externalConferences = data.externalConferences;
+	export let data: IConferencesPageLoadData;
+	export let conferences = data.conferences;
 	let user = data.user;
 
 	let selectedCategoryType: ConferenceCategoryType[] = [];
 	$: searchTerm = '';
 	$: filterByTags =
 		selectedCategoryType.length > 0
-			? externalConferences.filter((conf) =>
+			? conferences.filter((conf) =>
 					conf.categoryTag.some((tag) => selectedCategoryType.includes(tag))
 			  )
-			: externalConferences;
+			: conferences;
 
 	$: filteredConferences = filterByTags.filter((conf) =>
 		conf.title.toLowerCase().includes(searchTerm)

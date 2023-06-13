@@ -1,32 +1,32 @@
-import { fetchExternalConferences } from '$lib/sanityClient';
+import { fetchConferences } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth.js';
 import { error, redirect } from '@sveltejs/kit';
-import type { IExternalConference } from '../../model/external-conference';
+import type { IConference } from '../../model/conference';
 import type { User } from '$lib/types/user';
 import type { PageServerLoad } from './$types';
 
-export interface IExternalConferencesPageLoadData {
-	externalConferences: IExternalConference[];
+export interface IConferencesPageLoadData {
+	conferences: IConference[];
 	user: User;
 }
 
 export const prerender = false;
 
-export const load = (async ({ cookies }): Promise<IExternalConferencesPageLoadData> => {
+export const load = (async ({ cookies }): Promise<IConferencesPageLoadData> => {
 	const user = getUserFromCookie(cookies.get('session'));
 
 	if (!user.isAuthenticated) {
 		throw redirect(307, '/login');
 	}
 
-	const externalConferences = await fetchExternalConferences();
+	const conferences = await fetchConferences();
 
-	if (!externalConferences) {
+	if (!conferences) {
 		throw error(404, 'Side ikke funnet');
 	}
 
 	return {
-		user: user,
-		externalConferences: externalConferences.externalConferences
+		user,
+		conferences
 	};
 }) satisfies PageServerLoad;

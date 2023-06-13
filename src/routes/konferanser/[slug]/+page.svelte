@@ -1,29 +1,29 @@
 <script lang="ts">
-	import ConferenceInformation from '../../../../components/conferance/conference-information/ConferenceInformation.svelte';
-	import type { IExternalConferenceSlugPageLoadData } from './+page.server';
+	import ConferenceInformation from '../../../components/conferance/conference-information/ConferenceInformation.svelte';
+	import type { IConferenceSlugPageLoadData } from './+page.server';
 	import Paper, { Content } from '@smui/paper';
-	import ConferenceCategoryTag from '../../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
-	import ConferenceStatus from '../../../../components/conferance/conference-status/ConferenceStatus.svelte';
-	import ConferenceAttendance from '../../../../components/conferance/conference-attendance/ConferenceAttendance.svelte';
+	import ConferenceCategoryTag from '../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
+	import ConferenceStatus from '../../../components/conferance/conference-status/ConferenceStatus.svelte';
+	import ConferenceAttendance from '../../../components/conferance/conference-attendance/ConferenceAttendance.svelte';
 	import { applyAction } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { Status, type StatusKeyType } from '../../../../enums/status';
+	import { Status, type StatusKeyType } from '../../../enums/status';
 	import { getContext } from 'svelte';
-	import type { IToastContextProps } from '../../../../components/toast/toast-context';
-	import { updateEmployeesStatus } from '../../../../utils/conference-utils';
-	import { urlFor } from '../../../../utils/sanityclient-utils';
+	import type { IToastContextProps } from '../../../components/toast/toast-context';
+	import { updateEmployeesStatus } from '../../../utils/conference-utils';
+	import { urlFor } from '../../../utils/sanityclient-utils';
 	import { PortableText } from '@portabletext/svelte';
-	import NoImage from '../../../../components/no-image/NoImage.svelte';
-	import type { IPerformance } from '../../../../model/event';
-	import ExternalConferencePerformanceCard from '../../../../components/conferance/external-conference-perfermance-card/ExternalConferencePerformanceCard.svelte';
-	import { formatDate, type IFormatOptions } from '../../../../utils/date-time-utils';
-	import PerformanceModal from '../../../../components/modal/performance-modal/PerformanceModal.svelte';
+	import NoImage from '../../../components/no-image/NoImage.svelte';
+	import type { IPerformance } from '../../../model/event';
+	import ConferencePerformanceCard from '../../../components/conferance/conference-perfermance-card/ConferencePerformanceCard.svelte';
+	import { formatDate, type IFormatOptions } from '../../../utils/date-time-utils';
+	import PerformanceModal from '../../../components/modal/performance-modal/PerformanceModal.svelte';
 
 	interface IPerformanceMapByDate {
 		[key: string]: IPerformance[];
 	}
 
-	export let data: IExternalConferenceSlugPageLoadData;
+	export let data: IConferenceSlugPageLoadData;
 	$: conference = data.conference;
 	$: user = data.user;
 	$: selectedStatus = data?.myStatus;
@@ -57,7 +57,7 @@
 
 		if (newStatus && newStatus !== selectedStatus) {
 			disableStatus = true;
-			const response = await fetch('/api/external-conference', {
+			const response = await fetch('/api/conference', {
 				method: 'PUT',
 				body: JSON.stringify({
 					...conference,
@@ -146,7 +146,7 @@
 								<h3 class="date">{date}</h3>
 								<div class="miles-bidrag-content-per-day">
 									{#each performanceMapByDate[date] as performance}
-										<ExternalConferencePerformanceCard {performance} handleModal={onOpenModal} />
+										<ConferencePerformanceCard {performance} handleModal={onOpenModal} />
 									{/each}
 								</div>
 							{/each}
@@ -180,7 +180,7 @@
 </div>
 
 <style lang="scss">
-	@use '../../../../styles/mixin' as *;
+	@use '../../../styles/mixin' as *;
 
 	.visuallyhidden {
 		@include visuallyhidden();

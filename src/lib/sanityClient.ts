@@ -1,5 +1,8 @@
 import sanityClient from '@sanity/client';
 import { env } from '$env/dynamic/public';
+import type { IConference } from '../model/conference';
+import type { IEvent } from '../model/event';
+import type { User } from './types/user';
 
 export const client = sanityClient({
 	projectId: env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
@@ -7,7 +10,6 @@ export const client = sanityClient({
 	apiVersion: '2022-03-24',
 	useCdn: false
 });
-
 export async function fetchSiteSettings() {
 	const result = await client.fetch(
 		/* groq */
@@ -27,7 +29,7 @@ export async function fetchSiteSettings() {
 	};
 }
 
-export async function fetchEvents(user) {
+export async function fetchEvents(user: User): Promise<IEvent[]> {
 	let events = await client.fetch(/* groq */ `
         *[_type == "event"] | order(endDate desc) {
             ...,
@@ -37,14 +39,15 @@ export async function fetchEvents(user) {
     `);
 
 	if (!user.isAuthenticated) {
-		events = events.filter((c) => c.showExternally);
+		events = events.filter((e: IEvent) => e.showExternally);
 	}
 
 	return events;
 }
 
-export async function fetchExternalConferences() {
-	let externalConferences = await client.fetch(/* groq */ `
+// TODO: "externalConference" -> "conference"
+export async function fetchConferences(): Promise<IConference[]> {
+	return await client.fetch(/* groq */ `
         *[_type == "externalConference"] | order(startDate desc) {
             ...,
             "slug": slug.current,
@@ -62,13 +65,9 @@ export async function fetchExternalConferences() {
             }
         }
     `);
-
-	return {
-		externalConferences
-	};
 }
 
-export async function fetchEvent(slug) {
+export async function fetchEvent(slug: string): Promise<IEvent> {
 	return await client.fetch(
 		/* groq */ `
         *[
@@ -90,16 +89,16 @@ export async function fetchEvent(slug) {
 	);
 }
 
-export async function fetchEventPerformance(event, slug) {
+export async function fetchEventPerformance(eventSlug: string, performanceSlug: string) {
 	return await client.fetch(
 		/* groq */ `
             *[
         _type == "event" &&
-        slug.current == $event
+        slug.current == $eventSlug
         ][0] {
         ...,
         "slug": slug.current,
-        "performance": performances[submission->slug.current match $slug][0]{
+        "performance": performances[submission->slug.current match $performanceSlug][0]{
             dateAndTime,
             location,
             performanceUrls,
@@ -121,20 +120,21 @@ export async function fetchEventPerformance(event, slug) {
         }
         }
         `,
-		{ event, slug }
+		{ eventSlug, performanceSlug }
 	);
 }
 
-export async function fetchExternalConferencePerformance(konferanse, slug) {
-	const conference = await client.fetch(
+// TODO: "externalConference" -> "conference"
+export async function fetchConferencePerformance(conferenceSlug: string, performanceSlug: string) {
+	return await client.fetch(
 		/* groq */ `
             *[
         _type == "externalConference" &&
-        slug.current == $konferanse
+        slug.current == $conferenceSlug
         ][0] {
         ...,
         "slug": slug.current,
-        "performance": performances[submission->slug.current match $slug][0]{
+        "performance": performances[submission->slug.current match $performanceSlug][0]{
             dateAndTime,
             location,
             performanceUrls,
@@ -156,9 +156,6 @@ export async function fetchExternalConferencePerformance(konferanse, slug) {
         }
         }
         `,
-		{ konferanse, slug }
+		{ conferenceSlug, performanceSlug }
 	);
-	return {
-		conference: conference
-	};
 }

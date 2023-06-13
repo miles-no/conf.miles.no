@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Paper, { Content } from '@smui/paper';
 	import { Icon } from '@smui/button';
-	import type { IExternalConference } from '../../../model/external-conference';
+	import type { IConference } from '../../../model/conference';
 	import { formatEventDateRange } from '$lib';
 
-	export let conference: IExternalConference;
+	export let conference: IConference;
 
 	const date = formatEventDateRange(conference.startDate, conference.endDate);
 </script>

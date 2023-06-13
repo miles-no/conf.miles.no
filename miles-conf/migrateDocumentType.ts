@@ -23,8 +23,8 @@ const client: SanityClient = sanityClient({
 // You can choose to delete the old document after the duplication by inserting a 
 // delete operation into the mutations by referencing the document id
 
-const OLD_TYPE = 'conference';
-const NEW_TYPE = 'event';
+const OLD_TYPE = 'externalConference';
+const NEW_TYPE = 'conference';
 
 const fetchDocuments = () =>
 	client.fetch(
