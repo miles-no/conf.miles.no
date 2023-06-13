@@ -14,7 +14,7 @@
 	import { urlFor } from '../../../../utils/sanityclient-utils';
 	import { PortableText } from '@portabletext/svelte';
 	import NoImage from '../../../../components/no-image/NoImage.svelte';
-	import type { IPerformance } from '../../../../model/conference';
+	import type { IPerformance } from '../../../../model/event';
 	import ExternalConferencePerformanceCard from '../../../../components/conferance/external-conference-perfermance-card/ExternalConferencePerformanceCard.svelte';
 	import { formatDate, type IFormatOptions } from '../../../../utils/date-time-utils';
 	import PerformanceModal from '../../../../components/modal/performance-modal/PerformanceModal.svelte';

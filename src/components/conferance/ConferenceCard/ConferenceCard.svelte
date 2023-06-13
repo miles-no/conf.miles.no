@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { formatConferenceDateRange } from '$lib';
+	import { formatEventDateRange } from '$lib';
 	import Card, { Content, Media, MediaContent } from '@smui/card';
 	import ConferenceModal from '../conferenceModal/ConferenceModal.svelte';
 	import ConferenceCategoryTag from '../../tag/conference-category-tag/ConferenceCategoryTag.svelte';
@@ -10,7 +10,7 @@
 	export let conference: IExternalConference;
 	export let user: User;
 
-	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
+	const date = formatEventDateRange(conference.startDate, conference.endDate);
 
 	let open = false;
 </script>

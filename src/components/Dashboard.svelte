@@ -2,46 +2,44 @@
 	import Button, { Icon } from '@smui/button';
 	import { Label } from '@smui/tab';
 	import EventCard from './EventCard.svelte';
-	import type { IConference } from '../model/conference';
+	import type { IEvent } from '../model/event';
 	import NextEventCard from './dashboard/card/next-event-card/NextEventCard.svelte';
 	import type { User } from '$lib/types/user';
 	import ConferenceModal from './conferance/conferenceModal/ConferenceModal.svelte';
 	import UpcomingDeadlineCard from './dashboard/card/upcoming-deadline-card/UpcomingDeadlineCard.svelte';
 	import { formatDate } from '../utils/date-time-utils';
 
-	interface IConferenceMapByMonth {
-		[key: string]: IConference[];
+	interface IEventMapByMonth {
+		[key: string]: IEvent[];
 	}
 
-	export let conferences: IConference[];
+	export let events: IEvent[];
 	export let user: User;
 
-	$: myNextEvent = conferences
+	$: myNextEvent = events
 		.filter((c) => c.employees?.map((e) => e.email).includes(user.email))
 		.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))[0];
 
-	$: conferenceSortByDeadline = conferences
+	$: eventSortByDeadline = events
 		.filter((c) => c.deadline && Date.parse(c.deadline) > Date.now())
 		.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
 
 	$: upcomingDeadlines =
-		conferenceSortByDeadline.length <= 3
-			? conferenceSortByDeadline
-			: conferenceSortByDeadline.splice(0, 3);
+		eventSortByDeadline.length <= 3 ? eventSortByDeadline : eventSortByDeadline.splice(0, 3);
 
 	let open = false;
 
 	$: allMonths = Array.from(
 		new Set(
-			conferences
+			events
 				?.filter((c) => Date.parse(c.startDate) >= Date.now())
 				?.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))
 				.map((c) => formatDate(c.startDate, { month: 'long' }))
 		)
 	);
 
-	$: conferenceMapByMonth = allMonths?.reduce((previousValue, currentValue) => {
-		const filtered = conferences?.filter(
+	$: eventMapByMonth = allMonths?.reduce((previousValue, currentValue) => {
+		const filtered = events?.filter(
 			(c) => formatDate(c.startDate, { month: 'long' }) === currentValue
 		);
 		if (filtered !== undefined) {
@@ -50,7 +48,7 @@
 				[currentValue]: filtered
 			};
 		}
-	}, undefined as IConferenceMapByMonth | undefined);
+	}, undefined as IEventMapByMonth | undefined);
 </script>
 
 <div class="dashboard-container">
@@ -84,11 +82,11 @@
 	</div>
 	<div class="main-container">
 		<div class="main-content">
-			{#if allMonths.length > 0 && conferenceMapByMonth}
+			{#if allMonths.length > 0 && eventMapByMonth}
 				{#each allMonths as month}
 					<h3 class="month">{month}</h3>
 					<ul class="main-content-events-list-container">
-						{#each conferenceMapByMonth[month] as event}
+						{#each eventMapByMonth[month] as event}
 							<li>
 								<EventCard {event} />
 							</li>

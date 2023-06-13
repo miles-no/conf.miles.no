@@ -2,8 +2,8 @@
 	import BreadCrumb from '../../../components/BreadCrumb.svelte';
 	import { intlFormat } from 'date-fns';
 	import DaySelect from '../../../components/DaySelect.svelte';
-	import ExternalConferenceProgram from '../../../components/ExternalConferenceProgram.svelte';
-	import InternalConferenceProgram from '../../../components/InternalConferenceProgram.svelte';
+	import ExternalConferenceProgram from '../../../components/ExternalEventProgram.svelte';
+	import InternalConferenceProgram from '../../../components/InternalEventProgram.svelte';
 
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
@@ -11,28 +11,28 @@
 	import LayoutGrid, { Cell } from '@smui/layout-grid';
 	import InformationCard from '../../../components/InformationCard.svelte';
 	import PerformanceCard from '../../../components/PerformanceCard.svelte';
-	import { formatConferenceDateRange } from '$lib';
+	import { formatEventDateRange } from '$lib';
 	import { PortableText, toPlainText } from '@portabletext/svelte';
-	import type { IConference } from '../../../model/conference';
+	import type { IEvent } from '../../../model/event';
 	import { urlFor } from '../../../utils/sanityclient-utils';
 	import NoImage from '../../../components/no-image/NoImage.svelte';
 
 	export let data = {};
-	export let conference = data.conference as IConference;
+	export let event = data.event as IEvent;
 	export let pageUrl = data.url;
 
-	const date = formatConferenceDateRange(conference.startDate, conference.endDate);
+	const date = formatEventDateRange(event.startDate, event.endDate);
 
-	const deadline = conference.deadline
+	const deadline = event.deadline
 		? intlFormat(
-				Date.parse(conference.deadline),
+				Date.parse(event.deadline),
 				{ day: '2-digit', month: 'long', hour: '2-digit', minute: '2-digit' },
 				{ locale: 'nb-NO' }
 		  )
 		: '-';
 
-	const eventDays = conference.itinerary
-		? conference.itinerary
+	const eventDays = event.itinerary
+		? event.itinerary
 				.sort((a, b) => Date.parse(a.itineraryDate) - Date.parse(b.itineraryDate))
 				.map((i) => new Date(i.itineraryDate).toDateString())
 		: [];
@@ -49,59 +49,59 @@
 
 	const eventDetails = {
 		Dato: date,
-		Tidspunkt: conference.timeperiod,
-		Lokasjon: conference.location ? conference.location : '',
+		Tidspunkt: event.timeperiod,
+		Lokasjon: event.location ? event.location : '',
 		Påmeldingsfrist: deadline ? deadline : ''
 	};
 </script>
 
 <svelte:head>
-	<title>{conference.title} | Miles</title>
+	<title>{event.title} | Miles</title>
 	<meta
 		property="og:image"
-		content={conference.imageUrl ? urlFor(conference.imageUrl).size(1200, 630).url() : undefined}
+		content={event.imageUrl ? urlFor(event.imageUrl).size(1200, 630).url() : undefined}
 	/>
 	<meta property="og:image:width" content="1200" />
 	<meta property="og:image:height" content="630" />
 	<meta property="og:type" content="article" />
-	<meta property="og:title" content="{conference.title} | Miles" />
+	<meta property="og:title" content="{event.title} | Miles" />
 	<meta
 		property="og:description"
-		content={conference.description ? toPlainText(conference.description) : undefined}
+		content={event.description ? toPlainText(event.description) : undefined}
 	/>
 	<meta property="og:url" content={pageUrl} />
 	<meta property="fb:app_id" content="966242223397117" />
 	<meta property="twitter:card" content="summary_large_image" />
-	<meta property="twitter:title" content="{conference.title} | Miles" />
+	<meta property="twitter:title" content="{event.title} | Miles" />
 	<meta
 		property="twitter:description"
-		content={conference.description ? toPlainText(conference.description) : undefined}
+		content={event.description ? toPlainText(event.description) : undefined}
 	/>
 	<meta property="twitter:site" content="@miles_no" />
 	<meta
 		property="twitter:image"
-		content={conference.imageUrl ? urlFor(conference.imageUrl).size(1200, 630).url() : undefined}
+		content={event.imageUrl ? urlFor(event.imageUrl).size(1200, 630).url() : undefined}
 	/>
 </svelte:head>
 
 <div class="container">
-	<BreadCrumb {conference} />
+	<BreadCrumb {event} />
 
-	{#if conference.imageUrl}
+	{#if event.imageUrl}
 		<img
 			style="width: 100%; border-radius: 10px; max-height: 400px;"
 			alt=""
-			src={conference.imageUrl
-				? urlFor(conference.imageUrl).fit('clip').size(1600, 500).quality(100).url()
+			src={event.imageUrl
+				? urlFor(event.imageUrl).fit('clip').size(1600, 500).quality(100).url()
 				: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
 		/>
 	{:else}
 		<NoImage />
 	{/if}
-	<h1 class="title mdc-typography--headline4">{conference.title}</h1>
+	<h1 class="title mdc-typography--headline4">{event.title}</h1>
 	<div class="tabs-container">
 		<TabBar
-			tabs={conference.itinerary ? ['Informasjon', 'Program'] : ['Informasjon']}
+			tabs={event.itinerary ? ['Informasjon', 'Program'] : ['Informasjon']}
 			let:tab
 			bind:active={activeTab}
 			style="width:fit-content"
@@ -116,12 +116,12 @@
 	{#if activeTab === 'Informasjon'}
 		<LayoutGrid style="width:100%">
 			<Cell spanDevices={{ desktop: 7, tablet: 8, phone: 4 }}>
-				<PortableText value={conference.description} onMissingComponent={false} />
+				<PortableText value={event.description} onMissingComponent={false} />
 			</Cell>
 			<Cell spanDevices={{ desktop: 5, tablet: 8, phone: 4 }}
 				><div class="info-section">
 					<Button
-						href={conference.signupLink}
+						href={event.signupLink}
 						target="_blank"
 						touch
 						variant="raised"
@@ -133,15 +133,15 @@
 					<InformationCard information={eventDetails} />
 				</div></Cell
 			>
-			{#if conference.performances}
+			{#if event.performances}
 				<Cell span={12} style="margin-top:1rem;">
 					<div class="mdc-typography--headline6">FOREDRAGSHOLDERE:</div>
 
 					<div class="contributions-section">
 						<LayoutGrid style="padding-left:0px; padding-right:0px;">
-							{#each conference.performances as performance}
+							{#each event.performances as performance}
 								<Cell spanDevices={{ desktop: 6, tablet: 8, phone: 4 }}>
-									<PerformanceCard {performance} rootSlug={conference.slug} />
+									<PerformanceCard {performance} rootSlug={event.slug} />
 								</Cell>
 							{/each}
 						</LayoutGrid>
@@ -153,10 +153,10 @@
 	{:else}
 		<DaySelect options={dateOptions} bind:selected={selectedDay} />
 		<div class="pt-4">
-			{#if conference.internal}
-				<InternalConferenceProgram {conference} day={selectedDay} />
+			{#if event.internal}
+				<InternalConferenceProgram event={event} day={selectedDay} />
 			{:else}
-				<ExternalConferenceProgram {conference} day={selectedDay} />
+				<ExternalConferenceProgram event={event} day={selectedDay} />
 			{/if}
 		</div>
 	{/if}

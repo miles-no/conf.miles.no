@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { IConference } from '../../../../model/conference';
+	import type { IEvent } from '../../../../model/event';
 	import { formatDate } from '../../../../utils/date-time-utils';
 
-	export let upcomingDeadlines: IConference[];
+	export let upcomingDeadlines: IEvent[];
 </script>
 
 <div class="upcoming-deadline-card-container">

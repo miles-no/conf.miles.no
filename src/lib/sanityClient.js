@@ -8,7 +8,7 @@ export const client = sanityClient({
 	useCdn: false
 });
 
-export async function fetchSiteSettings(slug, konferanse) {
+export async function fetchSiteSettings() {
 	const result = await client.fetch(
 		/* groq */
 		`
@@ -18,8 +18,7 @@ export async function fetchSiteSettings(slug, konferanse) {
                 "siteLogo": siteLogo.asset->url
             }
             }
-        `,
-		{ slug, konferanse }
+        `
 	);
 
 	return {
@@ -28,9 +27,9 @@ export async function fetchSiteSettings(slug, konferanse) {
 	};
 }
 
-export async function fetchConferences(user) {
-	let conferences = await client.fetch(/* groq */ `
-        *[_type == "conference"] | order(endDate desc) {
+export async function fetchEvents(user) {
+	let events = await client.fetch(/* groq */ `
+        *[_type == "event"] | order(endDate desc) {
             ...,
             "slug": slug.current,
             "imageUrl": image.asset->url,
@@ -38,12 +37,10 @@ export async function fetchConferences(user) {
     `);
 
 	if (!user.isAuthenticated) {
-		conferences = conferences.filter((c) => c.showExternally);
+		events = events.filter((c) => c.showExternally);
 	}
 
-	return {
-		conferences
-	};
+	return events;
 }
 
 export async function fetchExternalConferences() {
@@ -71,11 +68,11 @@ export async function fetchExternalConferences() {
 	};
 }
 
-export async function fetchConference(slug) {
-	const conference = await client.fetch(
+export async function fetchEvent(slug) {
+	return await client.fetch(
 		/* groq */ `
         *[
-            _type == "conference" &&
+            _type == "event" &&
             slug.current == $slug
         ][0] {
             ...,
@@ -91,17 +88,14 @@ export async function fetchConference(slug) {
     `,
 		{ slug }
 	);
-	return {
-		conference: conference
-	};
 }
 
-export async function fetchConferencePerformance(konferanse, slug) {
-	const conference = await client.fetch(
+export async function fetchEventPerformance(event, slug) {
+	return await client.fetch(
 		/* groq */ `
             *[
-        _type == "conference" &&
-        slug.current == $konferanse
+        _type == "event" &&
+        slug.current == $event
         ][0] {
         ...,
         "slug": slug.current,
@@ -127,11 +121,8 @@ export async function fetchConferencePerformance(konferanse, slug) {
         }
         }
         `,
-		{ konferanse, slug }
+		{ event, slug }
 	);
-	return {
-		conference: conference
-	};
 }
 
 export async function fetchExternalConferencePerformance(konferanse, slug) {

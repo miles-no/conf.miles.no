@@ -1,5 +1,6 @@
-<script>
-	export let conference;
+<script lang="ts">
+	import type { IEvent } from '../model/event';
+	export let event: IEvent;
 	export let submission = false;
 </script>
 
@@ -7,20 +8,19 @@
 	<nav style="--bs-breadcrumb-divider: '@';" aria-label="breadcrumb">
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="/">Miles</a></li>
-			{#if conference}
+			{#if event}
 				<li
 					class="breadcrumb-item"
 					class:active={!submission}
 					aria-current={submission ? null : 'page'}
 				>
-					<a href={`/konferanser/${conference.slug}`}>{conference.title}</a>
+					<a href={`/arrangement/${event.slug}`}>{event.title}</a>
 				</li>
 			{/if}
 			{#if submission}
 				<li class="breadcrumb-item" aria-current="page" class:active={submission}>
-					<a href={`/konferanser/${conference.slug}/agenda/${submission.slug}`}
-						>{submission.title}</a
-					>
+					<a href={`/arrangement/${event.slug}/agenda/${submission.slug}`}
+						>{submission.title}</a>
 				</li>
 			{/if}
 		</ol>

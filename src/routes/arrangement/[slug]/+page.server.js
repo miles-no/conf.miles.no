@@ -1,4 +1,4 @@
-import { fetchConference } from '$lib/sanityClient';
+import { fetchEvent } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth';
 import { error, redirect } from '@sveltejs/kit';
 
@@ -8,19 +8,20 @@ export const ssr = true;
 export async function load({ params, cookies, url }) {
 	const { slug } = params;
 
-	const conference = await fetchConference(slug);
+	const event = await fetchEvent(slug);
 	const user = getUserFromCookie(cookies.get('session'));
-	if (!conference.conference) {
+	
+	if (event == null) {
 		throw error(404, 'Side ikke funnet');
 	}
 
-	if (!user.isAuthenticated && !conference.conference.showExternally) {
+	if (!user.isAuthenticated && !event.showExternally) {
 		throw redirect(307, '/');
 	}
 
 	return {
-		user: user,
-		conference: conference.conference,
+		user,
+		event,
 		url: url.href
 	};
 }

@@ -1,13 +1,13 @@
-<script>
+<script lang="ts">
 	import { CalendarClock, Clock, Megaphone, Zap, Wrench } from 'lucide-svelte';
 	import LayoutGrid, { Cell } from '@smui/layout-grid';
-
 	import { intlFormat, addMinutes } from 'date-fns';
+	import type { IEvent } from '../../../../../model/event';
 	import Author from '../../../../../components/Author.svelte';
 	import BreadCrumb from '../../../../../components/BreadCrumb.svelte';
 	import InfoPill from '../../../../../components/InfoPill.svelte';
-	export let data = {};
-	export let conference = data.conference;
+	export let data;
+	export let event: IEvent = data.event;
 	export let performance = data.performance;
 	export let submission = data.submission;
 
@@ -25,7 +25,7 @@
 </script>
 
 <div class="container-fluid">
-	<BreadCrumb {conference} {submission} />
+	<BreadCrumb {event} {submission} />
 	<div class="container-lg">
 		<LayoutGrid>
 			<Cell
