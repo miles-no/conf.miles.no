@@ -49,7 +49,7 @@
 	@use '../styles/colors' as *;
 
 	.layout-content-container {
-		padding: 0 1.5rem;
+		padding: 3rem 1rem;
 	}
 
 	.skip-to-main-content-link {
@@ -71,6 +71,12 @@
 		&:focus,
 		&:active {
 			transform: translateY(0%);
+		}
+	}
+
+	@media (min-width: 900px) {
+		.layout-content-container {
+			padding: 3rem 1.5rem;
 		}
 	}
 </style>
