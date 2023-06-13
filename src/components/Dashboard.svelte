@@ -1,18 +1,14 @@
 <script lang="ts">
 	import Button, { Icon } from '@smui/button';
-	import EventCard from './EventCard.svelte';
 	import type { IEvent } from '../model/event';
 	import NextEventCard from './dashboard/card/next-event-card/NextEventCard.svelte';
 	import type { User } from '$lib/types/user';
 	import ConferenceModal from './conferance/conferenceModal/ConferenceModal.svelte';
 	import UpcomingDeadlineCard from './dashboard/card/upcoming-deadline-card/UpcomingDeadlineCard.svelte';
-	import { formatDate } from '../utils/date-time-utils';
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
 	import Paper, { Content } from '@smui/paper';
-	interface IEventMapByMonth {
-		[key: string]: IEvent[];
-	}
+	import EventListContainer from './dashboard/container/event-list-container/EventListContainer.svelte';
 
 	export let events: IEvent[];
 	export let user: User;
@@ -29,27 +25,6 @@
 		eventSortByDeadline.length <= 3 ? eventSortByDeadline : eventSortByDeadline.splice(0, 3);
 
 	let open = false;
-
-	$: allMonths = Array.from(
-		new Set(
-			events
-				?.filter((c) => Date.parse(c.startDate) >= Date.now())
-				?.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))
-				.map((c) => formatDate(c.startDate, { month: 'long' }))
-		)
-	);
-
-	$: eventMapByMonth = allMonths?.reduce((previousValue, currentValue) => {
-		const filtered = events?.filter(
-			(c) => formatDate(c.startDate, { month: 'long' }) === currentValue
-		);
-		if (filtered !== undefined) {
-			return {
-				...previousValue,
-				[currentValue]: filtered
-			};
-		}
-	}, undefined as IEventMapByMonth | undefined);
 
 	let activeTab = 'Liste';
 </script>
@@ -90,23 +65,7 @@
 						</Tab>
 					</TabBar>
 					{#if activeTab === 'Liste'}
-						<div class="event-list-container">
-							<h2 class="visuallyhidden">Alle arrangement</h2>
-							{#if allMonths.length > 0 && eventMapByMonth}
-								{#each allMonths as month}
-									<div>
-										<h3>{month}</h3>
-										<ul class="list-container">
-											{#each eventMapByMonth[month] as event}
-												<li>
-													<EventCard {event} />
-												</li>
-											{/each}
-										</ul>
-									</div>
-								{/each}
-							{/if}
-						</div>
+						<EventListContainer {events} />
 					{/if}
 				</div>
 			</Content>
@@ -125,18 +84,12 @@
 
 <style lang="scss">
 	@use '../styles/mixin' as *;
-	@use '../styles/colors' as *;
 
 	h2 {
 		font-size: 1.25rem;
 		letter-spacing: 0.3px;
 		font-weight: 600;
 		text-transform: uppercase;
-	}
-
-	h3 {
-		font-size: 1.15rem;
-		letter-spacing: 0.16px;
 	}
 
 	.visuallyhidden {
@@ -151,24 +104,6 @@
 		.create-new-event-container {
 			display: flex;
 			justify-content: flex-end;
-		}
-
-		.event-list-container {
-			display: flex;
-			flex-direction: column;
-			gap: 1rem;
-			text-transform: capitalize;
-			ul {
-				list-style: none;
-				margin: 0;
-				padding: 0;
-			}
-
-			.list-container {
-				display: flex;
-				flex-direction: column;
-				gap: 1rem;
-			}
 		}
 
 		:global(.tab-container) {
@@ -188,20 +123,6 @@
 				gap: 1rem;
 			}
 
-			.tab-container-content {
-				.event-list-container {
-					padding: 1rem;
-					.list-container {
-						display: flex;
-						flex-direction: row;
-						flex-wrap: wrap;
-						li {
-							width: 22rem;
-						}
-					}
-				}
-			}
-
 			:global(.my-chosen-container) {
 				display: none;
 			}
@@ -218,6 +139,11 @@
 			grid-template-columns: 1fr 0.3fr;
 			gap: 2rem;
 
+			.list-container {
+				li {
+					width: 22rem !important;
+				}
+			}
 			:global(.tab-container) {
 				height: 80rem;
 				overflow-y: scroll;
