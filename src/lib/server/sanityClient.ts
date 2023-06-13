@@ -48,7 +48,7 @@ async function ensureUniqueSlug(slug: string, index: number = 1): Promise<string
     if (!existingSlugItems || !existingSlugItems.length) {
         return attemptedSlug;
     }
-    console.log("Dupe slugs:", JSON.stringify(existingSlugItems, null, 2));
+    console.log(`Preventing duplicate slugs: '${attemptedSlug}' already exists.`);
     return ensureUniqueSlug(slug, index + 1);
 };
 
@@ -141,10 +141,11 @@ export async function createAuthor(author: Author) {
 	return insertedAuthor;
 }
 
-export async function createConference(conference: ConferenceType) {
+export async function createConference(conference: ConferenceType, sanityConferenceType: string): Promise<string> {
+    const slugCurrent = conference.slug ?? await generateSlug(conference.title);
     const conferenceDoc = {
-        _type: 'externalConference',
-        slug: { _type: 'slug', current: conference.slug ?? await generateSlug(conference.title) },
+        _type: sanityConferenceType,
+        slug: { _type: 'slug', current: slugCurrent},
         title: conference.title,
         startDate: conference.startDate,
         endDate: conference.endDate,
@@ -154,7 +155,9 @@ export async function createConference(conference: ConferenceType) {
     };
 
     const insertedConference: SanityDocument<any> = await client.create(conferenceDoc);
-    console.log(insertedConference._id);
+    console.log("Created external conference:\n  _id:", insertedConference._id, "\n  title:"+insertedConference.title, "'\n  slug.current:", insertedConference.slug.current);
+    return insertedConference.slug.current
+
 
 	// client.assets
 	//     .upload('image', createReadStream(''), {

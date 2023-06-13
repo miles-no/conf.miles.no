@@ -41,8 +41,11 @@ export const submitAndHandleModal = async (submitData:BodyInit|null|undefined, t
                 console.log("Submitted conference data:", submitData);
                 toastContext.setDuration(-1);
             }
-            toastContext.showToast();
             initModal();
+            window.location.href = '/konferanser/ekstern/' + result.slug;
+
+            // TODO: Persist the toast WITH WARNINGS IF ANY across the navigation:
+            //toastContext.showToast();
 
         } else {
             alertAndKeepModal(result.statusText, result.statusText, submitData, toastContext);

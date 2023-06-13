@@ -15,7 +15,10 @@ const client = sanityClient({
     useCdn: false
 });
 
+const CONFERENCE_TYPE = 'externalConference';
+
 const urlStartPattern = /^https?:\/\//;
+
 
 const verifyAndNormalizeConferenceData = (confData: ConferenceType) => {
     if (!urlStartPattern.test(confData.url)) {
@@ -33,14 +36,15 @@ const verifyAndNormalizeConferenceData = (confData: ConferenceType) => {
     }
 }
 
+
 const verifyConferenceIsNew = async (title: string, startDate: string) => {
-    const duplicateResults = await client.fetch(`*[_type == "conference" && title == "${title}" && startDate == "${startDate}"]`);
+    const duplicateResults = await client.fetch(`*[_type == "${CONFERENCE_TYPE}" && title == "${title}" && startDate == "${startDate}"]`);
     if (duplicateResults && duplicateResults.length) {
         console.error("Duplicate title-and-startdate conferences:", JSON.stringify(duplicateResults));
         throw Error("Conference with this title and start date already exists.");
     }
 
-    const possibleDupeResults = await client.fetch(`*[_type == "conference" && title == "${title}"]`);
+    const possibleDupeResults = await client.fetch(`*[_type == "${CONFERENCE_TYPE}" && title == "${title}"]`);
     if (!possibleDupeResults || possibleDupeResults.length < 1) {
         return undefined;
     }
@@ -190,7 +194,7 @@ export const POST = (async ({ request }) => {
     }
 
     try {
-        createConference(newExternalConference);
+        const slug = await createConference(newExternalConference, CONFERENCE_TYPE);
 
         if (warnings && warnings.length) {
             console.warn(`POST /api/create-ext-conference completed with ${warnings.length} warning(s): '${warnings.join("', '")}'`);
@@ -198,6 +202,7 @@ export const POST = (async ({ request }) => {
                 success: true,
                 ok: true,
                 statusText: `Completed with ${warnings.length} warning(s)`,
+                slug,
                 warnings
             });
 
@@ -205,6 +210,7 @@ export const POST = (async ({ request }) => {
             return json({
                 success: true,
                 ok: true,
+                slug,
                 statusText: "OK"
             });
         }
