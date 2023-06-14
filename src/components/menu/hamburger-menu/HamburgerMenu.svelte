@@ -1,14 +1,15 @@
 <script lang="ts">
 	import IconButton from '@smui/icon-button';
+	import classNames from 'classnames';
 
 	export let isOpen: boolean;
 </script>
 
 <div class="hamburger-menu-container">
 	<IconButton
-		class={`material-icons hamburger-menu-container__icon-button ${
-			isOpen ? 'hamburger-menu-container__icon-button--active' : ''
-		}`}
+		class={classNames('material-icons hamburger-menu-container__icon-button', {
+			'hamburger-menu-container__icon-button--active': isOpen
+		})}
 		aria-label="Åpne meny"
 		on:click={() => (isOpen = !isOpen)}
 	>

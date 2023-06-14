@@ -5,13 +5,13 @@
 	import type { User } from '$lib/types/user';
 	import MenuItems from './menu/menu-items/MenuItems.svelte';
 	import HamburgerMenu from './menu/hamburger-menu/HamburgerMenu.svelte';
+	import classNames from 'classnames';
 
 	export let settings: ISiteSetting;
 	export let authInfo: User | undefined = undefined;
 	export let isDarkTheme: boolean | undefined = undefined;
 
-	$: isOpenMenu = false;
-	$: openMobileMenuClass = isOpenMenu ? 'mobile-menu-items--open' : 'mobile-menu-items--close';
+	let isOpenMenu = false;
 
 	let screenSize: number;
 </script>
@@ -34,7 +34,12 @@
 				{:else}
 					<div class="mobile-menu-container">
 						<HamburgerMenu bind:isOpen={isOpenMenu} />
-						<MenuItems className={`mobile-menu-items ${openMobileMenuClass}`} />
+						<MenuItems
+							className={classNames('mobile-menu-items', {
+								'mobile-menu-items--open': isOpenMenu,
+								'mobile-menu-items--close': !isOpenMenu
+							})}
+						/>
 					</div>
 				{/if}
 			{:else}

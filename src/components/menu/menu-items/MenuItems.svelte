@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import menuItems from '../../../constant/menu-items';
+	import classNames from 'classnames';
 
 	export let className: string | undefined = undefined;
 	$: currentRoute = $page.route.id;
 </script>
 
-<ul class={`menu-items-container ${className}`}>
+<ul class={classNames('menu-items-container', className)}>
 	{#each menuItems as navItem}
 		<li class={currentRoute === navItem.href ? 'menu-item--active' : ''}>
 			<a href={navItem.href}>{navItem.label}</a>
