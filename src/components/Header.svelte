@@ -1,136 +1,157 @@
 <script lang="ts">
 	import Button, { Label } from '@smui/button';
 	import IconButton from '@smui/icon-button';
-	export let settings = [];
-	export let authInfo = {};
+	import type { ISiteSetting } from '../model/site-setting';
+	import type { User } from '$lib/types/user';
+	import MenuItems from './menu/menu-items/MenuItems.svelte';
+	import HamburgerMenu from './menu/hamburger-menu/HamburgerMenu.svelte';
+	import classNames from 'classnames';
+
+	export let settings: ISiteSetting;
+	export let authInfo: User | undefined = undefined;
 	export let isDarkTheme: boolean | undefined = undefined;
+
+	let isOpenMenu = false;
+
+	let screenSize: number;
 </script>
 
+<svelte:window bind:innerWidth={screenSize} />
+
 <header class="header-container">
-	<div class="header-container-logo">
-		<a href="/">
-			<img class="miles-brand" src={settings.siteLogo} alt={settings.siteName} />
-		</a>
-	</div>
-	<div class="header-container-nav-theme">
-		<nav>
-			{#if authInfo.isAuthenticated}
-				<span class="name">Hei {authInfo.name}. </span>
-				<ul>
-					<li>
-						<a href="/konferanser">Konferanser</a>
-					</li>
-					<li>
-						<a href="/logout">Logg ut</a>
-					</li>
-				</ul>
+	<nav class="header-container__nav">
+		<div class="header-container__nav-logo">
+			<a href="/">
+				<img class="miles-brand" src={settings.siteLogo} alt="" />
+				<span class="visuallyhidden">Miles</span>
+			</a>
+		</div>
+		<div class="header-container__nav-content">
+			{#if authInfo && authInfo.isAuthenticated}
+				{#if screenSize >= 900}
+					<span class="name">Hei {authInfo.name}</span>
+					<MenuItems className="desktop-menu-items" />
+				{:else}
+					<div class="mobile-menu-container">
+						<HamburgerMenu bind:isOpen={isOpenMenu} />
+						<MenuItems
+							className={classNames('mobile-menu-items', {
+								'mobile-menu-items--open': isOpenMenu,
+								'mobile-menu-items--close': !isOpenMenu
+							})}
+						/>
+					</div>
+				{/if}
 			{:else}
 				<a class="login__link" href="/login">Login</a>
 			{/if}
-		</nav>
-		<Button class="header-container-nav-theme-btn" on:click={() => (isDarkTheme = !isDarkTheme)}>
-			<Label>{isDarkTheme ? 'Light mode' : 'Dark mode'}</Label>
-		</Button>
-		<IconButton
-			class="material-icons theme-icon-button"
-			aria-label={isDarkTheme ? 'Lys tema' : 'Mørk tema'}
-			on:click={() => (isDarkTheme = !isDarkTheme)}
-			>{isDarkTheme ? 'light_mode' : 'nightlight'}</IconButton
-		>
-	</div>
+
+			{#if screenSize >= 900}
+				<Button
+					class="header-container__nav-content-btn"
+					on:click={() => (isDarkTheme = !isDarkTheme)}
+				>
+					<Label>{isDarkTheme ? 'Light mode' : 'Dark mode'}</Label>
+				</Button>
+			{:else}
+				<IconButton
+					class="material-icons theme-icon-button"
+					aria-label={isDarkTheme ? 'Lys tema' : 'Mørk tema'}
+					on:click={() => (isDarkTheme = !isDarkTheme)}
+					>{isDarkTheme ? 'light_mode' : 'nightlight'}</IconButton
+				>
+			{/if}
+		</div>
+	</nav>
 </header>
 
 <style lang="scss">
+	@use '../styles/mixin' as *;
 	.header-container {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 1rem;
+		padding: 1rem 0;
 
-		.header-container-logo {
-			img {
-				width: 5rem;
-			}
+		.visuallyhidden {
+			@include visuallyhidden();
 		}
 
-		.header-container-nav-theme {
+		.header-container__nav {
 			display: flex;
-			gap: 0.5rem;
-			// align-items: end;
+			justify-content: space-between;
+			align-items: center;
 
-			.name {
-				display: none;
+			.header-container__nav-logo img {
+				width: 5rem;
 			}
 
-			nav {
+			.header-container__nav-content {
 				display: flex;
 				gap: 0.5rem;
 				align-items: center;
 			}
-
-			ul {
-				display: flex;
-				gap: 0.5rem;
-				list-style: none;
-				padding: 0;
-				margin: 0;
-			}
-
-			li,
 			.login__link {
 				padding-right: 0.5rem;
 				border-right: 1px solid lightgray;
 			}
 		}
 
-		:global(.header-container-nav-theme-btn) {
-			display: none;
-		}
-
 		:global(.theme-icon-button) {
 			display: flex;
 			width: 2rem;
 		}
+
+		// Mobile and desktop menu
+		:global(.desktop-menu-items) {
+			display: none;
+		}
+
+		:global(.mobile-menu-items) {
+			overflow: hidden;
+			display: flex;
+			z-index: 1000;
+			flex-direction: column;
+			position: absolute;
+			min-width: 12rem;
+			right: 4rem;
+			top: 4.5rem;
+			background-color: white;
+			border: 1px solid rgb(226, 232, 240);
+			border-radius: 10px;
+			box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+		}
+
+		:global(.mobile-menu-items li) {
+			border: 0;
+		}
+
+		:global(.mobile-menu-items.mobile-menu-items--open) {
+			padding: 1.25rem;
+			height: auto;
+		}
+
+		:global(.mobile-menu-items--close) {
+			height: 0;
+			border: 0;
+		}
 	}
 
 	@media (min-width: 900px) {
-		.header-container-logo img {
+		.header-container__nav-logo img {
 			width: 8rem !important;
 		}
 
 		.name {
-			display: unset !important;
 			padding-right: 0.5rem;
 			border-right: 1px solid lightgray;
 		}
 
-		:global(.header-container-nav-theme-btn) {
-			display: unset !important;
+		// Mobile and desktop menu
+		:global(.desktop-menu-items) {
+			display: flex !important;
 		}
 
-		:global(.theme-icon-button) {
+		:global(.mobile-menu-items) {
 			display: none !important;
+			margin-top: 0;
 		}
 	}
-
-	/* .header-container {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 1em;
-		height: 4em;
-	} */
-
-	/* .miles-brand {
-		max-height: 30px;
-	} */
-
-	/* .header-container-nav-theme {
-		display: flex;
-		align-items: center;
-	} */
-
-	/* * :global(.header-container-nav-theme-btn) {
-		text-transform: none;
-	} */
 </style>
