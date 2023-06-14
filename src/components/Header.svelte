@@ -44,7 +44,7 @@
 <style lang="scss">
 	@use '../styles/mixin' as *;
 	.header-container {
-		padding: 1rem 1.5rem;
+		padding: 1rem 0;
 
 		.visuallyhidden {
 			@include visuallyhidden();

@@ -34,23 +34,33 @@
 	{/if}
 </svelte:head>
 
-<Toast>
-	<a href="#main" class="skip-to-main-content-link">Hopp til hovedinnhold</a>
+<div class="layout-container">
+	<div class="layout-container__skip-to-main-link-container">
+		<a href="#main" class="layout-container__skip-to-main-link-container__link"
+			>Hopp til hovedinnhold</a
+		>
+	</div>
 	<Header {settings} {authInfo} bind:isDarkTheme />
-	<main class="layout-content-container" id="main">
-		<slot />
+	<main id="main">
+		<Toast>
+			<slot />
+		</Toast>
 	</main>
-</Toast>
+</div>
 
 <!-- <Footer /> -->
 <style lang="scss">
 	@use '../styles/colors' as *;
 
-	.layout-content-container {
+	.layout-container {
 		padding: 3rem 1rem;
 	}
 
-	.skip-to-main-content-link {
+	.layout-container__skip-to-main-link-container {
+		margin-top: -50px;
+	}
+
+	.layout-container__skip-to-main-link-container__link {
 		display: flex;
 		align-items: center;
 		padding: 1rem;
@@ -73,7 +83,7 @@
 	}
 
 	@media (min-width: 900px) {
-		.layout-content-container {
+		.layout-container {
 			padding: 3rem 1.5rem;
 		}
 	}
