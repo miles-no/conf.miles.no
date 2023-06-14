@@ -3,12 +3,20 @@
 	import IconButton from '@smui/icon-button';
 	import type { ISiteSetting } from '../model/site-setting';
 	import type { User } from '$lib/types/user';
-	import MenuItems from './menu-items/MenuItems.svelte';
+	import MenuItems from './menu/menu-items/MenuItems.svelte';
+	import HamburgerMenu from './menu/hamburger-menu/HamburgerMenu.svelte';
 
 	export let settings: ISiteSetting;
 	export let authInfo: User | undefined = undefined;
 	export let isDarkTheme: boolean | undefined = undefined;
+
+	$: isOpenMenu = false;
+	$: openMobileMenuClass = isOpenMenu ? 'mobile-menu-items--open' : 'mobile-menu-items--close';
+
+	let screenSize: number;
 </script>
+
+<svelte:window bind:innerWidth={screenSize} />
 
 <header class="header-container">
 	<nav class="header-container__nav">
@@ -20,23 +28,34 @@
 		</div>
 		<div class="header-container__nav-content">
 			{#if authInfo && authInfo.isAuthenticated}
-				<span class="name">Hei {authInfo.name}</span>
-				<MenuItems />
+				{#if screenSize >= 900}
+					<span class="name">Hei {authInfo.name}</span>
+					<MenuItems className="desktop-menu-items" />
+				{:else}
+					<div class="mobile-menu-container">
+						<HamburgerMenu bind:isOpen={isOpenMenu} />
+						<MenuItems className={`mobile-menu-items ${openMobileMenuClass}`} />
+					</div>
+				{/if}
 			{:else}
 				<a class="login__link" href="/login">Login</a>
 			{/if}
-			<Button
-				class="header-container__nav-content-btn"
-				on:click={() => (isDarkTheme = !isDarkTheme)}
-			>
-				<Label>{isDarkTheme ? 'Light mode' : 'Dark mode'}</Label>
-			</Button>
-			<IconButton
-				class="material-icons theme-icon-button"
-				aria-label={isDarkTheme ? 'Lys tema' : 'Mørk tema'}
-				on:click={() => (isDarkTheme = !isDarkTheme)}
-				>{isDarkTheme ? 'light_mode' : 'nightlight'}</IconButton
-			>
+
+			{#if screenSize >= 900}
+				<Button
+					class="header-container__nav-content-btn"
+					on:click={() => (isDarkTheme = !isDarkTheme)}
+				>
+					<Label>{isDarkTheme ? 'Light mode' : 'Dark mode'}</Label>
+				</Button>
+			{:else}
+				<IconButton
+					class="material-icons theme-icon-button"
+					aria-label={isDarkTheme ? 'Lys tema' : 'Mørk tema'}
+					on:click={() => (isDarkTheme = !isDarkTheme)}
+					>{isDarkTheme ? 'light_mode' : 'nightlight'}</IconButton
+				>
+			{/if}
 		</div>
 	</nav>
 </header>
@@ -58,9 +77,6 @@
 			.header-container__nav-logo img {
 				width: 5rem;
 			}
-			.name {
-				display: none;
-			}
 
 			.header-container__nav-content {
 				display: flex;
@@ -73,13 +89,43 @@
 			}
 		}
 
-		:global(.header-container__nav-content-btn) {
-			display: none;
-		}
-
 		:global(.theme-icon-button) {
 			display: flex;
 			width: 2rem;
+		}
+
+		// Mobile and desktop menu
+		:global(.desktop-menu-items) {
+			display: none;
+		}
+
+		:global(.mobile-menu-items) {
+			overflow: hidden;
+			display: flex;
+			z-index: 1000;
+			flex-direction: column;
+			position: absolute;
+			min-width: 12rem;
+			right: 4rem;
+			top: 4.5rem;
+			background-color: white;
+			border: 1px solid rgb(226, 232, 240);
+			border-radius: 10px;
+			box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+		}
+
+		:global(.mobile-menu-items li) {
+			border: 0;
+		}
+
+		:global(.mobile-menu-items.mobile-menu-items--open) {
+			padding: 1.25rem;
+			height: auto;
+		}
+
+		:global(.mobile-menu-items--close) {
+			height: 0;
+			border: 0;
 		}
 	}
 
@@ -89,17 +135,18 @@
 		}
 
 		.name {
-			display: unset !important;
 			padding-right: 0.5rem;
 			border-right: 1px solid lightgray;
 		}
 
-		:global(.header-container__nav-content-btn) {
-			display: unset !important;
+		// Mobile and desktop menu
+		:global(.desktop-menu-items) {
+			display: flex !important;
 		}
 
-		:global(.theme-icon-button) {
+		:global(.mobile-menu-items) {
 			display: none !important;
+			margin-top: 0;
 		}
 	}
 </style>
