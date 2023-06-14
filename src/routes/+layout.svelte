@@ -3,13 +3,11 @@
 	import Header from '../components/Header.svelte';
 	import Toast from '../components/toast/Toast.svelte';
 	import darkTheme from '../stores/theme-store';
+	import type { ILayoutPageLoadData } from './+layout.server';
 
-	export let data: any = {};
-	const settings = data.settings;
-	let authInfo = { isAuthenticated: false };
-	if (data.user) {
-		authInfo = data.user;
-	}
+	export let data: ILayoutPageLoadData;
+	$: settings = data.settings;
+	$: authInfo = data.user;
 
 	let isDarkTheme: boolean | undefined = undefined;
 
