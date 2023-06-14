@@ -3,6 +3,7 @@
 	import IconButton from '@smui/icon-button';
 	import type { ISiteSetting } from '../model/site-setting';
 	import type { User } from '$lib/types/user';
+	import MenuItems from './menu-items/MenuItems.svelte';
 
 	export let settings: ISiteSetting;
 	export let authInfo: User | undefined = undefined;
@@ -13,20 +14,14 @@
 	<nav class="header-container__nav">
 		<div class="header-container__nav-logo">
 			<a href="/">
-				<img class="miles-brand" src={settings.siteLogo} alt={settings.siteName} />
+				<img class="miles-brand" src={settings.siteLogo} alt="" />
+				<span class="visuallyhidden">Miles</span>
 			</a>
 		</div>
 		<div class="header-container__nav-content">
 			{#if authInfo && authInfo.isAuthenticated}
-				<span class="name">Hei {authInfo.name}.</span>
-				<ul>
-					<li>
-						<a href="/konferanser">Konferanser</a>
-					</li>
-					<li>
-						<a href="/logout">Logg ut</a>
-					</li>
-				</ul>
+				<span class="name">Hei {authInfo.name}</span>
+				<MenuItems />
 			{:else}
 				<a class="login__link" href="/login">Login</a>
 			{/if}
@@ -47,8 +42,13 @@
 </header>
 
 <style lang="scss">
+	@use '../styles/mixin' as *;
 	.header-container {
 		padding: 1rem;
+
+		.visuallyhidden {
+			@include visuallyhidden();
+		}
 
 		.header-container__nav {
 			display: flex;
@@ -67,16 +67,6 @@
 				gap: 0.5rem;
 				align-items: center;
 			}
-
-			ul {
-				display: flex;
-				gap: 0.5rem;
-				list-style: none;
-				padding: 0;
-				margin: 0;
-			}
-
-			li,
 			.login__link {
 				padding-right: 0.5rem;
 				border-right: 1px solid lightgray;
