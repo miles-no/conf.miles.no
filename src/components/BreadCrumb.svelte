@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { IEvent } from '../model/event';
+	import type { ISubmission } from '../model/submission';
 	export let event: IEvent;
-	export let submission = false;
+	export let submission: ISubmission | undefined = undefined;
 </script>
 
 <div class="breadcrumb-container">
@@ -19,8 +20,7 @@
 			{/if}
 			{#if submission}
 				<li class="breadcrumb-item" aria-current="page" class:active={submission}>
-					<a href={`/arrangement/${event.slug}/agenda/${submission.slug}`}
-						>{submission.title}</a>
+					<a href={`/arrangement/${event.slug}/agenda/${submission.slug}`}>{submission.title}</a>
 				</li>
 			{/if}
 		</ol>
