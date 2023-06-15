@@ -1,6 +1,6 @@
 <script lang="ts">
 	import AgendaLayout from '../../../../../components/agenda/AgendaLayout.svelte';
-	import type { IAgendaPageLoadData } from '../../../../konferanser/[slug]/agenda/[submissionSlug]/+page.server';
+	import type { IAgendaPageLoadData } from './+page.server';
 
 	export let data: IAgendaPageLoadData;
 </script>

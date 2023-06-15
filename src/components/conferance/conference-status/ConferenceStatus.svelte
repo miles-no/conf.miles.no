@@ -41,6 +41,8 @@
 
 <style lang="scss">
 	.container {
+		margin: 0;
+		padding: 0;
 		.loader-container {
 			display: flex;
 			align-items: center;
@@ -56,7 +58,6 @@
 			display: flex;
 			gap: 0.7rem;
 			font-weight: 600;
-			height: 4rem;
 			align-items: center;
 		}
 
@@ -64,7 +65,6 @@
 			width: 100%;
 			:global(.conference-status-select-container-select) {
 				border-radius: 5px;
-				width: 100%;
 
 				:global(.mdc-select__anchor) {
 					height: 2.5rem;

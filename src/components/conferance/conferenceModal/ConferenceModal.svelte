@@ -62,7 +62,7 @@
 	};
 
 	$: detailsPage = isExternalConference
-		? `/konferanser/ekstern/${conference.slug}`
+		? `/konferanser/${conference.slug}`
 		: `/arrangement/${conference.slug}`;
 </script>
 
@@ -113,8 +113,8 @@
 	.content {
 		display: flex;
 		flex-direction: column;
-		row-gap: 0.5rem;
-		padding: 2rem;
+		padding: 1.5rem;
+		gap: 1rem;
 	}
 	.compactInfo {
 		border-top: 1px solid grey;
@@ -136,12 +136,17 @@
 		gap: 0.5rem;
 		margin-top: 1rem;
 	}
+
 	.actionWrapper {
 		display: flex;
-		justify-content: space-between;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
 
-		a {
-			display: flex;
+	@media (min-width: 500px) {
+		.actionWrapper {
+			display: grid;
+			grid-template-columns: auto auto;
 			align-items: end;
 		}
 	}
