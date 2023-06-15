@@ -21,10 +21,15 @@
                 e.preventDefault();
             }});
         last.addEventListener('keydown', function(e){
-            if (e.key==='Tab') {
+            if (e.key==='Tab' && !e.shiftKey) {
                 first.focus();
                 e.preventDefault();
             }});
+    }
+    function closeOnEsc(event) {
+        if (event.key === 'Escape') {
+            closeModal();
+        }
     }
 
     let firstElement, lastElement;
@@ -43,6 +48,7 @@
         transition:fade={{duration:100}}
         role="dialog"
         aria-modal="true"
+        on:keydown={closeOnEsc}
 >
     <div class="modal-box">
         <h2>Registrer en ny konferanse</h2>

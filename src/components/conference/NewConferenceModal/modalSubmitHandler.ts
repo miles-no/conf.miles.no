@@ -2,13 +2,12 @@ import {initModal, pending} from "./newConferenceStores.js";
 import type {IToastContextProps} from "../../toast/toast-context";
 
 import type {ToastType} from "svelte-toasts/types/common";
-import {makeid} from "../../../utils/conference-utils";
 
 
 const alertAndKeepModal = (message:string, error:string|Error, submitData:any, toastContext:IToastContextProps) => {
     toastContext.createToastBody(
         'error',
-        'Something went wrong! ❌',
+        'Something went wrong',
         message);
     console.log("Error when trying to create a new conference:");
     console.error(error);
@@ -44,14 +43,14 @@ export const submitAndHandleModal = async (submitData:BodyInit|null|undefined, t
             };
 
             if (!(result?.warnings) || !result.warnings.length) {
-                toast.title="Success! ✅";
+                toast.title="Success";
                 toast.description="The conference was created.";
 
             } else {
                 toast.duration = 10000 + 7000 * result.warnings.length;
                 toast.type='warning';
-                toast.title='Created with warning(s) 🤔';
-                toast.description=`The conference was created, but with ${result.warnings.length} warning message(s). Better take a second look at things:   '${result.warnings.join("',   '")}'`;
+                toast.title='Created with warning(s)';
+                toast.description=`The conference was created, but with ${result.warnings.length} warning message(s):   '${result.warnings.join("',   '")}'`;
 
                 console.log(`The conference was created, but with ${result.warnings.length} warning message(s):`);
                 result.warnings.forEach( (warning:string) => console.warn(`    - ${warning}`));

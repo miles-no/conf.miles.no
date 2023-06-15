@@ -14,6 +14,12 @@
         displayedPlaceholder = !(value.trim()) ? placeholder : undefined;
     }
 
+    function preventEnter(event) {
+        if (event.key==='Enter') {
+            event.preventDefault();
+        }
+    }
+
     onMount(handlePlaceholder);
 </script>
 
@@ -24,6 +30,7 @@
             label={displayedPlaceholder}
             on:focus={hidePlaceholder}
             on:blur={handlePlaceholder}
+            on:keydown={preventEnter}
             class="textfield"
     />
 </LabeledField>

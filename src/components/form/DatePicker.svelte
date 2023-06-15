@@ -4,12 +4,15 @@
     import LabeledField from "./LabeledField.svelte";
     import {Icon} from "@smui/common";
     import { createEventDispatcher } from 'svelte';
+    import {makeid} from "../../utils/conference-utils.ts";
 
 
     export let date = null, format="dd.MM yyyy";
     export let width, label, required, earliest, latest, intervalWarning=false;
 
-    let valid;
+    let valid, inputField, visible;
+
+    const id = `datepicker-${label}-${makeid(3)}`;
 
     const dispatch = createEventDispatcher();
 
@@ -18,18 +21,36 @@
         months: ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember']
     };
 
+    onMount( ()=> {
+        inputField = document.querySelector(`#${id} input[type=text]`)
+    });
+
     afterUpdate( () => {
         dispatch("refreshDate");
     });
+
+    const doSelect = (event) => {
+        if (event.key === "Enter") {
+            const willHide = (document.activeElement !== inputField);
+            inputField.focus();
+            if (willHide) {
+                visible=false;
+            }
+            event.preventDefault();
+        }
+    }
 </script>
 
 <LabeledField label={label} required width={width}>
     <div
+            id={id}
             class="datepicker-root"
             class:warning={intervalWarning}
             class:valid={!intervalWarning && valid && date}
+            on:keydown={doSelect}
     >
         <DateInput
+                bind:visible={visible}
                 bind:value={date}
                 bind:valid={valid}
                 min={earliest}

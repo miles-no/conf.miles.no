@@ -17,8 +17,7 @@
         stroke-dasharray: 187;
         stroke-dashoffset: 0;
         transform-origin: center;
-        /*stroke-dashoffset: 47;*/
-        animation: dash 1.4s ease-in-out infinite; /*, colors 748 /*$duration*4 ease-in-out; /* infinite;*/
+        animation: dash 1.4s ease-in-out infinite;
     }
 
     @keyframes dash {
@@ -27,7 +26,7 @@
             transform:rotate(0deg);
         }
         50% {
-            stroke-dashoffset: 47; /*offset/4;*/
+            stroke-dashoffset: 47;
             transform:rotate(135deg);
         }
         100% {
