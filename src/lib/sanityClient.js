@@ -99,7 +99,7 @@ export async function fetchEventPerformance(event, slug) {
         ][0] {
         ...,
         "slug": slug.current,
-        "performance": performances[submission->slug.current match $slug][0]{
+        "performances": performances[submission->slug.current match $slug][]{
             dateAndTime,
             location,
             performanceUrls,
@@ -126,7 +126,7 @@ export async function fetchEventPerformance(event, slug) {
 }
 
 export async function fetchExternalConferencePerformance(konferanse, slug) {
-	const conference = await client.fetch(
+	return await client.fetch(
 		/* groq */ `
             *[
         _type == "externalConference" &&
@@ -158,7 +158,4 @@ export async function fetchExternalConferencePerformance(konferanse, slug) {
         `,
 		{ konferanse, slug }
 	);
-	return {
-		conference: conference
-	};
 }

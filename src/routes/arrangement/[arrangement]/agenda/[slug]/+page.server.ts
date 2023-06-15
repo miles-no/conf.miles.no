@@ -1,17 +1,13 @@
-import { fetchExternalConferencePerformance, fetchExternalConferences } from '$lib/sanityClient';
-import { getUserFromCookie } from '$lib/server/auth.js';
+import { fetchEventPerformance } from '$lib/sanityClient';
+import { getUserFromCookie } from '$lib/server/auth';
 import { error, redirect } from '@sveltejs/kit';
+import type { IEvent } from '../../../../../model/event';
 import type { PageServerLoad } from './$types';
-import type { IEvent, IPerformance } from '../../../../../model/event';
-import type { ISubmission } from '../../../../../model/submission';
-
-export interface IAgendaPageLoadData {
-	event: IEvent;
-	performance: IPerformance;
-	submission: ISubmission;
-}
+import type { IAgendaPageLoadData } from '../../../../konferanser/[slug]/agenda/[submissionSlug]/+page.server';
 
 export const prerender = false;
+export const ssr = false;
+export const csr = true;
 
 export const load = (async ({ params, cookies }): Promise<IAgendaPageLoadData> => {
 	const user = getUserFromCookie(cookies.get('session'));
@@ -20,12 +16,9 @@ export const load = (async ({ params, cookies }): Promise<IAgendaPageLoadData> =
 		throw redirect(307, '/login');
 	}
 
-	const { slug: conferenceSlug, submissionSlug } = params;
+	const { arrangement, slug } = params;
 
-	let event = (await fetchExternalConferencePerformance(
-		conferenceSlug,
-		submissionSlug
-	)) as unknown as IEvent;
+	let event = (await fetchEventPerformance(arrangement, slug)) as unknown as IEvent;
 
 	if (!event) {
 		throw error(404, 'Side ikke funnet');

@@ -1,10 +1,8 @@
 <script lang="ts">
-	import type { IEvent } from '../../../../../model/event';
 	import AgendaLayout from '../../../../../components/agenda/AgendaLayout.svelte';
-	export let data;
-	export let event: IEvent = data.event;
-	export let performance = data.performance;
-	export let submission = data.submission;
+	import type { IAgendaPageLoadData } from '../../../../konferanser/[slug]/agenda/[submissionSlug]/+page.server';
+
+	export let data: IAgendaPageLoadData;
 </script>
 
-<AgendaLayout {event} {performance} {submission} />
+<AgendaLayout event={data.event} performance={data.performance} submission={data.submission} />
