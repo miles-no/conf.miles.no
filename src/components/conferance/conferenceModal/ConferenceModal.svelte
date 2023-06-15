@@ -62,7 +62,7 @@
 	};
 
 	$: detailsPage = isExternalConference
-		? `/konferanser/ekstern/${conference.slug}`
+		? `/konferanser/${conference.slug}`
 		: `/arrangement/${conference.slug}`;
 </script>
 

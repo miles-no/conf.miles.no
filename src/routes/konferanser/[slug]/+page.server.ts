@@ -2,9 +2,9 @@ import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { fetchExternalConferences } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth';
-import type { IExternalConference } from '../../../../model/external-conference';
-import type { StatusKeyType } from '../../../../enums/status';
 import type { User } from '$lib/types/user';
+import type { IExternalConference } from '../../../model/external-conference';
+import type { StatusKeyType } from '../../../enums/status';
 
 export interface IExternalConferenceSlugPageLoadData {
 	conference: IExternalConference;
