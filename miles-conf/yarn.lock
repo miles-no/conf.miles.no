@@ -1858,10 +1858,10 @@
     "@sanity/client" "^3.3.3"
     "@types/react" "^17.0.42"
 
-"@sanity/ui@^0.37.21":
-  version "0.37.21"
-  resolved "https://registry.npmjs.org/@sanity/ui/-/ui-0.37.21.tgz"
-  integrity sha512-OVnAZnOqBn7FpoOQVChTISedpQvwTlU+fEDG9c49rob1DaAxkSNnsT2IM6OG6nV0an1Z6izDFC47VcrC+twFnw==
+"@sanity/ui@^0.37.21", "@sanity/ui@^0.37.22":
+  version "0.37.22"
+  resolved "https://registry.npmjs.org/@sanity/ui/-/ui-0.37.22.tgz"
+  integrity sha512-NoPfK92aXGW0miFpwYjN7ksZqO1HcXEvamPLzWWkmGjvEARr9B3Im+ooAKBkDuC9Bmufs4Jy++d5ITbPqDupJA==
   dependencies:
     "@juggle/resize-observer" "^3.3.1"
     "@popperjs/core" "^2.11.5"
@@ -1911,18 +1911,18 @@
     date-fns "^2.16.1"
     lodash "^4.17.15"
 
-"@sanity/vision@^2.33.0":
-  version "2.33.0"
-  resolved "https://registry.npmjs.org/@sanity/vision/-/vision-2.33.0.tgz"
-  integrity sha512-gWtKv+o3SCcWx4oxlvQ5ZpQFJ5jAnYDgWVwlCMFTGg3yj315m57Os+FS9RfWRHWABeXue4/u/q+QJeZ26gETPg==
+"@sanity/vision@2.36.1":
+  version "2.36.1"
+  resolved "https://registry.npmjs.org/@sanity/vision/-/vision-2.36.1.tgz"
+  integrity sha512-6bzvVTPcYzBfBC0iQiiM06kbIz3YzdTZ4N//zpAjChT0pj48jdVKTOo2OcExAkcDgnB4eKC/rY2F63cD+dn9PQ==
   dependencies:
     "@juggle/resize-observer" "^3.3.1"
     "@sanity/icons" "^1.3.4"
-    "@sanity/ui" "^0.37.21"
+    "@sanity/ui" "^0.37.22"
     classnames "^2.2.5"
     codemirror "^5.47.0"
     is-hotkey "^0.1.6"
-    json5 "^1.0.1"
+    json5 "^2.2.3"
     lodash "^4.17.15"
     query-string "^4.3.2"
     react-codemirror2 "^6.0.0"
@@ -6344,6 +6344,11 @@ json5@^2.2.1:
   version "2.2.1"
   resolved "https://registry.npmjs.org/json5/-/json5-2.2.1.tgz"
   integrity sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==
+
+json5@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz"
+  integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
 
 jsonfile@^4.0.0:
   version "4.0.0"

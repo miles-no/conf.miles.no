@@ -7,7 +7,7 @@
 	import Author from '../Author.svelte';
 	import type { ISubmission } from '../../model/submission';
 	import type { IEvent, IPerformance } from '../../model/event';
-	import { Submission, type SubmissionType } from '../../enums/submission-type';
+	import { Submission } from '../../enums/submission-type';
 
 	export let submission: ISubmission;
 	export let event: IEvent;

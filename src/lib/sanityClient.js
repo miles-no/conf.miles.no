@@ -134,7 +134,7 @@ export async function fetchExternalConferencePerformance(konferanse, slug) {
         ][0] {
         ...,
         "slug": slug.current,
-        "performance": performances[submission->slug.current match $slug][0]{
+        "performances": performances[submission->slug.current match $slug][]{
             dateAndTime,
             location,
             performanceUrls,
