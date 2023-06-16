@@ -5,7 +5,10 @@
     import {Icon} from "@smui/common";
     import { createEventDispatcher } from 'svelte';
     import {makeid} from "../../utils/conference-utils.ts";
+    import darkTheme from "../../stores/theme-store";
+    /*
 
+    */
 
     export let date = null, format="dd.MM yyyy";
     export let width, label, required, earliest, latest, intervalWarning=false;
@@ -48,6 +51,7 @@
             class:warning={intervalWarning}
             class:valid={!intervalWarning && valid && date}
             on:keydown={doSelect}
+            style={$darkTheme ? '/* TODO: Should be theme variables: */ --date-picker-background: #212121;--date-picker-foreground: #fff;' : '' }
     >
         <DateInput
                 bind:visible={visible}

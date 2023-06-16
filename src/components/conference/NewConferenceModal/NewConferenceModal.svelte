@@ -4,7 +4,7 @@
     import IconButton from "@smui/icon-button";
     import Form from "./Form.svelte";
     import {displayNewConferenceModal, pending} from "./newConferenceStores.ts";
-
+    import darkTheme from "../../../stores/theme-store";
 
     function closeModal() {
         displayNewConferenceModal.set(false);
@@ -42,9 +42,9 @@
     })
 </script>
 
-
 <div
         class="modal"
+        class:dark-mode={$darkTheme}
         transition:fade={{duration:100}}
         role="dialog"
         aria-modal="true"
@@ -71,12 +71,17 @@
 
 
 <style>
+  /* FIXME: :global = bad, and not really using themes/variables. */
+
     .modal {
         display: flex;
         flex-flow: row nowrap;
         justify-content: center;
         align-items: center;
-        background-color: rgba(0,0,0,.5);
+        background-color: rgba(0,0,0,.5); /* TODO: Should be theme variable */
+    }
+    .dark-mode.modal {
+        background-color: rgba(255,255,255,.5); /* TODO: Should be theme variable */
     }
     .modal-box {
         display: flex;
@@ -89,20 +94,24 @@
         width: 100vw;
         max-width: 616px;
 
-        background: #FFFFFF;
         border-radius: 7px;
         position: relative;
+
+        /* TODO: Should be theme variables: */
+        background: #fff;
+        color: #000;
     }
-    /* FIXME: Global = bad, but how to do this better? */
+
+  .dark-mode .modal-box {
+        /* TODO: Should be theme variables: */
+        background: #212121;
+        color: #fff;
+    }
+
     .modal-box :global(.modal-button.material-icons) {
         position: absolute;
         top: 27px;
         right: 18px;
-        /*background-color: transparent;
-        border: none;
-        display: flex;
-        padding: 4px;
-        border-radius: 21px;*/
     }
 
     .modal-box h2 {
