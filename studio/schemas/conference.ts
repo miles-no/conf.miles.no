@@ -1,18 +1,22 @@
+import { CalendarIcon } from '@sanity/icons';
+import { Rule } from 'sanity';
+
 export default {
-	name: 'event',
+	name: 'conference',
 	type: 'document',
-	title: 'Events',
+	title: 'Conferences',
+	icon: CalendarIcon,
 	fieldsets: [
 		{ name: 'signUp', title: 'Signup' },
 		{
 			name: 'internal',
-			title: 'Internal Event',
-			hidden: ({ parent }) => !parent?.internal
+			title: 'Internal Conference',
+			hidden: ({ parent }: { parent: { internal: boolean } }) => !parent?.internal
 		},
 		{
 			name: 'external',
-			title: 'External Event',
-			hidden: ({ parent }) => parent?.internal
+			title: 'External Conference',
+			hidden: ({ parent }: { parent: { internal: boolean } }) => parent?.internal
 		}
 	],
 	fields: [
@@ -20,13 +24,13 @@ export default {
 			name: 'title',
 			type: 'string',
 			title: 'Title',
-			validation: (Rule) => Rule.required()
+			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			name: 'description',
 			type: 'portableText',
 			title: 'Description',
-			validation: (Rule) => Rule.required()
+			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			title: 'Slug',
@@ -35,13 +39,13 @@ export default {
 			options: {
 				source: 'title'
 			},
-			validation: (Rule) => Rule.required()
+			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			title: 'Start date',
 			name: 'startDate',
 			type: 'date',
-			validation: (Rule) => Rule.required()
+			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			title: 'Timeperiod',
@@ -53,7 +57,7 @@ export default {
 			title: 'End date',
 			name: 'endDate',
 			type: 'date',
-			validation: (Rule) => Rule.required().min(Rule.valueOfField('startDate'))
+			validation: (Rule: Rule) => Rule.required().min(Rule.valueOfField('startDate'))
 		},
 		{ name: 'location', title: 'Location', type: 'string' },
 		{
@@ -81,7 +85,7 @@ export default {
 			type: 'array',
 			of: [{ type: 'string' }],
 			description:
-				'Internal Event will only be vissble to selected offices or all offices if non is selected'
+				'Internal conference will only be vissble to selected offices or all offices if non is selected'
 		},
 		{
 			title: 'Show externally',
@@ -100,10 +104,7 @@ export default {
 				{
 					name: 'alt',
 					type: 'string',
-					title: 'Alternative text',
-					options: {
-						isHighlighted: true
-					}
+					title: 'Alternative text'
 				}
 			]
 		},
@@ -136,7 +137,7 @@ export default {
 					{ title: 'SMiles', value: 'SMiles' }
 				]
 			},
-			validation: (Rule) => Rule.required(),
+			validation: (Rule: Rule) => Rule.required(),
 			description: 'Event type'
 		},
 		{
@@ -152,7 +153,7 @@ export default {
 							name: 'email',
 							title: 'Email',
 							type: 'string',
-							validation: (Rule) => Rule.required().email(),
+							validation: (Rule: Rule) => Rule.required().email(),
 							unique: true
 						},
 						{
@@ -166,7 +167,7 @@ export default {
 									{ title: 'Not Going', value: 'notGoing' }
 								]
 							},
-							validation: (Rule) => Rule.required()
+							validation: (Rule: Rule) => Rule.required()
 						}
 					]
 				}
@@ -186,7 +187,7 @@ export default {
 					{ title: 'Admin', value: 'Admin' }
 				]
 			},
-			description: 'For who is the Event relevant?'
+			description: 'For who is the conference relevant?'
 		}
 	]
 };

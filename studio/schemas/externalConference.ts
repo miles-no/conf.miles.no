@@ -1,18 +1,22 @@
+import { CalendarIcon } from '@sanity/icons';
+import { Rule } from 'sanity';
+
 export default {
 	name: 'externalConference',
 	type: 'document',
 	title: 'External Conferences',
+	icon: CalendarIcon,
 	fieldsets: [
 		{ name: 'signUp', title: 'Signup' },
 		{
 			name: 'internal',
 			title: 'Internal Conference',
-			hidden: ({ parent }) => !parent?.internal
+			hidden: ({ parent }: { parent: { internal: boolean } }) => !parent?.internal
 		},
 		{
 			name: 'external',
 			title: 'External Conference',
-			hidden: ({ parent }) => parent?.internal
+			hidden: ({ parent }: { parent: { internal: boolean } }) => parent?.internal
 		}
 	],
 	fields: [
@@ -20,13 +24,13 @@ export default {
 			name: 'title',
 			type: 'string',
 			title: 'Title',
-			validation: (Rule) => Rule.required()
+			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			name: 'description',
 			type: 'portableText',
 			title: 'Description',
-			validation: (Rule) => Rule.required()
+			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			title: 'Slug',
@@ -35,13 +39,13 @@ export default {
 			options: {
 				source: 'title'
 			},
-			validation: (Rule) => Rule.required()
+			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			title: 'Start date',
 			name: 'startDate',
 			type: 'date',
-			validation: (Rule) => Rule.required()
+			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			title: 'Timeperiod',
@@ -53,7 +57,7 @@ export default {
 			title: 'End date',
 			name: 'endDate',
 			type: 'date',
-			validation: (Rule) => Rule.required().min(Rule.valueOfField('startDate'))
+			validation: (Rule: Rule) => Rule.required().min(Rule.valueOfField('startDate'))
 		},
 		{ name: 'location', title: 'Location', type: 'string' },
 		{
@@ -103,13 +107,10 @@ export default {
 				{
 					name: 'alt',
 					type: 'string',
-					title: 'Alternative text',
-					options: {
-						isHighlighted: true
-					}
+					title: 'Alternative text'
 				}
 			],
-			validation: (Rule) => Rule.required()
+			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			title: 'Homepage',
@@ -129,7 +130,7 @@ export default {
 							name: 'email',
 							title: 'Email',
 							type: 'string',
-							validation: (Rule) => Rule.required().email(),
+							validation: (Rule: Rule) => Rule.required().email(),
 							unique: true
 						},
 						{
@@ -143,7 +144,7 @@ export default {
 									{ title: 'Not Going', value: 'notGoing' }
 								]
 							},
-							validation: (Rule) => Rule.required()
+							validation: (Rule: Rule) => Rule.required()
 						}
 					]
 				}

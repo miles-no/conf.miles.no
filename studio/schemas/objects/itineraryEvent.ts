@@ -1,4 +1,6 @@
-export const isValidTime = (time) => /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(time);
+import { Rule } from 'sanity';
+
+export const isValidTime = (time: string) => /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/.test(time);
 
 export default {
 	name: 'itineraryEvent',
@@ -26,8 +28,8 @@ export default {
 			type: 'string',
 			fieldset: 'times',
 			description: 'e.g 10:00',
-			validation: (Rule) =>
-				Rule.custom((time) => {
+			validation: (Rule: Rule) =>
+				Rule.custom((time: string) => {
 					return isValidTime(time) ? true : 'The field must be in HH:MM format.';
 				})
 		},
@@ -37,8 +39,8 @@ export default {
 			type: 'string',
 			fieldset: 'times',
 			description: 'e.g 11:00. Optional',
-			validation: (Rule) =>
-				Rule.custom((time) => {
+			validation: (Rule: Rule) =>
+				Rule.custom((time: string) => {
 					if (!time) {
 						return true;
 					}
