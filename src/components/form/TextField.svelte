@@ -3,15 +3,19 @@
     import LabeledField from "./LabeledField.svelte";
     import {onMount} from "svelte";
 
-    export let label, width, placeholder, value='', required;
+    export let label, width, placeholder, value='', required=false;
 
-    let displayedPlaceholder = placeholder;
+    let hidePlaceholderClass = undefined;
 
     function hidePlaceholder() {
-        displayedPlaceholder = undefined;
+        hidePlaceholderClass = 'hide-placeholder';
     }
     function handlePlaceholder() {
-        displayedPlaceholder = !(value.trim()) ? placeholder : undefined;
+        if (!(value.trim())) {
+            hidePlaceholderClass = undefined;
+        } else {
+            hidePlaceholder();
+        }
     }
 
     function preventEnter(event) {
@@ -23,14 +27,21 @@
     onMount(handlePlaceholder);
 </script>
 
-<LabeledField label={label} required width={width}>
+<LabeledField addClass={hidePlaceholderClass} label={label} {required} width={width}>
     <Textfield
             variant="outlined"
             bind:value
-            label={displayedPlaceholder}
+            label={placeholder}
             on:focus={hidePlaceholder}
             on:blur={handlePlaceholder}
             on:keydown={preventEnter}
             class="textfield"
     />
 </LabeledField>
+
+<style>
+    :global(.hide-placeholder .mdc-notched-outline__notch)  {
+        width: 0 !important;
+        padding-right: 0;
+    }
+</style>

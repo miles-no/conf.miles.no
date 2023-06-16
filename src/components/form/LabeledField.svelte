@@ -1,8 +1,8 @@
 <script>
-    export let width, label, required=false;
+    export let width, label, addClass, required=false;
 </script>
 
-<div class="labeled-field" style:width={width}>
+<div class={'labeled-field' + (addClass ? ` ${addClass}` : '')} style:width={width}>
     {#if label}
         <label class="textfield-label" class:required>
             {label}
