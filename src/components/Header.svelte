@@ -6,6 +6,7 @@
 	import MenuItems from './menu/menu-items/MenuItems.svelte';
 	import HamburgerMenu from './menu/hamburger-menu/HamburgerMenu.svelte';
 	import classNames from 'classnames';
+	import { navigating } from '$app/stores';
 
 	export let settings: ISiteSetting;
 	export let authInfo: User | undefined = undefined;
@@ -14,6 +15,10 @@
 	let isOpenMenu = false;
 
 	let screenSize: number;
+
+	$: if ($navigating && isOpenMenu) {
+		isOpenMenu = false;
+	}
 </script>
 
 <svelte:window bind:innerWidth={screenSize} />
@@ -105,22 +110,22 @@
 		}
 
 		:global(.mobile-menu-items) {
-			overflow: hidden;
 			display: flex;
-			z-index: 1000;
 			flex-direction: column;
+			overflow: hidden;
+			z-index: 1000;
 			position: absolute;
 			min-width: 12rem;
 			right: 4rem;
 			top: 4.5rem;
-			background-color: white;
 			border: 1px solid rgb(226, 232, 240);
 			border-radius: 10px;
-			box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+			box-shadow: rgba(217, 227, 237, 0.2) 0px 8px 24px;
 		}
 
 		:global(.mobile-menu-items li) {
 			border: 0;
+			height: 1.7rem;
 		}
 
 		:global(.mobile-menu-items.mobile-menu-items--open) {
