@@ -19,6 +19,7 @@
     const toastContext = getContext('toastContext');
 
 
+    import darkTheme from "../../../stores/theme-store";
 
 
     function submit() {
@@ -41,7 +42,7 @@
 
 
 
-<div class="footer-buttons">
+<div class="footer-buttons" class:dark-mode={$darkTheme}>
     <JustifiedRow>
         <Button color="secondary"
                 on:click={() => alert("Implement me!")}
@@ -74,6 +75,21 @@
         padding: 0 16px;
         cursor: pointer;
         position: relative;
+    }
+    .dark-mode.footer-buttons :global(button) {
+        background: #212121;
+        color: #fff;
+        border-color: #fff;
+    }
+    .dark-mode.footer-buttons :global(button) {
+        background: #212121;
+        color: #fff;
+        border-color: #fff;
+    }
+    .dark-mode.footer-buttons :global(button:focus),
+    .dark-mode.footer-buttons :global(button:active),
+    .dark-mode.footer-buttons :global(button:hover) {
+        background: #555;
     }
 
     @media (max-width: 480px) {

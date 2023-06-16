@@ -102,7 +102,7 @@
         color: #000;
     }
 
-  .dark-mode .modal-box {
+    .dark-mode .modal-box {
         /* TODO: Should be theme variables: */
         background: #212121;
         color: #fff;
@@ -122,9 +122,18 @@
         line-height: 29px;
     }
 
+    .modal-box :global(.mdc-icon-button:hover .mdc-icon-button__ripple::before),
     .modal-box :global(.mdc-icon-button:active .mdc-icon-button__ripple::before),
     .modal-box :global(.mdc-icon-button:focus .mdc-icon-button__ripple::before) {
+        /* TODO: Should be theme variable: */
         background-color: black;
-        opacity: 0.07;
+        opacity: 0.1;
     }
+  .dark-mode .modal-box :global(.mdc-icon-button:hover .mdc-icon-button__ripple::before),
+  .dark-mode .modal-box :global(.mdc-icon-button:active .mdc-icon-button__ripple::before),
+  .dark-mode .modal-box :global(.mdc-icon-button:focus .mdc-icon-button__ripple::before) {
+      /* TODO: Should be theme variable: */
+      background-color: white;
+    }
+
 </style>

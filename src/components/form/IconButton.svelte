@@ -1,7 +1,7 @@
 <script>
     import {Icon} from "@smui/common";
 
-    export let icon, onClick;
+    export let onClick;
 </script>
 
 <button class="icon-btn" on:click={onClick}>
