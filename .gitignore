@@ -5,8 +5,5 @@ yarn-error.log
 /__sapper__/
 .svelte-kit
 build/
-/miles-conf/node_modules/
 .env
-/miles-conf/dist/
-.env
-miles-conf/node_modules/
+.sanity/
