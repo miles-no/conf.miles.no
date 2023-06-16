@@ -1,24 +1,24 @@
 <script lang="ts">
-	import ConferenceInformation from '../../../../components/conference/conference-information/ConferenceInformation.svelte';
+	import ConferenceInformation from '../../../components/conference/conference-information/ConferenceInformation.svelte';
 	import type { IExternalConferenceSlugPageLoadData } from './+page.server';
 	import Paper, { Content } from '@smui/paper';
-	import ConferenceCategoryTag from '../../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
-	import ConferenceStatus from '../../../../components/conference/conference-status/ConferenceStatus.svelte';
-	import ConferenceAttendance from '../../../../components/conference/conference-attendance/ConferenceAttendance.svelte';
+	import ConferenceStatus from '../../../components/conference/conference-status/ConferenceStatus.svelte';
+	import ConferenceAttendance from '../../../components/conference/conference-attendance/ConferenceAttendance.svelte';
 	import { applyAction } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { Status, type StatusKeyType } from '../../../../enums/status';
-    import {getContext, onMount} from 'svelte';
-	import type { IToastContextProps } from '../../../../components/toast/toast-context';
-	import { updateEmployeesStatus } from '../../../../utils/conference-utils';
-	import { urlFor } from '../../../../utils/sanityclient-utils';
+	import { Status, type StatusKeyType } from '../../../enums/status';
+	import { onMount, getContext } from 'svelte';
+	import type { IToastContextProps } from '../../../components/toast/toast-context';
+	import { urlFor } from '../../../utils/sanityclient-utils';
 	import { PortableText } from '@portabletext/svelte';
-	import NoImage from '../../../../components/no-image/NoImage.svelte';
-	import type { IPerformance } from '../../../../model/event';
-	import ExternalConferencePerformanceCard from '../../../../components/conference/external-conference-perfermance-card/ExternalConferencePerformanceCard.svelte';
-	import { formatDate, type IFormatOptions } from '../../../../utils/date-time-utils';
-	import PerformanceModal from '../../../../components/modal/performance-modal/PerformanceModal.svelte';
-    import type {ToastDataType} from "../../../../components/conference/NewConferenceModal/modalSubmitHandler";
+	import NoImage from '../../../components/no-image/NoImage.svelte';
+	import type { IPerformance } from '../../../model/event';
+	import ExternalConferencePerformanceCard from '../../../components/conference/external-conference-perfermance-card/ExternalConferencePerformanceCard.svelte';
+	import { formatDate, type IFormatOptions } from '../../../utils/date-time-utils';
+	import PerformanceModal from '../../../components/modal/performance-modal/PerformanceModal.svelte';
+	import ConferenceCategoryTag from '../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
+	import { updateEmployeesStatus } from '../../../utils/conference-utils';
+    import type {ToastDataType} from "../../../components/conference/NewConferenceModal/modalSubmitHandler";
 
 	interface IPerformanceMapByDate {
 		[key: string]: IPerformance[];
@@ -205,7 +205,7 @@
 </div>
 
 <style lang="scss">
-	@use '../../../../styles/mixin' as *;
+	@use '../../../styles/mixin' as *;
 
 	.visuallyhidden {
 		@include visuallyhidden();

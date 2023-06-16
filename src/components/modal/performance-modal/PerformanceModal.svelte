@@ -71,7 +71,7 @@
 					<h2 class="visuallyhidden">Om foredrag</h2>
 					<PortableText value={performance.submission.description} />
 					<a
-						href={`/arrangement/${conferenceSlug}/agenda/${performance.submission.slug}`}
+						href={`/konferanser/${conferenceSlug}/agenda/${performance.submission.slug}`}
 						on:click={() => (open = !open)}
 					>
 						Se flere detaljer

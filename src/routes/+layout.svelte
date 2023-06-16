@@ -3,13 +3,11 @@
 	import Header from '../components/Header.svelte';
 	import Toast from '../components/toast/Toast.svelte';
 	import darkTheme from '../stores/theme-store';
+	import type { ILayoutPageLoadData } from './+layout.server';
 
-	export let data: any = {};
-	const settings = data.settings;
-	let authInfo = { isAuthenticated: false };
-	if (data.user) {
-		authInfo = data.user;
-	}
+	export let data: ILayoutPageLoadData;
+	$: settings = data.settings;
+	$: authInfo = data.user;
 
 	let isDarkTheme: boolean | undefined = undefined;
 
@@ -36,19 +34,33 @@
 	{/if}
 </svelte:head>
 
-<Toast>
-	<a href="#main" class="skip-to-main-content-link">Hopp til hovedinnhold</a>
+<div class="layout-container">
+	<div class="layout-container__skip-to-main-link-container">
+		<a href="#main" class="layout-container__skip-to-main-link-container__link"
+			>Hopp til hovedinnhold</a
+		>
+	</div>
 	<Header {settings} {authInfo} bind:isDarkTheme />
-	<main class="pb-5" id="main">
-		<slot />
+	<main id="main">
+		<Toast>
+			<slot />
+		</Toast>
 	</main>
-</Toast>
+</div>
 
 <!-- <Footer /> -->
 <style lang="scss">
 	@use '../styles/colors' as *;
 
-	.skip-to-main-content-link {
+	.layout-container {
+		padding: 3rem 1rem;
+	}
+
+	.layout-container__skip-to-main-link-container {
+		margin-top: -50px;
+	}
+
+	.layout-container__skip-to-main-link-container__link {
 		display: flex;
 		align-items: center;
 		padding: 1rem;
@@ -67,6 +79,12 @@
 		&:focus,
 		&:active {
 			transform: translateY(0%);
+		}
+	}
+
+	@media (min-width: 900px) {
+		.layout-container {
+			padding: 3rem 1.5rem;
 		}
 	}
 </style>

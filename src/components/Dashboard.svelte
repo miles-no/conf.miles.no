@@ -1,55 +1,54 @@
 <script lang="ts">
-	import Event from './Event.svelte';
-	import LayoutGrid, { Cell } from '@smui/layout-grid';
-	import EventCard from './EventCard.svelte';
-	import SmallEventCard from './SmallEventCard.svelte';
+	import Button, { Icon } from '@smui/button';
 	import type { IEvent } from '../model/event';
 	import NextEventCard from './dashboard/card/next-event-card/NextEventCard.svelte';
 	import type { User } from '$lib/types/user';
 	import ConferenceModal from './conference/conferenceModal/ConferenceModal.svelte';
 	import UpcomingDeadlineCard from './dashboard/card/upcoming-deadline-card/UpcomingDeadlineCard.svelte';
+	import Tab, { Label } from '@smui/tab';
+	import TabBar from '@smui/tab-bar';
+	import Paper, { Content } from '@smui/paper';
+	import EventListContainer from './dashboard/container/event-list-container/EventListContainer.svelte';
+	import MyUpcomingEventsContainer from './dashboard/container/my-upcoming-events-container/MyUpcomingEventsContainer.svelte';
 
 	export let events: IEvent[];
 	export let user: User;
 
-	$: myNextEvent = events
-		.filter((c) => c.employees?.map((e) => e.email).includes(user.email))
-		.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))[0];
+	$: myUpcomingEvents = events
+		.filter(
+			(c) =>
+				c.employees?.map((e) => e.email).includes(user.email) &&
+				Date.parse(c.startDate) > Date.now()
+		)
+		.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
 
-	$: conferenceSortByDeadline = events
-		.filter((c) => c.deadline && Date.parse(c.deadline) > Date.parse(new Date().toDateString()))
+	$: firstUpcomingEvent = myUpcomingEvents[0];
+
+	$: eventSortByDeadline = events
+		.filter((c) => c.deadline && Date.parse(c.deadline) > Date.now())
 		.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
 
 	$: upcomingDeadlines =
-		conferenceSortByDeadline.length <= 3
-			? conferenceSortByDeadline
-			: conferenceSortByDeadline.splice(0, 3);
-
-	const futureEvents = events.filter(
-		(conf) => Date.parse(conf.startDate) >= Date.now()
-	);
-
-	const pastEvents = events.filter(
-		(conf) => Date.parse(conf.endDate) < Date.now()
-	);
-
-	const nextEvent = events
-		.filter(
-			(conf) =>
-				Date.parse(conf.startDate) <= Date.now() && Date.now() <= Date.parse(conf.endDate)
-		)
-		.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate))[0];
+		eventSortByDeadline.length <= 3 ? eventSortByDeadline : eventSortByDeadline.splice(0, 3);
 
 	let open = false;
+
+	let activeTab = 'Liste';
 </script>
 
 <div class="dashboard-container">
 	<h1 class="visuallyhidden">Dette skjer hos oss i Miles</h1>
-	<div class="top-content">
+	<div class="create-new-event-container">
+		<Button variant="raised" class="create-new-event-btn">
+			<Icon class="material-icons">add</Icon>
+			<Label>Opprett nytt</Label>
+		</Button>
+	</div>
+	<div class="next-event-and-upcoming-deadline-container">
 		<div>
 			<h2>Ditt neste arrangement</h2>
-			{#if myNextEvent}
-				<NextEventCard {myNextEvent} handleModal={() => (open = !open)} />
+			{#if firstUpcomingEvent}
+				<NextEventCard myNextEvent={firstUpcomingEvent} handleModal={() => (open = !open)} />
 			{:else}
 				<p>Du har ingen påmeldte arrangement</p>
 			{/if}
@@ -63,52 +62,122 @@
 			{/if}
 		</div>
 	</div>
-	<LayoutGrid>
-		<Cell span={4}>
-			{#if nextEvent}
-				<h2>Det neste arrangementet</h2>
-				<EventCard event={nextEvent} />
-			{:else if futureEvents.length > 0}
-				<h2>Det neste arrangementet</h2>
-				<EventCard event={futureEvents[futureEvents.length - 1]} />
-			{/if}
-		</Cell>
-		<Cell span={8}>
-			<h2>Kommende arrangementer</h2>
-			{#each futureEvents.reverse() as event (event.title)}
-				<SmallEventCard {event} />
-			{/each}
-		</Cell>
-		<Cell span={8}>
-			<h2>Tidligere arrangementer</h2>
-			{#each pastEvents.reverse() as event (event.title)}
-				<Event {event} />
-			{/each}
-		</Cell>
-	</LayoutGrid>
-	{#if myNextEvent}
-		<ConferenceModal bind:open conference={myNextEvent} {user} />
+	<div class="main-content-container">
+		<Paper variant="outlined" class="tab-container">
+			<Content>
+				<div class="tab-container-content">
+					<TabBar tabs={['Liste', 'Kalender', 'Mine utvalgte']} let:tab bind:active={activeTab}>
+						<Tab {tab} class="tab-item" minWidth>
+							<Label>{tab}</Label>
+						</Tab>
+					</TabBar>
+					<div class="tab-content-container">
+						{#if activeTab === 'Liste'}
+							<EventListContainer {events} />
+						{/if}
+						{#if activeTab === 'Mine utvalgte'}
+							<div class="tab-content__my-upcoming-events-container">
+								<MyUpcomingEventsContainer {myUpcomingEvents} />
+							</div>
+						{/if}
+					</div>
+				</div>
+			</Content>
+		</Paper>
+
+		<Paper variant="outlined" class="dashboard-my-upcoming-events-container">
+			<Content>
+				<h2>Mine arrangementer</h2>
+				<MyUpcomingEventsContainer {myUpcomingEvents} />
+			</Content>
+		</Paper>
+	</div>
+	{#if firstUpcomingEvent}
+		<ConferenceModal bind:open conference={firstUpcomingEvent} {user} />
 	{/if}
 </div>
 
 <style lang="scss">
 	@use '../styles/mixin' as *;
-	@use '../styles/colors' as *;
 
-	.dashboard-container {
-		h2 {
-			font-size: 1.25rem;
-			letter-spacing: 0.16px;
-			font-weight: 600;
-			text-transform: uppercase;
-		}
+	h2 {
+		font-size: 1.25rem;
+		letter-spacing: 0.3px;
+		font-weight: 600;
+		text-transform: uppercase;
 	}
+
 	.visuallyhidden {
 		@include visuallyhidden();
 	}
-	.top-content {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 1rem;
+
+	.dashboard-container {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+
+		.create-new-event-container {
+			display: flex;
+			justify-content: flex-end;
+		}
+
+		.tab-content-container {
+			padding-top: 1.5rem;
+		}
+		:global(.tab-container) {
+			padding: 1rem;
+		}
+		:global(.dashboard-my-upcoming-events-container) {
+			display: none;
+		}
+
+		:global(.tab-item) {
+			padding-left: 0.7rem;
+			padding-right: 0.7rem;
+		}
+	}
+
+	@media (min-width: 970px) {
+		.dashboard-container {
+			.next-event-and-upcoming-deadline-container {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 1rem;
+			}
+
+			:global(.dashboard-my-upcoming-events-container) {
+				display: none;
+			}
+
+			:global(.tab-item:last-child) {
+				display: unset;
+			}
+		}
+	}
+
+	@media (min-width: 1280px) {
+		.main-content-container {
+			display: grid;
+			grid-template-columns: auto 0.3fr;
+			gap: 2rem;
+
+			:global(.tab-container) {
+				min-height: 80rem;
+			}
+
+			:global(.dashboard-my-upcoming-events-container) {
+				display: unset;
+				padding: 1rem;
+				min-height: 80rem;
+			}
+
+			:global(.tab-item:last-child) {
+				display: none !important;
+			}
+
+			.tab-content__my-upcoming-events-container {
+				display: none;
+			}
+		}
 	}
 </style>

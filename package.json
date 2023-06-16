@@ -3,7 +3,8 @@
 	"description": "Miles @ Conf",
 	"version": "1.4.0",
 	"scripts": {
-		"dev": "vite dev --port 3000",
+        "dev": "vite dev --port 3000",
+        "dev:expose": "vite dev --port 3000 --host",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
@@ -66,6 +67,7 @@
 		"@mdi/js": "^7.2.96",
 		"@sanity/client": "^3.4.1",
 		"@sanity/image-url": "^1.0.2",
+		"classnames": "^2.3.2",
 		"cookie": "^0.5.0",
 		"crypto-es": "^1.2.7",
 		"date-fns": "^2.29.3",

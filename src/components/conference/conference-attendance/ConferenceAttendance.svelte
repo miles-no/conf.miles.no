@@ -15,13 +15,19 @@
 	$: attendingPanelOpen = attendingList?.map((employee) => employee.email).includes(email) ?? false;
 
 	const handleInterestedPanel = () => {
-		if (attendingPanelOpen) {
+		// Open Interested panel if the user is not in the Interessert list or Påmeldt list
+		if (!interestedPanelOpen && !attendingPanelOpen) {
+			interestedPanelOpen = true;
+		} else if (attendingPanelOpen) {
 			attendingPanelOpen = false;
 			interestedPanelOpen = true;
 		}
 	};
 	const handleAttendingPanel = () => {
-		if (interestedPanelOpen) {
+		// Open Påmeldt panel if the user is not in the Interessert list or Påmeldt list
+		if (!interestedPanelOpen && !attendingPanelOpen) {
+			attendingPanelOpen = true;
+		} else if (interestedPanelOpen) {
 			interestedPanelOpen = false;
 			attendingPanelOpen = true;
 		}

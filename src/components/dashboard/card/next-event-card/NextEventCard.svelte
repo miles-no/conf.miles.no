@@ -38,11 +38,13 @@
 				<p class="startdate" aria-hidden={true}>
 					{startDate}
 				</p>
-				<p class="visuallyhidden">{`Sted: ${myNextEvent.visibleTo}`}</p>
-				<p class="location" aria-hidden={true}>
-					<Icon class="material-icons">business</Icon>
-					{myNextEvent.visibleTo}
-				</p>
+				{#if myNextEvent.visibleTo}
+					<p class="visuallyhidden">{`Sted: ${myNextEvent.visibleTo}`}</p>
+					<p class="location" aria-hidden={true}>
+						<Icon class="material-icons">business</Icon>
+						{myNextEvent.visibleTo}
+					</p>
+				{/if}
 			</div>
 		</div>
 		<div class="status" aria-hidden={true}>
@@ -75,6 +77,7 @@
 			gap: 1rem;
 			border-radius: 0.5rem;
 			padding: 1rem;
+			min-height: unset;
 
 			.information {
 				.title {
@@ -103,14 +106,14 @@
 	}
 
 	// Desktop
-	@media (min-width: 900px) {
+	@media (min-width: 960px) {
 		.your-next-event-container {
 			display: flex;
 			flex-direction: column;
 
 			.your-next-event-content {
 				padding: 1rem 1rem 2.5rem 1rem;
-				min-height: 15rem;
+				min-height: 16rem;
 
 				.information {
 					display: flex;

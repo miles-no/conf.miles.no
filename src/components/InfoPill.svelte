@@ -1,8 +1,8 @@
-<script>
-	import { Icon, Label } from '@smui/common';
+<script lang="ts">
+	import { Label } from '@smui/common';
 	import { Megaphone } from 'lucide-svelte';
 
-	export let text = '';
+	export let text: string = '';
 	export let PillIcon = Megaphone;
 </script>
 
