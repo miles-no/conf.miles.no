@@ -1,4 +1,4 @@
-import sanityClient, { SanityClient } from '@sanity/client';
+import { createClient } from '@sanity/client';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
@@ -11,16 +11,16 @@ type Doc = {
 	incomingReferences?: Doc[];
 };
 
-const client: SanityClient = sanityClient({
+const client = createClient({
 	projectId: process.env.PUBLIC_SANITY_PROJECTID,
 	dataset: process.env.PUBLIC_SANITY_DATASET,
-	apiVersion: '2022-03-24',
-	token: process.env.SANITY_TOKEN
+	token: process.env.SANITY_TOKEN,
+	apiVersion: '2022-03-24'
 });
 
-// To run migration: sanity exec migrateDocumentType.ts
+// To run migration: sanity exec migrations/migrateDocumentType.ts
 // This script will duplicate all the documents from the OLD_TYPE to NEW_TYPE.
-// You can choose to delete the old document after the duplication by inserting a 
+// You can choose to delete the old document after the duplication by inserting a
 // delete operation into the mutations by referencing the document id
 
 const OLD_TYPE = 'conference';

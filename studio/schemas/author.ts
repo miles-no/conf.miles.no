@@ -1,14 +1,18 @@
+import { UserIcon } from '@sanity/icons';
+import { Rule } from 'sanity';
+
 export default {
 	name: 'author',
 	type: 'document',
 	title: 'Authors',
+	icon: UserIcon,
 	fieldsets: [{ name: 'social', title: 'Social media handles' }],
 	fields: [
 		{
 			name: 'name',
 			type: 'string',
 			title: 'Name',
-			validation: (Rule) => Rule.required()
+			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			title: 'Slug',
@@ -17,7 +21,7 @@ export default {
 			options: {
 				source: 'name'
 			},
-			validation: (Rule) => Rule.required()
+			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			title: 'Title (workposition)',
@@ -28,7 +32,7 @@ export default {
 			name: 'bio',
 			type: 'portableText',
 			title: 'Bio',
-			validation: (Rule) => Rule.required()
+			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			title: 'Twitter',
@@ -64,7 +68,7 @@ export default {
 			title: 'Image',
 			name: 'image',
 			type: 'image',
-			validation: (Rule) => Rule.required(),
+			validation: (Rule: Rule) => Rule.required(),
 			options: {
 				hotspot: true
 			},
@@ -72,10 +76,7 @@ export default {
 				{
 					name: 'alt',
 					type: 'string',
-					title: 'Alternative text',
-					options: {
-						isHighlighted: true
-					}
+					title: 'Alternative text'
 				}
 			]
 		}
