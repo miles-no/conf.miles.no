@@ -14,16 +14,15 @@ const client = sanityClient({
 // /api/external-conference PUT
 export const PUT = (async ({ request }) => {
 	try {
-		const externalConferenceToBeUpdated = (await request.json()) as IExternalConference;
-
+		const externalConference = (await request.json()) as IExternalConference;
 		// imageUrl is not a part of external conference schema and updating external conference should not update its references to other schemas.
-		const { imageUrl, performances, ...rest } = externalConferenceToBeUpdated;
+		const { imageUrl, performances, location, ...rest } = externalConference;
 
 		await client
-			.patch(externalConferenceToBeUpdated._id)
+			.patch(externalConference._id)
 			.set({
 				...rest,
-				slug: { _type: 'slug', current: externalConferenceToBeUpdated.slug }
+				slug: { _type: 'slug', current: externalConference.slug }
 			})
 			.commit();
 
