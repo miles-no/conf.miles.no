@@ -1,4 +1,4 @@
-import { createClient } from '@sanity/client';
+import createClient from '@sanity/client';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
@@ -12,8 +12,8 @@ type Doc = {
 };
 
 const client = createClient({
-	projectId: process.env.PUBLIC_SANITY_PROJECTID,
-	dataset: process.env.PUBLIC_SANITY_DATASET,
+	projectId: process.env.SANITY_PROJECTID,
+	dataset: process.env.SANITY_DATASET,
 	token: process.env.SANITY_TOKEN,
 	apiVersion: '2022-03-24'
 });
