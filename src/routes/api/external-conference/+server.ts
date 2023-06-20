@@ -4,11 +4,11 @@ import sanityClient from "@sanity/client";
 import {env} from "$env/dynamic/private";
 
 const client = sanityClient({
-    projectId: env.PUBLIC_SANITY_PROJECTID,
-    dataset: env.PUBLIC_SANITY_DATASET,
-    token: env.SANITY_TOKEN,
-    apiVersion: '2022-03-24',
-    useCdn: false
+	projectId: env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
+	dataset: env?.PUBLIC_SANITY_DATASET ?? 'test',
+	token: env?.SANITY_TOKEN,
+	apiVersion: '2022-03-24',
+	useCdn: false
 });
 
 // /api/external-conference PUT
