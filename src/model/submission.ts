@@ -1,3 +1,4 @@
+import type { SubmissionType } from '../enums/submission-type';
 import type { IAuthor } from './author';
 import type { IDescription } from './event';
 
@@ -8,7 +9,7 @@ export interface ISubmission {
 	title: string;
 	_rev: string;
 	authors: IAuthor[];
-	submissionType: string;
+	submissionType: SubmissionType;
 	_createdAt: string;
 	description: IDescription[];
 	_updatedAt: string;

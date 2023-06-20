@@ -2,11 +2,12 @@ import sanityClient from '@sanity/client';
 import type { SanityClient, SanityDocument } from '@sanity/client';
 import type { Submission } from '../types/submission';
 import type { Author } from '../types/author';
-import type { Conference } from '../types/conference';
+import type { ConferenceType } from '../types/conference';
 // @ts-ignore
 import { env as private_env } from '$env/dynamic/private';
 // @ts-ignore
 import { env as public_env } from '$env/dynamic/public';
+import {makeid} from "../../utils/conference-utils";
 
 const client: SanityClient = sanityClient({
 	projectId: public_env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
@@ -16,22 +17,32 @@ const client: SanityClient = sanityClient({
 	token: private_env.SANITY_TOKEN
 });
 
-function makeid(length: number): string {
-	let result = '';
-	const characters: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-	const charactersLength: number = characters.length;
-	let counter: number = 0;
-	while (counter < length) {
-		result += characters.charAt(Math.floor(Math.random() * charactersLength));
-		counter += 1;
-	}
-	return result;
-}
 
-function generateSlug(string: string): string {
+
+// If a slug already exists, recursively tries to add and increase an index.
+// To avoid excessive looping, after the 10 first attempts, tries random 5-character hashes instead of counting indices.
+async function ensureUniqueSlug(slug: string, index: number = 1): Promise<string> {
+    const suffix = (index < 2)
+        ? ''
+        : (index < 10)
+            ? `-${index}`
+            : `-${makeid(5)}`
+    const attemptedSlug = slug + suffix;
+
+    const existingSlugItems = await client.fetch(`*[slug == "${attemptedSlug}" || slug.current == "${attemptedSlug}"]`);
+
+    if (!existingSlugItems || !existingSlugItems.length) {
+        return attemptedSlug;
+    }
+    console.log(`Preventing duplicate slugs: '${attemptedSlug}' already exists.`);
+    return ensureUniqueSlug(slug, index + 1);
+};
+
+async function generateSlug(string: string): Promise<string> {
 	let slug: string = string.toLowerCase();
 	slug = slug.replace(' ', '-');
-	return slug;
+
+    return await ensureUniqueSlug(slug);
 }
 
 export async function createSubmission(submission: Submission, authors: Array<Author>) {
@@ -41,11 +52,11 @@ export async function createSubmission(submission: Submission, authors: Array<Au
 			_ref: a.id
 		};
 	});
-	submission.slug = generateSlug(submission.title);
+	submission.slug = await generateSlug(submission.title);
 	const submissionDoc = {
 		_type: 'submission',
 		title: submission.title,
-		slug: { _type: 'slug', current: generateSlug(submission.slug) },
+		slug: { _type: 'slug', current: await generateSlug(submission.slug) },
 		authors: authorReference,
 		submissionType: submission.submissionType,
 		description: [
@@ -73,7 +84,7 @@ export async function createSubmission(submission: Submission, authors: Array<Au
 }
 
 export async function createAuthor(author: Author) {
-	author.slug = generateSlug(author.name);
+	author.slug = await generateSlug(author.name);
 	const authorDoc = {
 		_type: 'author',
 		name: author.name,
@@ -116,17 +127,23 @@ export async function createAuthor(author: Author) {
 	return insertedAuthor;
 }
 
-export async function createConference(conference: Conference) {
-	const conferenceDoc = {
-		_type: 'conference',
-		title: conference.title,
-		slug: conference.slug,
-		startDate: conference.startDate,
-		endDate: conference.endDate,
-		internal: conference.internal,
-		url: conference.url
-	};
-	const insertedConference: SanityDocument<any> = await client.create(conferenceDoc);
+export async function createConference(conference: ConferenceType, sanityConferenceType: string): Promise<string> {
+    const slugCurrent = conference.slug ?? await generateSlug(conference.title);
+    const conferenceDoc = {
+        _type: sanityConferenceType,
+        slug: { _type: 'slug', current: slugCurrent},
+        title: conference.title,
+        startDate: conference.startDate,
+        endDate: conference.endDate,
+        url: conference.url,
+        categoryTag: conference.categoryTag ?? [],
+        internal: false,
+    };
+
+    const insertedConference: SanityDocument<any> = await client.create(conferenceDoc);
+    console.log("Created external conference:\n  _id:", insertedConference._id, "\n  title:"+insertedConference.title, "'\n  slug.current:", insertedConference.slug.current);
+    return insertedConference.slug.current
+
 
 	// client.assets
 	//     .upload('image', createReadStream(''), {

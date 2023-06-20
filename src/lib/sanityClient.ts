@@ -45,10 +45,9 @@ export async function fetchEvents(user: User): Promise<IEvent[]> {
 	return events;
 }
 
-// TODO: "externalConference" -> "conference"
 export async function fetchConferences(): Promise<IConference[]> {
 	return await client.fetch(/* groq */ `
-        *[_type == "externalConference"] | order(startDate desc) {
+        *[_type == "conference"] | order(startDate desc) {
             ...,
             "slug": slug.current,
             "imageUrl": image.asset->url,
@@ -92,13 +91,13 @@ export async function fetchEvent(slug: string): Promise<IEvent> {
 export async function fetchEventPerformance(eventSlug: string, performanceSlug: string) {
 	return await client.fetch(
 		/* groq */ `
-            *[
+        *[
         _type == "event" &&
         slug.current == $eventSlug
         ][0] {
         ...,
         "slug": slug.current,
-        "performance": performances[submission->slug.current match $performanceSlug][0]{
+        "performances": performances[submission->slug.current match $performanceSlug][]{
             dateAndTime,
             location,
             performanceUrls,
@@ -124,17 +123,16 @@ export async function fetchEventPerformance(eventSlug: string, performanceSlug: 
 	);
 }
 
-// TODO: "externalConference" -> "conference"
 export async function fetchConferencePerformance(conferenceSlug: string, performanceSlug: string) {
 	return await client.fetch(
 		/* groq */ `
             *[
-        _type == "externalConference" &&
+        _type == "conference" &&
         slug.current == $conferenceSlug
         ][0] {
         ...,
         "slug": slug.current,
-        "performance": performances[submission->slug.current match $performanceSlug][0]{
+        "performances": performances[submission->slug.current match $performanceSlug][]{
             dateAndTime,
             location,
             performanceUrls,

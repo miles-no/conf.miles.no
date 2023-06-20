@@ -4,9 +4,7 @@
 	export let event: IEvent;
 	export let submission: ISubmission;
 
-	$: path = event._type === "event"
-		? `/arrangement/${event.slug}`
-		: `/konferanser/${event.slug}`
+	$: path = event._type === 'event' ? `/arrangement/${event.slug}` : `/konferanser/${event.slug}`;
 </script>
 
 <div class="breadcrumb-container">
@@ -24,8 +22,7 @@
 			{/if}
 			{#if submission}
 				<li class="breadcrumb-item" aria-current="page" class:active={submission}>
-					<a href={`${path}/agenda/${submission.slug}`}
-						>{submission.title}</a>
+					<a href={`${path}/agenda/${submission.slug}`}>{submission.title}</a>
 				</li>
 			{/if}
 		</ol>

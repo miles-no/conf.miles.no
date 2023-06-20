@@ -1,19 +1,22 @@
 import { z } from "zod";
 
-const visibleTo = z.string();
+import { ConferenceCategory } from '../../enums/conference-category'
 
-const conference = z.object({
-    id: z.string(),
-    title: z.string(),
-    slug: z.string(),
-    startDate: z.date(),
-    endDate: z.date(),
-    //performances
-    internal: z.boolean(),
-    visibleTo: z.array(visibleTo),
-    image: z.string().url(),
-    url: z.string().url(),
+const yyyymmdd = /^\d{4}-\d{2}-\d{2}$/
+export const Conference = z.object({
+    // _type: 'conference'
+    slug: z.string().optional(),
+    title: z.string().trim().min(1, {message: "Missing or invalid title"}),
+    startDate: z.string().trim().regex(yyyymmdd, {message: "Start date must be on the format YYYY-MM-DD"}).datetime( {message: "Missing or invalid start date"}),
+    endDate: z.string().trim().regex(yyyymmdd, {message: "End date must be on the format YYYY-MM-DD"}).datetime( {message: "Missing or invalid end date"}),
+    url: z.string().trim().min(1, {message: "Missing or invalid url"}).url({ message: "Invalid url" }),
+    internal: z.boolean().optional(),
+    categoryTag: z.array(z.nativeEnum(ConferenceCategory)).optional(),
+    visibleTo: z.array(z.string()).optional(),
+    image: z.string().url().optional(),
     // itinerary
 });
 
-export type Conference = z.infer<typeof conference>;
+
+
+export type ConferenceType = z.infer<typeof Conference>;

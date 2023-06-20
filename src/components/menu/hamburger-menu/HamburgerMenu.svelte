@@ -22,7 +22,6 @@
 		position: relative;
 
 		:global(.hamburger-menu-container__icon-button--active) {
-			background-color: #f6f6f6;
 			border-radius: 50%;
 		}
 	}

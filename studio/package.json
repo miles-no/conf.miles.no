@@ -1,0 +1,33 @@
+{
+  "name": "miles-conf",
+  "private": true,
+  "version": "1.0.0",
+  "description": "The dev branch on this project is currently hosted at: ",
+  "main": "package.json",
+  "author": "Miles Conference <conf@miles.no>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "sanity start",
+    "build": "sanity build",
+    "dev": "sanity dev",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "sanity"
+  ],
+  "dependencies": {
+    "@portabletext/svelte": "^1.0.1",
+    "@sanity/icons": "^2.3.1",
+    "@sanity/vision": "^3.12.1",
+    "dotenv": "^16.1.4",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sanity": "^3.12.1",
+    "styled-components": "^5.3.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/miles-no/conf.miles.no.git"
+  }
+}
