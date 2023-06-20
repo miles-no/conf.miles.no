@@ -1,8 +1,13 @@
 import {initModal, pending} from "./newConferenceStores.js";
 import type {IToastContextProps} from "../../toast/toast-context";
-
+import { goto } from '$app/navigation';
 import type {ToastType} from "svelte-toasts/types/common";
 
+const API_URL = '/api/create-ext-conference';
+const redirectAfterSuccessfulSubmit = (slug: string) => {
+    goto(`/konferanser/${slug}`);
+
+}
 
 const alertAndKeepModal = (message:string, error:string|Error, submitData:any, toastContext:IToastContextProps) => {
     toastContext.createToastBody(
@@ -28,7 +33,7 @@ export const submitAndHandleModal = async (submitData:BodyInit|null|undefined, t
     pending.set(true);
 
     try {
-        const response = await fetch('/api/create-ext-conference', {
+        const response = await fetch(API_URL, {
             method: 'POST',
             body: submitData
         });
@@ -64,7 +69,7 @@ export const submitAndHandleModal = async (submitData:BodyInit|null|undefined, t
                 sessionStorage.setItem(sessionStorageKey, JSON.stringify(toast));
             };
 
-            window.location.href = `/konferanser/ekstern/${result.slug}`;
+            redirectAfterSuccessfulSubmit(result.slug);
 
         } else {
             alertAndKeepModal(result.statusText, result.statusText, submitData, toastContext);

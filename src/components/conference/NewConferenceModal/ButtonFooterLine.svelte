@@ -10,6 +10,7 @@
         intervalWarning,
         pending
     } from "./newConferenceStores.ts";
+    import darkTheme from "../../../stores/theme-store";
     import Spinner from "./Spinner.svelte";
     import {submitAndHandleModal} from "./modalSubmitHandler.ts";
     import {getContext} from "svelte";
@@ -19,7 +20,6 @@
     const toastContext = getContext('toastContext');
 
 
-    import darkTheme from "../../../stores/theme-store";
 
 
     function submit() {
@@ -58,7 +58,7 @@
                     on:click={!disabled && submit}
             >
                 {#if $pending}
-                    <Spinner/>
+                    <Spinner strokeColor={$darkTheme ? "white" : "black"} />
                 {/if}
                 <Label>Registrer konferanse</Label>
             </Button>

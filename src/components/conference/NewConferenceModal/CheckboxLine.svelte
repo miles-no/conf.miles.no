@@ -1,31 +1,30 @@
 <script>
-    import JustifiedRow from "../../form/JustifiedRow.svelte";
-    import LabeledField from "../../form/LabeledField.svelte";
     import FormField from "@smui/form-field";
     import Checkbox from "@smui/checkbox";
     import {ConferenceCategory} from "../../../enums/conference-category.ts";
     import {selectedCategoryTags} from "./newConferenceStores.ts";
+    import JustifiedRow from "../../form/JustifiedRow.svelte";
 
     let categories = Object.keys(ConferenceCategory)
         .map(enumKey => ConferenceCategory[enumKey]);
 
 </script>
 
-<div class="checkbox-line">
-    <LabeledField label="Fagområde" width="100%">
-        <JustifiedRow addClass="checkbox-justified-row">
-            {#each categories as category}
-                <FormField>
-                    <Checkbox
-                            bind:group={$selectedCategoryTags}
-                            value={category}
-                    />
-                    <span slot="label">{category}</span>
-                </FormField>
-            {/each}
-        </JustifiedRow>
-    </LabeledField>
-</div>
+<fieldset class="checkbox-line">
+    <legend class="textfield-label">Fagområde</legend>
+    <JustifiedRow addClass="checkbox-justified-row">
+        {#each categories as category}
+            <FormField>
+                <Checkbox
+                        bind:group={$selectedCategoryTags}
+                        value={category}
+                />
+                <span slot="label">{category}</span>
+            </FormField>
+        {/each}
+    </JustifiedRow>
+</fieldset>
+
 
 <style>
     .checkbox-line :global(.checkbox-justified-row) {
@@ -35,5 +34,11 @@
     }
     .checkbox-line :global(label) {
         padding-left: 0;
+    }
+    .textfield-label {
+        font-weight: 700;
+        font-size: 15px;
+        line-height: 150%;
+        margin-bottom: 8px;
     }
 </style>
