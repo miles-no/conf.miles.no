@@ -7,7 +7,8 @@ import type { ConferenceType } from '../types/conference';
 import { env as private_env } from '$env/dynamic/private';
 // @ts-ignore
 import { env as public_env } from '$env/dynamic/public';
-import {makeid} from "../../utils/conference-utils";
+import { makeid } from '../../utils/conference-utils';
+import type { IExternalConference } from '../../model/external-conference';
 
 const client: SanityClient = sanityClient({
 	projectId: public_env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
@@ -17,32 +18,28 @@ const client: SanityClient = sanityClient({
 	token: private_env.SANITY_TOKEN
 });
 
-
-
 // If a slug already exists, recursively tries to add and increase an index.
 // To avoid excessive looping, after the 10 first attempts, tries random 5-character hashes instead of counting indices.
 async function ensureUniqueSlug(slug: string, index: number = 1): Promise<string> {
-    const suffix = (index < 2)
-        ? ''
-        : (index < 10)
-            ? `-${index}`
-            : `-${makeid(5)}`
-    const attemptedSlug = slug + suffix;
+	const suffix = index < 2 ? '' : index < 10 ? `-${index}` : `-${makeid(5)}`;
+	const attemptedSlug = slug + suffix;
 
-    const existingSlugItems = await client.fetch(`*[slug == "${attemptedSlug}" || slug.current == "${attemptedSlug}"]`);
+	const existingSlugItems = await client.fetch(
+		`*[slug == "${attemptedSlug}" || slug.current == "${attemptedSlug}"]`
+	);
 
-    if (!existingSlugItems || !existingSlugItems.length) {
-        return attemptedSlug;
-    }
-    console.log(`Preventing duplicate slugs: '${attemptedSlug}' already exists.`);
-    return ensureUniqueSlug(slug, index + 1);
-};
+	if (!existingSlugItems || !existingSlugItems.length) {
+		return attemptedSlug;
+	}
+	console.log(`Preventing duplicate slugs: '${attemptedSlug}' already exists.`);
+	return ensureUniqueSlug(slug, index + 1);
+}
 
 async function generateSlug(string: string): Promise<string> {
 	let slug: string = string.toLowerCase();
 	slug = slug.replace(' ', '-');
 
-    return await ensureUniqueSlug(slug);
+	return await ensureUniqueSlug(slug);
 }
 
 export async function createSubmission(submission: Submission, authors: Array<Author>) {
@@ -127,23 +124,31 @@ export async function createAuthor(author: Author) {
 	return insertedAuthor;
 }
 
-export async function createConference(conference: ConferenceType, sanityConferenceType: string): Promise<string> {
-    const slugCurrent = conference.slug ?? await generateSlug(conference.title);
-    const conferenceDoc = {
-        _type: sanityConferenceType,
-        slug: { _type: 'slug', current: slugCurrent},
-        title: conference.title,
-        startDate: conference.startDate,
-        endDate: conference.endDate,
-        url: conference.url,
-        categoryTag: conference.categoryTag ?? [],
-        internal: false,
-    };
+export async function createConference(
+	conference: ConferenceType,
+	sanityConferenceType: string
+): Promise<string> {
+	const slugCurrent = conference.slug ?? (await generateSlug(conference.title));
+	const conferenceDoc = {
+		_type: sanityConferenceType,
+		slug: { _type: 'slug', current: slugCurrent },
+		title: conference.title,
+		startDate: conference.startDate,
+		endDate: conference.endDate,
+		url: conference.url,
+		categoryTag: conference.categoryTag ?? [],
+		internal: false
+	};
 
-    const insertedConference: SanityDocument<any> = await client.create(conferenceDoc);
-    console.log("Created external conference:\n  _id:", insertedConference._id, "\n  title:"+insertedConference.title, "'\n  slug.current:", insertedConference.slug.current);
-    return insertedConference.slug.current
-
+	const insertedConference: SanityDocument<any> = await client.create(conferenceDoc);
+	console.log(
+		'Created external conference:\n  _id:',
+		insertedConference._id,
+		'\n  title:' + insertedConference.title,
+		"'\n  slug.current:",
+		insertedConference.slug.current
+	);
+	return insertedConference.slug.current;
 
 	// client.assets
 	//     .upload('image', createReadStream(''), {
@@ -192,3 +197,21 @@ export async function createConference(conference: ConferenceType, sanityConfere
   title: 'Tester innlegg'
 }
 */
+
+export async function updateExternalConference(
+	externalConference: IExternalConference
+): Promise<string> {
+	// imageUrl is not a part of external conference schema and updating external conference should not update its references to other schemas.
+	const { imageUrl, performances, image, _createdAt, _updatedAt, _id, _rev, location, ...rest } =
+		externalConference;
+
+	await client
+		.patch(externalConference._id)
+		.set({
+			...rest,
+			slug: { _type: 'slug', current: externalConference.slug }
+		})
+		.commit();
+
+	return externalConference._id;
+}
