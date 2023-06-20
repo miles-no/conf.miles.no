@@ -7,16 +7,13 @@
 
 	export let category: ConferenceCategoryType;
 
-	const getTagColor = (category: string) => {
-		switch (category) {
-			case ConferenceCategory.UX_Design:
-				return 'info';
-			case ConferenceCategory.Utvikling:
-				return 'success';
-			default:
-				return 'error';
-		}
+	const TAG_COLORS = {
+        [ConferenceCategory.UX_Design]: 'info',
+        [ConferenceCategory.Utvikling]: 'success',
+        [ConferenceCategory.Smidig]: 'error',
+        [ConferenceCategory.Prosjektledelse]: 'info',
+        [ConferenceCategory.Admin]: 'success'
 	};
 </script>
 
-<Tag variant="outlined-with-bg" color={getTagColor(category)} ariaHidden={true}>{category}</Tag>
+<Tag variant="outlined-with-bg" color={TAG_COLORS[category]} ariaHidden={true}>{category}</Tag>

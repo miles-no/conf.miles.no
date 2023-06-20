@@ -3,7 +3,7 @@
 	import type { IEvent } from '../model/event';
 	import NextEventCard from './dashboard/card/next-event-card/NextEventCard.svelte';
 	import type { User } from '$lib/types/user';
-	import ConferenceModal from './conferance/conferenceModal/ConferenceModal.svelte';
+	import ConferenceModal from './conference/conferenceModal/ConferenceModal.svelte';
 	import UpcomingDeadlineCard from './dashboard/card/upcoming-deadline-card/UpcomingDeadlineCard.svelte';
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';

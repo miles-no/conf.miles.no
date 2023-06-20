@@ -2,15 +2,17 @@
 	import LayoutGrid from '@smui/layout-grid';
 	import Button, { Icon, Label } from '@smui/button';
 	import Cell from '@smui/layout-grid/src/Cell.svelte';
-	import ConferenceCard from '../../components/conferance/ConferenceCard/ConferenceCard.svelte';
+	import ConferenceCard from '../../components/conference/ConferenceCard/ConferenceCard.svelte';
 	import Textfield from '@smui/textfield';
 	import Checkbox from '@smui/checkbox';
 	import FormField from '@smui/form-field';
+    import NewConferenceModal from "../../components/conference/NewConferenceModal/NewConferenceModal.svelte";
 	import type { IExternalConferencesPageLoadData } from './+page.server';
 	import { ConferenceCategory } from '../../enums/conference-category';
 	import type { ConferenceCategoryType } from '../../enums/conference-category';
+    import {displayNewConferenceModal} from "../../components/conference/NewConferenceModal/newConferenceStores";
 
-	export let data: IExternalConferencesPageLoadData;
+    export let data: IExternalConferencesPageLoadData;
 	export let externalConferences = data.externalConferences;
 	let user = data.user;
 
@@ -31,6 +33,10 @@
 		name: category,
 		disabled: false
 	}));
+
+    function openModal() {
+        displayNewConferenceModal.set(true);
+    }
 </script>
 
 <svelte:head>
@@ -40,9 +46,12 @@
 </svelte:head>
 
 <div class="container">
+    {#if $displayNewConferenceModal}
+        <NewConferenceModal/>
+    {/if}
 	<div class="topRow">
 		<h1>Konferanser</h1>
-		<Button variant="raised">
+		<Button variant="raised" on:click={openModal}>
 			<Label>Registrer ny</Label>
 		</Button>
 	</div>
