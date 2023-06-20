@@ -1,9 +1,9 @@
 export enum Status {
 	attending = 'Påmeldt',
-	interested = 'Interresert',
-	notGoing = 'Ikke interresert'
+	interested = 'Interessert',
+	notGoing = 'Ikke interessert'
 }
 
-export type StatusType = 'Jeg er interessert' | 'Påmeldt' | 'Ikke interresert';
+export type StatusType = 'Jeg er interessert' | 'Påmeldt' | 'Ikke interessert';
 
 export type StatusKeyType = keyof typeof Status;

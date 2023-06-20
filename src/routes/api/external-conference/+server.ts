@@ -1,8 +1,7 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 import type { IExternalConference } from '../../../model/external-conference.js';
-import { env } from '$env/dynamic/private';
-
-import sanityClient from '@sanity/client';
+import sanityClient from "@sanity/client";
+import {env} from "$env/dynamic/private";
 
 const client = sanityClient({
 	projectId: env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',

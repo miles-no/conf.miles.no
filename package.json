@@ -3,7 +3,8 @@
 	"description": "Miles @ Conf",
 	"version": "1.4.0",
 	"scripts": {
-		"dev": "vite dev --port 3000",
+        "dev": "vite dev --port 3000",
+        "dev:expose": "vite dev --port 3000 --host",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
@@ -27,6 +28,7 @@
 		"@smui/dialog": "^7.0.0-beta.3",
 		"@smui/fab": "^7.0.0-beta.0",
 		"@smui/form-field": "^7.0.0-beta.3",
+		"@smui/icon-button": "^7.0.0-beta.8",
 		"@smui/layout-grid": "^7.0.0-beta.0",
 		"@smui/paper": "^7.0.0-beta.8",
 		"@smui/select": "^7.0.0-beta.3",
@@ -39,8 +41,10 @@
 		"@sveltejs/kit": "1.5.0",
 		"@sveltejs/vite-plugin-svelte": "^2.0.2",
 		"@types/uuid": "^9.0.1",
+		"date-picker-svelte": "^2.4.3",
 		"eslint": "^8.33.0",
 		"eslint-config-prettier": "^8.6.0",
+		"eslint-plugin-storybook": "^0.6.12",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"prettier": "^2.8.3",
 		"prettier-plugin-svelte": "^2.9.0",
@@ -48,6 +52,7 @@
 		"react-dom": "^18.2.0",
 		"smui-theme": "^7.0.0-beta.0",
 		"svelte": "^3.55.1",
+		"svelte-toasts": "^1.1.2",
 		"typescript": "^4.9.5",
 		"vite": "^4.0.0",
 		"vitest": "^0.25.3"
@@ -70,8 +75,7 @@
 		"lucide-svelte": "^0.112.0",
 		"query-string": "^8.1.0",
 		"svelte-navigator": "^3.2.2",
-		"svelte-toasts": "^1.1.2",
 		"uuid": "^9.0.0",
-		"zod": "^3.20.6"
+		"zod": "^3.21.4"
 	}
 }
