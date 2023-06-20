@@ -16,7 +16,8 @@ export const PUT = (async ({ request }) => {
 	try {
 		const externalConference = (await request.json()) as IExternalConference;
 		// imageUrl is not a part of external conference schema and updating external conference should not update its references to other schemas.
-		const { imageUrl, performances, location, ...rest } = externalConference;
+		const { imageUrl, performances, image, _createdAt, _updatedAt, _id, _rev, location, ...rest } =
+			externalConference;
 
 		await client
 			.patch(externalConference._id)
@@ -28,7 +29,9 @@ export const PUT = (async ({ request }) => {
 
 		return json({ success: true });
 	} catch (error) {
-		console.error(`PUT /api/external-conference: ${error}`);
+		const { token, ...rest } = client.config();
+
+		console.error(`PUT /api/external-conference: ${error} ${JSON.stringify(rest)}`);
 		return json({ success: false });
 	}
 }) satisfies RequestHandler;
