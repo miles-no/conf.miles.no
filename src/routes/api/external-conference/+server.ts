@@ -1,11 +1,12 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 import type { IExternalConference } from '../../../model/external-conference.js';
-import sanityClient from "@sanity/client";
-import {env} from "$env/dynamic/private";
+import sanityClient from '@sanity/client';
+import { env } from '$env/dynamic/private';
 
 const client = sanityClient({
+	// TODO: sanity projectid and dataset should not be public because they are not accessible on server side
 	projectId: env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
-	dataset: env?.PUBLIC_SANITY_DATASET ?? 'test',
+	dataset: env?.PUBLIC_SANITY_DATASET ?? 'production',
 	token: env?.SANITY_TOKEN,
 	apiVersion: '2022-03-24',
 	useCdn: false
