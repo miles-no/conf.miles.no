@@ -46,8 +46,9 @@
 		.loader-container {
 			display: flex;
 			align-items: center;
-			justify-content: end;
+			justify-content: start;
 			gap: 0.5rem;
+			padding-top: 1rem;
 			p {
 				font-size: 0.9rem;
 				font-weight: bold;

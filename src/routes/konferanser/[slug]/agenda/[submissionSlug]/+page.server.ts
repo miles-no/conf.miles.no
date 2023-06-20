@@ -1,4 +1,4 @@
-import { fetchExternalConferencePerformance, fetchExternalConferences } from '$lib/sanityClient';
+import { fetchExternalConferencePerformance } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth.js';
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';

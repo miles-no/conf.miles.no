@@ -36,6 +36,7 @@
 		const statusText = Status[newStatus].toLowerCase();
 
 		if (newStatus && newStatus !== selectedStatus) {
+			disableStatus = true;
 			const response = await fetch('/api/external-conference', {
 				method: 'PUT',
 				body: JSON.stringify({
@@ -58,12 +59,14 @@
 			}
 			toastContext.showToast();
 			applyAction(result);
+			disableStatus = false;
 		}
 	};
 
 	$: detailsPage = isExternalConference
 		? `/konferanser/${conference.slug}`
 		: `/arrangement/${conference.slug}`;
+	let disableStatus: boolean = false;
 </script>
 
 <Dialog bind:open noContentPadding sheet aria-labelledby="modal-heading">
@@ -99,7 +102,13 @@
 				{/if}
 			</div>
 			<div class="actionWrapper">
-				<ConferenceStatus title="Min status" {selectedStatus} {onSelectStatus} flexType="row" />
+				<ConferenceStatus
+					title="Min status"
+					{selectedStatus}
+					{onSelectStatus}
+					flexType="row"
+					disabled={disableStatus}
+				/>
 				<a href={detailsPage} on:click={() => (open = !open)}>Se flere detaljer </a>
 			</div>
 		</div>
