@@ -26,6 +26,10 @@
 </div>
 
 <style lang="scss">
+	@use '../../../styles/mixin' as *;
+	:global(.button-shaped-round) {
+		@include button-shaped-round();
+	}
 	@media (min-width: 599px) {
 		.location-btn-group-container {
 			display: flex;
