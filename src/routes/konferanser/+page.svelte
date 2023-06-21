@@ -48,7 +48,7 @@
 	</title>
 </svelte:head>
 
-<div class="container">
+<div class="conference-page-container">
 	{#if $displayNewConferenceModal}
 		<NewConferenceModal />
 	{/if}
@@ -92,14 +92,12 @@
 			{/if}
 		</div>
 	</div>
-	<div>
-		<LayoutGrid>
-			{#each filteredConferences as conference}
-				<Cell>
-					<ConferenceCard {conference} {user} />
-				</Cell>
-			{/each}
-		</LayoutGrid>
+	<div class="conference-page-card-container">
+		{#each filteredConferences as conference}
+			<div>
+				<ConferenceCard {conference} {user} />
+			</div>
+		{/each}
 	</div>
 
 	<FilterConferenceCategoryModal
@@ -116,17 +114,12 @@
 		@include button-shaped-round();
 	}
 
-	p {
-		margin: 0;
-	}
-
-	.container {
-		max-width: 1320px;
-		margin: auto;
+	.conference-page-container {
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
 	}
+
 	.topRow {
 		width: 100%;
 		display: flex;
@@ -168,6 +161,12 @@
 			// Centering text
 			padding-left: 2px;
 		}
+	}
+
+	.conference-page-card-container {
+		display: grid;
+		gap: 2rem;
+		grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
 	}
 
 	@media (min-width: 900px) {
