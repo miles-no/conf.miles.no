@@ -1,3 +1,5 @@
+@use '@material/button/mixins' as mdc-button;
+
 @mixin visuallyhidden {
 	border: 0;
 	clip: rect(0 0 0 0);
@@ -13,4 +15,8 @@
 	box-shadow: -1px 1px 13px 0px rgba(0, 0, 0, 0.75);
 	-webkit-box-shadow: -1px 1px 13px 0px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: -1px 1px 13px 0px rgba(0, 0, 0, 0.75);
+}
+
+@mixin button-shaped-round {
+	border-radius: 36px !important;
 }

@@ -59,8 +59,13 @@
 		</Button>
 	</div>
 	<div class="filter-container">
-		<div>
-			<Textfield variant="outlined" bind:value={searchTerm} label="Søk etter konferanse">
+		<div class="filter-by-search-container">
+			<Textfield
+				class="search-input"
+				variant="outlined"
+				bind:value={searchTerm}
+				label="Søk etter konferanse"
+			>
 				<Icon class="material-icons" slot="trailingIcon">search</Icon>
 			</Textfield>
 		</div>
@@ -96,7 +101,11 @@
 	/>
 </div>
 
-<style>
+<style lang="scss">
+	@use '../../styles/mixin' as *;
+	:global(.button-shaped-round) {
+		@include button-shaped-round();
+	}
 	.container {
 		max-width: 1320px;
 		margin: auto;
@@ -116,6 +125,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+	}
+
+	.filter-by-search-container {
+		:global(.search-input) {
+			width: 100%;
+		}
 	}
 
 	@media (min-width: 900px) {
