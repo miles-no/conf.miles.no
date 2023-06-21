@@ -15,7 +15,7 @@ const client = sanityClient({
 	useCdn: false
 });
 
-const CONFERENCE_TYPE = 'externalConference';
+const CONFERENCE_TYPE = 'conference';
 
 const urlStartPattern = /^https?:\/\//;
 
@@ -111,7 +111,7 @@ const verifyConferenceUrl = async (url: string) => {
 	}
 };
 
-// /api/external-conference PUT
+// /api/conference PUT
 export const POST = (async ({ request }) => {
 	/* Request:
         {
@@ -166,19 +166,19 @@ export const POST = (async ({ request }) => {
         }
     */
 
-	let newExternalConference;
+	let newConference;
 	let warnings = [];
 	try {
-		newExternalConference = (await request.json()) as ConferenceType;
+		newConference = (await request.json()) as ConferenceType;
 
-		verifyAndNormalizeConferenceData(newExternalConference);
+		verifyAndNormalizeConferenceData(newConference);
 		warnings.push(
-			await verifyConferenceIsNew(newExternalConference.title, newExternalConference.startDate)
+			await verifyConferenceIsNew(newConference.title, newConference.startDate)
 		);
-		warnings.push(await verifyConferenceUrl(newExternalConference.url));
+		warnings.push(await verifyConferenceUrl(newConference.url));
 		warnings = warnings.filter((w) => !!w);
 	} catch (userError: any) {
-		console.error(`POST /api/create-ext-conference: ${userError} (${typeof userError})`);
+		console.error(`POST /api/create-conference: ${userError} (${typeof userError})`);
 		console.log('UserError.keys:', JSON.stringify(Object.keys((userError || {}).issues || {})));
 
 		const errorMessage = userError?.issues
@@ -196,11 +196,11 @@ export const POST = (async ({ request }) => {
 	}
 
 	try {
-		const slug = await createConference(newExternalConference, CONFERENCE_TYPE);
+		const slug = await createConference(newConference, CONFERENCE_TYPE);
 
 		if (warnings && warnings.length) {
 			console.warn(
-				`POST /api/create-ext-conference completed with ${
+				`POST /api/create-conference completed with ${
 					warnings.length
 				} warning(s): '${warnings.join("', '")}'`
 			);
@@ -220,7 +220,7 @@ export const POST = (async ({ request }) => {
 			});
 		}
 	} catch (error) {
-		console.error(`POST /api/create-ext-conference: ${error}`);
+		console.error(`POST /api/create-conference: ${error}`);
 		return json({
 			success: false,
 			ok: false,
@@ -229,20 +229,4 @@ export const POST = (async ({ request }) => {
 		});
 	}
 
-	/*
-	try {
-		const externalConferenceToBeUpdated = (await request.json()) as IExternalConference;
-		await client
-			.patch(externalConferenceToBeUpdated._id)
-			.set({
-				...externalConferenceToBeUpdated,
-				slug: { _type: 'slug', current: externalConferenceToBeUpdated.slug }
-			})
-			.commit();
-
-		return json({ success: true });
-	} catch (error) {
-		console.error(`PUT /api/external-conference: ${error}`);
-		return json({ success: false });
-	}*/
 }) satisfies RequestHandler;

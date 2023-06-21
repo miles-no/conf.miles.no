@@ -2,7 +2,7 @@ import { createClient } from '@sanity/client';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
-dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
+dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
 
 type Doc = {
 	_id: string;
@@ -23,8 +23,8 @@ const client = createClient({
 // You can choose to delete the old document after the duplication by inserting a
 // delete operation into the mutations by referencing the document id
 
-const OLD_TYPE = 'conference';
-const NEW_TYPE = 'event';
+const OLD_TYPE = 'externalConference';
+const NEW_TYPE = 'conference';
 
 const fetchDocuments = () =>
 	client.fetch(

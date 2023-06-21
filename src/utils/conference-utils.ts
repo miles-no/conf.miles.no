@@ -1,5 +1,5 @@
 import type { StatusKeyType } from '../enums/status';
-import type { IEmployee } from '../model/external-conference';
+import type { IEmployee } from '../model/event';
 import { v4 as uuidv4 } from 'uuid';
 
 export const updateEmployeesStatus = (

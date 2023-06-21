@@ -5,24 +5,24 @@
 	import ConferenceCard from '../../components/conference/ConferenceCard/ConferenceCard.svelte';
 	import Textfield from '@smui/textfield';
 	import NewConferenceModal from '../../components/conference/NewConferenceModal/NewConferenceModal.svelte';
-	import type { IExternalConferencesPageLoadData } from './+page.server';
+	import type { IConferencesPageLoadData } from './+page.server';
 	import type { ConferenceCategoryType } from '../../enums/conference-category';
 	import { displayNewConferenceModal } from '../../components/conference/NewConferenceModal/newConferenceStores';
 	import ConferenceCategoryCheckboxGroup from '../../components/checkbox/conference-category-checkbox-group/ConferenceCategoryCheckboxGroup.svelte';
 	import FilterConferenceCategoryModal from '../../components/modal/filter-conference-category-modal/FilterConferenceCategoryModal.svelte';
-	export let data: IExternalConferencesPageLoadData;
-	export let externalConferences = data.externalConferences;
+	export let data: IConferencesPageLoadData;
+	export let conferences = data.conferences;
 	let user = data.user;
 
 	let selectedCategoryType: ConferenceCategoryType[] = [];
 	$: searchTerm = '';
 	$: filterByTags =
 		selectedCategoryType.length > 0
-			? externalConferences.filter(
+			? conferences.filter(
 					(conf) =>
 						conf.categoryTag && conf.categoryTag.some((tag) => selectedCategoryType.includes(tag))
 			  )
-			: externalConferences;
+			: conferences;
 
 	$: filteredConferences = filterByTags.filter((conf) =>
 		conf.title.toLowerCase().includes(searchTerm)

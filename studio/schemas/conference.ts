@@ -64,34 +64,37 @@ export default {
 			title: 'Performances',
 			name: 'performances',
 			type: 'array',
-			of: [{ type: 'performance' }]
-		},
-		{
-			title: 'Link to signup',
-			name: 'signupLink',
-			type: 'url',
-			fieldset: 'signUp'
+			of: [{ type: 'performance' }],
+			description: `Miles contribution to the event`
 		},
 		{ title: 'Signup Deadline', name: 'deadline', type: 'datetime', fieldset: 'signUp' },
 		{
-			title: 'Internal',
-			name: 'internal',
-			type: 'boolean',
-			description: 'Event is hosted by Miles'
+			title: 'TicketType',
+			name: 'tickettype',
+			type: 'string',
+			description: 'The current type of ticket that is available'
 		},
 		{
-			title: 'Visible to offices',
-			name: 'visibleTo',
+			title: 'Price',
+			name: 'price',
+			type: 'string',
+			description: 'The cost of the conference at the current time'
+		},
+		{
+			title: 'Category',
+			name: 'categoryTag',
 			type: 'array',
 			of: [{ type: 'string' }],
-			description:
-				'Internal conference will only be vissble to selected offices or all offices if non is selected'
-		},
-		{
-			title: 'Show externally',
-			name: 'showExternally',
-			type: 'boolean',
-			description: 'Make event visible to not-logged in users(external users)'
+			options: {
+				list: [
+					{ title: 'Smidig', value: 'Smidig' },
+					{ title: 'UX/Design', value: 'UX/Design' },
+					{ title: 'Utvikling', value: 'Utvikling' },
+					{ title: 'Prosjektledelse', value: 'Prosjektledelse' },
+					{ title: 'Admin', value: 'Admin' }
+				]
+			},
+			description: 'For who is the conference relevant?'
 		},
 		{
 			title: 'Image',
@@ -106,39 +109,13 @@ export default {
 					type: 'string',
 					title: 'Alternative text'
 				}
-			]
+			],
+			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			title: 'Homepage',
 			name: 'url',
-			type: 'url',
-			fieldset: 'external'
-		},
-		{
-			title: 'Itinerary',
-			name: 'itinerary',
-			type: 'array',
-			of: [
-				{
-					type: 'itinerary'
-				}
-			],
-			fieldset: 'internal'
-		},
-		{
-			title: 'Event type',
-			name: 'eventType',
-			type: 'array',
-			of: [{ type: 'string' }],
-			options: {
-				list: [
-					{ title: 'Sosial', value: 'Sosial' },
-					{ title: 'Faglig', value: 'Faglig' },
-					{ title: 'SMiles', value: 'SMiles' }
-				]
-			},
-			validation: (Rule: Rule) => Rule.required(),
-			description: 'Event type'
+			type: 'url'
 		},
 		{
 			title: 'Relevent Employees',
@@ -172,22 +149,6 @@ export default {
 					]
 				}
 			]
-		},
-		{
-			title: 'Category',
-			name: 'categoryTag',
-			type: 'array',
-			of: [{ type: 'string' }],
-			options: {
-				list: [
-					{ title: 'Smidig', value: 'Smidig' },
-					{ title: 'UX/Design', value: 'UX/Design' },
-					{ title: 'Utvikling', value: 'Utvikling' },
-					{ title: 'Prosjektledelse', value: 'Prosjektledelse' },
-					{ title: 'Admin', value: 'Admin' }
-				]
-			},
-			description: 'For who is the conference relevant?'
 		}
 	]
 };

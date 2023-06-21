@@ -18,7 +18,7 @@ export const load = (async ({ params, cookies }): Promise<IAgendaPageLoadData> =
 
 	const { arrangement, slug } = params;
 
-	let event = (await fetchEventPerformance(arrangement, slug)) as unknown as IEvent;
+	let event = (await fetchEventPerformance(arrangement, slug)) as IEvent;
 
 	if (!event) {
 		throw error(404, 'Side ikke funnet');
