@@ -198,7 +198,7 @@ export async function createConference(
 }
 */
 
-export async function updateExternalConference(
+export async function updateConference(
 	externalConference: IExternalConference
 ): Promise<string> {
 	// imageUrl is not a part of external conference schema and updating external conference should not update its references to other schemas.

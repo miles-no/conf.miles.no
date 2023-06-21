@@ -3,11 +3,11 @@
 	import Card, { Content, Media, MediaContent } from '@smui/card';
 	import ConferenceModal from '../conferenceModal/ConferenceModal.svelte';
 	import ConferenceCategoryTag from '../../tag/conference-category-tag/ConferenceCategoryTag.svelte';
-	import type { IExternalConference } from '../../../model/external-conference';
+	import type { IConference } from '../../../model/conference';
 	import type { User } from '$lib/types/user';
 	import { urlFor } from '../../../utils/sanityclient-utils';
 
-	export let conference: IExternalConference;
+	export let conference: IConference;
 	export let user: User;
 
 	const date = formatEventDateRange(conference.startDate, conference.endDate);
@@ -50,7 +50,7 @@
 			</Content>
 		</Card>
 	</div>
-	<ConferenceModal bind:open {conference} {user} isExternalConference />
+	<ConferenceModal bind:open {conference} {user} isConference />
 </div>
 
 <style>

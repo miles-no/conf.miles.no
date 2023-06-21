@@ -23,14 +23,14 @@
 </script>
 
 <div
-	class="external-conference-perfermance-card-container"
+	class="conference-perfermance-card-container"
 	role="button"
 	tabindex={0}
 	on:click={() => handleModal(performance._key)}
 	on:keypress={() => handleModal(performance._key)}
 	aria-label={ariaLabel}
 >
-	<div class="content external-conference-perfermance-card-content" aria-hidden={true}>
+	<div class="content conference-perfermance-card-content" aria-hidden={true}>
 		<div class="date-location-container">
 			<div class="date-location">
 				{#if dateAndTime}
@@ -66,7 +66,7 @@
 </div>
 
 <style lang="scss">
-	.external-conference-perfermance-card-container {
+	.conference-perfermance-card-container {
 		.content {
 			padding: 1rem;
 			border-radius: 0.5rem;

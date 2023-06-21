@@ -13,17 +13,17 @@
 	import { getContext } from 'svelte';
 	import type { IToastContextProps } from '../../toast/toast-context';
 	import type { User } from '$lib/types/user';
-	import type { IExternalConference } from '../../../model/external-conference';
+	import type { IConference } from '../../../model/conference';
 	/**
 	 * @type {boolean}
 	 */
 	export let open: boolean = false;
-	export let isExternalConference: boolean = false;
+	export let isConference: boolean = false;
 
 	/**
 	 * @type {{ startDate: any; endDate: any; employees: any[]; _id: any; imageUrl: any; title: any; location: any; url: any; price: any; categoryTag: any; description: any; }}
 	 */
-	export let conference: IExternalConference;
+	export let conference: IConference;
 	export let user: User;
 
 	const toastContext = getContext<IToastContextProps>('toastContext');
@@ -37,7 +37,7 @@
 
 		if (newStatus && newStatus !== selectedStatus) {
 			disableStatus = true;
-			const response = await fetch('/api/external-conference', {
+			const response = await fetch('/api/conference', {
 				method: 'PUT',
 				body: JSON.stringify({
 					...conference,
@@ -48,14 +48,24 @@
 			if (result.success) {
 				toastContext.createToastBody('success', 'Vellykket', `Status oppdatert til ${statusText}`);
 
-				// re-run all `load` functions, following the successful update
-				await invalidateAll();
-			} else {
-				toastContext.createToastBody(
-					'error',
-					'Feil',
-					`Det oppstod en feil ved oppdatering av status til ${statusText}`
-				);
+				if (result.success) {
+					toastContext.createToastBody(
+						'success',
+						'Vellykket',
+						`Status oppdatert til ${statusText}`
+					);
+
+					// re-run all `load` functions, following the successful update
+					await invalidateAll();
+				} else {
+					toastContext.createToastBody(
+						'error',
+						'Feil',
+						`Det oppstod en feil ved oppdatering av status til ${statusText}`
+					);
+				}
+				toastContext.showToast();
+				applyAction(result);
 			}
 			toastContext.showToast();
 			applyAction(result);
@@ -63,7 +73,7 @@
 		}
 	};
 
-	$: detailsPage = isExternalConference
+	$: detailsPage = isConference
 		? `/konferanser/${conference.slug}`
 		: `/arrangement/${conference.slug}`;
 	let disableStatus: boolean = false;

@@ -1,8 +1,7 @@
 import siteSettings from './siteSettings';
 import author from './author';
-import conference from './conference';
 import submission from './submission';
-import externalConference from './externalConference';
+import conference from './conference';
 import event from './event';
 
 import portableText from './objects/portableText';
@@ -15,7 +14,6 @@ export default [
   siteSettings,
   author,
   conference,
-  externalConference,
   event,
   submission,
   portableText,

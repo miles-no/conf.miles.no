@@ -3,7 +3,7 @@ import type {IToastContextProps} from "../../toast/toast-context";
 import { goto } from '$app/navigation';
 import type {ToastType} from "svelte-toasts/types/common";
 
-const API_URL = '/api/create-ext-conference';
+const API_URL = '/api/create-conference';
 const redirectAfterSuccessfulSubmit = (slug: string) => {
     goto(`/konferanser/${slug}`);
 

@@ -2,8 +2,8 @@
 	import BreadCrumb from '../../../components/BreadCrumb.svelte';
 	import { intlFormat } from 'date-fns';
 	import DaySelect from '../../../components/DaySelect.svelte';
-	import ExternalConferenceProgram from '../../../components/ExternalEventProgram.svelte';
-	import InternalConferenceProgram from '../../../components/InternalEventProgram.svelte';
+	import ExternalEventProgram from '../../../components/ExternalEventProgram.svelte';
+	import InternalEventProgram from '../../../components/InternalEventProgram.svelte';
 
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
@@ -154,9 +154,9 @@
 		<DaySelect options={dateOptions} bind:selected={selectedDay} />
 		<div class="pt-4">
 			{#if event.internal}
-				<InternalConferenceProgram event={event} day={selectedDay} />
+				<InternalEventProgram event={event} day={selectedDay} />
 			{:else}
-				<ExternalConferenceProgram event={event} day={selectedDay} />
+				<ExternalEventProgram event={event} day={selectedDay} />
 			{/if}
 		</div>
 	{/if}

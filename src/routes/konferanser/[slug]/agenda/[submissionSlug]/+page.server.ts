@@ -1,4 +1,4 @@
-import { fetchExternalConferencePerformance } from '$lib/sanityClient';
+import { fetchConferencePerformance } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth.js';
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
@@ -22,23 +22,23 @@ export const load = (async ({ params, cookies }): Promise<IAgendaPageLoadData> =
 
 	const { slug: conferenceSlug, submissionSlug } = params;
 
-	let event = (await fetchExternalConferencePerformance(
+	let conference = (await fetchConferencePerformance(
 		conferenceSlug,
 		submissionSlug
-	)) as unknown as IEvent;
+	)) as IEvent;
 
-	if (!event) {
+	if (!conference) {
 		throw error(404, 'Side ikke funnet');
 	}
 
-	const performance = event.performances ? event.performances[0] : undefined;
+	const performance = conference.performances ? conference.performances[0] : undefined;
 
 	if (!performance || !performance.submission) {
 		throw error(404, 'Fant ingen informasjon om agenda');
 	}
 
 	return {
-		event: event,
+		event: conference,
 		performance: performance,
 		submission: performance.submission
 	};

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ConferenceInformation from '../../../components/conference/conference-information/ConferenceInformation.svelte';
-	import type { IExternalConferenceSlugPageLoadData } from './+page.server';
+	import type { IConferenceSlugPageLoadData } from './+page.server';
 	import Paper, { Content } from '@smui/paper';
 	import ConferenceStatus from '../../../components/conference/conference-status/ConferenceStatus.svelte';
 	import ConferenceAttendance from '../../../components/conference/conference-attendance/ConferenceAttendance.svelte';
@@ -13,7 +13,7 @@
 	import { PortableText } from '@portabletext/svelte';
 	import NoImage from '../../../components/no-image/NoImage.svelte';
 	import type { IPerformance } from '../../../model/event';
-	import ExternalConferencePerformanceCard from '../../../components/conference/external-conference-perfermance-card/ExternalConferencePerformanceCard.svelte';
+	import ConferencePerformanceCard from '../../../components/conference/conference-perfermance-card/ConferencePerformanceCard.svelte';
 	import { formatDate, type IFormatOptions } from '../../../utils/date-time-utils';
 	import PerformanceModal from '../../../components/modal/performance-modal/PerformanceModal.svelte';
 	import ConferenceCategoryTag from '../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
@@ -24,7 +24,7 @@
 		[key: string]: IPerformance[];
 	}
 
-	export let data: IExternalConferenceSlugPageLoadData;
+	export let data: IConferenceSlugPageLoadData;
 	$: conference = data.conference;
 	$: user = data.user;
 	$: selectedStatus = data?.myStatus;
@@ -58,7 +58,7 @@
 
 		if (newStatus && newStatus !== selectedStatus) {
 			disableStatus = true;
-			const response = await fetch('/api/external-conference', {
+			const response = await fetch('/api/conference', {
 				method: 'PUT',
 				body: JSON.stringify({
 					...conference,
@@ -171,7 +171,7 @@
 								<h3 class="date">{date}</h3>
 								<div class="miles-bidrag-content-per-day">
 									{#each performanceMapByDate[date] as performance}
-										<ExternalConferencePerformanceCard {performance} handleModal={onOpenModal} />
+										<ConferencePerformanceCard {performance} handleModal={onOpenModal} />
 									{/each}
 								</div>
 							{/each}
