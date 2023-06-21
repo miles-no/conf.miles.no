@@ -75,10 +75,18 @@
 			{:else}
 				<Button
 					variant="outlined"
-					class="button-shaped-round"
+					class="filter-button button-shaped-round"
 					on:click={() => (openFilterCategory = true)}
 				>
-					<Label>Kategori</Label>
+					<Label>Kategori{selectedCategoryType.length === 1 ? ':' : ''}</Label>
+					{#if selectedCategoryType.length > 1}
+						<span class="selected-category-count">{selectedCategoryType.length}</span>
+					{/if}
+					{#if selectedCategoryType.length === 1}
+						<span>
+							{selectedCategoryType[0]}
+						</span>
+					{/if}
 					<Icon class="material-icons">expand_more</Icon>
 				</Button>
 			{/if}
@@ -103,9 +111,15 @@
 
 <style lang="scss">
 	@use '../../styles/mixin' as *;
+	@use '../../styles/colors' as *;
 	:global(.button-shaped-round) {
 		@include button-shaped-round();
 	}
+
+	p {
+		margin: 0;
+	}
+
 	.container {
 		max-width: 1320px;
 		margin: auto;
@@ -130,6 +144,29 @@
 	.filter-by-search-container {
 		:global(.search-input) {
 			width: 100%;
+		}
+	}
+	:global(.filter-button) {
+		max-width: 80vw !important;
+		min-width: 20vw !important;
+		display: flex;
+		gap: 0.5rem;
+		span {
+			font-weight: 600;
+		}
+
+		.selected-category-count {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: $miles-red !important;
+			font-size: 14px;
+			color: white;
+			border-radius: 50%;
+			height: 23px;
+			width: 23px;
+			// Centering text
+			padding-left: 2px;
 		}
 	}
 
