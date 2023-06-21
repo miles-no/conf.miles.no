@@ -76,8 +76,8 @@
 
 	.filter-conference-category-modal-content-container {
 		z-index: 10;
-		max-width: 70vw;
-		min-width: 40vw;
+		max-width: 400px;
+		width: 80vw;
 		border-radius: 0.3rem;
 		background-color: white;
 		overflow: hidden;
@@ -89,7 +89,7 @@
 	}
 
 	.content-container {
-		padding: 2rem 0.7rem 0.7rem 0.7rem;
+		padding: 2rem 0.7rem 1.7rem 0.7rem;
 	}
 
 	:global(.select-btn) {
