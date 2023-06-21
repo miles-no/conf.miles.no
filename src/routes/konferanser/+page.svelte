@@ -36,8 +36,8 @@
 	}
 
 	const onSelectCategory = (selected: ConferenceCategoryType[]) => {
-		selectedCategoryType = selected;
 		openFilterCategory = false;
+		selectedCategoryType = selected;
 	};
 </script>
 
@@ -71,7 +71,7 @@
 				<Button
 					variant="outlined"
 					class="button-shaped-round"
-					on:click={() => (openFilterCategory = !openFilterCategory)}
+					on:click={() => (openFilterCategory = true)}
 				>
 					<Label>Kategori</Label>
 					<Icon class="material-icons">expand_more</Icon>
@@ -89,13 +89,11 @@
 		</LayoutGrid>
 	</div>
 
-	{#if openFilterCategory}
-		<FilterConferenceCategoryModal
-			open={openFilterCategory}
-			{selectedCategoryType}
-			onSelect={onSelectCategory}
-		/>
-	{/if}
+	<FilterConferenceCategoryModal
+		bind:open={openFilterCategory}
+		{selectedCategoryType}
+		onSelect={onSelectCategory}
+	/>
 </div>
 
 <style>

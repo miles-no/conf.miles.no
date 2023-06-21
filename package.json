@@ -3,8 +3,8 @@
 	"description": "Miles @ Conf",
 	"version": "1.4.0",
 	"scripts": {
-        "dev": "vite dev --port 3000",
-        "dev:expose": "vite dev --port 3000 --host",
+		"dev": "vite dev --port 3000",
+		"dev:expose": "vite dev --port 3000 --host",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "playwright test",
