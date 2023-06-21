@@ -1,5 +1,5 @@
 import { fetchEvents } from '$lib/sanityClient';
-import { getUserFromCookie } from '$lib/server/auth.js';
+import { getUserFromCookie } from '$lib/server/auth';
 
 export const prerender = false;
 
