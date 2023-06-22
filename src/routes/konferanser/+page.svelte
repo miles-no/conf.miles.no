@@ -7,7 +7,7 @@
 	import NewConferenceModal from '../../components/conference/NewConference/Modal/NewConferenceModal.svelte';
 	import type { IConferencesPageLoadData } from './+page.server';
 	import type { ConferenceCategoryType } from '../../enums/conference-category';
-	import { displayNewConferenceModal } from '../../components/conference/NewConference/newConferenceStores';
+	import { displayNewConferenceModal } from '../../components/conference/NewConference/stores';
 	import ConferenceCategoryCheckboxGroup from '../../components/checkbox/conference-category-checkbox-group/ConferenceCategoryCheckboxGroup.svelte';
 	import FilterConferenceCategoryModal from '../../components/modal/filter-conference-category-modal/FilterConferenceCategoryModal.svelte';
 	export let data: IConferencesPageLoadData;

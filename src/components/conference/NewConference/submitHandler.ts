@@ -1,4 +1,4 @@
-import {initModal, pending} from "./newConferenceStores.js";
+import {initModal, pending} from "./stores.js";
 import type {IToastContextProps} from "../../toast/toast-context";
 import { goto } from '$app/navigation';
 import type {ToastType} from "svelte-toasts/types/common";

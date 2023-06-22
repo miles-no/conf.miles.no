@@ -9,10 +9,10 @@
         selectedCategoryTags,
         intervalWarning,
         pending
-    } from "../newConferenceStores.ts";
+    } from "../stores.ts";
     import darkTheme from "../../../../stores/theme-store";
     import Spinner from "../Spinner.svelte";
-    import {submitAndHandleModal} from "../modalSubmitHandler.ts";
+    import {submitAndHandleModal} from "../submitHandler";
     import {getContext} from "svelte";
     import {formatDateYYYYMMDD} from "../../../../utils/date-time-utils";
     import {makeid} from "../../../../utils/conference-utils";

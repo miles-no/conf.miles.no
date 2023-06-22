@@ -1,17 +1,10 @@
 <script>
     import {onMount} from "svelte";
-    import {
-        name,
-        url,
-        startDate,
-        endDate,
-        selectedCategoryTags, initModal
-    } from "../../../components/conference/NewConference/newConferenceStores";
-    import {formatDateYYYYMMDD} from "../../../utils/date-time-utils";
     import Form from "../../../components/conference/NewConference/Page/Form.svelte";
 
 
-    let filledData;
+    import {endDate, name, selectedCategoryTags, startDate, url, initModal} from "../../../components/conference/NewConference/stores";
+    import {formatDateYYYYMMDD} from "../../../utils/date-time-utils";
 
     function getUrlParamNew() {
         try {
@@ -75,6 +68,8 @@
 
         return transferredData;
     }
+
+    let filledData;
 
     onMount(() => {
         filledData = getTransferredData();

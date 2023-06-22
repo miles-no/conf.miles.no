@@ -1,7 +1,7 @@
 <script>
     import JustifiedRow from "../../../form/JustifiedRow.svelte";
     import TextField from "../../../form/TextField.svelte";
-    import {name, url, location} from "../newConferenceStores.ts";
+    import {name, url, location} from "../stores.ts";
 </script>
 
 <JustifiedRow>
