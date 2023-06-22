@@ -39,9 +39,3 @@
     />
 </LabeledField>
 
-<style>
-    :global(.hide-placeholder .mdc-notched-outline__notch)  {
-        width: 0 !important;
-        padding-right: 0;
-    }
-</style>

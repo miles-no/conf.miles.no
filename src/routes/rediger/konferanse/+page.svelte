@@ -8,8 +8,9 @@
         selectedCategoryTags, initModal
     } from "../../../components/conference/NewConference/newConferenceStores";
     import {formatDateYYYYMMDD} from "../../../utils/date-time-utils";
+    import Form from "../../../components/conference/NewConference/Page/Form.svelte";
 
-    
+
     let filledData;
 
     function getUrlParamNew() {
@@ -46,6 +47,7 @@
 
         } catch (e) {
             console.error(e);
+            console.log("Transferred data:", transferredData);
         }
 
         if (!transferredData) {
@@ -82,6 +84,8 @@
 
 <div class="edit-conf-main">
     <h1>Registrer en ny konferanse</h1>
+
+    <Form />
 
     <pre>filledData: {JSON.stringify(filledData, null, 4)}</pre>
 </div>

@@ -3,6 +3,7 @@ import { writable } from 'svelte/store';
 
 export const name= writable('');
 export const url= writable('');
+export const location= writable('');
 export const startDate = writable(null);
 export const endDate = writable(null);
 export const selectedCategoryTags = writable([]);
@@ -19,6 +20,7 @@ export const initModal = () => {
     endDate.set(null);
     name.set('');
     url.set('');
+    location.set('');
     selectedCategoryTags.set([]);
 
     displayNewConferenceModal.set(false);
