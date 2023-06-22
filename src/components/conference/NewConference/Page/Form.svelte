@@ -1,18 +1,22 @@
 <script>
     import NameUrlLocationLine from "./NameUrlLocationLine.svelte";
-    //import DatePickerLine from "./DatePickerLine.svelte";
     //import ButtonFooterLine from "./ButtonFooterLine.svelte";
     import CheckboxLine from "../CheckboxLine.svelte";
     import {pending} from "../stores.ts";
+    import DatePickersAndPriceLine from "./DatePickersAndPriceLine.svelte";
+    import DescriptionLine from "./DescriptionLine.svelte";
 
-    export let formId;
+    export let formId=undefined;
+
+
 </script>
 
 <form id={formId} class:pending={$pending}>
     <NameUrlLocationLine />
-    <!--DatePickerLine />
+    <DatePickersAndPriceLine />
+    <DescriptionLine />
     <CheckboxLine />
-    <ButtonFooterLine /-->
+    <!--ButtonFooterLine /-->
 </form>
 
 <style>

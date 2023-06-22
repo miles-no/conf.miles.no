@@ -3,7 +3,7 @@
     import LabeledField from "./LabeledField.svelte";
     import {onMount} from "svelte";
 
-    export let label, width, placeholder, value='', required=false;
+    export let label, width, placeholder, value='', required=false, multiline=undefined, rows=undefined;
 
     let hidePlaceholderClass = undefined;
 
@@ -36,6 +36,8 @@
             on:blur={handlePlaceholder}
             on:keydown={preventEnter}
             class="textfield"
+            textarea={multiline}
+            input$rows={rows}
     />
 </LabeledField>
 
