@@ -15,7 +15,7 @@
     import {submitAndHandleModal} from "./modalSubmitHandler.ts";
     import {getContext} from "svelte";
     import {formatDateYYYYMMDD} from "../../../utils/date-time-utils";
-
+    import {makeid} from "../../../utils/conference-utils.ts";
 
     const toastContext = getContext('toastContext');
 
@@ -34,6 +34,28 @@
         submitAndHandleModal(JSON.stringify(submitData), toastContext);
     }
 
+    async function gotoAddMoreDetailsPage() {
+        const enteredData = {
+            title: $name,
+            url: $url,
+            startDate: formatDateYYYYMMDD($startDate),
+            endDate: formatDateYYYYMMDD($endDate),
+            categoryTag: $selectedCategoryTags
+        };
+
+        // Store entered data in sessionStorage for picking it back up after navigating to the created item:
+        if (typeof sessionStorage !== "undefined") {
+            const sessionStorageKey =  makeid(6);
+            sessionStorage.setItem(`newconf_${sessionStorageKey}`, JSON.stringify(enteredData));
+            window.location.href = `/rediger/konferanse/?new=${sessionStorageKey}`;
+
+        } else {
+            // TODO: Confirm, will svelte stores always retain the entered data this way?
+            window.location.href = `/rediger/konferanse/?new=true`;
+        }
+    }
+
+
     let disabled = true;
     $: {
         disabled = !($name.trim()) || !($url.trim()) || !$startDate || !$endDate || !!$intervalWarning;
@@ -45,7 +67,7 @@
 <div class="footer-buttons" class:dark-mode={$darkTheme}>
     <JustifiedRow>
         <Button color="secondary"
-                on:click={() => alert("Implement me!")}
+                on:click={gotoAddMoreDetailsPage}
                 disabled={$pending}
         >
             <Icon class="material-icons">add</Icon>

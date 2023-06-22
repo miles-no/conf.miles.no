@@ -6,7 +6,6 @@ import type {ToastType} from "svelte-toasts/types/common";
 const API_URL = '/api/create-conference';
 const redirectAfterSuccessfulSubmit = (slug: string) => {
     goto(`/konferanser/${slug}`);
-
 }
 
 const alertAndKeepModal = (message:string, error:string|Error, submitData:any, toastContext:IToastContextProps) => {
