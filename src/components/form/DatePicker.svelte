@@ -4,7 +4,7 @@
     import LabeledField from "./LabeledField.svelte";
     import {Icon} from "@smui/common";
     import { createEventDispatcher } from 'svelte';
-    import {makeid} from "../../utils/conference-utils.ts";
+    import {makeid} from "../../utils/conference-utils";
     import darkTheme from "../../stores/theme-store";
     /*
 

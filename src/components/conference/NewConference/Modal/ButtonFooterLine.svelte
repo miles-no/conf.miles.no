@@ -1,6 +1,6 @@
 <script>
     import Button, {Icon, Label} from "@smui/button";
-    import JustifiedRow from "../../form/JustifiedRow.svelte";
+    import JustifiedRow from "../../../form/JustifiedRow.svelte";
     import {
         name,
         url,
@@ -9,13 +9,13 @@
         selectedCategoryTags,
         intervalWarning,
         pending
-    } from "./newConferenceStores.ts";
-    import darkTheme from "../../../stores/theme-store";
-    import Spinner from "./Spinner.svelte";
-    import {submitAndHandleModal} from "./modalSubmitHandler.ts";
+    } from "../newConferenceStores.ts";
+    import darkTheme from "../../../../stores/theme-store";
+    import Spinner from "../Spinner.svelte";
+    import {submitAndHandleModal} from "../modalSubmitHandler.ts";
     import {getContext} from "svelte";
-    import {formatDateYYYYMMDD} from "../../../utils/date-time-utils";
-    import {makeid} from "../../../utils/conference-utils.ts";
+    import {formatDateYYYYMMDD} from "../../../../utils/date-time-utils";
+    import {makeid} from "../../../../utils/conference-utils";
 
     const toastContext = getContext('toastContext');
 

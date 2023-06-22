@@ -1,16 +1,16 @@
 <script>
     import {onMount} from "svelte";
-
-    let filledData;
-
     import {
         name,
         url,
         startDate,
         endDate,
         selectedCategoryTags, initModal
-    } from "../../../components/conference/NewConferenceModal/newConferenceStores.ts";
+    } from "../../../components/conference/NewConference/newConferenceStores";
     import {formatDateYYYYMMDD} from "../../../utils/date-time-utils";
+
+    
+    let filledData;
 
     function getUrlParamNew() {
         try {

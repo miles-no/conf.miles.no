@@ -4,10 +4,10 @@
 	import Cell from '@smui/layout-grid/src/Cell.svelte';
 	import ConferenceCard from '../../components/conference/ConferenceCard/ConferenceCard.svelte';
 	import Textfield from '@smui/textfield';
-	import NewConferenceModal from '../../components/conference/NewConferenceModal/NewConferenceModal.svelte';
+	import NewConferenceModal from '../../components/conference/NewConference/Modal/NewConferenceModal.svelte';
 	import type { IConferencesPageLoadData } from './+page.server';
 	import type { ConferenceCategoryType } from '../../enums/conference-category';
-	import { displayNewConferenceModal } from '../../components/conference/NewConferenceModal/newConferenceStores';
+	import { displayNewConferenceModal } from '../../components/conference/NewConference/newConferenceStores';
 	import ConferenceCategoryCheckboxGroup from '../../components/checkbox/conference-category-checkbox-group/ConferenceCategoryCheckboxGroup.svelte';
 	import FilterConferenceCategoryModal from '../../components/modal/filter-conference-category-modal/FilterConferenceCategoryModal.svelte';
 	export let data: IConferencesPageLoadData;
