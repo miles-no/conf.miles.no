@@ -1,7 +1,6 @@
 @use 'sass:color';
 @use './konferansesider-custom-theme';
 @use '@material/theme/color-palette';
-
 // Svelte Colors!
 @use '@material/theme/index' as theme with (
 	$primary: #a82424,

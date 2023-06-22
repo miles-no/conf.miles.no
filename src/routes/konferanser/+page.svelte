@@ -36,8 +36,8 @@
 	}
 
 	const onSelectCategory = (selected: ConferenceCategoryType[]) => {
-		selectedCategoryType = selected;
 		openFilterCategory = false;
+		selectedCategoryType = selected;
 	};
 </script>
 
@@ -48,7 +48,7 @@
 	</title>
 </svelte:head>
 
-<div class="container">
+<div class="conference-page-container">
 	{#if $displayNewConferenceModal}
 		<NewConferenceModal />
 	{/if}
@@ -59,8 +59,13 @@
 		</Button>
 	</div>
 	<div class="filter-container">
-		<div>
-			<Textfield variant="outlined" bind:value={searchTerm} label="Søk etter konferanse">
+		<div class="filter-by-search-container">
+			<Textfield
+				class="search-input"
+				variant="outlined"
+				bind:value={searchTerm}
+				label="Søk etter konferanse"
+			>
 				<Icon class="material-icons" slot="trailingIcon">search</Icon>
 			</Textfield>
 		</div>
@@ -70,42 +75,51 @@
 			{:else}
 				<Button
 					variant="outlined"
-					class="button-shaped-round"
-					on:click={() => (openFilterCategory = !openFilterCategory)}
+					class="filter-button button-shaped-round"
+					on:click={() => (openFilterCategory = true)}
 				>
-					<Label>Kategori</Label>
+					<Label>Kategori{selectedCategoryType.length === 1 ? ':' : ''}</Label>
+					{#if selectedCategoryType.length > 1}
+						<span class="selected-category-count">{selectedCategoryType.length}</span>
+					{/if}
+					{#if selectedCategoryType.length === 1}
+						<span>
+							{selectedCategoryType[0]}
+						</span>
+					{/if}
 					<Icon class="material-icons">expand_more</Icon>
 				</Button>
 			{/if}
 		</div>
 	</div>
-	<div>
-		<LayoutGrid>
-			{#each filteredConferences as conference}
-				<Cell>
-					<ConferenceCard {conference} {user} />
-				</Cell>
-			{/each}
-		</LayoutGrid>
+	<div class="conference-page-card-container">
+		{#each filteredConferences as conference}
+			<div>
+				<ConferenceCard {conference} {user} />
+			</div>
+		{/each}
 	</div>
 
-	{#if openFilterCategory}
-		<FilterConferenceCategoryModal
-			open={openFilterCategory}
-			{selectedCategoryType}
-			onSelect={onSelectCategory}
-		/>
-	{/if}
+	<FilterConferenceCategoryModal
+		bind:open={openFilterCategory}
+		{selectedCategoryType}
+		onSelect={onSelectCategory}
+	/>
 </div>
 
-<style>
-	.container {
-		max-width: 1320px;
-		margin: auto;
+<style lang="scss">
+	@use '../../styles/mixin' as *;
+	@use '../../styles/colors' as *;
+	:global(.button-shaped-round) {
+		@include button-shaped-round();
+	}
+
+	.conference-page-container {
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
 	}
+
 	.topRow {
 		width: 100%;
 		display: flex;
@@ -118,6 +132,41 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+	}
+
+	.filter-by-search-container {
+		:global(.search-input) {
+			width: 100%;
+		}
+	}
+	:global(.filter-button) {
+		max-width: 80vw !important;
+		min-width: 20vw !important;
+		display: flex;
+		gap: 0.5rem;
+		span {
+			font-weight: 600;
+		}
+
+		.selected-category-count {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: $miles-red !important;
+			font-size: 14px;
+			color: white;
+			border-radius: 50%;
+			height: 23px;
+			width: 23px;
+			// Centering text
+			padding-left: 2px;
+		}
+	}
+
+	.conference-page-card-container {
+		display: grid;
+		gap: 2rem;
+		grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
 	}
 
 	@media (min-width: 900px) {

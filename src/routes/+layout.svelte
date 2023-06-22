@@ -82,9 +82,13 @@
 		}
 	}
 
+	#main {
+		padding-top: 3rem !important;
+	}
+
 	@media (min-width: 900px) {
 		.layout-container {
-			padding: 3rem 1.5rem;
+			padding: 3rem 2rem;
 		}
 	}
 </style>

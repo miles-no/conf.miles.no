@@ -18,7 +18,7 @@
 	import PerformanceModal from '../../../components/modal/performance-modal/PerformanceModal.svelte';
 	import ConferenceCategoryTag from '../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
 	import { updateEmployeesStatus } from '../../../utils/conference-utils';
-    import type {ToastDataType} from "../../../components/conference/NewConferenceModal/modalSubmitHandler";
+	import type { ToastDataType } from '../../../components/conference/NewConferenceModal/modalSubmitHandler';
 
 	interface IPerformanceMapByDate {
 		[key: string]: IPerformance[];
@@ -93,29 +93,27 @@
 		}
 	};
 
-
-    onMount( ()=> {
-        try {
-            if (typeof sessionStorage !== 'undefined') {
-                const sessionStorageKey = `new-conference-toast-` + conference.slug;
-                const toast: ToastDataType = JSON.parse(sessionStorage.getItem(sessionStorageKey));
-                if (toast && typeof toast === 'object') {
-                    const {type, title, description, duration} = toast;
-                    if (type) {
-                        toastContext.createToastBody(type, title, description);
-                    }
-                    if (duration) {
-                        toastContext.setDuration(duration);
-                    }
-                    toastContext.showToast();
-                }
-                sessionStorage.removeItem(sessionStorageKey);
-            }
-
-        } catch (e) {
-            console.warn(e);
-        }
-    });
+	onMount(() => {
+		try {
+			if (typeof sessionStorage !== 'undefined') {
+				const sessionStorageKey = `new-conference-toast-` + conference.slug;
+				const toast: ToastDataType = JSON.parse(sessionStorage.getItem(sessionStorageKey));
+				if (toast && typeof toast === 'object') {
+					const { type, title, description, duration } = toast;
+					if (type) {
+						toastContext.createToastBody(type, title, description);
+					}
+					if (duration) {
+						toastContext.setDuration(duration);
+					}
+					toastContext.showToast();
+				}
+				sessionStorage.removeItem(sessionStorageKey);
+			}
+		} catch (e) {
+			console.warn(e);
+		}
+	});
 </script>
 
 <svelte:head>
@@ -301,10 +299,6 @@
 
 	// Desktop
 	@media (min-width: 900px) {
-		.conference-details-container {
-			padding: 2rem 5rem 8rem 5rem;
-		}
-
 		.conference-details {
 			display: grid !important;
 			grid-template-columns: 1fr 0.5fr;

@@ -52,11 +52,5 @@
 			flex-direction: column;
 			gap: 0.5rem;
 		}
-
-		> div {
-			display: flex;
-			align-items: center;
-			gap: 0.3rem;
-		}
 	}
 </style>

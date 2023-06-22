@@ -1,7 +1,11 @@
-div[role='button']:hover,
 div[role='button']:focus-visible {
 	outline: 2px solid #d32f2f;
-	border: 1px solid #d32f2f;
+	border: none;
+}
+
+div[role='button']:hover {
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+	transition: box-shadow 0.3s;
 }
 
 .grey-text {
