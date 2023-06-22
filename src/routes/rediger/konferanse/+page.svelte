@@ -32,8 +32,15 @@
                 if (newconfkey) {
                     const sessionStorageKey = `newconf_${newconfkey}`;
                     transferredData = JSON.parse(sessionStorage.getItem(sessionStorageKey));
-
                     sessionStorage.removeItem(sessionStorageKey);
+
+                    if (transferredData) {
+                        name.set(transferredData.title);
+                        url.set(transferredData.url);
+                        startDate.set(transferredData.startDate);
+                        endDate.set(transferredData.endDate)
+                        selectedCategoryTags.set(transferredData.categoryTag);
+                    }
                 }
             }
 
@@ -60,6 +67,7 @@
 
             } catch (e) {
                 console.error(e);
+                console.log("Transferred data:", transferredData);
             }
         }
 
