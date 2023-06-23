@@ -19,7 +19,7 @@
     }
 
     function preventEnter(event) {
-        if (event.key==='Enter') {
+        if (event.key==='Enter' && !multiline) {
             event.preventDefault();
         }
     }
