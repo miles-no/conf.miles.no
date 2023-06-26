@@ -35,7 +35,7 @@
 			<Content>
 				<div class="dateLocationWrapper">
 					<div class="mdc-typography--body1">{date}</div>
-					<div>{conference.location}</div>
+					{#if conference.location}<div>{conference.location}</div>{/if}
 				</div>
 				<div class="title mdc-typography--headline6">
 					{conference.title}
