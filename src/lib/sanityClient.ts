@@ -3,6 +3,7 @@ import { env } from '$env/dynamic/public';
 import type { IConference } from '../model/conference';
 import type { IEvent } from '../model/event';
 import type { User } from './types/user';
+import { addDays } from 'date-fns';
 
 export const client = sanityClient({
 	projectId: env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
@@ -45,9 +46,36 @@ export async function fetchEvents(user: User): Promise<IEvent[]> {
 	return events;
 }
 
-export async function fetchConferences(): Promise<IConference[]> {
-	return await client.fetch(/* groq */ `
-        *[_type == "conference"] | order(startDate desc) {
+export async function fetchConferences(fetchPastEvents = false): Promise<IConference[]> {
+	if (fetchPastEvents) {
+        const now = new Date();
+        return await client.fetch(
+            /* groq */ `
+            *[_type == "conference" && endDate < $now] | order(endDate desc, startDate desc, title) {
+                ...,
+                "slug": slug.current,
+                "imageUrl": image.asset->url,
+                performances[] | order(dateAndTime asc)
+                {...,
+                    submission->{
+                        ...,
+                        "slug": slug.current,
+                        authors[]->{
+                            ...,
+                            "imageUrl": image.asset->url
+                        }
+                    }
+                }
+            }
+        `,
+            { now }
+        ); 
+    }
+    
+    const date = addDays(new Date(), -1);
+	return await client.fetch(
+		/* groq */ `
+        *[_type == "conference" && endDate > $date] | order(startDate, endDate, title) {
             ...,
             "slug": slug.current,
             "imageUrl": image.asset->url,
@@ -63,7 +91,9 @@ export async function fetchConferences(): Promise<IConference[]> {
                 }
             }
         }
-    `);
+    `,
+		{ date }
+	);
 }
 
 export async function fetchEvent(slug: string): Promise<IEvent> {
