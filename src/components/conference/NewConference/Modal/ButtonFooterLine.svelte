@@ -36,7 +36,7 @@
 
     async function gotoAddMoreDetailsPage() {
         const enteredData = {
-            title: $name,
+            name: $name,
             url: $url,
             startDate: formatDateYYYYMMDD($startDate),
             endDate: formatDateYYYYMMDD($endDate),

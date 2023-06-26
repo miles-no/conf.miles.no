@@ -1,4 +1,4 @@
-import {initModal, pending} from "./stores.js";
+import {initStore, pending} from "./stores.js";
 import type {IToastContextProps} from "../../toast/toast-context";
 import { goto } from '$app/navigation';
 import type {ToastType} from "svelte-toasts/types/common";
@@ -60,7 +60,7 @@ export const submitAndHandleModal = async (submitData:BodyInit|null|undefined, t
                 result.warnings.forEach( (warning:string) => console.warn(`    - ${warning}`));
                 console.log("Submitted conference data:", submitData);
             }
-            initModal();
+            initStore();
 
             // Store warning in sessionStorage for picking it back up after navigating to the created item:
             if (typeof sessionStorage !== "undefined") {

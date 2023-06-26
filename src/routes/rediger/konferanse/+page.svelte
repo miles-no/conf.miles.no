@@ -1,24 +1,24 @@
-<script>
+<script lang="ts">
     import {onMount} from "svelte";
     import Form from "../../../components/conference/NewConference/Page/Form.svelte";
 
 
-    import {endDate, name, selectedCategoryTags, startDate, url, initModal} from "../../../components/conference/NewConference/stores";
-    import {formatDateYYYYMMDD} from "../../../utils/date-time-utils";
+    import {endDate, name, selectedCategoryTags, startDate, url, initStore} from "../../../components/conference/NewConference/stores";
+    import type {NewConferenceStoreInitType} from "../../../components/conference/NewConference/stores";
 
     function getUrlParamNew() {
         try {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams && urlParams.has('new')) {
-                return urlParams.get('new');
+                return urlParams.get('new') || true;
             }
         } catch (e) {
             console.warn("Error trying to get url parameter '?new=...'");
         }
     };
 
-    function getTransferredData() {
-        let transferredData;
+    function getTransferredData(): NewConferenceStoreInitType {
+        let transferredData: NewConferenceStoreInitType;
         const newconfkey = getUrlParamNew();
         try {
             if (typeof sessionStorage !== 'undefined') {
@@ -27,14 +27,6 @@
                     const sessionStorageKey = `newconf_${newconfkey}`;
                     transferredData = JSON.parse(sessionStorage.getItem(sessionStorageKey));
                     sessionStorage.removeItem(sessionStorageKey);
-
-                    if (transferredData) {
-                        name.set(transferredData.title);
-                        url.set(transferredData.url);
-                        startDate.set(transferredData.startDate);
-                        endDate.set(transferredData.endDate)
-                        selectedCategoryTags.set(transferredData.categoryTag);
-                    }
                 }
             }
 
@@ -43,37 +35,24 @@
             console.log("Transferred data:", transferredData);
         }
 
-        if (!transferredData) {
-            try {
-                if (!newconfkey) {
-                    // console.log("No transferred data. Init store.");
-                    initModal();
-                } else {
-                    // console.log("Couldn't get data from sessionStorage. Trying store.");
-                }
-
-                transferredData = {
-                    title: $name || '',
-                    url: $url || '',
-                    startDate: $startDate ? formatDateYYYYMMDD($startDate) : null,
-                    endDate: $endDate ? formatDateYYYYMMDD($endDate) : null,
-                    categoryTag: $selectedCategoryTags || []
-                };
-
-            } catch (e) {
-                console.error(e);
-                console.log("Transferred data:", transferredData);
+        // If nothing was picked up from session store, but there was a "new" parameter, see if anything exists in the store
+        if ((!transferredData || !Object.keys(transferredData).length) && newconfkey) {
+            transferredData = {
+                name: $name ?? undefined,
+                url: $url ?? undefined,
+                startDate: $startDate ?? undefined,
+                endDate: $endDate ?? undefined,
+                selectedCategoryTags: $selectedCategoryTags ?? []
             }
         }
 
         return transferredData;
     }
 
-    let filledData;
 
     onMount(() => {
-        filledData = getTransferredData();
-        // console.log("FilledData:", filledData);
+        const transferredData = getTransferredData();
+        initStore(transferredData);
     });
 </script>
 
@@ -81,8 +60,6 @@
     <h1>Registrer en ny konferanse</h1>
 
     <Form />
-
-    <pre>filledData: {JSON.stringify(filledData, null, 4)}</pre>
 </div>
 
 <style>
