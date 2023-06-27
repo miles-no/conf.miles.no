@@ -12,14 +12,16 @@ export interface IConferencesPageLoadData {
 
 export const prerender = false;
 
-export const load = (async ({ cookies }): Promise<IConferencesPageLoadData> => {
+export const load = (async ({ cookies, url }): Promise<IConferencesPageLoadData> => {
 	const user = getUserFromCookie(cookies.get('session'));
 
 	if (!user.isAuthenticated) {
 		throw redirect(307, '/login');
 	}
 
-	const conferences = await fetchConferences();
+	const year = parseInt(url.searchParams.get('year') || '');
+	
+	const conferences = await fetchConferences(year);
 
 	if (!conferences) {
 		throw error(404, 'Side ikke funnet');

@@ -1,7 +1,8 @@
 <script lang="ts">
-	import LayoutGrid from '@smui/layout-grid';
 	import Button, { Icon, Label } from '@smui/button';
-	import Cell from '@smui/layout-grid/src/Cell.svelte';
+	import Select, { Option } from '@smui/select';
+	import FormField from '@smui/form-field';
+	import Switch from '@smui/switch';
 	import ConferenceCard from '../../components/conference/ConferenceCard/ConferenceCard.svelte';
 	import Textfield from '@smui/textfield';
 	import NewConferenceModal from '../../components/conference/NewConferenceModal/NewConferenceModal.svelte';
@@ -10,11 +11,83 @@
 	import { displayNewConferenceModal } from '../../components/conference/NewConferenceModal/newConferenceStores';
 	import ConferenceCategoryCheckboxGroup from '../../components/checkbox/conference-category-checkbox-group/ConferenceCategoryCheckboxGroup.svelte';
 	import FilterConferenceCategoryModal from '../../components/modal/filter-conference-category-modal/FilterConferenceCategoryModal.svelte';
+	import { goto } from '$app/navigation';
+	import { formatDateYYYYMMDD } from '../../utils/date-time-utils';
+
 	export let data: IConferencesPageLoadData;
-	export let conferences = data.conferences;
-	let user = data.user;
+	const urlParams = new URLSearchParams(window.location.search);
+	const user = data.user;
 
 	let selectedCategoryType: ConferenceCategoryType[] = [];
+	let openFilterCategory = false;
+	let screenSize: number;
+
+	function openModal() {
+		displayNewConferenceModal.set(true);
+	}
+
+	const categoryParam = urlParams.get('category');
+	if (Array.isArray(categoryParam)) {
+		selectedCategoryType = categoryParam;
+	} else if (typeof categoryParam === 'string') {
+		selectedCategoryType = [categoryParam as ConferenceCategoryType];
+	}
+
+	const onSelectCategory = (selected: ConferenceCategoryType[]) => {
+		openFilterCategory = false;
+		selectedCategoryType = selected;
+	};
+
+	$: if (selectedCategoryType) {
+		if (selectedCategoryType.length == 0) {
+			urlParams.delete('category');
+			goto(`?${urlParams.toString()}`);
+		} else {
+			urlParams.set('category', selectedCategoryType.toString());
+			goto(`?${urlParams.toString()}`);
+		}
+	}
+
+	const startYear: number = 2022;
+	const currentYear = new Date().getFullYear();
+	const selectableYears: number[] = [];
+	for (let i = startYear; i <= currentYear + 3; i++) {
+		selectableYears.push(i);
+	}
+	let selectedYear = urlParams.get('year') !== null ? parseInt(urlParams.get('year')!) : undefined;
+	let showPastEvents = urlParams.get('past') === 'true';
+
+	const onSelectYear = async (event: any) => {
+		const updatedValue = event.target.dataset.value;
+
+		if (updatedValue !== '') {
+			urlParams.set('year', updatedValue);
+			showPastEvents = updatedValue < currentYear;
+			if (showPastEvents) {
+				urlParams.set('past', 'true');
+			} else {
+				urlParams.delete('past');
+			}
+		} else {
+			urlParams.delete('year');
+			urlParams.delete('past');
+			showPastEvents = false;
+		}
+
+		goto(`?${urlParams.toString()}`);
+	};
+
+	const onShowPastEvents = async () => {
+		const updatedValue = !showPastEvents;
+		if (updatedValue) {
+			urlParams.set('past', 'true');
+		} else {
+			urlParams.delete('past');
+		}
+		goto(`?${urlParams.toString()}`);
+	};
+
+	$: conferences = data.conferences;
 	$: searchTerm = '';
 	$: filterByTags =
 		selectedCategoryType.length > 0
@@ -23,22 +96,19 @@
 						conf.categoryTag && conf.categoryTag.some((tag) => selectedCategoryType.includes(tag))
 			  )
 			: conferences;
-
-	$: filteredConferences = filterByTags.filter((conf) =>
-		conf.title.toLowerCase().includes(searchTerm)
-	);
-
-	let openFilterCategory = false;
-	let screenSize: number;
-
-	function openModal() {
-		displayNewConferenceModal.set(true);
-	}
-
-	const onSelectCategory = (selected: ConferenceCategoryType[]) => {
-		openFilterCategory = false;
-		selectedCategoryType = selected;
-	};
+	$: filteredConferences = filterByTags
+		.filter((conf) => {
+			if (searchTerm != '') {
+				return conf.title.toLowerCase().includes(searchTerm);
+			}
+			const now = formatDateYYYYMMDD(new Date());
+			return showPastEvents ? conf.endDate < now : conf.endDate > now;
+		})
+		.sort((a, b) => {
+			const endDateA = new Date(a.endDate).getTime();
+			const endDateB = new Date(b.endDate).getTime();
+			return showPastEvents ? endDateB - endDateA : endDateA - endDateB;
+		});
 </script>
 
 <svelte:window bind:innerWidth={screenSize} />
@@ -53,7 +123,7 @@
 		<NewConferenceModal />
 	{/if}
 	<div class="topRow">
-		<h1>Konferanser</h1>
+		<h1 class="conference-heading">Konferanser</h1>
 		<Button variant="raised" on:click={openModal}>
 			<Label>Registrer ny</Label>
 		</Button>
@@ -65,9 +135,21 @@
 				variant="outlined"
 				bind:value={searchTerm}
 				label="Søk etter konferanse"
-			>
-				<Icon class="material-icons" slot="trailingIcon">search</Icon>
-			</Textfield>
+			/>
+		</div>
+		<div class="filter-by-year-container">
+			<Select id="year" class="select-input" variant="outlined" bind:value={selectedYear}>
+				<Option value={undefined} on:click={onSelectYear}>Velg år</Option>
+				{#each selectableYears as year}
+					<Option value={year} on:click={onSelectYear}>{year}</Option>
+				{/each}
+			</Select>
+		</div>
+		<div>
+			<FormField>
+				<Switch bind:checked={showPastEvents} on:click={onShowPastEvents} icons={false} />
+				<span slot="label">Vis tidligere konferanser</span>
+			</FormField>
 		</div>
 		<div class="filter-category-container">
 			{#if screenSize >= 900}
@@ -93,7 +175,7 @@
 		</div>
 	</div>
 	<div class="conference-page-card-container">
-		{#each filteredConferences as conference}
+		{#each filteredConferences as conference (conference._id)}
 			<div>
 				<ConferenceCard {conference} {user} />
 			</div>
@@ -112,6 +194,10 @@
 	@use '../../styles/colors' as *;
 	:global(.button-shaped-round) {
 		@include button-shaped-round();
+	}
+
+	.conference-heading {
+		margin: 0;
 	}
 
 	.conference-page-container {
@@ -136,6 +222,11 @@
 
 	.filter-by-search-container {
 		:global(.search-input) {
+			width: 100%;
+		}
+	}
+	.filter-by-year-container {
+		:global(.select-input) {
 			width: 100%;
 		}
 	}
@@ -174,7 +265,6 @@
 			display: flex;
 			flex-direction: row;
 			align-items: center;
-			justify-content: space-between;
 			flex-wrap: wrap;
 			width: 100%;
 		}

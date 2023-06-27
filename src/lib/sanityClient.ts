@@ -46,36 +46,52 @@ export async function fetchEvents(user: User): Promise<IEvent[]> {
 	return events;
 }
 
-export async function fetchConferences(fetchPastEvents = false): Promise<IConference[]> {
-	if (fetchPastEvents) {
-        const now = new Date();
-        return await client.fetch(
-            /* groq */ `
-            *[_type == "conference" && endDate < $now] | order(endDate desc, startDate desc, title) {
-                ...,
-                "slug": slug.current,
-                "imageUrl": image.asset->url,
-                performances[] | order(dateAndTime asc)
-                {...,
-                    submission->{
+/**
+ * Fetches conferences based on a given year.
+ *
+ * @param year The year to filter conferences by.
+ * @returns A promise containing an array of IConference objects.
+ */
+export async function fetchConferences(year?: number): Promise<IConference[]> {
+	// Create string representations of the start and end dates for the given year.
+	const yearString = year ? `${year}-01-01` : '';
+	const nextYearString = year ? `${year + 1}-01-01` : '';
+
+	// Build a Groq query that filters conferences based on the specified criteria.
+	const query = `
+        *[_type == "conference" 
+            ${year ? '&& startDate >= $yearString && endDate <= $nextYearString' : ''}
+        ] | order(startDate, endDate, title) {
+            ...,
+            "slug": slug.current,
+            "imageUrl": image.asset->url,
+            performances[] | order(dateAndTime asc)
+            {...,
+                submission->{
+                    ...,
+                    "slug": slug.current,
+                    authors[]->{
                         ...,
-                        "slug": slug.current,
-                        authors[]->{
-                            ...,
-                            "imageUrl": image.asset->url
-                        }
+                        "imageUrl": image.asset->url
                     }
                 }
             }
-        `,
-            { now }
-        ); 
-    }
-    
-    const date = addDays(new Date(), -1);
+        }
+    `;
+
+	// Set the query parameters.
+	const params = { yearString, nextYearString };
+
+	return await client.fetch(query, params);
+}
+
+export async function fetchConference(slug: string): Promise<IConference> {
 	return await client.fetch(
 		/* groq */ `
-        *[_type == "conference" && endDate > $date] | order(startDate, endDate, title) {
+        *[
+            _type == "conference" &&
+            slug.current == $slug
+        ][0] {
             ...,
             "slug": slug.current,
             "imageUrl": image.asset->url,
@@ -92,7 +108,7 @@ export async function fetchConferences(fetchPastEvents = false): Promise<IConfer
             }
         }
     `,
-		{ date }
+		{ slug }
 	);
 }
 
