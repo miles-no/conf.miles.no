@@ -23,7 +23,9 @@ export const formatDate = (date: string, formatOptions: IFormatOptions) =>
 export const formatDateYYYYMMDD = (date: Date) => {
     // timezone-safety not necessary (?)
     //date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date.toISOString().slice(0,10);
+    return ('function' === typeof date?.toISOString)
+        ? date.toISOString().slice(0,10)
+        : undefined;
 };
 
 export const parseDateYYYYMMDD = (yyyymmdd: string) => parse(yyyymmdd, 'yyyy-MM-dd', new Date())

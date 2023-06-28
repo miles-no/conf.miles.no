@@ -1,6 +1,5 @@
 <script>
     import NameUrlLocationRow from "./NameUrlLocationRow.svelte";
-    //import ButtonFooterRow from "./ButtonFooterLine.svelte";
     import CheckboxRow from "../CheckboxRow.svelte";
     import {pending} from "../stores.ts";
     import DatePickersAndPriceRow from "./DatePickersAndPriceRow.svelte";
@@ -16,7 +15,6 @@
     <DatePickersAndPriceRow />
     <Description />
     <CheckboxRow />
-    <!--ButtonFooterRow /-->
 </form>
 
 <style>
