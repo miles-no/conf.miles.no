@@ -1,6 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { fetchConferences } from '$lib/sanityClient';
+import { fetchConference } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth';
 import type { IConference } from '../../../model/conference';
 import type { StatusKeyType } from '../../../enums/status';
@@ -15,15 +15,15 @@ export interface IConferenceSlugPageLoadData {
 export const prerender = false;
 
 export const load = (async ({ params, cookies }): Promise<IConferenceSlugPageLoadData> => {
+	const { slug } = params;
+	
 	const user = getUserFromCookie(cookies.get('session'));
 
 	if (!user.isAuthenticated) {
 		throw redirect(307, '/login');
 	}
 
-	const data = await fetchConferences();
-	const conferences = data as IConference[];
-	const conference = conferences?.find((item) => item.slug === params.slug);
+	const conference = await fetchConference(slug);
 
 	if (!conference) {
 		throw error(404, 'Side ikke funnet');
