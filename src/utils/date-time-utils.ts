@@ -1,4 +1,4 @@
-import { intlFormat } from 'date-fns';
+import { intlFormat, parse } from 'date-fns';
 
 export interface IFormatOptions {
 	localeMatcher?: 'lookup' | 'best fit';
@@ -19,8 +19,13 @@ export interface IFormatOptions {
 export const formatDate = (date: string, formatOptions: IFormatOptions) =>
 	intlFormat(Date.parse(date), formatOptions, { locale: 'nb-NO' });
 
-// Timezone-safe YYYY-MM-DD
+// Format date to YYYY-MM-DD
 export const formatDateYYYYMMDD = (date: Date) => {
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date.toISOString().slice(0,10);
+    // timezone-safety not necessary (?)
+    //date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return ('function' === typeof date?.toISOString)
+        ? date.toISOString().slice(0,10)
+        : undefined;
 };
+
+export const parseDateYYYYMMDD = (yyyymmdd: string) => parse(yyyymmdd, 'yyyy-MM-dd', new Date())

@@ -1,8 +1,8 @@
 <script>
     import FormField from "@smui/form-field";
     import Checkbox from "@smui/checkbox";
-    import {ConferenceCategory} from "../../../enums/conference-category.ts";
-    import {selectedCategoryTags} from "./newConferenceStores.ts";
+    import {ConferenceCategory} from "../../../enums/conference-category";
+    import {selectedCategoryTags} from "./stores";
     import JustifiedRow from "../../form/JustifiedRow.svelte";
 
     let categories = Object.keys(ConferenceCategory)
@@ -10,7 +10,7 @@
 
 </script>
 
-<fieldset class="checkbox-line">
+<fieldset class="checkbox-row">
     <legend class="textfield-label">Fagområde</legend>
     <JustifiedRow addClass="checkbox-justified-row">
         {#each categories as category}
@@ -27,12 +27,12 @@
 
 
 <style>
-    .checkbox-line :global(.checkbox-justified-row) {
+    .checkbox-row :global(.checkbox-justified-row) {
         width: calc(100% + 11px);
         margin-left: -11px;
         flex-wrap: wrap;
     }
-    .checkbox-line :global(label) {
+    .checkbox-row :global(label) {
         padding-left: 0;
     }
     .textfield-label {

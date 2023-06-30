@@ -1,4 +1,4 @@
-import {initModal, pending} from "./newConferenceStores.js";
+import {initStore, pending} from "./stores.js";
 import type {IToastContextProps} from "../../toast/toast-context";
 import { goto } from '$app/navigation';
 import type {ToastType} from "svelte-toasts/types/common";
@@ -6,7 +6,6 @@ import type {ToastType} from "svelte-toasts/types/common";
 const API_URL = '/api/create-conference';
 const redirectAfterSuccessfulSubmit = (slug: string) => {
     goto(`/konferanser/${slug}`);
-
 }
 
 const alertAndKeepModal = (message:string, error:string|Error, submitData:any, toastContext:IToastContextProps) => {
@@ -61,7 +60,7 @@ export const submitAndHandleModal = async (submitData:BodyInit|null|undefined, t
                 result.warnings.forEach( (warning:string) => console.warn(`    - ${warning}`));
                 console.log("Submitted conference data:", submitData);
             }
-            initModal();
+            initStore();
 
             // Store warning in sessionStorage for picking it back up after navigating to the created item:
             if (typeof sessionStorage !== "undefined") {

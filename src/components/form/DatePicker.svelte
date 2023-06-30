@@ -1,17 +1,25 @@
-<script>
+<script lang="ts">
     import { afterUpdate, onMount } from 'svelte';
     import { DateInput } from 'date-picker-svelte'
     import LabeledField from "./LabeledField.svelte";
     import {Icon} from "@smui/common";
     import { createEventDispatcher } from 'svelte';
-    import {makeid} from "../../utils/conference-utils.ts";
+    import {makeid} from "../../utils/conference-utils";
     import darkTheme from "../../stores/theme-store";
     /*
 
     */
 
-    export let date = null, format="dd.MM yyyy";
-    export let width, label, required, earliest, latest, intervalWarning=false;
+    export let
+        date: Date|null = null,
+        format: string = "dd.MM yyyy";
+    export let
+        width: string|undefined,
+        label: string|undefined,
+        required: boolean|undefined,
+        earliest: Date|undefined,
+        latest: Date|undefined,
+        intervalWarning: boolean|undefined=false;
 
     let valid, inputField, visible;
 

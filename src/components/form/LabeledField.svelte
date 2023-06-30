@@ -40,4 +40,11 @@
         top: 7px;
         right: -3px;
     }
+
+    /* TODO: Hides the placeholder too. Bad. */
+    .labeled-field :global(.mdc-notched-outline__notch)  {
+        width: 0 !important;
+        padding-right: 0;
+        display: none;
+    }
 </style>
