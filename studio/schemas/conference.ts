@@ -67,7 +67,13 @@ export default {
 			of: [{ type: 'performance' }],
 			description: `Miles contribution to the event`
 		},
-		{ title: 'Signup Deadline', name: 'deadline', type: 'datetime', fieldset: 'signUp' },
+		{
+			title: 'Deadlines',
+			name: 'deadlines',
+			type: 'array',
+			of: [{ type: 'deadline' }],
+			description: `Deadlines related to the conference`
+		},
 		{
 			title: 'TicketType',
 			name: 'tickettype',
