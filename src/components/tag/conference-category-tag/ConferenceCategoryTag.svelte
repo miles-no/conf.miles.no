@@ -12,6 +12,7 @@
         [ConferenceCategory.Utvikling]: 'success',
         [ConferenceCategory.Smidig]: 'error',
         [ConferenceCategory.Prosjektledelse]: 'info',
+				[ConferenceCategory.Innovasjon]: 'info',
         [ConferenceCategory.Admin]: 'success'
 	};
 </script>

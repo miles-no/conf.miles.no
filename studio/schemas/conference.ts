@@ -91,6 +91,7 @@ export default {
 					{ title: 'UX/Design', value: 'UX/Design' },
 					{ title: 'Utvikling', value: 'Utvikling' },
 					{ title: 'Prosjektledelse', value: 'Prosjektledelse' },
+					{ title: 'Innovasjon', value: 'Innovasjon' },
 					{ title: 'Admin', value: 'Admin' }
 				]
 			},

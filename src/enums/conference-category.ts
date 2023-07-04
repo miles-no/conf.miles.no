@@ -1,9 +1,10 @@
 export enum ConferenceCategory {
 	UX_Design = 'UX/Design',
 	Utvikling = 'Utvikling',
-    Smidig = 'Smidig',
-    Prosjektledelse = 'Prosjektledelse',
-    Admin = 'Admin'
+	Smidig = 'Smidig',
+	Prosjektledelse = 'Prosjektledelse',
+	Innovasjon = 'Innovasjon',
+	Admin = 'Admin'
 }
 
 export type ConferenceCategoryType =
@@ -11,4 +12,5 @@ export type ConferenceCategoryType =
 	| 'Utvikling'
 	| 'Smidig'
 	| 'Prosjektledelse'
+	| 'Innovasjon'
 	| 'Admin';
