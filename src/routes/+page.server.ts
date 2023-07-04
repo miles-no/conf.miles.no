@@ -1,6 +1,6 @@
 import { fetchEvents } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth.js';
-import type { User } from 'lucide-svelte';
+import type { User } from '$lib/types/user';
 import type { IEvent } from '../model/event';
 
 export interface IPageLoadData {

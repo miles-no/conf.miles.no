@@ -10,6 +10,10 @@
 	import Paper, { Content } from '@smui/paper';
 	import EventListContainer from './dashboard/container/event-list-container/EventListContainer.svelte';
 	import MyUpcomingEventsContainer from './dashboard/container/my-upcoming-events-container/MyUpcomingEventsContainer.svelte';
+	import EventTypeButtonGroup from './button/event-type-button-group/EventTypeButtonGroup.svelte';
+	import LocationButtonGroup from './button/location-button-group/LocationButtonGroup.svelte';
+	import type { LocationType } from '../enums/location';
+	import type { EventType } from '../enums/event';
 
 	export let events: IEvent[];
 	export let user: User;
@@ -30,6 +34,28 @@
 
 	$: upcomingDeadlines =
 		eventSortByDeadline.length <= 3 ? eventSortByDeadline : eventSortByDeadline.splice(0, 3);
+
+	$: eventsToShow = [...events];
+	let selectedCity: LocationType | undefined = undefined;
+	let selectedEventType: EventType | undefined = undefined;
+
+	$: {
+		if (selectedCity) {
+			eventsToShow = events
+				.filter((event: IEvent) =>
+					event.location?.toLowerCase().includes(selectedCity!.toLowerCase())
+				)
+				.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
+		}
+	}
+
+	$: {
+		if (selectedEventType) {
+			eventsToShow = events
+				.filter((event) => event.eventType?.includes(selectedEventType!))
+				.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
+		}
+	}
 
 	let open = false;
 
@@ -62,6 +88,10 @@
 			{/if}
 		</div>
 	</div>
+	<div class="page-container-filter">
+		<LocationButtonGroup bind:selectedCity />
+		<EventTypeButtonGroup bind:selectedEvent={selectedEventType} />
+	</div>
 	<div class="main-content-container">
 		<Paper variant="outlined" class="tab-container">
 			<Content>
@@ -73,7 +103,7 @@
 					</TabBar>
 					<div class="tab-content-container">
 						{#if activeTab === 'Liste'}
-							<EventListContainer {events} />
+							<EventListContainer events={eventsToShow} />
 						{/if}
 						{#if activeTab === 'Mine utvalgte'}
 							<div class="tab-content__my-upcoming-events-container">
@@ -109,6 +139,13 @@
 
 	.visuallyhidden {
 		@include visuallyhidden();
+	}
+
+	.page-container-filter {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		padding-bottom: 1.5rem;
 	}
 
 	.dashboard-container {
