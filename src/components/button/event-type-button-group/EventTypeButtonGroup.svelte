@@ -3,9 +3,9 @@
 	import type { EventType } from '../../../enums/event';
 	import { Event } from '../../../enums/event';
 
-	export let selectedEvent: EventType | undefined = undefined;
+	export let selectedEventType: EventType | undefined = undefined;
 	export let isExternal: boolean = false;
-	const eventList: EventType[] = isExternal
+	const eventTypes: EventType[] = isExternal
 		? Object.values(Event).filter((eventType) => eventType !== Event.SMiles)
 		: Object.values(Event);
 </script>
@@ -13,16 +13,17 @@
 <div class="eventtype-btn-group-container">
 	<span>Arrangementstype</span>
 	<div class="eventtype-btn-group-container-options">
-		{#each eventList as event}
+		{#each eventTypes as eventType}
 			<Button
 				variant="outlined"
 				class={`eventtype-btn-group-container-options-btn button-shaped-round ${
-					selectedEvent === event ? 'btn--selected' : ''
+					selectedEventType === eventType ? 'btn--selected' : ''
 				}`}
-				on:click={() => (selectedEvent = event)}
-				selected={selectedEvent === event}
+				on:click={() => (selectedEventType = selectedEventType === eventType ? undefined : eventType)}
+
+				selected={selectedEventType === eventType}
 			>
-				<Label>{event}</Label>
+				<Label>{eventType}</Label>
 			</Button>
 		{/each}
 	</div>

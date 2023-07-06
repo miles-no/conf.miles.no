@@ -38,22 +38,26 @@
 	$: eventsToShow = [...events];
 	let selectedCity: LocationType | undefined = undefined;
 	let selectedEventType: EventType | undefined = undefined;
-
+	
 	$: {
-		if (selectedCity) {
+		if (selectedCity && selectedEventType) {
 			eventsToShow = events
-				.filter(event =>
-					event.visibleTo?.includes(selectedCity!)
+				.filter(
+					(event) =>
+						event.visibleTo?.includes(selectedCity?.toLowerCase()!) &&
+						event.eventType?.includes(selectedEventType!)
 				)
 				.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
-		}
-	}
-
-	$: {
-		if (selectedEventType) {
+		} else if (selectedCity) {
+			eventsToShow = events
+				.filter((event) => event.visibleTo?.includes(selectedCity?.toLowerCase()!))
+				.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
+		} else if (selectedEventType) {
 			eventsToShow = events
 				.filter((event) => event.eventType?.includes(selectedEventType!))
 				.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
+		} else {
+			eventsToShow = events;
 		}
 	}
 
@@ -90,7 +94,7 @@
 	</div>
 	<div class="page-container-filter">
 		<LocationButtonGroup bind:selectedCity />
-		<EventTypeButtonGroup bind:selectedEvent={selectedEventType} />
+		<EventTypeButtonGroup bind:selectedEventType />
 	</div>
 	<div class="main-content-container">
 		<Paper variant="outlined" class="tab-container">

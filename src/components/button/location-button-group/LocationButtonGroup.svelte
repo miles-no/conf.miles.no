@@ -16,7 +16,7 @@
 				class={`location-btn-group-container-options-btn button-shaped-round ${
 					selectedCity === city ? 'btn--selected' : ''
 				}`}
-				on:click={() => (selectedCity = city)}
+				on:click={() => (selectedCity = selectedCity === city ? undefined : city)}
 				selected={selectedCity === city}
 			>
 				<Label>{city}</Label>
