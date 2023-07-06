@@ -42,8 +42,8 @@
 	$: {
 		if (selectedCity) {
 			eventsToShow = events
-				.filter((event: IEvent) =>
-					event.location?.toLowerCase().includes(selectedCity!.toLowerCase())
+				.filter(event =>
+					event.visibleTo?.includes(selectedCity!)
 				)
 				.sort((a, b) => Date.parse(a.startDate) - Date.parse(b.startDate));
 		}

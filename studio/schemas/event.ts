@@ -84,6 +84,15 @@ export default {
 			name: 'visibleTo',
 			type: 'array',
 			of: [{ type: 'string' }],
+			options: {
+				list: [
+					{ title: 'Oslo', value: 'oslo' },
+					{ title: 'Trondheim', value: 'trondheim' },
+					{ title: 'Bergen', value: 'bergen' },
+					{ title: 'Stavanger/Haugesund', value: 'stavanger/haugesund' },
+					{ title: 'Ålesund', value: 'ålesund' }
+				]
+			},
 			description:
 				'Internal Event will only be vissble to selected offices or all offices if non is selected'
 		},

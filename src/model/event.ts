@@ -26,7 +26,7 @@ export interface IEvent {
 	location?: string;
 	slug: string;
 	eventType: EventType[];
-	visibleTo: string[];            //
+	visibleTo?: string[];            //
 	employees?: IEmployee[];
 	categoryTag?: ConferenceCategoryType[];
 }
