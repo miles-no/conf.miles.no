@@ -6,6 +6,8 @@
     import { createEventDispatcher } from 'svelte';
     import {makeid} from "../../utils/conference-utils";
     import darkTheme from "../../stores/theme-store";
+    import {norwegianLocale} from "./norwegianLocale";
+    import {parseDateYYYYMMDD, formatDateYYYYMMDD} from "../../utils/date-time-utils";
     /*
 
     */
@@ -13,30 +15,30 @@
     export let
         date: Date|null = null,
         format: string = "dd.MM yyyy";
+
     export let
         width: string|undefined,
         label: string|undefined,
-        required: boolean|undefined,
+        required: boolean|undefined = false,
         earliest: Date|undefined,
         latest: Date|undefined,
-        intervalWarning: boolean|undefined=false;
+        warning: boolean|undefined=false;
 
     let valid, inputField, visible;
+    let innerDate: Date|null = null;
 
-    const id = `datepicker-${label}-${makeid(3)}`;
+    const id = `datepicker-${makeid(5)}`;
 
     const dispatch = createEventDispatcher();
 
-    const norwegianLocale = {
-        weekdays: ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø'],
-        months: ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember']
-    };
+
 
     onMount( ()=> {
         inputField = document.querySelector(`#${id} input[type=text]`)
     });
 
     afterUpdate( () => {
+        date = parseDateYYYYMMDD(formatDateYYYYMMDD(innerDate));
         dispatch("refreshDate");
     });
 
@@ -52,18 +54,18 @@
     }
 </script>
 
-<LabeledField label={label} required width={width}>
+<LabeledField {label} {required} {width}>
     <div
             id={id}
             class="datepicker-root"
-            class:warning={intervalWarning}
-            class:valid={!intervalWarning && valid && date}
+            class:warning={warning}
+            class:valid={!warning && valid && date}
             on:keydown={doSelect}
             style={$darkTheme ? '/* TODO: Should be theme variables: */ --date-picker-background: #212121;--date-picker-foreground: #fff;' : '' }
     >
         <DateInput
                 bind:visible={visible}
-                bind:value={date}
+                bind:value={innerDate}
                 bind:valid={valid}
                 min={earliest}
                 max={latest}
@@ -72,7 +74,7 @@
                 placeholder={format.replace(/y/g, 'Å').replace(/d/g, "D").replace(/[H]/g, "t")}
                 closeOnSelection
         />
-        <Icon class="material-icons" slot="trailingIcon">{intervalWarning ? "warning" : (valid && date) ? "check" : "today"}</Icon>
+        <Icon class="material-icons" slot="trailingIcon">{warning ? "warning" : (valid && date) ? "check" : "today"}</Icon>
     </div>
 </LabeledField>
 

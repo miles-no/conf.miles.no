@@ -25,7 +25,7 @@
             {earliest}
             {latest}
             on:refreshDate={updateIntervalWarning}
-            intervalWarning={$intervalWarning}
+            warning={$intervalWarning}
     />
     <DatePicker
             label="Sluttdato"
@@ -35,7 +35,7 @@
             {earliest}
             {latest}
             on:refreshDate={updateIntervalWarning}
-            intervalWarning={$intervalWarning}
+            warning={$intervalWarning}
     />
 </JustifiedRow>
 

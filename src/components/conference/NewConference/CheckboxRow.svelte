@@ -12,7 +12,7 @@
 
 <fieldset class="checkbox-row">
     <legend class="textfield-label">Fagområde</legend>
-    <JustifiedRow addClass="checkbox-justified-row">
+    <JustifiedRow addClass="checkbox-justified-row" justify="start">
         {#each categories as category}
             <FormField>
                 <Checkbox

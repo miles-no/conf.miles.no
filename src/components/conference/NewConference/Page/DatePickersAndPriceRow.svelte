@@ -1,8 +1,7 @@
 <script>
     import JustifiedRow from "../../../form/JustifiedRow.svelte";
     import DatePicker from "../../../form/DatePicker.svelte";
-    import {startDate, endDate, intervalWarning, price} from "../stores.ts";
-    import TextField from "../../../form/TextField.svelte";
+    import {startDate, endDate, callForPapersDate, intervalWarning, callForPapersWarning} from "../stores.ts";
 
 
 
@@ -14,31 +13,40 @@
 
     function updateIntervalWarning() {
         intervalWarning.set(!!$startDate && !!$endDate && $startDate > $endDate);
+        callForPapersWarning.set(!!$callForPapersDate && !!$endDate && $callForPapersDate > $endDate)
     }
 </script>
 
 <JustifiedRow>
     <DatePicker
             label="Startdato"
-            width="35%"
+            width="31%"
             required
             bind:date={$startDate}
             {earliest}
             {latest}
             on:refreshDate={updateIntervalWarning}
-            intervalWarning={$intervalWarning}
+            warning={$intervalWarning}
     />
     <DatePicker
             label="Sluttdato"
-            width="35%"
+            width="31%"
             required
             bind:date={$endDate}
             {earliest}
             {latest}
             on:refreshDate={updateIntervalWarning}
-            intervalWarning={$intervalWarning}
+            warning={$intervalWarning}
     />
-    <TextField bind:value={$price} label="Pris" placeholder="Kr" width="22%" />
+    <DatePicker
+            label="Frist: call for papers"
+            width="31%"
+            bind:date={$callForPapersDate}
+            earliest={addYears(earliest, -1)}
+            {latest}
+            on:refreshDate={updateIntervalWarning}
+            warning={$callForPapersWarning}
+    />
 </JustifiedRow>
 
 <style>

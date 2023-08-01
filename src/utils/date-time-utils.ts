@@ -20,7 +20,7 @@ export const formatDate = (date: string, formatOptions: IFormatOptions) =>
 	intlFormat(Date.parse(date), formatOptions, { locale: 'nb-NO' });
 
 // Format date to YYYY-MM-DD
-export const formatDateYYYYMMDD = (date: Date) => {
+export const formatDateYYYYMMDD = (date: Date|null) => {
     // timezone-safety not necessary (?)
     //date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     return ('function' === typeof date?.toISOString)
@@ -28,4 +28,4 @@ export const formatDateYYYYMMDD = (date: Date) => {
         : undefined;
 };
 
-export const parseDateYYYYMMDD = (yyyymmdd: string) => parse(yyyymmdd, 'yyyy-MM-dd', new Date())
+export const parseDateYYYYMMDD = (yyyymmdd: string|undefined) => yyyymmdd ? parse(yyyymmdd, 'yyyy-MM-dd', new Date()) : null;
