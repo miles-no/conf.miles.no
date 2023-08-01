@@ -5,6 +5,7 @@
 
     import {endDate, name, selectedCategoryTags, startDate, url, initStore} from "../../../components/conference/NewConference/stores";
     import type {NewConferenceStoreInitType} from "../../../components/conference/NewConference/stores";
+    import ButtonFooterRow from "../../../components/conference/NewConference/Page/ButtonFooterRow.svelte";
 
     function getUrlParamNew() {
         try {
@@ -60,6 +61,8 @@
     <h1>Registrer en ny konferanse</h1>
 
     <Form />
+
+    <ButtonFooterRow />
 </div>
 
 <style>

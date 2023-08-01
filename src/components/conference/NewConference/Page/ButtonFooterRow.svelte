@@ -6,6 +6,7 @@
         url,
         startDate,
         endDate,
+        callForPapersDate,
         selectedCategoryTags,
         intervalWarning,
         pending
@@ -15,7 +16,6 @@
     import {submitAndHandleModal} from "../submitHandler";
     import {getContext} from "svelte";
     import {formatDateYYYYMMDD} from "../../../../utils/date-time-utils";
-    import {makeid} from "../../../../utils/conference-utils";
 
     const toastContext = getContext('toastContext');
 
@@ -28,32 +28,14 @@
             url: $url,
             startDate: formatDateYYYYMMDD($startDate),
             endDate: formatDateYYYYMMDD($endDate),
+            callForPapersDate: formatDateYYYYMMDD($callForPapersDate),
             categoryTag: $selectedCategoryTags
         };
 
         submitAndHandleModal(submitData, toastContext);
     }
 
-    async function gotoAddMoreDetailsPage() {
-        const enteredData = {
-            name: $name,
-            url: $url,
-            startDate: formatDateYYYYMMDD($startDate),
-            endDate: formatDateYYYYMMDD($endDate),
-            categoryTag: $selectedCategoryTags
-        };
 
-        // Store entered data in sessionStorage for picking it back up after navigating to the created item:
-        if (typeof sessionStorage !== "undefined") {
-            const sessionStorageKey =  makeid(6);
-            sessionStorage.setItem(`newconf_${sessionStorageKey}`, JSON.stringify(enteredData));
-            window.location.href = `/rediger/konferanse/?new=${sessionStorageKey}`;
-
-        } else {
-            // TODO: Confirm, will svelte stores always retain the entered data this way?
-            window.location.href = `/rediger/konferanse/?new=true`;
-        }
-    }
 
 
     let disabled = true;
@@ -67,11 +49,11 @@
 <div class="footer-buttons" class:dark-mode={$darkTheme}>
     <JustifiedRow>
         <Button color="secondary"
-                on:click={gotoAddMoreDetailsPage}
-                disabled={$pending}
+                on:click={()=>alert("Implement me!")}
+                disabled={true || $pending}
         >
             <Icon class="material-icons">add</Icon>
-            <Label>Legg til mer info</Label>
+            <Label>Legg til bidrag</Label>
         </Button>
 
         <div class:disabled class:pending={$pending}>
@@ -91,6 +73,9 @@
 
 
 <style>
+    .footer-buttons {
+        margin-top: 30px;
+    }
     .footer-buttons :global(button) {
         color: #000;
         border: 1px solid #000;

@@ -8,7 +8,7 @@ const redirectAfterSuccessfulSubmit = (slug: string) => {
     goto(`/konferanser/${slug}`);
 }
 
-const alertAndKeepModal = (message:string, error:string|Error, submitData:any, toastContext:IToastContextProps) => {
+const alertAndKeepModal = (message:string, error:string|Error, submitData:ISubmitData, toastContext:IToastContextProps) => {
     toastContext.createToastBody(
         'error',
         'Something went wrong',
@@ -28,13 +28,22 @@ export type ToastDataType = {
     duration?:number
 };
 
-export const submitAndHandleModal = async (submitData:BodyInit|null|undefined, toastContext:IToastContextProps) => {
+interface ISubmitData {
+    title: string,
+    url: string,
+    startDate: string,
+    endDate: string,
+    callForPapersDate?: string,
+    categoryTag: string[]
+};
+
+export const submitAndHandleModal = async (submitData:ISubmitData, toastContext:IToastContextProps) => {
     pending.set(true);
 
     try {
         const response = await fetch(API_URL, {
             method: 'POST',
-            body: submitData
+            body: JSON.stringify(submitData)
         });
 
         const result = await response.json();
