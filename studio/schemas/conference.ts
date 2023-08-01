@@ -67,6 +67,12 @@ export default {
 			of: [{ type: 'performance' }],
 			description: `Miles contribution to the event`
 		},
+        {
+            name: 'callForPapersDate',
+            type: 'date',
+            title: 'Call for papers',
+            description: 'Call-for-papers deadline'
+        },
 		{
 			title: 'Deadlines',
 			name: 'deadlines',

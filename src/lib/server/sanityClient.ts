@@ -134,7 +134,8 @@ export async function createConference(
 		slug: { _type: 'slug', current: slugCurrent },
 		title: conference.title,
 		startDate: conference.startDate,
-		endDate: conference.endDate,
+        endDate: conference.endDate,
+        callForPapersDate: conference.callForPapersDate,
 		url: conference.url,
 		categoryTag: conference.categoryTag ?? [],
 		internal: false

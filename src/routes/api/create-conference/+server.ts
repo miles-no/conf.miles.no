@@ -26,13 +26,16 @@ const verifyAndNormalizeConferenceData = (confData: ConferenceType) => {
 
 	Conference.safeParse(confData);
 
-	const now = formatDateYYYYMMDD(new Date());
+	const now = formatDateYYYYMMDD(new Date()) as string;
 	if (confData.startDate < now || confData.endDate < now) {
 		throw Error("Start or end date can't be in the past");
 	}
-	if (confData.endDate < confData.startDate) {
-		throw Error("End date can't be before start date");
-	}
+    if (confData.endDate < confData.startDate) {
+        throw Error("Start date can't be after End date");
+    }
+    if (!!confData.callForPapersDate && confData.endDate < confData.callForPapersDate) {
+        throw Error("Call-for-papers date can't be after End date");
+    }
 };
 
 const verifyConferenceIsNew = async (title: string, startDate: string) => {

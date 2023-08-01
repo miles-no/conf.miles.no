@@ -9,6 +9,7 @@ export const Conference = z.object({
     title: z.string().trim().min(1, {message: "Missing or invalid title"}),
     startDate: z.string().trim().regex(yyyymmdd, {message: "Start date must be on the format YYYY-MM-DD"}).datetime( {message: "Missing or invalid start date"}),
     endDate: z.string().trim().regex(yyyymmdd, {message: "End date must be on the format YYYY-MM-DD"}).datetime( {message: "Missing or invalid end date"}),
+    callForPapersDate: z.string().trim().regex(yyyymmdd, {message: "Call-for-papers date must be on the format YYYY-MM-DD"}).optional(),
     url: z.string().trim().min(1, {message: "Missing or invalid url"}).url({ message: "Invalid url" }),
     internal: z.boolean().optional(),
     categoryTag: z.array(z.nativeEnum(ConferenceCategory)).optional(),
