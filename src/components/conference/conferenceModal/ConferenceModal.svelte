@@ -1,3 +1,7 @@
+<!-- TODO: An adaptation of this is reused at src/components/conference/NewConference/Page/Preview.svelte .
+           In order to DRY, extract and nest a common component?
+           Until then, keep them up to date wherever needed. -->
+
 <script lang="ts">
 	import { PortableText } from '@portabletext/svelte';
 	import Dialog, { Content } from '@smui/dialog';

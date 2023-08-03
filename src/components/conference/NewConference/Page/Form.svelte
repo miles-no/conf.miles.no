@@ -10,7 +10,7 @@
 
 </script>
 
-<form id={formId} class:pending={$pending}>
+<form class="new-conf-edit" id={formId} class:pending={$pending}>
     <NameUrlLocationRow />
     <DatePickersAndPriceRow />
     <Description />
@@ -20,6 +20,8 @@
 <style>
     form {
         width: 100%;
+        border-right: 1px solid #BCBCBC;
+        padding-right: 42px;
     }
 
     .pending {

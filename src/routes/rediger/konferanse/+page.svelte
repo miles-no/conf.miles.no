@@ -3,9 +3,19 @@
     import Form from "../../../components/conference/NewConference/Page/Form.svelte";
 
 
-    import {endDate, name, selectedCategoryTags, startDate, url, initStore} from "../../../components/conference/NewConference/stores";
+    import {
+        endDate,
+        name,
+        selectedCategoryTags,
+        startDate,
+        url,
+        initStore,
+        description,
+        location
+    } from "../../../components/conference/NewConference/stores";
     import type {NewConferenceStoreInitType} from "../../../components/conference/NewConference/stores";
     import ButtonFooterRow from "../../../components/conference/NewConference/Page/ButtonFooterRow.svelte";
+    import Preview from "../../../components/conference/NewConference/Page/Preview.svelte";
 
     function getUrlParamNew() {
         try {
@@ -55,22 +65,38 @@
         const transferredData = getTransferredData();
         initStore(transferredData);
     });
+
+    let conference;
+    $: conference = {
+        startDate: $startDate,
+        endDate: $endDate,
+        categoryTag: $selectedCategoryTags,
+        description: $description,
+        location: $location,
+        url: $url
+    }
 </script>
 
-<div class="edit-conf-main">
-    <h1>Registrer en ny konferanse</h1>
-
+<h1>Registrer en ny konferanse</h1>
+<div class="edit-and-preview-row">
     <Form />
-
-    <ButtonFooterRow />
+    <Preview {conference} />
 </div>
+<ButtonFooterRow />
 
 <style>
-  .edit-conf-main h1 {
+  h1 {
     font-family: var(--mdc-typography-headline1-font-family, var(--mdc-typography-font-family, Inter, Roboto, sans-serif)); ;
     font-style: normal;
     font-weight: 700;
     font-size: 24px;
     line-height: 29px;
+    margin-bottom: 40px;
+  }
+
+  .edit-and-preview-row {
+      display: flex;
+      flex-flow: row;
+      align-items: center;
   }
 </style>
