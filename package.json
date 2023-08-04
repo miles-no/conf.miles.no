@@ -19,6 +19,7 @@
 		"@material/typography": "^14.0.0",
 		"@playwright/test": "^1.30.0",
 		"@portabletext/svelte": "^2.0.0",
+		"@sanity/block-tools": "^3.14.5",
 		"@smui-extra/accordion": "^7.0.0-beta.8",
 		"@smui/button": "^7.0.0-beta.8",
 		"@smui/card": "^7.0.0-beta.0",

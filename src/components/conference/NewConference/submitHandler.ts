@@ -2,6 +2,7 @@ import {initStore, pending} from "./stores.js";
 import type {IToastContextProps} from "../../toast/toast-context";
 import { goto } from '$app/navigation';
 import type {ToastType} from "svelte-toasts/types/common";
+import type {IDescription} from "../../../model/event";
 
 const API_URL = '/api/create-conference';
 const redirectAfterSuccessfulSubmit = (slug: string) => {
@@ -34,7 +35,8 @@ interface ISubmitData {
     startDate: string,
     endDate: string,
     callForPapersDate?: string,
-    categoryTag: string[]
+    categoryTag: string[],
+    description: string
 };
 
 export const submitAndHandleModal = async (submitData:ISubmitData, toastContext:IToastContextProps) => {

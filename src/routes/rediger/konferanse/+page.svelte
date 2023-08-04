@@ -16,6 +16,7 @@
     import type {NewConferenceStoreInitType} from "../../../components/conference/NewConference/stores";
     import ButtonFooterRow from "../../../components/conference/NewConference/Page/ButtonFooterRow.svelte";
     import Preview from "../../../components/conference/NewConference/Page/Preview.svelte";
+    import type {IPreviewConference} from "../../../components/conference/NewConference/Page/IPreviewConference";
 
     function getUrlParamNew() {
         try {
@@ -66,14 +67,23 @@
         initStore(transferredData);
     });
 
-    let conference;
-    $: conference = {
-        startDate: $startDate,
-        endDate: $endDate,
+    let conference: IPreviewConference = {
+        title: $name,
+        startDate: $startDate?.toDateString(),
+        endDate: $endDate?.toDateString(),
         categoryTag: $selectedCategoryTags,
         description: $description,
         location: $location,
         url: $url
+    };
+    $: {
+        conference.title = $name;
+        conference.startDate = $startDate?.toDateString();
+        conference.endDate = $endDate?.toDateString();
+        conference.categoryTag = $selectedCategoryTags;
+        conference.description = $description;
+        conference.location = $location;
+        conference.url = $url;
     }
 </script>
 

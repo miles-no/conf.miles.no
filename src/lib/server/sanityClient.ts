@@ -8,7 +8,8 @@ import { env as private_env } from '$env/dynamic/private';
 // @ts-ignore
 import { env as public_env } from '$env/dynamic/public';
 import { makeid } from '../../utils/conference-utils';
-import type { IExternalConference } from '../../model/external-conference';
+import {getMinimalPortableText} from "../../utils/sanityclient-utils";
+import type {IConference} from "../../model/conference";
 
 const client: SanityClient = sanityClient({
 	projectId: public_env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
@@ -136,6 +137,7 @@ export async function createConference(
 		startDate: conference.startDate,
         endDate: conference.endDate,
         callForPapersDate: conference.callForPapersDate,
+        description: getMinimalPortableText(conference.description),
 		url: conference.url,
 		categoryTag: conference.categoryTag ?? [],
 		internal: false
@@ -200,7 +202,7 @@ export async function createConference(
 */
 
 export async function updateConference(
-	externalConference: IExternalConference
+	externalConference: IConference
 ): Promise<string> {
 	// imageUrl is not a part of external conference schema and updating external conference should not update its references to other schemas.
 	const { imageUrl, performances, image, _createdAt, _updatedAt, _id, _rev, location, ...rest } =

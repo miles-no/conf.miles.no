@@ -3,13 +3,13 @@
            Until then, keep them up to date wherever needed. -->
 
 <script lang="ts">
-    import {urlFor} from "../../../../utils/sanityclient-utils.js";
+    import {getMinimalPortableText, urlFor} from "../../../../utils/sanityclient-utils.js";
     import ConferenceInformation from "../../conference-information/ConferenceInformation.svelte";
     import ConferenceCategoryTag from "../../../tag/conference-category-tag/ConferenceCategoryTag.svelte";
     import {PortableText} from "@portabletext/svelte";
-    import type {IConference} from "../../../../model/conference";
+    import type {IPreviewConference} from "./IPreviewConference";
 
-    export let conference: Omit<IConference, '_id','_rev', '_type', '_updatedAt', 'deadline', 'eventType', 'image','imageUrl', 'internal', 'slug', 'startTime', 'timeperiod', 'title', 'price', 'tickettype'>;
+    export let conference: IPreviewConference;
 </script>
 
 <div class="new-conf-preview">
@@ -18,7 +18,7 @@
                 style="width: 100%; height: 100%;"
                 alt=""
                 src={conference.imageUrl
-					? urlFor(conference.imageUrl).size(900, 300).quality(100).url()
+					? urlFor(conference.imageUrl).size(400, 300).quality(100).url()
 					: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
                 height="300"
                 width="
@@ -37,11 +37,11 @@
                 </div>
             {/if}
         </div>
-        <div>
-            {#if conference.description}
-                <PortableText value={conference.description} />
-            {/if}
-        </div>
+        {#if conference.description}
+            <div class="description">
+                <PortableText value={getMinimalPortableText(conference.description)} />
+            </div>
+        {/if}
     </div>
 </div>
 

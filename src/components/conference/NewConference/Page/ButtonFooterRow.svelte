@@ -9,7 +9,8 @@
         callForPapersDate,
         selectedCategoryTags,
         intervalWarning,
-        pending
+        pending,
+        description
     } from "../stores.ts";
     import darkTheme from "../../../../stores/theme-store";
     import Spinner from "../Spinner.svelte";
@@ -29,7 +30,8 @@
             startDate: formatDateYYYYMMDD($startDate),
             endDate: formatDateYYYYMMDD($endDate),
             callForPapersDate: formatDateYYYYMMDD($callForPapersDate),
-            categoryTag: $selectedCategoryTags
+            categoryTag: $selectedCategoryTags,
+            description: $description
         };
 
         submitAndHandleModal(submitData, toastContext);
