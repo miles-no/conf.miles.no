@@ -21,11 +21,11 @@ export const formatDate = (date: string, formatOptions: IFormatOptions) =>
 
 // Format date to YYYY-MM-DD
 export const formatDateYYYYMMDD = (date: Date|null) => {
-    // timezone-safety not necessary (?)
-    //date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return ('function' === typeof date?.toISOString)
-        ? date.toISOString().slice(0,10)
-        : undefined;
+    if ('function' !== typeof date?.getTimezoneOffset) {
+        return undefined;
+    }
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return date.toISOString().slice(0,10);
 };
 
 export const parseDateYYYYMMDD = (yyyymmdd: string|undefined) => yyyymmdd ? parse(yyyymmdd, 'yyyy-MM-dd', new Date()) : null;

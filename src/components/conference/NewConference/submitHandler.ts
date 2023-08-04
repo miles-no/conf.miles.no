@@ -36,8 +36,9 @@ interface ISubmitData {
     endDate: string,
     callForPapersDate?: string,
     categoryTag: string[],
-    description: string
-};
+    description: string,
+    location?: string
+}
 
 export const submitAndHandleModal = async (submitData:ISubmitData, toastContext:IToastContextProps) => {
     pending.set(true);

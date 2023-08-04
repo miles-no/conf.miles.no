@@ -10,7 +10,8 @@
         selectedCategoryTags,
         intervalWarning,
         pending,
-        description
+        description,
+        location
     } from "../stores.ts";
     import darkTheme from "../../../../stores/theme-store";
     import Spinner from "../Spinner.svelte";
@@ -30,6 +31,7 @@
             startDate: formatDateYYYYMMDD($startDate),
             endDate: formatDateYYYYMMDD($endDate),
             callForPapersDate: formatDateYYYYMMDD($callForPapersDate),
+            location: $location,
             categoryTag: $selectedCategoryTags,
             description: $description
         };
@@ -42,7 +44,14 @@
 
     let disabled = true;
     $: {
-        disabled = !($name.trim()) || !($url.trim()) || !$startDate || !$endDate || !!$intervalWarning;
+        disabled = (
+            !($name.trim()) ||
+            !($url.trim()) ||
+            !($description.trim()) ||
+            !$startDate ||
+            !$endDate ||
+            !!$intervalWarning
+        );
     }
 </script>
 

@@ -137,10 +137,11 @@ export async function createConference(
 		startDate: conference.startDate,
         endDate: conference.endDate,
         callForPapersDate: conference.callForPapersDate,
+        location: conference.location,
         description: getMinimalPortableText(conference.description),
 		url: conference.url,
 		categoryTag: conference.categoryTag ?? [],
-		internal: false
+		//internal: false
 	};
 
 	const insertedConference: SanityDocument<any> = await client.create(conferenceDoc);

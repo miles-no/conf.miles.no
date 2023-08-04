@@ -6,12 +6,15 @@
 
 	export let conference: IConference;
 
-	const date = formatEventDateRange(conference.startDate, conference.endDate);
+	$: date = (conference.startDate && conference.endDate)
+            ? formatEventDateRange(conference.startDate, conference.endDate)
+            : undefined;
+
 </script>
 
 <Paper class="conference-information-tag-container" variant="unelevated">
 	<Content class="conference-information-tag grey-text">
-		{#if conference.startDate && conference.endDate}
+		{#if date}
 			<div>
 				<p class="visuallyhidden">{`dato: ${date}`}</p>
 				<p aria-hidden={true}>
@@ -31,7 +34,7 @@
 			</div>
 		{/if}
 
-		{#if conference?.tickettype}
+		{#if conference.tickettype}
 			<div>
 				<p class="visuallyhidden">{`billetttype: ${conference.tickettype}`}</p>
 				<p aria-hidden={true}>
