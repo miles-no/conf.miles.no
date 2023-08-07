@@ -228,7 +228,11 @@ export const POST = (async ({ request }) => {
 			success: false,
 			ok: false,
 			status: 500,
-			statusText: 'Error when storing new conference. See server log for details.'
+			statusText: 'Error when storing new conference. See server log for details.',
+        /*error: {
+                message: ('undefined' !== typeof error?.message) ? error?.message : undefined,
+                stack: "Stack :" + error.stack
+            }*/
 		});
 	}
 
