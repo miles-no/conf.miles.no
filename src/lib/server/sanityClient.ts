@@ -138,7 +138,7 @@ export async function createConference(
         endDate: conference.endDate,
         callForPapersDate: conference.callForPapersDate,
         location: conference.location,
-        description: getMinimalPortableText(conference.description),
+        description: conference.description,
 		url: conference.url,
 		categoryTag: conference.categoryTag ?? [],
 		//internal: false

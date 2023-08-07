@@ -36,7 +36,7 @@ interface ISubmitData {
     endDate: string,
     callForPapersDate?: string,
     categoryTag: string[],
-    description: string,
+    description: IDescription[],
     location?: string
 }
 

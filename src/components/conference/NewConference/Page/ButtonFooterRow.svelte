@@ -18,6 +18,7 @@
     import {submitAndHandleModal} from "../submitHandler";
     import {getContext} from "svelte";
     import {formatDateYYYYMMDD} from "../../../../utils/date-time-utils";
+    import {getMinimalPortableText} from "../../../../utils/sanityclient-utils.ts";
 
     const toastContext = getContext('toastContext');
 
@@ -33,8 +34,10 @@
             callForPapersDate: formatDateYYYYMMDD($callForPapersDate),
             location: $location,
             categoryTag: $selectedCategoryTags,
-            description: $description
+            description: getMinimalPortableText($description)
         };
+
+        console.log("submitData:", submitData);
 
         submitAndHandleModal(submitData, toastContext);
     }
