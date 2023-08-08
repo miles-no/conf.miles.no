@@ -1,42 +1,15 @@
 <script>
     import JustifiedRow from "../../../form/JustifiedRow.svelte";
-    import DatePicker from "../../../form/DatePicker.svelte";
     import {startDate, endDate, intervalWarning} from "../stores.ts";
+    import DurationDatePickers from "../DurationDatePickers.svelte";
 
-
-
-    function addYears(originalDate, yearsToAdd) {
-        return new Date(new Date(originalDate).setFullYear(originalDate.getFullYear() + yearsToAdd));
-    }
-    let earliest = new Date();
-    let latest = addYears(earliest, 10);
-
-    function updateIntervalWarning() {
+    function updateIntervalWarningFunc() {
         intervalWarning.set(!!$startDate && !!$endDate && $startDate > $endDate);
     }
 </script>
 
 <JustifiedRow>
-    <DatePicker
-            label="Startdato"
-            width="48%"
-            required
-            bind:date={$startDate}
-            {earliest}
-            {latest}
-            on:refreshDate={updateIntervalWarning}
-            warning={$intervalWarning}
-    />
-    <DatePicker
-            label="Sluttdato"
-            width="48%"
-            required
-            bind:date={$endDate}
-            {earliest}
-            {latest}
-            on:refreshDate={updateIntervalWarning}
-            warning={$intervalWarning}
-    />
+    <DurationDatePickers {updateIntervalWarningFunc} startWidth="48%" endWidth="48%" />
 </JustifiedRow>
 
 <style>

@@ -52,6 +52,10 @@
             event.preventDefault();
         }
     }
+
+    export function setDate(newDate: Date|null) {
+        innerDate = newDate;
+    }
 </script>
 
 <LabeledField {label} {required} {width}>

@@ -1,50 +1,36 @@
 <script>
+    import {addYears} from "../../../../utils/date-time-utils.ts";
     import JustifiedRow from "../../../form/JustifiedRow.svelte";
     import DatePicker from "../../../form/DatePicker.svelte";
-    import {startDate, endDate, callForPapersDate, intervalWarning, callForPapersWarning} from "../stores.ts";
+
+    import {callForPapersDate, callForPapersWarning, endDate, intervalWarning, startDate} from "../stores.ts";
+
+    import DurationDatePickers from "../DurationDatePickers.svelte";
 
 
+    let earliest = addYears(new Date(), -10);
+    let latest = addYears(new Date(), 10);
 
-    function addYears(originalDate, yearsToAdd) {
-        return new Date(new Date(originalDate).setFullYear(originalDate.getFullYear() + yearsToAdd));
+    function updateCallForPapersWarning() {
+        callForPapersWarning.set(!!$callForPapersDate && !!$endDate && $callForPapersDate > $endDate)
     }
-    let earliest = new Date();
-    let latest = addYears(earliest, 10);
-
-    function updateIntervalWarning() {
+    function updateIntervalWarningFunc() {
         intervalWarning.set(!!$startDate && !!$endDate && $startDate > $endDate);
         callForPapersWarning.set(!!$callForPapersDate && !!$endDate && $callForPapersDate > $endDate)
     }
+
+
 </script>
 
 <JustifiedRow>
-    <DatePicker
-            label="Startdato"
-            width="31%"
-            required
-            bind:date={$startDate}
-            {earliest}
-            {latest}
-            on:refreshDate={updateIntervalWarning}
-            warning={$intervalWarning}
-    />
-    <DatePicker
-            label="Sluttdato"
-            width="31%"
-            required
-            bind:date={$endDate}
-            {earliest}
-            {latest}
-            on:refreshDate={updateIntervalWarning}
-            warning={$intervalWarning}
-    />
+    <DurationDatePickers {updateIntervalWarningFunc} startWidth="31%" endWidth="31%" />
     <DatePicker
             label="Frist: call for papers"
             width="31%"
             bind:date={$callForPapersDate}
-            earliest={addYears(earliest, -1)}
+            {earliest}
             {latest}
-            on:refreshDate={updateIntervalWarning}
+            on:refreshDate={updateCallForPapersWarning}
             warning={$callForPapersWarning}
     />
 </JustifiedRow>

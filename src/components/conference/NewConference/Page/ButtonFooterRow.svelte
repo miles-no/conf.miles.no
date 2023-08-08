@@ -37,8 +37,6 @@
             description: getMinimalPortableText($description)
         };
 
-        console.log("submitData:", submitData);
-
         submitAndHandleModal(submitData, toastContext);
     }
 
