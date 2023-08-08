@@ -30,7 +30,6 @@ export default {
 			name: 'description',
 			type: 'portableText',
 			title: 'Description',
-			validation: (Rule: Rule) => Rule.required()
 		},
 		{
 			title: 'Slug',
@@ -122,8 +121,7 @@ export default {
 					type: 'string',
 					title: 'Alternative text'
 				}
-			],
-			validation: (Rule: Rule) => Rule.required()
+			]
 		},
 		{
 			title: 'Homepage',

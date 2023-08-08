@@ -34,7 +34,7 @@
             callForPapersDate: formatDateYYYYMMDD($callForPapersDate),
             location: $location,
             categoryTag: $selectedCategoryTags,
-            description: getMinimalPortableText($description)
+            description: $description ? getMinimalPortableText($description) : undefined
         };
 
         submitAndHandleModal(submitData, toastContext);
@@ -48,7 +48,6 @@
         disabled = (
             !($name.trim()) ||
             !($url.trim()) ||
-            !($description.trim()) ||
             !$startDate ||
             !$endDate ||
             !!$intervalWarning

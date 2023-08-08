@@ -34,7 +34,6 @@ onMount(() => {
             multiline
             rows={4}
             width="100%"
-            required
     />
 </JustifiedRow>
 
