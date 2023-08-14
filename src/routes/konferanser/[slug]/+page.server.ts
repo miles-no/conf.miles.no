@@ -14,13 +14,13 @@ export interface IConferenceSlugPageLoadData {
 
 export const prerender = false;
 
-export const load = (async ({ params, cookies }): Promise<IConferenceSlugPageLoadData> => {
+export const load = (async ({ params, cookies, url }): Promise<IConferenceSlugPageLoadData> => {
 	const { slug } = params;
 	
 	const user = getUserFromCookie(cookies.get('session'));
 
 	if (!user.isAuthenticated) {
-		throw redirect(307, '/login');
+		throw redirect(307, '/login?redirect_uri=' + url.pathname);
 	}
 
 	const conference = await fetchConference(slug);

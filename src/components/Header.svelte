@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import Button, { Label } from '@smui/button';
 	import IconButton from '@smui/icon-button';
 	import type { ISiteSetting } from '../model/site-setting';
@@ -48,7 +49,7 @@
 					</div>
 				{/if}
 			{:else}
-				<a class="login__link" href="/login">Login</a>
+				<a class="login__link" href="/login?redirect_uri={$page.url.pathname}">Login</a>
 			{/if}
 
 			{#if screenSize >= 900}

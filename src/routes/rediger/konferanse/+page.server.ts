@@ -8,11 +8,11 @@ export const prerender = false;
 export interface IConferenceSlugPageLoadData {
 }
 
-export const load = (async ({ cookies }): Promise<IConferenceSlugPageLoadData> => {
+export const load = (async ({ cookies, url }): Promise<IConferenceSlugPageLoadData> => {
     const user = getUserFromCookie(cookies.get('session'));
 
     if (!user.isAuthenticated) {
-        throw redirect(307, '/login');
+        throw redirect(307, '/login?redirect_uri=' + url.pathname);
     }
 
 

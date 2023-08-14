@@ -13,11 +13,11 @@ export interface IAgendaPageLoadData {
 
 export const prerender = false;
 
-export const load = (async ({ params, cookies }): Promise<IAgendaPageLoadData> => {
+export const load = (async ({ params, cookies, url }): Promise<IAgendaPageLoadData> => {
 	const user = getUserFromCookie(cookies.get('session'));
 
 	if (!user.isAuthenticated) {
-		throw redirect(307, '/login');
+		throw redirect(307, '/login?redirect_uri=' + url.pathname);
 	}
 
 	const { slug: conferenceSlug, submissionSlug } = params;

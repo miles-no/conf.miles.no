@@ -9,6 +9,8 @@ export async function GET({ url, cookies }) {
 	const profileData = await getUserProfile(token.access_token);
 	const cvpartnerData = await fetchUser(profileData.email);
 	const authInfo = createAuthInfo(profileData, cvpartnerData, token);
+	const state = url.searchParams.get('state');
+
 	cookies.set('session', JSON.stringify(authInfo), {
 		path: '/',
 		httpOnly: true,
@@ -16,8 +18,8 @@ export async function GET({ url, cookies }) {
 		secure: !dev,
 		maxAge: authInfo.expires_in
 	});
-
-	throw redirect(307, '/');
+	
+	throw redirect(307, state || '/');
 }
 
 const getToken = async (url) => {

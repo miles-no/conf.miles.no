@@ -16,7 +16,7 @@ export const load = (async ({ cookies, url }): Promise<IConferencesPageLoadData>
 	const user = getUserFromCookie(cookies.get('session'));
 
 	if (!user.isAuthenticated) {
-		throw redirect(307, '/login');
+		throw redirect(307, '/login?redirect_uri=' + url.pathname);
 	}
 
 	const year = parseInt(url.searchParams.get('year') || '');
