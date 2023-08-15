@@ -81,7 +81,7 @@
 
 
 
-<style>
+<style lang="scss">
     .footer-buttons :global(button) {
         color: #000;
         border: 1px solid #000;
@@ -105,7 +105,7 @@
         background: #555;
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 350px) {
         .footer-buttons :global(.mdc-button__label) {
             font-size: .85em;
         }
@@ -118,4 +118,20 @@
     .pending :global(.mdc-button__label) {
         visibility: hidden;
     }
+
+
+    @media only screen and (max-width: 500px) {
+        .footer-buttons {
+            :global(.justified-row) {
+                flex-direction: column;
+            }
+            :global(.mdc-button),
+            :global(.disabled),
+            :global(.pending) {
+                width:100% !important;
+                margin-bottom: 20px;
+            }
+        }
+    }
 </style>
+
