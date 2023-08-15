@@ -91,11 +91,13 @@
 <h1>Registrer en ny konferanse</h1>
 <div class="edit-and-preview-row">
     <Form />
-    <Preview {conference} />
+    <div class="preview-col">
+        <Preview {conference} />
+    </div>
 </div>
 <ButtonFooterRow />
 
-<style>
+<style lang="scss">
   h1 {
     font-family: var(--mdc-typography-headline1-font-family, var(--mdc-typography-font-family, Inter, Roboto, sans-serif)); ;
     font-style: normal;
@@ -109,5 +111,39 @@
       display: flex;
       flex-flow: row;
       align-items: center;
+  }
+
+  @media only screen and (min-width: 1325px) {
+    .preview-col {
+      flex-basis: calc(400px + 4rem);
+    }
+  }
+
+  @media only screen and (max-width: 1324px) {
+    .preview-col {
+      width: 100%;
+    }
+    .edit-and-preview-row {
+        flex-direction: column;
+
+        :global(.new-conf-edit) {
+          border-right: none;
+          padding-right: 0;
+        }
+        :global(.new-conf-preview) {
+          margin-top: 40px;
+          margin-bottom: 40px;
+          margin-left: auto;
+        }
+    }
+  }
+
+  @media only screen and (max-width: 760px) {
+    .edit-and-preview-row {
+      :global(.new-conf-preview) {
+        margin-right: auto;
+      }
+    }
+
   }
 </style>

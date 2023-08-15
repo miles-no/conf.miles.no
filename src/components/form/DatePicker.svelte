@@ -127,7 +127,7 @@
         opacity: 7%;
     }
 
-    @media (max-width: 450px) {
+    @media (max-width: 230px) {
         .datepicker-root :global(.material-icons) {
             display: none;
         }

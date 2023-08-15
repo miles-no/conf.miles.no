@@ -38,7 +38,7 @@
 </div>
 
 <style lang="scss">
-    @media only screen and (max-width: 1140px) {
+    @media only screen and (max-width: 760px) {
         .datepickers-row {
           :global(.justified-row) {
             flex-direction: column;

@@ -3,16 +3,16 @@
     import LabeledField from "./LabeledField.svelte";
     import {onMount} from "svelte";
 
-    export let label, width, placeholder, value='', required=false, multiline=undefined, rows=undefined;
+    export let label, width, placeholder, value='', required=false, multiline=undefined, rows=undefined, addClass=undefined;
 
     let hidePlaceholderClass = undefined;
 
     function hidePlaceholder() {
-        hidePlaceholderClass = 'hide-placeholder';
+        hidePlaceholderClass = `hide-placeholder ${addClass}`;
     }
     function handlePlaceholder() {
         if (!(value.trim())) {
-            hidePlaceholderClass = undefined;
+            hidePlaceholderClass = addClass;
         } else {
             hidePlaceholder();
         }

@@ -61,6 +61,13 @@
     margin-left: 42px;
     overflow: hidden;
   }
+
+  @media only screen and (max-width: 430px) {
+    .new-conf-preview {
+      width: 100%;
+    }
+  }
+
   .imageWrapper {
     height: 200px;
   }
@@ -97,5 +104,8 @@
     max-width: 100%;
     gap: 0.5rem;
     margin-top: 1rem;
+  }
+  .description {
+    padding-top: 20px;
   }
 </style>
