@@ -28,6 +28,7 @@
         const enteredData = {
             name: $name,
             url: $url,
+            location: $location,
             startDate: formatDateYYYYMMDD($startDate),
             endDate: formatDateYYYYMMDD($endDate),
             categoryTag: $selectedCategoryTags

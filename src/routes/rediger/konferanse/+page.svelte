@@ -54,6 +54,7 @@
                 url: $url ?? undefined,
                 startDate: $startDate ?? undefined,
                 endDate: $endDate ?? undefined,
+                location: $location ?? undefined,
                 selectedCategoryTags: $selectedCategoryTags ?? []
             }
         }
