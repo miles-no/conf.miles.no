@@ -22,15 +22,31 @@
 
 </script>
 
-<JustifiedRow>
-    <DurationDatePickers {updateIntervalWarningFunc} startWidth="31%" endWidth="31%" />
-    <DatePicker
-            label="Frist: call for papers"
-            width="31%"
-            bind:date={$callForPapersDate}
-            {earliest}
-            {latest}
-            on:refreshDate={updateCallForPapersWarning}
-            warning={$callForPapersWarning}
-    />
-</JustifiedRow>
+<div class="datepickers-row">
+    <JustifiedRow>
+        <DurationDatePickers {updateIntervalWarningFunc} startWidth="31%" endWidth="31%" />
+        <DatePicker
+                label="Frist: call for papers"
+                width="31%"
+                bind:date={$callForPapersDate}
+                {earliest}
+                {latest}
+                on:refreshDate={updateCallForPapersWarning}
+                warning={$callForPapersWarning}
+        />
+    </JustifiedRow>
+</div>
+
+<style lang="scss">
+    @media only screen and (max-width: 1140px) {
+        .datepickers-row {
+          :global(.justified-row) {
+            flex-direction: column;
+          }
+          :global(.labeled-field) {
+            width:100% !important;
+            margin-bottom: 20px;
+          }
+        }
+    }
+</style>
