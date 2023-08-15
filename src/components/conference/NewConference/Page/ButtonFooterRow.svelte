@@ -1,4 +1,5 @@
-<script>
+<script lang="ts">
+    import type {IToastContextProps} from "../../../toast/toast-context";
     import Button, {Icon, Label} from "@smui/button";
     import JustifiedRow from "../../../form/JustifiedRow.svelte";
     import {
@@ -11,12 +12,12 @@
     } from "../stores.ts";
     import darkTheme from "../../../../stores/theme-store";
     import Spinner from "../Spinner.svelte";
-    import {submit} from "../submit";
 
     import {getContext} from "svelte";
-    const toastContext = getContext('toastContext');
+    const toastContext: IToastContextProps = getContext('toastContext');
 
-
+    export let submitText: string;
+    export let submit: (toastContext:IToastContextProps) => void;
 
 
 
@@ -52,7 +53,7 @@
                 {#if $pending}
                     <Spinner strokeColor={$darkTheme ? "white" : "black"} />
                 {/if}
-                <Label>Registrer konferanse</Label>
+                <Label>{submitText}</Label>
             </Button>
         </div>
     </JustifiedRow>

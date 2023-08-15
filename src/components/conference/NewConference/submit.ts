@@ -4,8 +4,9 @@ import {callForPapersDate, description, endDate, location, name, selectedCategor
 import {formatDateYYYYMMDD} from "../../../utils/date-time-utils";
 import {getMinimalPortableText} from "../../../utils/sanityclient-utils";
 import {submitAndHandleModal} from "./submitHandler";
+import type {IToastContextProps} from "../../toast/toast-context";
 
-export function submit(toastContext) {
+export function submitNewConference(toastContext:IToastContextProps) {
     const descr = get(description);
     const submitData = {
         title: get(name),
@@ -21,3 +22,7 @@ export function submit(toastContext) {
     submitAndHandleModal(submitData, toastContext);
 }
 
+
+export function submitEditedConference (toastContext:IToastContextProps) {
+    console.log("IMPLEMENT ME AND SUBMIT STUFF");
+}
