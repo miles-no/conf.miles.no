@@ -44,7 +44,7 @@
 </script>
 
 
-<h1>Registrer en ny konferanse</h1>
+<h1>Redigere konferanse</h1>
 <div class="edit-and-preview-row">
     <Form />
     <div class="preview-col">
