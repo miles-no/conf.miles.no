@@ -27,9 +27,6 @@ const verifyAndNormalizeConferenceData = (confData: ConferenceType) => {
 	Conference.safeParse(confData);
 
 	const now = formatDateYYYYMMDD(new Date()) as string;
-	if (confData.startDate < now || confData.endDate < now) {
-		throw Error("Start or end date can't be in the past");
-	}
     if (confData.endDate < confData.startDate) {
         throw Error("Start date can't be after End date");
     }
