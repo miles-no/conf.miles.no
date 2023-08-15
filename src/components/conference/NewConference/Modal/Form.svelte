@@ -1,6 +1,6 @@
 <script>
     import NameAndUrlRow from "./NameAndUrlRow.svelte";
-    import DatePickerRow from "./DatePickerRow.svelte";
+    import DatePickerRow from "./DatePickersRow.svelte";
     import ButtonFooterRow from "./ButtonFooterRow.svelte";
     import CheckboxRow from "../CheckboxRow.svelte";
     import {pending} from "../stores.ts";

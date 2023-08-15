@@ -2,7 +2,7 @@
     import NameUrlLocationRow from "./NameUrlLocationRow.svelte";
     import CheckboxRow from "../CheckboxRow.svelte";
     import {pending} from "../stores.ts";
-    import DatePickersAndPriceRow from "./DatePickersAndPriceRow.svelte";
+    import DatePickersAndPriceRow from "./DatePickersRow.svelte";
     import Description from "./Description.svelte";
 
     export let formId=undefined;

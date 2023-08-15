@@ -11,7 +11,3 @@
 <JustifiedRow>
     <DurationDatePickers {updateIntervalWarningFunc} startWidth="48%" endWidth="48%" />
 </JustifiedRow>
-
-<style>
-    /* .datepicker-root*/
-</style>

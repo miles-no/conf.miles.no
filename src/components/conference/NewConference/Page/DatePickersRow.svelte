@@ -34,7 +34,3 @@
             warning={$callForPapersWarning}
     />
 </JustifiedRow>
-
-<style>
-    /* .datepicker-root*/
-</style>
