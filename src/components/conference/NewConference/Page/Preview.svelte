@@ -10,35 +10,42 @@
     import type {IPreviewConference} from "./IPreviewConference";
 
     export let conference: IPreviewConference;
+
+    $: hasCompactInfo = !!conference.url || !!conference.location || !!conference.startDate || !!conference.categoryTag.length;
 </script>
 
 <div class="new-conf-preview">
     <div class="imageWrapper">
-        <img
-                style="width: 100%; height: 100%;"
-                alt=""
-                src={conference.imageUrl
-					? urlFor(conference.imageUrl).size(400, 300).quality(100).url()
-					: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'}
-                height="300"
-                width="
-				400"
-        />
+        {#if (conference.imageUrl)}
+            <img
+                    style="width: 100%; height: 100%;"
+                    alt=""
+                    src={urlFor(conference.imageUrl).size(400, 300).quality(100).url()}
+                    height="300"
+                    width="
+                    400"
+            />
+        {:else}
+            <div class="previewPlaceholder">Forhåndsvisning</div>    <!-- Instead of: 'https://www.miles.no/wp-content/uploads/2020/11/PT6A3984-kopi.jpg'  -->
+        {/if}
     </div>
+
     <div class="content">
         <h1 id="modal-heading">{conference.title}</h1>
-        <div class="compactInfo">
-            <ConferenceInformation {conference} />
-            {#if conference.categoryTag}
-                <div class="tagWrapper">
-                    {#each conference.categoryTag as activityType}
-                        <ConferenceCategoryTag category={activityType} />
-                    {/each}
-                </div>
-            {/if}
+        {#if (hasCompactInfo)}
+            <div class={"compactInfo"} class:borderTop={!!conference.title}>
+                <ConferenceInformation {conference} />
+                {#if conference.categoryTag.length}
+                    <div class="tagWrapper">
+                        {#each conference.categoryTag as activityType}
+                            <ConferenceCategoryTag category={activityType} />
+                        {/each}
+                    </div>
+                {/if}
         </div>
+        {/if}
         {#if conference.description}
-            <div class="description">
+            <div class="description" class:borderTop={!!conference.title || hasCompactInfo || !!conference.categoryTag}>
                 <PortableText value={getMinimalPortableText(conference.description)} />
             </div>
         {/if}
@@ -57,15 +64,23 @@
   .imageWrapper {
     height: 200px;
   }
+  .previewPlaceholder {
+    color: #aaa;
+    height: 200px;
+    background-color: #ddd;
+    text-align: center;
+    padding-top: 90px;
+  }
   .content {
     display: flex;
     flex-direction: column;
     padding: 1.5rem;
     gap: 1rem;
   }
-  .compactInfo {
+  .borderTop {
     border-top: 1px solid grey;
-    border-bottom: 1px solid grey;
+  }
+  .compactInfo {
     padding: 1rem 0.5rem;
   }
   .info {
