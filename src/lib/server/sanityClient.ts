@@ -125,11 +125,17 @@ export async function createAuthor(author: Author) {
 	return insertedAuthor;
 }
 
+// Returns the year with a leading '-', for slug use - or an empty string if no parseable year
+const getSlugYearFromDateString = (dateString: string = ''): string => {
+    const year = new Date(Date.parse(dateString)).getFullYear();
+    return (!isNaN(year) && year > 0) ? `-${year}` : '';
+}
+
 export async function createConference(
 	conference: ConferenceType,
 	sanityConferenceType: string
 ): Promise<string> {
-	const slugCurrent = conference.slug ?? (await generateSlug(conference.title));
+	const slugCurrent = conference.slug ?? (await generateSlug(conference.title + getSlugYearFromDateString(conference.startDate)));
 	const conferenceDoc = {
 		_type: sanityConferenceType,
 		slug: { _type: 'slug', current: slugCurrent },
