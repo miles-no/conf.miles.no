@@ -6,39 +6,16 @@
         url,
         startDate,
         endDate,
-        callForPapersDate,
-        selectedCategoryTags,
         intervalWarning,
         pending,
-        description,
-        location
     } from "../stores.ts";
     import darkTheme from "../../../../stores/theme-store";
     import Spinner from "../Spinner.svelte";
-    import {submitAndHandleModal} from "../submitHandler";
-    import {getContext} from "svelte";
-    import {formatDateYYYYMMDD} from "../../../../utils/date-time-utils";
-    import {getMinimalPortableText} from "../../../../utils/sanityclient-utils.ts";
+    import {submit} from "../submit";
 
+    import {getContext} from "svelte";
     const toastContext = getContext('toastContext');
 
-
-
-
-    function submit() {
-        const submitData = {
-            title: $name,
-            url: $url,
-            startDate: formatDateYYYYMMDD($startDate),
-            endDate: formatDateYYYYMMDD($endDate),
-            callForPapersDate: formatDateYYYYMMDD($callForPapersDate),
-            location: $location,
-            categoryTag: $selectedCategoryTags,
-            description: $description ? getMinimalPortableText($description) : undefined
-        };
-
-        submitAndHandleModal(submitData, toastContext);
-    }
 
 
 
@@ -70,7 +47,7 @@
         <div class:disabled class:pending={$pending}>
             <Button color="primary"
                     disabled={disabled}
-                    on:click={!disabled && submit}
+                    on:click={() => {!disabled && submit(toastContext);} }
             >
                 {#if $pending}
                     <Spinner strokeColor={$darkTheme ? "white" : "black"} />

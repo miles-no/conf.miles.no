@@ -8,31 +8,21 @@
         endDate,
         selectedCategoryTags,
         intervalWarning,
-        pending
+        pending,
+        location
     } from "../stores.ts";
     import darkTheme from "../../../../stores/theme-store";
     import Spinner from "../Spinner.svelte";
-    import {submitAndHandleModal} from "../submitHandler";
-    import {getContext} from "svelte";
     import {formatDateYYYYMMDD} from "../../../../utils/date-time-utils";
     import {makeid} from "../../../../utils/conference-utils";
+    import {submit} from "../submit";
 
+    import {getContext} from "svelte";
     const toastContext = getContext('toastContext');
 
 
 
 
-    function submit() {
-        const submitData = {
-            title: $name,
-            url: $url,
-            startDate: formatDateYYYYMMDD($startDate),
-            endDate: formatDateYYYYMMDD($endDate),
-            categoryTag: $selectedCategoryTags
-        };
-
-        submitAndHandleModal(submitData, toastContext);
-    }
 
     async function gotoAddMoreDetailsPage() {
         const enteredData = {
@@ -77,7 +67,7 @@
         <div class:disabled class:pending={$pending}>
             <Button color="primary"
                     disabled={disabled}
-                    on:click={!disabled && submit}
+                    on:click={() => {!disabled && submit(toastContext)} }
             >
                 {#if $pending}
                     <Spinner strokeColor={$darkTheme ? "white" : "black"} />
