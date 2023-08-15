@@ -18,7 +18,7 @@
 	import PerformanceModal from '../../../components/modal/performance-modal/PerformanceModal.svelte';
 	import ConferenceCategoryTag from '../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
 	import { updateEmployeesStatus } from '../../../utils/conference-utils';
-	import type { ToastDataType } from '../../../components/conference/NewConferenceModal/modalSubmitHandler';
+	import type { ToastDataType } from '../../../components/conference/NewConference/submitHandler';
 
 	interface IPerformanceMapByDate {
 		[key: string]: IPerformance[];
