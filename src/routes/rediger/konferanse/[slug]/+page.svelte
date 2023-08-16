@@ -1,25 +1,20 @@
 <script lang="ts">
-    import {onMount} from "svelte";
     import type { IConference } from '../../../../model/conference';
-
-    import {
-        initStore
-    } from "../../../../components/conference/NewConference/stores";
+    import {initStore} from "../../../../components/conference/NewConference/stores";
     import ConferenceEditor from "../../../../components/conference/NewConference/Page/ConferenceEditor.svelte";
     import {submitEditedConference} from "../../../../components/conference/NewConference/submit";
 
-    export let data: IConference;
+    export let data: IConference|undefined;
 
-    onMount(() => {
-        initStore({
-            name: data.title,
-            startDate: data.startDate,
-            endDate: data.endDate,
-            selectedCategoryTags: data.categoryTag || [],
-            description: data.description[0].children[0].text,
-            location: data.location,
-            url: data.url
-        });
+    initStore({
+        name: data?.title,
+        startDate: data?.startDate,
+        endDate: data?.endDate,
+        selectedCategoryTags: data?.categoryTag || [],
+        description: data?.description ? data.description[0].children[0].text : undefined,
+        location: data?.location,
+        callForPapersDate: data?.callForPapersDate,
+        url: data?.url
     });
 </script>
 

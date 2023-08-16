@@ -2,19 +2,36 @@
     import {endDate, intervalWarning, startDate} from "./stores.ts";
     import DatePicker from "../../form/DatePicker.svelte";
     import {addYears} from "../../../utils/date-time-utils.ts";
+    import {onMount} from "svelte";
 
     let earliest = addYears(new Date(), -10);
     let latest = addYears(new Date(), 10);
 
     export let updateIntervalWarningFunc, startWidth, endWidth;
 
-    let endDatePicker;
+    let startDatePicker, endDatePicker;
+
     function updateIntervalWarningAndSyncEndDate() {
         updateIntervalWarningFunc();
         if ($endDate === null) {
             endDatePicker.setDate($startDate);
         }
     }
+
+    // FIXME: these init' variables are a workaround for lifecycle quirk:
+    //  store values (like $startDate) are available here, but are null during onMount (!?)
+    //  - and setDate() needs to happen during onMount
+    const initStartDate = $startDate;
+    const initEndDate = $endDate;
+
+    onMount(()=> {
+        if (initStartDate) {
+            startDatePicker.setDate(initStartDate);
+        }
+        if (initEndDate) {
+            endDatePicker.setDate(initEndDate);
+        }
+    })
 </script>
 
 <DatePicker
@@ -22,6 +39,7 @@
         width={startWidth}
         required
         bind:date={$startDate}
+        bind:this={startDatePicker}
         {earliest}
         {latest}
         on:refreshDate={updateIntervalWarningAndSyncEndDate}

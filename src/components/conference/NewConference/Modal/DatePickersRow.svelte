@@ -2,10 +2,15 @@
     import JustifiedRow from "../../../form/JustifiedRow.svelte";
     import {startDate, endDate, intervalWarning} from "../stores.ts";
     import DurationDatePickers from "../DurationDatePickers.svelte";
+    import {onMount} from "svelte";
 
     function updateIntervalWarningFunc() {
         intervalWarning.set(!!$startDate && !!$endDate && $startDate > $endDate);
     }
+
+    onMount(()=> {
+        console.log("Modal DatePickersRow");
+    })
 </script>
 
 <div class="datepickers-row">

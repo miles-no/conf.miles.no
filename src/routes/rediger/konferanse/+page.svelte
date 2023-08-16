@@ -8,7 +8,9 @@
         startDate,
         url,
         initStore,
-        location
+        location,
+        description,
+        callForPapersDate
     } from "../../../components/conference/NewConference/stores";
     import type {NewConferenceStoreInitType} from "../../../components/conference/NewConference/stores";
     import {submitNewConference} from "../../../components/conference/NewConference/submit";
@@ -43,14 +45,8 @@
             console.log("Transferred data:", transferredData);
         }
 
-        // If nothing was picked up from session store, but there was a "new" parameter, see if anything exists in the store
-        if ((!transferredData || !Object.keys(transferredData).length) && newconfkey) {
+        if ((!transferredData || !Object.keys(transferredData).length)) {
             transferredData = {
-                name: $name ?? undefined,
-                url: $url ?? undefined,
-                startDate: $startDate ?? undefined,
-                endDate: $endDate ?? undefined,
-                location: $location ?? undefined,
                 selectedCategoryTags: $selectedCategoryTags ?? []
             }
         }
@@ -58,11 +54,8 @@
         return transferredData;
     }
 
-
-    onMount(() => {
-        const transferredData = getTransferredData();
-        initStore(transferredData);
-    });
+    const transferredData = getTransferredData();
+    initStore(transferredData);
 </script>
 
 <h1>Registrer en ny konferanse</h1>

@@ -31,7 +31,7 @@
             location: $location,
             startDate: formatDateYYYYMMDD($startDate),
             endDate: formatDateYYYYMMDD($endDate),
-            categoryTag: $selectedCategoryTags
+            selectedCategoryTags: $selectedCategoryTags
         };
 
         // Store entered data in sessionStorage for picking it back up after navigating to the created item:

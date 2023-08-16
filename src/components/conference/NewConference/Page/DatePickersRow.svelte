@@ -6,7 +6,9 @@
     import {callForPapersDate, callForPapersWarning, endDate, intervalWarning, startDate} from "../stores.ts";
 
     import DurationDatePickers from "../DurationDatePickers.svelte";
+    import {onMount} from "svelte";
 
+    let callForPapersDatePicker;
 
     let earliest = addYears(new Date(), -10);
     let latest = addYears(new Date(), 10);
@@ -19,6 +21,16 @@
         callForPapersWarning.set(!!$callForPapersDate && !!$endDate && $callForPapersDate > $endDate)
     }
 
+    // FIXME: this init variable is a workaround for a lifecycle quirk:
+    //  store values (like $callForPapersDate) are available here, but are null during onMount (!?)
+    //  - and setDate() needs to happen during onMount
+    const initCallForPapersDate = $callForPapersDate;
+
+    onMount(()=> {
+        if (initCallForPapersDate) {
+            callForPapersDatePicker.setDate(initCallForPapersDate);
+        }
+    })
 
 </script>
 
@@ -29,6 +41,7 @@
                 label="Frist: call for papers"
                 width="31%"
                 bind:date={$callForPapersDate}
+                bind:this={callForPapersDatePicker}
                 {earliest}
                 {latest}
                 on:refreshDate={updateCallForPapersWarning}
