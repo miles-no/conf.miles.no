@@ -14,8 +14,14 @@ let warnings = [];
 // /api/conference PUT
 export const PUT = (async ({ request }) => {
 
+    /* TODO: Should there be an auth check here, or does that happen behind the scenes elsewhere during this call?
+    if (!user.isAuthenticated) {
+        throw redirect(307, '/login?redirect_uri=' + url.pathname);
+    } */
+
+
 	try {
-		const conference: ConferenceType = await request.json();
+		const conference = await request.json();
 
         verifyAndNormalizeConferenceData(conference);
         const warning = await verifyConferenceUrl(conference.url);
@@ -33,15 +39,9 @@ export const PUT = (async ({ request }) => {
         existingConference.location = conference.location ?? existingConference.location;
         existingConference.startDate = conference.startDate ?? existingConference.startDate;
         existingConference.endDate = conference.endDate ?? existingConference.endDate;
-        existingConference.callForPapersDate = conference.callForPapersDate != null
-            ? new Date(Date.parse(conference.callForPapersDate))
-            : existingConference.callForPapersDate;
+        existingConference.callForPapersDate = conference.callForPapersDate ?? existingConference.callForPapersDate;
         existingConference.categoryTag = conference.categoryTag ?? existingConference.categoryTag;
-
-        // TODO: Works badly! FIX!
-        existingConference.description = conference.description != null
-            ? getMinimalPortableText(conference.description)
-            : existingConference.description;
+        existingConference.description = conference.description ?? existingConference.description;
 
         await updateConference(existingConference as IConference);
 

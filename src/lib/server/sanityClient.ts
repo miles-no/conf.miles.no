@@ -151,11 +151,10 @@ export async function createConference(
 
 	const insertedConference: SanityDocument<any> = await client.create(conferenceDoc);
 	console.log(
-		'Created external conference:\n  _id:',
-		insertedConference._id,
-		'\n  title:' + insertedConference.title,
-		"'\n  slug.current:",
-		insertedConference.slug.current
+		'Created external conference:',
+        '\n  _id:', insertedConference._id,
+		'\n  title:', insertedConference.title,
+		"\n  slug.current:", insertedConference.slug.current
 	);
 	return insertedConference.slug.current;
 
@@ -211,7 +210,7 @@ export async function updateConference(
 	externalConference: IConference
 ): Promise<string> {
 	// imageUrl is not a part of external conference schema and updating external conference should not update its references to other schemas.
-	const { imageUrl, performances, image, _createdAt, _updatedAt, _id, _rev, location, ...rest } =
+	const { imageUrl, performances, image, _createdAt, _updatedAt, _id, _rev, ...rest } =
 		externalConference;
 
 	await client

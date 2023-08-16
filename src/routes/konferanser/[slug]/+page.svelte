@@ -133,7 +133,9 @@
 	<div class="conference-details">
 		<Paper variant="unelevated">
 			<Content class="conference-details-main-content">
-				<h1>{conference.title}</h1>
+				<a class="edit-link" href={`/rediger/konferanse/${conference.slug}`} title="Rediger konferansen">
+                    <h1>{conference.title}</h1>
+                </a>
 				<ConferenceInformation {conference} />
 				{#if conference.categoryTag}
 					<div class="conference-details-main-content-tags-container">
@@ -347,4 +349,12 @@
 			display: none !important;
 		}
 	}
+
+    .edit-link {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
 </style>
