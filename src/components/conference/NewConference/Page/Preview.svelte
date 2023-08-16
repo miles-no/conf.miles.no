@@ -8,8 +8,19 @@
     import ConferenceCategoryTag from "../../../tag/conference-category-tag/ConferenceCategoryTag.svelte";
     import {PortableText} from "@portabletext/svelte";
     import type {IPreviewConference} from "./IPreviewConference";
+    import {description, endDate, location, name, selectedCategoryTags, startDate, url} from "../stores";
 
-    export let conference: IPreviewConference;
+    let conference: IPreviewConference;
+
+    $: conference = {
+        title: $name,
+        startDate: $startDate?.toDateString(),
+        endDate: $endDate?.toDateString(),
+        categoryTag: $selectedCategoryTags,
+        description: $description,
+        location: $location,
+        url: $url,
+    }
 
     $: hasCompactInfo = !!conference.url || !!conference.location || !!conference.startDate || !!conference.categoryTag.length;
 </script>

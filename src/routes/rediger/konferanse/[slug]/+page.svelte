@@ -3,6 +3,8 @@
     import {initStore} from "../../../../components/conference/NewConference/stores";
     import ConferenceEditor from "../../../../components/conference/NewConference/Page/ConferenceEditor.svelte";
     import {submitEditedConference} from "../../../../components/conference/NewConference/submit";
+    import ButtonFooterRow from "../../../../components/conference/NewConference/Page/ButtonFooterRow.svelte";
+    import Heading from "../../../../components/conference/NewConference/Heading.svelte";
 
     export let data: IConference|undefined;
 
@@ -19,16 +21,8 @@
 </script>
 
 
-<h1>Redigere konferanse</h1>
-<ConferenceEditor submitText="Oppdater konferanse" submit={submitEditedConference} />
 
-<style lang="scss">
-  h1 {
-    font-family: var(--mdc-typography-headline1-font-family, var(--mdc-typography-font-family, Inter, Roboto, sans-serif)); ;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 29px;
-    margin-bottom: 40px;
-  }
-</style>
+<Heading>Redigere konferanse</Heading>
+<ConferenceEditor/>
+<ButtonFooterRow submitText="Oppdater konferanse" submit={submitEditedConference} />
+

@@ -1,20 +1,12 @@
 <script lang="ts">
-    import {onMount} from "svelte";
-
     import {
-        endDate,
-        name,
-        selectedCategoryTags,
-        startDate,
-        url,
         initStore,
-        location,
-        description,
-        callForPapersDate
     } from "../../../components/conference/NewConference/stores";
     import type {NewConferenceStoreInitType} from "../../../components/conference/NewConference/stores";
     import {submitNewConference} from "../../../components/conference/NewConference/submit";
     import ConferenceEditor from "../../../components/conference/NewConference/Page/ConferenceEditor.svelte";
+    import ButtonFooterRow from "../../../components/conference/NewConference/Page/ButtonFooterRow.svelte";
+    import Heading from "../../../components/conference/NewConference/Heading.svelte";
 
     function getUrlParamNew() {
         try {
@@ -47,7 +39,7 @@
 
         if ((!transferredData || !Object.keys(transferredData).length)) {
             transferredData = {
-                selectedCategoryTags: $selectedCategoryTags ?? []
+                selectedCategoryTags: []
             }
         }
 
@@ -58,5 +50,9 @@
     initStore(transferredData);
 </script>
 
-<h1>Registrer en ny konferanse</h1>
-<ConferenceEditor submitText="Registrer konferanse" submit={submitNewConference} />
+
+
+<Heading>Registrer en ny konferanse</Heading>
+<ConferenceEditor />
+<ButtonFooterRow submitText="Registrer konferanse" submit={submitNewConference} />
+

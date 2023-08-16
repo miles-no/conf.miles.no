@@ -1,26 +1,6 @@
 <script lang="ts">
     import Form from "./Form.svelte";
     import Preview from "./Preview.svelte";
-    import ButtonFooterRow from "./ButtonFooterRow.svelte";
-    import type {IPreviewConference} from "./IPreviewConference.js";
-    import type {IToastContextProps} from "../../../toast/toast-context.js";
-    import {description, endDate, location, name, selectedCategoryTags, startDate, url} from "../stores.js";
-
-
-    export let
-        conference: IPreviewConference,
-        submitText: string,
-        submit: (toastContext:IToastContextProps) => void;
-
-    $: conference = {
-        title: $name,
-        startDate: $startDate?.toDateString(),
-        endDate: $endDate?.toDateString(),
-        categoryTag: $selectedCategoryTags,
-        description: $description,
-        location: $location,
-        url: $url,
-    }
 </script>
 
 
@@ -28,10 +8,9 @@
 <div class="edit-and-preview-row">
     <Form />
     <div class="preview-col">
-        <Preview {conference} />
+        <Preview/>
     </div>
 </div>
-<ButtonFooterRow {submitText} {submit} />
 
 
 
