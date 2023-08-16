@@ -2,11 +2,20 @@
     import type { IConference } from '../../../../model/conference';
     import {initStore} from "../../../../components/conference/NewConference/stores";
     import ConferenceEditor from "../../../../components/conference/NewConference/Page/ConferenceEditor.svelte";
-    import {submitEditedConference} from "../../../../components/conference/NewConference/submit";
+    import {getEditedConferenceSubmitter} from "../../../../components/conference/NewConference/submit";
     import ButtonFooterRow from "../../../../components/conference/NewConference/Page/ButtonFooterRow.svelte";
     import Heading from "../../../../components/conference/NewConference/Heading.svelte";
 
+    import {getContext} from "svelte";
+    import type {IToastContextProps} from "../../../../components/toast/toast-context";
+    const toastContext: IToastContextProps = getContext('toastContext');
+
+
     export let data: IConference|undefined;
+
+    if (!data?.slug) {
+        throw Error("Can't edit conference data, missing slug for source conference in fetched data");
+    }
 
     initStore({
         name: data?.title,
@@ -18,6 +27,7 @@
         callForPapersDate: data?.callForPapersDate,
         url: data?.url
     });
+    const submitEditedConference = getEditedConferenceSubmitter(toastContext, data.slug);
 </script>
 
 

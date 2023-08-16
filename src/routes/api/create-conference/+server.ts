@@ -1,11 +1,12 @@
-import { json, type RequestHandler } from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
+import type { RequestHandler } from '@sveltejs/kit';
+
 import { createConference } from '$lib/server/sanityClient';
-import { Conference } from '$lib/types/conference';
 import type { ConferenceType } from '$lib/types/conference';
 
 import sanityClient from '@sanity/client';
 import { env } from '$env/dynamic/private';
-import { formatDateYYYYMMDD } from '../../../utils/date-time-utils';
+import {verifyAndNormalizeConferenceData, verifyConferenceUrl} from "../../../utils/conference-utils";
 
 const client = sanityClient({
 	projectId: env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
@@ -16,24 +17,6 @@ const client = sanityClient({
 });
 
 const CONFERENCE_TYPE = 'conference';
-
-const urlStartPattern = /^https?:\/\//;
-
-const verifyAndNormalizeConferenceData = (confData: ConferenceType) => {
-	if (!urlStartPattern.test(confData.url)) {
-		confData.url = 'https://' + confData.url;
-	}
-
-	Conference.safeParse(confData);
-
-	const now = formatDateYYYYMMDD(new Date()) as string;
-    if (confData.endDate < confData.startDate) {
-        throw Error("Start date can't be after End date");
-    }
-    if (!!confData.callForPapersDate && confData.endDate < confData.callForPapersDate) {
-        throw Error("Call-for-papers date can't be after End date");
-    }
-};
 
 const verifyConferenceIsNew = async (title: string, startDate: string) => {
 	const duplicateResults = await client.fetch(
@@ -68,47 +51,6 @@ const verifyConferenceIsNew = async (title: string, startDate: string) => {
 				likelyDupeResults[0].endDate +
 				'.'
 		: undefined;
-};
-
-/*
-Consider moving to frontend?
-
-// https://dmitripavlutin.com/timeout-fetch-request/
- */
-const fetchWithTimeout = async (url: string, options = {}) => {
-	const timeout = 10000;
-	const controller = new AbortController();
-	const id = setTimeout(() => {
-		console.warn('Conference-URL-checking request timed out: ' + url);
-		controller.abort();
-	}, timeout);
-
-	const response = await fetch(url, {
-		...options,
-		signal: controller.signal
-	});
-	clearTimeout(id);
-
-	return response;
-};
-
-const verifyConferenceUrl = async (url: string) => {
-	let checkResult;
-	try {
-		checkResult = await fetchWithTimeout(url, { method: 'HEAD' });
-
-		if (checkResult.ok) {
-			return undefined;
-		}
-		console.warn(`Conference url (${url}) failed check: not .ok`);
-		console.warn('    status:    ', await checkResult.status);
-		console.warn('    statusText:', await checkResult.statusText);
-		console.warn('    headers:   ', await checkResult.headers, '\n');
-		return `Couldn't reach the conference URL: ${url}`;
-	} catch (e) {
-		console.log(e);
-		return `Couldn't reach the conference URL: ${url}`;
-	}
 };
 
 // /api/conference PUT

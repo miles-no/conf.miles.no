@@ -20,7 +20,7 @@ export interface IEvent {
 	performances?: IPerformance[];
 	startDate: string;
 	deadline: string;
-	imageUrl: string;
+	imageUrl?: string;
 	endDate: string;
 	_type: string;
 	location?: string;

@@ -8,7 +8,6 @@ import { env as private_env } from '$env/dynamic/private';
 // @ts-ignore
 import { env as public_env } from '$env/dynamic/public';
 import { makeid } from '../../utils/conference-utils';
-import {getMinimalPortableText} from "../../utils/sanityclient-utils";
 import type {IConference} from "../../model/conference";
 
 const client: SanityClient = sanityClient({

@@ -1,28 +1,40 @@
 import { get } from 'svelte/store';
 
-import {callForPapersDate, description, endDate, location, name, selectedCategoryTags, startDate, url} from "./stores";
+import {name, url, location, startDate, endDate, callForPapersDate, description, selectedCategoryTags} from "./stores";
 import {formatDateYYYYMMDD} from "../../../utils/date-time-utils";
 import {getMinimalPortableText} from "../../../utils/sanityclient-utils";
-import {submitAndHandleModal} from "./submitHandler";
+import {submitEditedConferenceAndHandleModal, submitNewConferenceAndHandleModal} from "./submitHandler";
+import type {ISubmitData} from "./submitHandler";
 import type {IToastContextProps} from "../../toast/toast-context";
 
-export function submitNewConference(toastContext:IToastContextProps) {
+function getSubmitData(slug?: string): ISubmitData {
     const descr = get(description);
-    const submitData = {
+    const submitData: ISubmitData = {
         title: get(name),
         url: get(url),
         location: get(location),
-        startDate: formatDateYYYYMMDD(get(startDate)),
-        endDate: formatDateYYYYMMDD(get(endDate)),
+        startDate: formatDateYYYYMMDD(get(startDate)) as string,
+        endDate: formatDateYYYYMMDD(get(endDate)) as string,
         callForPapersDate: formatDateYYYYMMDD(get(callForPapersDate)),
         categoryTag: get(selectedCategoryTags),
         description: descr ? getMinimalPortableText(descr) : undefined
     };
-
-    submitAndHandleModal(submitData, toastContext);
+    if (slug) {
+        submitData.slug = slug
+    }
+    return submitData;
+}
+export function getNewConferenceSubmitter(toastContext:IToastContextProps): ()=>void {
+    return ()=> {
+        const submitData = getSubmitData();
+        submitNewConferenceAndHandleModal(submitData, toastContext);
+    }
 }
 
 
-export function submitEditedConference (toastContext:IToastContextProps) {
-    console.log("IMPLEMENT ME AND SUBMIT STUFF");
+export function getEditedConferenceSubmitter(toastContext:IToastContextProps, slug:string): ()=>void {
+    return () => {
+        const submitData = getSubmitData(slug);
+        submitEditedConferenceAndHandleModal(submitData, toastContext);
+    }
 }

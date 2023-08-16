@@ -1,6 +1,8 @@
 import type { StatusKeyType } from '../enums/status';
 import type { IEmployee } from '../model/event';
 import { v4 as uuidv4 } from 'uuid';
+import {Conference} from "$lib/types/conference";
+import type {ConferenceType} from "$lib/types/conference";
 
 export const updateEmployeesStatus = (
 	employees: IEmployee[],
@@ -35,3 +37,64 @@ export function makeid(length: number): string {
     }
     return result;
 }
+
+
+
+
+/*
+Consider moving to frontend?
+
+// https://dmitripavlutin.com/timeout-fetch-request/
+ */
+const fetchWithTimeout = async (url: string, options = {}) => {
+    const timeout = 10000;
+    const controller = new AbortController();
+    const id = setTimeout(() => {
+        console.warn('Conference-URL-checking request timed out: ' + url);
+        controller.abort();
+    }, timeout);
+
+    const response = await fetch(url, {
+        ...options,
+        signal: controller.signal
+    });
+    clearTimeout(id);
+
+    return response;
+};
+
+export const verifyConferenceUrl = async (url: string) => {
+    let checkResult;
+    try {
+        checkResult = await fetchWithTimeout(url, { method: 'HEAD' });
+
+        if (checkResult.ok) {
+            return undefined;
+        }
+        console.warn(`Conference url (${url}) failed check: not .ok`);
+        console.warn('    status:    ', await checkResult.status);
+        console.warn('    statusText:', await checkResult.statusText);
+        console.warn('    headers:   ', await checkResult.headers, '\n');
+        return `Couldn't reach the conference URL: ${url}`;
+    } catch (e) {
+        console.log(e);
+        return `Couldn't reach the conference URL: ${url}`;
+    }
+};
+
+const urlStartPattern = /^https?:\/\//;
+
+export const verifyAndNormalizeConferenceData = (confData: ConferenceType) => {
+    if (!urlStartPattern.test(confData.url)) {
+        confData.url = 'https://' + confData.url;
+    }
+
+    Conference.safeParse(confData);
+
+    if (confData.endDate < confData.startDate) {
+        throw Error("Start date can't be after End date");
+    }
+    if (!!confData.callForPapersDate && confData.endDate < confData.callForPapersDate) {
+        throw Error("Call-for-papers date can't be after End date");
+    }
+};

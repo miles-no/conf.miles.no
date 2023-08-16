@@ -3,10 +3,14 @@
         initStore,
     } from "../../../components/conference/NewConference/stores";
     import type {NewConferenceStoreInitType} from "../../../components/conference/NewConference/stores";
-    import {submitNewConference} from "../../../components/conference/NewConference/submit";
+    import {getNewConferenceSubmitter} from "../../../components/conference/NewConference/submit";
     import ConferenceEditor from "../../../components/conference/NewConference/Page/ConferenceEditor.svelte";
     import ButtonFooterRow from "../../../components/conference/NewConference/Page/ButtonFooterRow.svelte";
     import Heading from "../../../components/conference/NewConference/Heading.svelte";
+
+    import {getContext} from "svelte";
+    import type {IToastContextProps} from "../../../components/toast/toast-context";
+    const toastContext: IToastContextProps = getContext('toastContext');
 
     function getUrlParamNew() {
         try {
@@ -48,6 +52,8 @@
 
     const transferredData = getTransferredData();
     initStore(transferredData);
+
+    const submitNewConference = getNewConferenceSubmitter(toastContext);
 </script>
 
 

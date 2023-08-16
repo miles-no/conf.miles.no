@@ -15,12 +15,12 @@
     import Spinner from "../Spinner.svelte";
     import {formatDateYYYYMMDD} from "../../../../utils/date-time-utils";
     import {makeid} from "../../../../utils/conference-utils";
-    import {submitNewConference} from "../submit.ts";
+    import {getNewConferenceSubmitter} from "../submit.ts";
 
     import {getContext} from "svelte";
     const toastContext = getContext('toastContext');
 
-
+    const submitNewConference = getNewConferenceSubmitter(toastContext);
 
 
 
@@ -68,7 +68,7 @@
         <div class:disabled class:pending={$pending}>
             <Button color="primary"
                     disabled={disabled}
-                    on:click={() => {!disabled && submitNewConference(toastContext)} }
+                    on:click={ !disabled && submitNewConference }
             >
                 {#if $pending}
                     <Spinner strokeColor={$darkTheme ? "white" : "black"} />

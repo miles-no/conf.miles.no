@@ -13,9 +13,6 @@
     import darkTheme from "../../../../stores/theme-store";
     import Spinner from "../Spinner.svelte";
 
-    import {getContext} from "svelte";
-    const toastContext: IToastContextProps = getContext('toastContext');
-
     export let submitText: string;
     export let submit: (toastContext:IToastContextProps) => void;
 
@@ -48,7 +45,7 @@
         <div class:disabled class:pending={$pending}>
             <Button color="primary"
                     disabled={disabled}
-                    on:click={() => {!disabled && submit(toastContext);} }
+                    on:click={!disabled && submit}
             >
                 {#if $pending}
                     <Spinner strokeColor={$darkTheme ? "white" : "black"} />
