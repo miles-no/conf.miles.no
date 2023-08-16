@@ -29,6 +29,7 @@
     onMount(()=> {
         if (initCallForPapersDate) {
             callForPapersDatePicker.setDate(initCallForPapersDate);
+            callForPapersDate.set(initCallForPapersDate);
         }
     })
 
