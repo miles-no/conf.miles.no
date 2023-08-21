@@ -4,7 +4,8 @@ export enum ConferenceCategory {
 	Smidig = 'Smidig',
 	Prosjektledelse = 'Prosjektledelse',
 	Innovasjon = 'Innovasjon',
-	Admin = 'Admin'
+	Admin = 'Admin',
+	Test = 'Test/Testledelse'
 }
 
 export type ConferenceCategoryType =
@@ -13,4 +14,5 @@ export type ConferenceCategoryType =
 	| 'Smidig'
 	| 'Prosjektledelse'
 	| 'Innovasjon'
-	| 'Admin';
+	| 'Admin'
+	| 'Test/Testledelse';

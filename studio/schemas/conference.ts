@@ -103,7 +103,8 @@ export default {
 					{ title: 'Utvikling', value: 'Utvikling' },
 					{ title: 'Prosjektledelse', value: 'Prosjektledelse' },
 					{ title: 'Innovasjon', value: 'Innovasjon' },
-					{ title: 'Admin', value: 'Admin' }
+					{ title: 'Admin', value: 'Admin' },
+					{ title: 'Test', value: 'Test/Testledelse' }
 				]
 			},
 			description: 'For who is the conference relevant?'
