@@ -25,7 +25,8 @@
         description: data?.description ? data.description[0].children[0].text : undefined,
         location: data?.location,
         callForPapersDate: data?.callForPapersDate,
-        url: data?.url
+        url: data?.url,
+        performances: data?.performances || []
     });
     const submitEditedConference = getEditedConferenceSubmitter(toastContext, data.slug);
 </script>
