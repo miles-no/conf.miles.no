@@ -21,7 +21,7 @@
         name: data?.title,
         startDate: data?.startDate,
         endDate: data?.endDate,
-        selectedCategoryTags: data?.categoryTag || [],
+        selectedCategoryTags: (data?.categoryTag || []) as string[],
         description: data?.description ? data.description[0].children[0].text : undefined,
         location: data?.location,
         callForPapersDate: data?.callForPapersDate,
