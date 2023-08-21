@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Icon } from '@smui/button';
 	import ConferenceInformation from '../../../components/conference/conference-information/ConferenceInformation.svelte';
 	import type { IConferenceSlugPageLoadData } from './+page.server';
 	import Paper, { Content } from '@smui/paper';
@@ -123,6 +124,11 @@
 </svelte:head>
 
 <div class="conference-details-container">
+	<div class="conference-link-to-overview">
+		<a href={'/konferanser/'} title="Tilbake til konferanseoversikten">
+			<Icon class="material-icons" alt="">arrow_back</Icon> Tilbake til konferanseoversikten
+		</a>
+	</div>
 	<div class="conference-details-container-image">
 		{#if conference?.imageUrl}
 			<img src={urlFor(conference.imageUrl).size(900, 300).quality(100).url()} alt="" />
@@ -133,9 +139,13 @@
 	<div class="conference-details">
 		<Paper variant="unelevated">
 			<Content class="conference-details-main-content">
-				<a class="edit-link" href={`/rediger/konferanse/${conference.slug}`} title="Rediger konferansen">
-                    <h1>{conference.title}</h1>
-                </a>
+				<a
+					class="edit-link"
+					href={`/rediger/konferanse/${conference.slug}`}
+					title="Rediger konferansen"
+				>
+					<h1>{conference.title}</h1>
+				</a>
 				<ConferenceInformation {conference} />
 				{#if conference.categoryTag}
 					<div class="conference-details-main-content-tags-container">
@@ -234,6 +244,23 @@
 		height: 100%;
 		width: 100%;
 		object-fit: cover;
+	}
+
+	.conference-link-to-overview {
+		padding-bottom: 1rem;
+		font-size: 1rem;
+	}
+
+	.conference-link-to-overview a {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: white;
+		text-decoration: none;
+	}
+
+	.conference-link-to-overview a:hover {
+		text-decoration: none;
 	}
 
 	.conference-details-container-image {
@@ -350,11 +377,11 @@
 		}
 	}
 
-    .edit-link {
-      text-decoration: none;
+	.edit-link {
+		text-decoration: none;
 
-      &:hover {
-        text-decoration: underline;
-      }
-    }
+		&:hover {
+			text-decoration: underline;
+		}
+	}
 </style>
