@@ -4,7 +4,7 @@ import type { Cv } from '../types/cv';
 import type { Office } from '../types/office';
 import type { User } from '../types/user';
 
-export async function fetchUser(email: string): Promise<User | null> {
+export async function fetchUser(email: string): Promise<User> {
 	try {
 		const response: Response = await fetch(
 			`${env.CVPARTNER_BASE}/api/v1/users/find?email=${email}`,
@@ -19,17 +19,20 @@ export async function fetchUser(email: string): Promise<User | null> {
 
 		if (response.status === 404) {
 			console.error(`GET User from CVPARTNER. User with email ${email} does not exist`);
-			return null;
+			return Promise.reject();
 		}
 
 		const data = await response.json();
 		const user: User = {
 			id: data.id,
-			cvid: '',
+			cvId: data.default_cv_id,
 			email: data.email,
 			name: data.name,
-			office: data.office_id,
-			profileImage: data.image.url
+			office: data.office_name,
+			officeId: data.office_id,
+			profileImage: data.image.url,
+			isAuthenticated: true,
+			title: data.title.no
 		};
 		return user;
 	} catch (error: any) {
@@ -48,18 +51,21 @@ export async function fetchUserById(userid: string): Promise<User> {
 	});
 	const data = await response.json();
 	const user: User = {
-		id: userid,
-		name: data.name,
-		profileImage: data.image.url,
-		cvid: data.default_cv_id,
+		id: data.id,
+		cvId: data.default_cv_id,
 		email: data.email,
-		office: data.office_id
+		name: data.name,
+		office: data.office_name,
+		officeId: data.office_id,
+		profileImage: data.image.url,
+		isAuthenticated: true,
+		title: data.title.no
 	};
 	return user;
 }
 
-export async function fetchCv(userid: string, cvid: string): Promise<Cv> {
-	const response: Response = await fetch(`${env.CVPARTNER_BASE}/api/v3/cvs/${userid}/${cvid}`, {
+export async function fetchCv(userId: string, cvId: string): Promise<Cv> {
+	const response: Response = await fetch(`${env.CVPARTNER_BASE}/api/v3/cvs/${userId}/${cvId}`, {
 		method: 'GET',
 		mode: 'same-origin',
 		headers: {
@@ -68,8 +74,8 @@ export async function fetchCv(userid: string, cvid: string): Promise<Cv> {
 	});
 	const data = await response.json();
 	const ret: Cv = {
-		userid: userid,
-		cvid: cvid,
+		userid: userId,
+		cvid: cvId,
 		bio: data.key_qualifications[0].long_description.no
 	};
 	return ret;

@@ -6,8 +6,10 @@ const user = z.object({
 	name: z.string(),
 	profileImage: z.string().url(),
 	office: z.string(),
-	cvid: z.string(),
-	isAuthenticated: z.boolean()
+	officeId: z.string(),
+	cvId: z.string(),
+	isAuthenticated: z.boolean(),
+	title: z.string()
 });
 
 export type User = z.infer<typeof user>;
