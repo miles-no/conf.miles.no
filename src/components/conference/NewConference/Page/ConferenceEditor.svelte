@@ -1,10 +1,14 @@
 <script lang="ts">
     import Form from "./Form.svelte";
     import Preview from "./Preview.svelte";
+    import {displayModal} from "../stores/stores";
+    import NewPerformanceModal from "./PerformanceModal/NewPerformanceModal.svelte";
 </script>
 
 
-
+{#if $displayModal}
+    <NewPerformanceModal />
+{/if}
 <div class="edit-and-preview-row">
     <Form />
     <div class="preview-col">
