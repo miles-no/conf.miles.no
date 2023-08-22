@@ -1,8 +1,22 @@
 import {writable} from 'svelte/store';
 import {parseDateYYYYMMDD} from "../../../../utils/date-time-utils";
 import {createPerformancesStore} from "./performancesStore";
+import type {NewPerformance} from "./performancesStore";
 import type {Writable} from 'svelte/store';
-import type {NewConferenceStoreInitType} from "./performancesStore";
+
+
+export type NewConferenceStoreInitType = {
+    startDate?: Date | string,
+    endDate?: Date | string,
+    callForPapersDate?: Date | string,
+    name?: string,
+    url?: string,
+    selectedCategoryTags?: string[],
+    location?: string,
+    price?: string,
+    description?: string,
+    performances?: NewPerformance[],
+}
 
 
 export const name: Writable<string> = writable('');

@@ -1,19 +1,11 @@
 import {writable} from "svelte/store";
 import type {Writable} from "svelte/store";
 import type {IPerformance} from "../../../../model/event";
+import type {SubmissionType} from "../../../../enums/submission-type";
 
-export type NewConferenceStoreInitType = {
-    startDate?: Date | string,
-    endDate?: Date | string,
-    callForPapersDate?: Date | string,
-    name?: string,
-    url?: string,
-    selectedCategoryTags?: string[],
-    location?: string,
-    price?: string,
-    description?: string,
-    performances?: NewPerformance[],
-}
+
+
+///////////////////////// First, the store for all currently viewed performances to a conference
 
 export type NewPerformance = IPerformance & {
     date?: Date
@@ -78,3 +70,23 @@ const normalizeStorePerformance = (p:NewPerformance): NewPerformance => {
     }
     return p;
 }
+
+
+///////////////////////// Second, the stores for individual values when creating or editing one performance in a conference
+
+export const perfTitle: Writable<string> = writable('');
+export const authorName: Writable<string> = writable('');
+export const perfType: Writable<SubmissionType|undefined> = writable(undefined);
+export const perfTime: Writable<Date|null> = writable( null);
+export const perfDuration: Writable<number|null> = writable(null);
+export const perfDescription: Writable<string> = writable('');
+
+
+export const initPerformanceStore = (initValues?:NewPerformance):void => {
+    perfTitle.set(initValues?.submission?.title ?? '');
+    authorName.set(((initValues?.submission?.authors || [])[0] || {}).name);
+    perfType.set(initValues?.submission?.submissionType);
+    perfTime.set(initValues?.date ?? null);
+    perfDuration.set(initValues?.submission?.duration ?? null);
+    perfDescription.set(((((initValues?.submission?.description || [])[0] || {}).children || [])[0] || {}).text ?? '')
+};
