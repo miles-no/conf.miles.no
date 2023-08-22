@@ -4,11 +4,9 @@
     import ButtonFooterRow from "./ButtonFooterRow.svelte";
     import CheckboxRow from "../CheckboxRow.svelte";
     import {pending} from "../stores/stores.ts";
-
-    export let formId;
 </script>
 
-<form id={formId} class:pending={$pending}>
+<form class:pending={$pending}>
     <NameAndUrlRow />
     <DatePickerRow />
     <CheckboxRow />

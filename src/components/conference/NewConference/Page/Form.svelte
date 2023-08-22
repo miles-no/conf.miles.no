@@ -5,12 +5,9 @@
     import DatePickersAndPriceRow from "./DatePickersRow.svelte";
     import Description from "./Description.svelte";
 
-    export let formId=undefined;
-
-
 </script>
 
-<form class="new-conf-edit" id={formId} class:pending={$pending}>
+<form class="new-conf-edit" class:pending={$pending}>
     <NameUrlLocationRow />
     <DatePickersAndPriceRow />
     <Description />

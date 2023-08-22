@@ -17,7 +17,7 @@ export const description: Writable<string> = writable('');
 
 
 
-export const displayNewConferenceModal = writable(false);
+export const displayModal = writable(false);
 export const pending = writable(false);
 export const intervalWarning = writable(false);
 
@@ -55,7 +55,7 @@ export const initStore = (initValues?: NewConferenceStoreInitType) => {
     price.set(initValues?.price ?? '');
     description.set(initValues?.description ?? '');
 
-    displayNewConferenceModal.set(false);
+    displayModal.set(false);
     pending.set(false);
     intervalWarning.set(false);
     callForPapersWarning.set(false);
