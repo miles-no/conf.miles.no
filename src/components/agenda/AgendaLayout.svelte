@@ -18,14 +18,16 @@
 		lightningTalk: Zap,
 		workshop: Wrench
 	};
+
+	const authorsLength = submission.authors.length;
 </script>
 
 <div class="container-fluid">
 	<BreadCrumb {event} {submission} />
 	<div class="container-lg">
-		<LayoutGrid>
+		<LayoutGrid padding={0}>
 			<Cell
-				spanDevices={{ desktop: 7, tablet: 8, phone: 4 }}
+				spanDevices={{ desktop: authorsLength > 1 ? 12 : 7, tablet: 8, phone: 4 }}
 				style="display:flex; flex-direction:column; gap: 1rem; margin-right:2rem;"
 			>
 				<h1 class="title mdc-typography--headline5">{submission.title}</h1>
@@ -67,12 +69,14 @@
 					{submission.description[0].children[0].text}
 				</div></Cell
 			>
-			<Cell spanDevices={{ desktop: 5, tablet: 8, phone: 4 }}>
-				<div class="author-section">
+			<Cell spanDevices={{ desktop: authorsLength > 1 ? 12 : 4, tablet: 8, phone: 4 }}>
+				<LayoutGrid>
 					{#each submission.authors as author}
-						<Author {author} />
+					<Cell spanDevices={{ desktop: authorsLength > 1 ? 4 : 12, tablet: 8, phone: 4 }}>
+						<Author {author} />					
+					</Cell>
 					{/each}
-				</div>
+				</LayoutGrid>
 			</Cell>
 		</LayoutGrid>
 	</div>
@@ -99,11 +103,5 @@
 		padding-bottom: 1.5rem;
 		font-weight: 700;
 		border-bottom: 1px solid black;
-	}
-
-	.author-section {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
 	}
 </style>

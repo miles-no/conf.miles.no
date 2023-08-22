@@ -57,17 +57,11 @@
 	.gray-scale {
 		filter: grayscale(100%);
 	}
-	.author-container {
-		border: 1px solid;
-		border-radius: 15px;
-		min-width: 429px;
-	}
 	.heading-wrapper {
 		display: flex;
 		flex-direction: column;
 		gap: 2rem;
-		padding: clamp(0.5em, 3vh, 3em) clamp(1em, 5vw, 8em);
-		padding-bottom: 0;
+		padding: 2rem;
 	}
 	.author-heading {
 		display: flex;
@@ -81,7 +75,7 @@
 
 	.author-content {
 		max-width: 55em;
-		padding: clamp(0.5em, 3vh, 3em) clamp(1em, 5vw, 8em);
+		padding: 2rem;
 		line-height: 2em;
 	}
 
