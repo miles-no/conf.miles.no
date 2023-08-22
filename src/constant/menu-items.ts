@@ -4,10 +4,11 @@ interface IMenuItems {
 }
 
 const menuItems: IMenuItems[] = [
-	{
-		href: '/',
-		label: 'Hva skjer i Miles'
-	},
+	// Re-add this when event part is finished
+	// {
+	// 	href: '/',
+	// 	label: 'Hva skjer i Miles'
+	// },
 	{
 		href: '/konferanser',
 		label: 'Konferanser'
