@@ -3,7 +3,7 @@
     import JustifiedRow from "../../../form/JustifiedRow.svelte";
     import DatePicker from "../../../form/DatePicker.svelte";
 
-    import {callForPapersDate, callForPapersWarning, endDate, intervalWarning, startDate} from "../stores.ts";
+    import {callForPapersDate, callForPapersWarning, endDate, intervalWarning, startDate} from "../stores/stores.ts";
 
     import DurationDatePickers from "../DurationDatePickers.svelte";
     import {onMount} from "svelte";

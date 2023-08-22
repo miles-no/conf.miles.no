@@ -1,8 +1,8 @@
 <script lang="ts">
     import {
         initStore,
-    } from "../../../components/conference/NewConference/stores";
-    import type {NewConferenceStoreInitType} from "../../../components/conference/NewConference/stores";
+    } from "../../../components/conference/NewConference/stores/stores";
+    import type {NewConferenceStoreInitType} from "../../../components/conference/NewConference/stores/stores";
     import {getNewConferenceSubmitter} from "../../../components/conference/NewConference/submit";
     import ConferenceEditor from "../../../components/conference/NewConference/Page/ConferenceEditor.svelte";
     import ButtonFooterRow from "../../../components/conference/NewConference/Page/ButtonFooterRow.svelte";

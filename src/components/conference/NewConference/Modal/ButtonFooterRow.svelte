@@ -10,7 +10,7 @@
         intervalWarning,
         pending,
         location
-    } from "../stores.ts";
+    } from "../stores/stores.ts";
     import darkTheme from "../../../../stores/theme-store";
     import Spinner from "../Spinner.svelte";
     import {formatDateYYYYMMDD} from "../../../../utils/date-time-utils";

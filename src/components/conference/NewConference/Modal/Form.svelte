@@ -3,7 +3,7 @@
     import DatePickerRow from "./DatePickersRow.svelte";
     import ButtonFooterRow from "./ButtonFooterRow.svelte";
     import CheckboxRow from "../CheckboxRow.svelte";
-    import {pending} from "../stores.ts";
+    import {pending} from "../stores/stores.ts";
 
     export let formId;
 </script>

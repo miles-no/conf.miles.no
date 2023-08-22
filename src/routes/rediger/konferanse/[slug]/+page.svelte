@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { IConference } from '../../../../model/conference';
-    import {initStore} from "../../../../components/conference/NewConference/stores";
+    import {initStore} from "../../../../components/conference/NewConference/stores/stores";
     import ConferenceEditor from "../../../../components/conference/NewConference/Page/ConferenceEditor.svelte";
     import {getEditedConferenceSubmitter} from "../../../../components/conference/NewConference/submit";
     import ButtonFooterRow from "../../../../components/conference/NewConference/Page/ButtonFooterRow.svelte";

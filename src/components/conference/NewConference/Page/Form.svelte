@@ -1,7 +1,7 @@
 <script>
     import NameUrlLocationRow from "./NameUrlLocationRow.svelte";
     import CheckboxRow from "../CheckboxRow.svelte";
-    import {pending} from "../stores.ts";
+    import {pending} from "../stores/stores.ts";
     import DatePickersAndPriceRow from "./DatePickersRow.svelte";
     import Description from "./Description.svelte";
 
