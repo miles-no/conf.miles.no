@@ -1,3 +1,4 @@
+import { redirect } from '@sveltejs/kit';
 import { fetchEvents } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth.js';
 import type { User } from '$lib/types/user';
@@ -17,6 +18,11 @@ export async function load({ cookies }) {
 			status: 404
 		};
 	}
+
+	if (user.isAuthenticated) {
+		throw redirect(308, '/konferanser');
+	}
+
 	return {
 		user,
 		events,
