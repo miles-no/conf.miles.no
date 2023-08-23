@@ -1,14 +1,22 @@
-<script>
+<script lang="ts">
     import {makeid} from "../../utils/conference-utils";
     import {ComboboxAutocomplete} from "./combobox-autocomplete.js";
     import {onMount} from "svelte";
     import LabeledField from "./LabeledField.svelte";
-    export let value=undefined, label, placeholder, width, required=false, options=[
-        {id:1, text:"One"},
-        {id:2, text:"Two"},
-        {id:3, text:"Three"},
-        {id:4, text:"Four"},
-    ];
+    import {Icon} from "@smui/common";
+
+    export interface IOption {
+        id: string|number,
+        text: string
+
+    }
+    export let
+        label: string|undefined,
+        placeholder: string|undefined,
+        width: string|undefined,
+        required:boolean = false,
+        selectedOption: IOption|undefined = undefined,
+        options:IOption[] = [];
 
     const uid = makeid(5);
     const comboId = "combobox-" + uid;
@@ -16,15 +24,29 @@
     const listId = "listbox-cb-" + uid;
     const buttonId = "button-cb-" + uid;
 
+    let tmpInnerValue: string|undefined = undefined,
+        isTyping: boolean = false,
+        hasMatch: boolean = false;
+
+    function checkValueAndUpdate(currentValue?:string) {
+        const matchingIndex = Object.keys(options).find( (key) => options[key].text === currentValue );
+        const matchingOption = options[matchingIndex];
+
+        selectedOption = matchingOption;
+        hasMatch = !!matchingOption;
+        isTyping = !hasMatch && !!currentValue && !!currentValue.length;
+    }
+
     onMount(() => {
         var comboboxNode = document.getElementById(inputId);
         var buttonNode = document.getElementById(buttonId);
         var listboxNode = document.getElementById(listId);
-        new ComboboxAutocomplete(comboboxNode, buttonNode, listboxNode);
+
+        new ComboboxAutocomplete(comboboxNode, buttonNode, listboxNode, checkValueAndUpdate);
     });
 
     $: {
-        console.log(value)
+        checkValueAndUpdate(tmpInnerValue);
     }
 </script>
 
@@ -32,7 +54,7 @@
      https://www.w3.org/copyright/software-license-2015/ -->
 
     <div id={comboId} class="combobox" style:width={width}>
-        <div class="combobox combobox-list">
+        <div class="combobox combobox-list" class:hasMatch class:isTyping>
             <div class="group">
                 <LabeledField {label} forId={inputId} width="100%">
                     <input
@@ -44,7 +66,7 @@
                             aria-expanded="false"
                             aria-controls={listId}
                             placeholder={placeholder}
-                            bind:value={value}
+                            bind:value={tmpInnerValue}
                     />
                 </LabeledField>
                 <button
@@ -54,7 +76,15 @@
                     aria-expanded="false"
                     aria-controls={listId}
                     tabindex="-1"
-                >▾</button>
+                >
+                    {#if (hasMatch)}
+                        <Icon class="material-icons" slot="trailingIcon">check</Icon>
+                    {:else if isTyping}
+                        <Icon class="material-icons" slot="trailingIcon">search</Icon>
+                    {:else}
+                        ▾
+                    {/if}
+                </button>
             </div>
             <ul
                     id={listId}
@@ -84,6 +114,33 @@
         border: 2px solid rgb(168, 36, 36);
       }
     }
+
+    .combobox :global(.material-icons) {
+      position: absolute;
+      bottom: 5px;
+      right: 4px;
+    }
+
+    .hasMatch {
+      .cb-edit:focus {
+        border-color: rgb(36, 168, 36);
+      }
+
+      :global(.material-icons) {
+          color: rgb(36, 168, 36);
+      }
+    }
+
+    .isTyping {
+      .cb-edit {
+        border: 2px solid rgb(168, 36, 36);
+      }
+
+      :global(.material-icons) {
+        color: rgb(168, 36, 36);;
+      }
+    }
+
     .combobox {
         position: relative;
     }
@@ -107,7 +164,7 @@
         background-color: white;
         width: 100%;
         border-radius: 0 0 4px 4px;
-        padding: 14px 16px 16px;
+        padding: 14px 0 8px;
         list-style-type: none;
         max-height: 50vh;
         overflow-y: scroll;
@@ -115,11 +172,24 @@
         top: 80px;
         border-top: none;
         z-index: 5;
+
+        &:global(.empty):after {
+          display: block;
+          width: 100%;
+          color: #bbb;
+          content: "(Ingen treff)";
+          padding: 2px 16px 0 16px;
+        }
     }
     .listbox li {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        padding: 2px 16px;
+
+        &:global(.selected) {
+            background-color: #ddd;
+        }
     }
 
     @media (max-width: 616px) {

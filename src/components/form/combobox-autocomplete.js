@@ -4,18 +4,15 @@
  *   Based on / modified from https://www.w3.org/WAI/content-assets/wai-aria-practices/patterns/combobox/examples/js/combobox-autocomplete.js
  *   This content is licensed according to the W3C Software License at
  *   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
- *
- *   cb1-input (comboId)
- *   cb1-listbox (listId)
- *   cb1-button (buttonId)
  */
 
 
 export class ComboboxAutocomplete {
-    constructor(comboboxNode, buttonNode, listboxNode) {
+    constructor(comboboxNode, buttonNode, listboxNode, onValueChange) {
         this.comboboxNode = comboboxNode;
         this.buttonNode = buttonNode;
         this.listboxNode = listboxNode;
+        this.onValueChange = onValueChange;
 
         this.comboboxHasVisualFocus = false;
         this.listboxHasVisualFocus = false;
@@ -116,6 +113,7 @@ export class ComboboxAutocomplete {
         this.comboboxNode.value = this.filter;
         this.comboboxNode.setSelectionRange(this.filter.length, this.filter.length);
         this.filterOptions();
+        this.onValueChange(value);
     }
 
     setOption(option, flag) {
@@ -130,6 +128,7 @@ export class ComboboxAutocomplete {
 
             if (this.isBoth) {
                 this.comboboxNode.value = this.option.textContent;
+                this.onValueChange(this.option.textContent);
                 if (flag) {
                     this.comboboxNode.setSelectionRange(
                         this.option.textContent.length,
@@ -207,10 +206,17 @@ export class ComboboxAutocomplete {
             } else {
                 option = this.firstOption;
             }
+
+            if (numItems === 1) {
+                this.setOption(option)
+            }
+            this.listboxNode.classList.remove("empty");
+
         } else {
             this.firstOption = null;
             option = null;
             this.lastOption = null;
+            this.listboxNode.classList.add("empty");
         }
 
         return option;
@@ -221,6 +227,7 @@ export class ComboboxAutocomplete {
             var opt = this.filteredOptions[i];
             if (opt === option) {
                 opt.setAttribute('aria-selected', 'true');
+                opt.classList.add("selected");
                 if (
                     this.listboxNode.scrollTop + this.listboxNode.offsetHeight <
                     opt.offsetTop + opt.offsetHeight
@@ -232,6 +239,7 @@ export class ComboboxAutocomplete {
                 }
             } else {
                 opt.removeAttribute('aria-selected');
+                opt.classList.remove("selected");
             }
         }
     }
@@ -302,7 +310,7 @@ export class ComboboxAutocomplete {
         var flag = false,
             altKey = event.altKey;
 
-        if (event.ctrlKey || event.shiftKey) {
+        if (event.ctrlKey) {
             return;
         }
 
@@ -361,10 +369,8 @@ export class ComboboxAutocomplete {
                     this.filter = this.comboboxNode.value;
                     this.filterOptions();
                     this.setVisualFocusCombobox();
-                } else {
-                    this.setValue('');
-                    this.comboboxNode.value = '';
                 }
+
                 this.option = null;
                 flag = true;
                 break;
@@ -555,6 +561,7 @@ export class ComboboxAutocomplete {
 
     onOptionClick(event) {
         this.comboboxNode.value = event.target.textContent;
+        this.onValueChange(event.target.textContent);
         this.close(true);
     }
 

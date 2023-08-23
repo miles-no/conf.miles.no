@@ -4,12 +4,17 @@
 
     import {authorName, perfTitle} from '../../stores/performancesStore'
     import ComboBox from "../../../../form/ComboBox.svelte";
+
+    let authorItem;
+
+    const options = [
+        ]
 </script>
 
 <div class="textfield-row">
     <JustifiedRow>
         <TextField bind:value={$perfTitle} label="Tittel" placeholder="Tittel" width="62%" required />
-        <ComboBox bind:value={$authorName} label="Ansvarlig" width="34%" placeholder="Ansatt" />
+        <ComboBox bind:selectedOption={authorItem} {options} label="Ansvarlig" width="34%" placeholder="Ansatt" />
     </JustifiedRow>
 </div>
 

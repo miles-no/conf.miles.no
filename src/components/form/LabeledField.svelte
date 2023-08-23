@@ -2,7 +2,7 @@
     export let width, label, addClass=undefined, required=false, forId=undefined;
 </script>
 
-<div class={`labeled-field ${addClass}`} style:width={width}>
+<div class="labeled-field" class:addClass={addClass} style:width={width}>
     {#if label}
         <label class="textfield-label" class:required for={forId}>
             {label}
