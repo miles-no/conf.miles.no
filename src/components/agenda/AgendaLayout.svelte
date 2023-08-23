@@ -8,10 +8,12 @@
 	import type { ISubmission } from '../../model/submission';
 	import type { IEvent, IPerformance } from '../../model/event';
 	import { Submission } from '../../enums/submission-type';
+	import type { Cv } from '$lib/types/cv';
 
 	export let submission: ISubmission;
 	export let event: IEvent;
 	export let performance: IPerformance;
+	export let cvs: Cv[];
 
 	let submissionTypeIcon = {
 		presentation: Megaphone,
@@ -25,7 +27,7 @@
 <div class="container-fluid">
 	<BreadCrumb {event} {submission} />
 	<div class="container-lg">
-		<LayoutGrid padding={0}>
+		<LayoutGrid>
 			<Cell
 				spanDevices={{ desktop: authorsLength > 1 ? 12 : 7, tablet: 8, phone: 4 }}
 				style="display:flex; flex-direction:column; gap: 1rem; margin-right:2rem;"
@@ -69,9 +71,9 @@
 					{submission.description[0].children[0].text}
 				</div></Cell
 			>
-			<Cell spanDevices={{ desktop: authorsLength > 1 ? 12 : 4, tablet: 8, phone: 4 }}>
+			<Cell spanDevices={{ desktop: authorsLength > 1 ? 12 : 5, tablet: 8, phone: 4 }}>
 				<LayoutGrid>
-					{#each submission.authors as author}
+					{#each cvs as author}
 					<Cell spanDevices={{ desktop: authorsLength > 1 ? 4 : 12, tablet: 8, phone: 4 }}>
 						<Author {author} />					
 					</Cell>
