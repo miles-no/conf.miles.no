@@ -121,4 +121,10 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+    @media (max-width: 616px) {
+        .combobox {
+          width: 100% !important;
+        }
+    }
 </style>
