@@ -2,12 +2,14 @@
     import JustifiedRow from "../../../../form/JustifiedRow.svelte";
     import TextField from "../../../../form/TextField.svelte";
 
-    import {perfTitle, authorName} from '../../stores/performancesStore'
+    import {authorName, perfTitle} from '../../stores/performancesStore'
+    import ComboBox from "../../../../form/ComboBox.svelte";
 </script>
 
 <div class="textfield-row">
     <JustifiedRow>
         <TextField bind:value={$perfTitle} label="Tittel" placeholder="Tittel" width="62%" required />
+        <ComboBox bind:value={$authorName} label="Ansvarlig" width="34%" placeholder="Ansatt" />
     </JustifiedRow>
 </div>
 
