@@ -13,7 +13,6 @@
     }
 
     const usersByOffice: UsersByOffice = getContext('usersByOffice');
-    console.log("Users by office;", usersByOffice)
 
     // TODO: Many users, long list. UX would be better if the list can be structured more, eg. sections by office instead of just listing all of them?
     const options = [];
