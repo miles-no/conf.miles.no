@@ -1,9 +1,10 @@
-<script>
-	import { PortableText } from '@portabletext/svelte';
+<script lang="ts">
 	import { Facebook, Twitter, Linkedin, Mail, Instagram } from 'lucide-svelte';
 	import Card from '@smui/card';
-	import { urlFor } from '../utils/sanityclient-utils';
-	export let author = {};
+	import type { Cv } from '$lib/types/cv';
+
+	export let author: Cv;
+
 	const Icons = {
 		facebook: Facebook,
 		twitter: Twitter,
@@ -17,31 +18,29 @@
 	<div class="heading-wrapper">
 		<div class="author-heading">
 			<img
-				class="rounded-circle gray-scale"
+				class="gray-scale"
 				alt={author.name}
-				src={author.imageUrl
-					? urlFor(author.imageUrl).size(75, 75).quality(75).url()
-					: 'https://media.istockphoto.com/id/1214428300/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=vftMdLhldDx9houN4V-g3C9k0xl6YeBcoB_Rk6Trce0='}
-				height="75"
-				width="75"
+				src={author.profileImage}
+				height="25%"
+				width="25%"
 			/>
 			<div class="author-details">
 				<h1 class="mdc-typography--headline5" style="margin-bottom: 0;">{author.name}</h1>
 			</div>
 		</div>
-		<div>
+		<div class="author-details">
 			<p
 				class="mdc-typography--subtitle1"
 				style="margin-bottom: 0; text-align: left; font-style: italic; "
 			>
-				{author.title ? author.title : ''}
+				{author.title || ''}
 			</p>
 			<hr aria-hidden={true} />
 		</div>
 	</div>
 	<div class="author-content">
-		<PortableText value={author.bio} />
-		<div class="author-socials d-flex">
+		<pre class="author-bio">{author.bio}</pre>
+		<!--div class="author-socials d-flex">
 			{#each author.socials as social}
 				{#if social.handle}
 					<a href={social.type == 'email' ? `mailto:${social.handle}` : social.handle}>
@@ -49,7 +48,7 @@
 					</a>
 				{/if}
 			{/each}
-		</div>
+		</div-->
 	</div>
 </Card>
 
@@ -60,8 +59,9 @@
 	.heading-wrapper {
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+		gap: 1rem;
 		padding: 2rem;
+		padding-bottom: 0;
 	}
 	.author-heading {
 		display: flex;
@@ -76,9 +76,14 @@
 	.author-content {
 		max-width: 55em;
 		padding: 2rem;
-		line-height: 2em;
+		padding-top: 0;
 	}
-
+	.author-bio {
+		text-wrap: balance;
+		line-height: 2em;
+		font-size: 1rem;
+		font-family: var(--mdc-typography-body1-font-family);
+	}
 	.author-socials {
 		gap: 1em;
 	}

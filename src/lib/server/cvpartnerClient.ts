@@ -1,8 +1,10 @@
-// @ts-ignore
 import { env } from '$env/dynamic/private';
+import type { CvPartnerSearchParams } from '$lib/types/cvPartnerSearchParams';
 import type { Cv } from '../types/cv';
 import type { Office } from '../types/office';
 import type { User } from '../types/user';
+
+// CV Partner API Docs: https://docs.cvpartner.com/
 
 export async function fetchUser(email: string): Promise<User> {
 	try {
@@ -64,6 +66,11 @@ export async function fetchUserById(userid: string): Promise<User> {
 	return user;
 }
 
+export async function fetchCvByEmail(email: string) {
+	const user = await fetchUser(email);
+	return await fetchCv(user.id, user.cvId);
+}
+
 export async function fetchCv(userId: string, cvId: string): Promise<Cv> {
 	const response: Response = await fetch(`${env.CVPARTNER_BASE}/api/v3/cvs/${userId}/${cvId}`, {
 		method: 'GET',
@@ -76,9 +83,34 @@ export async function fetchCv(userId: string, cvId: string): Promise<Cv> {
 	const ret: Cv = {
 		userid: userId,
 		cvid: cvId,
-		bio: data.key_qualifications[0].long_description.no
+		bio: data.key_qualifications[0].long_description.no,
+		title: data.title.no,
+		name: data.name,
+		profileImage: data.image.url
 	};
 	return ret;
+}
+
+export async function search(searchParams: CvPartnerSearchParams) {
+	const url = `${env.CVPARTNER_BASE}/api/v2/users/search?${getQueryString(searchParams)}`;
+	const response = await fetch(url, {
+		mode: 'same-origin',
+		headers: {
+			Authorization: `Token token=${env.CVPARTNER_API_KEY}`
+		},
+	});
+	return response.json();
+}
+
+function getQueryString(searchParams: CvPartnerSearchParams): string {
+  if (!searchParams) return '';
+
+  const queryString = Object.entries(searchParams)
+    .filter(([_, value]) => value !== undefined && value !== null && value !== '')
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value.toString())}`)
+    .join('&');
+
+  return queryString || '';
 }
 
 export async function fetchOffices(): Promise<Office[]> {
