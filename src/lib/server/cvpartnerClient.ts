@@ -96,9 +96,9 @@ export async function fetchOffices(): Promise<Office[]> {
 		// @ts-ignore
 		const offices: Office[] = element.offices
 			.filter(
-				(c) =>
+				(c:{name?:string}) =>
 					c.name == 'Bergen' ||
-					c.Name == 'Oslo' ||
+					c.name == 'Oslo' ||
 					c.name == 'Stavanger' ||
 					c.name == 'Trondheim' ||
 					c.name == 'Ålesund'
@@ -115,8 +115,8 @@ export async function fetchOffices(): Promise<Office[]> {
 	return officesTotal;
 }
 
-export async function fetchUsers(officeids: string[]): Promise<User[]> {
-	let url: string = `${env.CVPARTNER_BASE}/api/v2/users/search?&office_ids[]=${officeids[0].id}&office_ids[]=${officeids[1].id}&office_ids[]=${officeids[2].id}&office_ids[]=${officeids[3].id}&from=0&size=200`;
+export async function fetchUsers(officeids: {id:string}[]): Promise<User[]> {
+	let url: string = `${env.CVPARTNER_BASE}/api/v2/users/search?&office_ids[]=${officeids[0].id}&office_ids[]=${officeids[1].id}&office_ids[]=${officeids[2].id}&office_ids[]=${officeids[3].id}&office_ids[]=${officeids[4].id}&from=0&size=200`;
 	const response: Response = await fetch(url, {
 		headers: {
 			Authorization: `Token token=${env.CVPARTNER_API_KEY}`
@@ -133,4 +133,56 @@ export async function fetchUsers(officeids: string[]): Promise<User[]> {
 		};
 	});
 	return users;
+}
+
+
+
+
+
+export type BasicUser = {
+    id: number|string,
+    name: string,
+    email: string|undefined
+};
+type UserWithOffice = BasicUser & {
+    office: string
+}
+export type UsersByOffice = {
+    [officeName:string]: BasicUser[]
+}
+type CrudeUsersByOfficeCache = {
+    timestamp:number,
+    usersByOffice: UsersByOffice
+}
+
+let crudeUsersByOfficeCache:CrudeUsersByOfficeCache = {
+    timestamp: 0,
+    usersByOffice: {}
+}
+
+const ONE_DAY = 1000 * 3600 * 24;
+
+export async function fetchAllUsersCached(): Promise<UsersByOffice> {
+    const now = Date.now();
+    if (now - crudeUsersByOfficeCache.timestamp > ONE_DAY) {
+        console.log("Fetching all users from all offices...");
+        const offices = await fetchOffices();
+        const officeIds = offices.map(office => ({id: office.id + ""}));
+        const users: UserWithOffice[] = await fetchUsers(officeIds);
+        const usersByOffice:UsersByOffice = {};
+        users.forEach(user => {
+            if (!usersByOffice[user.office]) {
+                usersByOffice[user.office] = [];
+            }
+            usersByOffice[user.office].push({
+                id: user.id,
+                name: user.name,
+                email: user.email
+            });
+        });
+        crudeUsersByOfficeCache.usersByOffice = usersByOffice;
+        crudeUsersByOfficeCache.timestamp = now;
+        console.log("...ok, cached for 24 hours:", users.length, "users.");
+    }
+    return crudeUsersByOfficeCache.usersByOffice;
 }

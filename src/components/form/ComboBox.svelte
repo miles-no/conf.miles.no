@@ -26,6 +26,8 @@
 
     let tmpInnerValue: string|undefined = undefined,
         isTyping: boolean = false,
+        hasFocus: boolean = false,
+        hideIcon: boolean = false,
         hasMatch: boolean = false;
 
     function checkValueAndUpdate(currentValue?:string) {
@@ -34,6 +36,7 @@
 
         selectedOption = matchingOption;
         hasMatch = !!matchingOption;
+        hideIcon = hasFocus && currentValue?.length > 11
         isTyping = !hasMatch && !!currentValue && !!currentValue.length;
     }
 
@@ -67,6 +70,14 @@
                             aria-controls={listId}
                             placeholder={placeholder}
                             bind:value={tmpInnerValue}
+                            on:focus={()=>{
+                                hasFocus=true;
+                                hideIcon = tmpInnerValue?.length > 11
+                            }}
+                            on:blur={()=>{
+                                hasFocus=false;
+                                hideIcon=false;
+                            }}
                     />
                 </LabeledField>
                 <button
@@ -77,12 +88,14 @@
                     aria-controls={listId}
                     tabindex="-1"
                 >
-                    {#if (hasMatch)}
-                        <Icon class="material-icons" slot="trailingIcon">check</Icon>
-                    {:else if isTyping}
-                        <Icon class="material-icons" slot="trailingIcon">search</Icon>
-                    {:else}
-                        ▾
+                    {#if (!(isTyping && hideIcon))}
+                        {#if (hasMatch)}
+                            <Icon class="material-icons" slot="trailingIcon">check</Icon>
+                        {:else if isTyping}
+                            <Icon class="material-icons" slot="trailingIcon">search</Icon>
+                        {:else}
+                            ▾
+                        {/if}
                     {/if}
                 </button>
             </div>
@@ -104,14 +117,18 @@
     .cb-edit {
         border-radius: 4px;
         border: solid 1px rgb(0, 0, 0, .38);
-        padding: 0 16px;
+        padding: 0 44px 0 16px;
         height: 56px;
         font-family: Roboto, sans-serif;
         font-size: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
       &:focus {
         outline: none;
         border: 2px solid rgb(168, 36, 36);
+        padding-right: 16px;
       }
     }
 

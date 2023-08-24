@@ -8,7 +8,7 @@
     import ButtonFooterRow from "../../../components/conference/NewConference/Page/ButtonFooterRow.svelte";
     import Heading from "../../../components/conference/NewConference/Heading.svelte";
 
-    import {getContext} from "svelte";
+    import {getContext, setContext} from "svelte";
     import type {IToastContextProps} from "../../../components/toast/toast-context";
     const toastContext: IToastContextProps = getContext('toastContext');
 
@@ -54,6 +54,9 @@
     initStore(transferredData);
 
     const submitNewConference = getNewConferenceSubmitter(toastContext);
+
+    export let data;
+    setContext('usersByOffice', data.usersByOffice);
 </script>
 
 

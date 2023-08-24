@@ -171,7 +171,7 @@ export class ComboboxAutocomplete {
 
     // ComboboxAutocomplete Events
 
-    filterOptions() {
+    filterOptions(avoidAutofill) {
         // do not filter any options if autocomplete is none
         if (this.isNone) {
             this.filter = '';
@@ -207,7 +207,7 @@ export class ComboboxAutocomplete {
                 option = this.firstOption;
             }
 
-            if (numItems === 1) {
+            if (numItems === 1 && !avoidAutofill) {
                 this.setOption(option)
             }
             this.listboxNode.classList.remove("empty");
@@ -422,7 +422,7 @@ export class ComboboxAutocomplete {
         if (this.comboboxNode.value.length < this.filter.length) {
             this.filter = this.comboboxNode.value;
             this.option = null;
-            this.filterOptions();
+            this.filterOptions(true);
         }
 
         if (event.key === 'Escape' || event.key === 'Esc') {
@@ -435,7 +435,7 @@ export class ComboboxAutocomplete {
                 this.setCurrentOptionStyle(false);
                 this.filter = this.comboboxNode.value;
                 this.option = null;
-                this.filterOptions();
+                this.filterOptions(true);
                 flag = true;
                 break;
 
