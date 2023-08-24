@@ -37,7 +37,7 @@
         selectedOption = matchingOption;
         hasMatch = !!matchingOption;
         hideIcon = hasFocus && currentValue?.length > 11
-        isTyping = !hasMatch && !!currentValue && !!currentValue.length;
+        isTyping = hasFocus && !hasMatch && !!currentValue && !!currentValue.length;
     }
 
     onMount(() => {
@@ -88,9 +88,11 @@
                     aria-controls={listId}
                     tabindex="-1"
                 >
-                    {#if (!(isTyping && hideIcon))}
+                    {#if (!(hasFocus && hideIcon))}
                         {#if (hasMatch)}
                             <Icon class="material-icons" slot="trailingIcon">check</Icon>
+                        {:else if (!hasFocus && tmpInnerValue?.length)}
+                            <Icon class="material-icons problem" slot="trailingIcon">clear</Icon>
                         {:else if isTyping}
                             <Icon class="material-icons" slot="trailingIcon">search</Icon>
                         {:else}
@@ -148,16 +150,9 @@
       }
     }
 
-    .isTyping {
-      .cb-edit {
-        border: 2px solid rgb(168, 36, 36);
-      }
-
-      :global(.material-icons) {
-        color: rgb(168, 36, 36);;
-      }
+    :global(.material-icons.problem) {
+      color: rgb(168, 36, 36);;
     }
-
     .combobox {
         position: relative;
     }
