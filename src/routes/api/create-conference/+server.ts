@@ -53,7 +53,7 @@ const verifyConferenceIsNew = async (title: string, startDate: string) => {
 		: undefined;
 };
 
-// /api/conference PUT
+// /api/conference POST
 export const POST = (async ({ request }) => {
 	/* Request:
         {

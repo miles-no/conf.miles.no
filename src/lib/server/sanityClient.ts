@@ -1,5 +1,5 @@
 import sanityClient from '@sanity/client';
-import type { SanityClient, SanityDocument } from '@sanity/client';
+import type { SanityClient, SanityDocument, SanityImageAssetDocument } from '@sanity/client';
 import type { Submission } from '../types/submission';
 import type { Author } from '../types/author';
 import type { ConferenceType } from '../types/conference';
@@ -135,7 +135,9 @@ export async function createConference(
 	sanityConferenceType: string
 ): Promise<string> {
 	const slugCurrent = conference.slug ?? (await generateSlug(conference.title + getSlugYearFromDateString(conference.startDate)));
-	const conferenceDoc = {
+	const imageAsset = conference.image ? await uploadImageFromDataUrl(conference.image) : undefined;
+
+	let conferenceDoc = {
 		_type: sanityConferenceType,
 		slug: { _type: 'slug', current: slugCurrent },
 		title: conference.title,
@@ -146,39 +148,34 @@ export async function createConference(
         description: conference.description,
 		url: conference.url,
 		categoryTag: conference.categoryTag ?? [],
-		//internal: false
+		image: imageAsset ? {
+			_type: 'image',
+			asset: {
+				_type: 'reference',
+				_ref: imageAsset._id
+			}
+		} : null
 	};
 
 	const insertedConference: SanityDocument<any> = await client.create(conferenceDoc);
+  
 	console.log(
-		'Created external conference:',
-        '\n  _id:', insertedConference._id,
-		'\n  title:', insertedConference.title,
-		"\n  slug.current:", insertedConference.slug.current
-	);
-	return insertedConference.slug.current;
+    'Created external conference:',
+    '\n  _id:', insertedConference._id,
+    '\n  title:', insertedConference.title,
+    '\n  slug.current:', insertedConference.slug.current
+  );
 
-	// client.assets
-	//     .upload('image', createReadStream(''), {
-	//         filename: basename('')
-	//     })
-	//     .then(imageAsset => {
-	//         return client
-	//         .patch(insertedConference._id)
-	//         .set({
-	//             image: {
-	//             _type: 'image',
-	//             asset: {
-	//                 _type: "reference",
-	//                 _ref: imageAsset._id
-	//             }
-	//             }
-	//         })
-	//         .commit()
-	//     })
-	//     .then(() => {
-	//         console.log("Done!");
-	//     });
+	return insertedConference.slug.current;
+}
+
+async function uploadImageFromDataUrl(dataUrl: string): Promise<SanityImageAssetDocument | undefined> {
+	if (dataUrl.startsWith('data:')) {
+		const [, base64Data] = dataUrl.split(',');
+		const binaryData = Buffer.from(base64Data, 'base64');
+		return client.assets.upload('image', binaryData);
+	}
+	throw new Error('Invalid dataUrl');
 }
 
 /*
@@ -207,19 +204,29 @@ export async function createConference(
 */
 
 export async function updateConference(
-	externalConference: IConference
+	conferenceWithUpdatedValues: IConference,
+	replacingImage?: string
 ): Promise<string> {
-	// imageUrl is not a part of external conference schema and updating external conference should not update its references to other schemas.
+	// imageUrl is not a part of conference schema and updating conference should not update its references to other schemas.
 	const { imageUrl, performances, image, _createdAt, _updatedAt, _id, _rev, ...rest } =
-		externalConference;
+		conferenceWithUpdatedValues;
+
+	const imageAsset = replacingImage ? await uploadImageFromDataUrl(replacingImage) : undefined;
 
 	await client
-		.patch(externalConference._id)
+		.patch(conferenceWithUpdatedValues._id)
 		.set({
 			...rest,
-			slug: { _type: 'slug', current: externalConference.slug }
+			image: imageAsset ? {
+				_type: 'image',
+				asset: {
+					_type: 'reference',
+					_ref: imageAsset._id
+				}
+			} : image,
+			slug: { _type: 'slug', current: conferenceWithUpdatedValues.slug }
 		})
 		.commit();
 
-	return externalConference._id;
+	return conferenceWithUpdatedValues._id;
 }

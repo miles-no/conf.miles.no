@@ -43,7 +43,7 @@ export const PUT = (async ({ request }) => {
         existingConference.categoryTag = conference.categoryTag ?? existingConference.categoryTag;
         existingConference.description = conference.description ?? existingConference.description;
 
-        await updateConference(existingConference as IConference);
+        await updateConference(existingConference as IConference, conference.image);
 
         if (warnings.length) {
             console.warn("Warnings when trying to update conference with slug '" + conference.slug + "': " + JSON.stringify(warnings, null, 2));

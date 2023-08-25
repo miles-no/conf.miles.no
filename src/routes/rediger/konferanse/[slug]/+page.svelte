@@ -8,6 +8,7 @@
 
     import {getContext} from "svelte";
     import type {IToastContextProps} from "../../../../components/toast/toast-context";
+	import { urlFor } from '../../../../utils/sanityclient-utils';
     const toastContext: IToastContextProps = getContext('toastContext');
 
 
@@ -25,7 +26,9 @@
         description: data?.description ? data.description[0].children[0].text : undefined,
         location: data?.location,
         callForPapersDate: data?.callForPapersDate,
-        url: data?.url
+        url: data?.url,
+        image: data?.imageUrl ? urlFor(data.imageUrl).url() : ''
+
     });
     const submitEditedConference = getEditedConferenceSubmitter(toastContext, data.slug);
 </script>

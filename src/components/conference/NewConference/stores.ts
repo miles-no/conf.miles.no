@@ -5,6 +5,7 @@ import {parseDateYYYYMMDD} from "../../../utils/date-time-utils";
 export const name: Writable<string> = writable('');
 export const url: Writable<string> = writable('');
 export const location: Writable<string> = writable('');
+export const image: Writable<string> = writable('');
 export const price: Writable<string> = writable('');
 export const startDate: Writable<Date|null> = writable(null);
 export const endDate: Writable<Date|null> = writable(null);
@@ -34,7 +35,8 @@ export type NewConferenceStoreInitType = {
     selectedCategoryTags?: string[],
     location?: string,
     price?: string,
-    description?: string
+    description?: string,
+    image?: string
 }
 
 function getParsedDate(date?: Date | string) {
@@ -60,6 +62,7 @@ export const initStore = (initValues?: NewConferenceStoreInitType) => {
             : []
     );
 
+    image.set(initValues?.image ?? '');
     location.set(initValues?.location ?? '');
     price.set(initValues?.price ?? '');
     description.set(initValues?.description ?? '');

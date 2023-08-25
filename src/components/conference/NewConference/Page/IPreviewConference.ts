@@ -5,5 +5,6 @@ export interface IPreviewConference {
     categoryTag: string[],
     description: string,
     location?: string,
-    url: string
+    url: string,
+    image: string
 }

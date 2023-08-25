@@ -40,7 +40,8 @@ export interface ISubmitData {
     callForPapersDate?: string,
     categoryTag: string[],
     description?: IDescription[],
-    location?: string
+    location?: string,
+    image?: string
 }
 
 export const submitNewConferenceAndHandleModal = async (submitData:ISubmitData, toastContext:IToastContextProps) => {

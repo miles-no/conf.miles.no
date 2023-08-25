@@ -1,27 +1,29 @@
 <script>
-    import NameAndUrlRow from "./NameAndUrlRow.svelte";
-    import DatePickerRow from "./DatePickersRow.svelte";
-    import ButtonFooterRow from "./ButtonFooterRow.svelte";
-    import CheckboxRow from "../CheckboxRow.svelte";
-    import {pending} from "../stores.ts";
+	import NameAndUrlRow from './NameAndUrlRow.svelte';
+	import DatePickerRow from './DatePickersRow.svelte';
+	import ButtonFooterRow from './ButtonFooterRow.svelte';
+	import CheckboxRow from '../CheckboxRow.svelte';
+	import { pending } from '../stores';
+	import ImageRow from '../ImageRow.svelte';
 
-    export let formId;
+	export let formId;
 </script>
 
 <form id={formId} class:pending={$pending}>
-    <NameAndUrlRow />
-    <DatePickerRow />
-    <CheckboxRow />
-    <ButtonFooterRow />
+	<NameAndUrlRow />
+	<ImageRow />
+	<DatePickerRow />
+	<CheckboxRow />
+	<ButtonFooterRow />
 </form>
 
 <style>
-    form {
-        width: 100%;
-    }
+	form {
+		width: 100%;
+	}
 
-    .pending {
-        pointer-events: none;
-        opacity: 45%;
-    }
+	.pending {
+		pointer-events: none;
+		opacity: 45%;
+	}
 </style>
