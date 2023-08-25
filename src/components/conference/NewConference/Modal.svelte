@@ -80,7 +80,7 @@
 
 
 
-<style>
+<style lang="scss">
   /* FIXME: :global = bad, and not really using themes/variables. */
 
     .modal {
@@ -93,6 +93,7 @@
     .dark-mode.modal {
         background-color: rgba(255,255,255,.5); /* TODO: Should be theme variable */
     }
+
     .modal-box {
         display: flex;
         flex-direction: column;
@@ -110,40 +111,47 @@
         /* TODO: Should be theme variables: */
         background: #fff;
         color: #000;
+
+        h2 {
+            font-family: var(--mdc-typography-headline1-font-family, var(--mdc-typography-font-family, Inter, Roboto, sans-serif)); ;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 29px;
+        }
+
+        :global(.modal-button.material-icons) {
+            position: absolute;
+            top: 27px;
+            right: 18px;
+        }
+
+        :global(.mdc-icon-button:hover .mdc-icon-button__ripple::before),
+        :global(.mdc-icon-button:active .mdc-icon-button__ripple::before),
+        :global(.mdc-icon-button:focus .mdc-icon-button__ripple::before) {
+            /* TODO: Should be theme variable: */
+            background-color: black;
+            opacity: 0.1;
+        }
     }
 
     .dark-mode .modal-box {
         /* TODO: Should be theme variables: */
         background: #212121;
         color: #fff;
-    }
 
-    .modal-box :global(.modal-button.material-icons) {
-        position: absolute;
-        top: 27px;
-        right: 18px;
-    }
-
-    .modal-box h2 {
-      font-family: var(--mdc-typography-headline1-font-family, var(--mdc-typography-font-family, Inter, Roboto, sans-serif)); ;
-      font-style: normal;
-      font-weight: 700;
-      font-size: 24px;
-      line-height: 29px;
-    }
-
-    .modal-box :global(.mdc-icon-button:hover .mdc-icon-button__ripple::before),
-    .modal-box :global(.mdc-icon-button:active .mdc-icon-button__ripple::before),
-    .modal-box :global(.mdc-icon-button:focus .mdc-icon-button__ripple::before) {
+        :global(.mdc-icon-button:hover .mdc-icon-button__ripple::before),
+        :global(.mdc-icon-button:active .mdc-icon-button__ripple::before),
+        :global(.mdc-icon-button:focus .mdc-icon-button__ripple::before) {
         /* TODO: Should be theme variable: */
-        background-color: black;
-        opacity: 0.1;
-    }
-  .dark-mode .modal-box :global(.mdc-icon-button:hover .mdc-icon-button__ripple::before),
-  .dark-mode .modal-box :global(.mdc-icon-button:active .mdc-icon-button__ripple::before),
-  .dark-mode .modal-box :global(.mdc-icon-button:focus .mdc-icon-button__ripple::before) {
-      /* TODO: Should be theme variable: */
-      background-color: white;
+            background-color: white;
+        }
+
+        :global(input) {
+            background-color: transparent;
+            border-color: rgba(255, 255, 255, 0.38);
+            color: white;
+        }
     }
 
 </style>

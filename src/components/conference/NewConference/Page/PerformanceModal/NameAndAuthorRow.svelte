@@ -6,6 +6,7 @@
     import ComboBox from "../../../../form/ComboBox.svelte";
     import {getContext} from "svelte";
     import type {UsersByOffice} from "$lib/server/cvpartnerClient";
+    import type {IComboboxOption} from "../../../../form/IComboboxOption";
 
     let authorItem;
     $: {
@@ -15,15 +16,21 @@
     const usersByOffice: UsersByOffice = getContext('usersByOffice');
 
     // TODO: Many users, long list. UX would be better if the list can be structured more, eg. sections by office instead of just listing all of them?
-    const options = [];
+    // TODO: Currently, assumes that names in the list are unique.
+    const options:IComboboxOption[] = [];
     Object.keys(usersByOffice).forEach(officeName => {
         const users = usersByOffice[officeName];
-        options.push(...users);
+        users.forEach(user => {
+            options.push({
+                ...(user as IComboboxOption),
+                id: user.id,
+                text: user.name
+            })
+        })
     });
 
-    // Sort list by name and use the name for displayable text in the combobox:
-    options.sort( (userA, userB ) => (userA.name < userB.name) ? -1 : 1 );
-    options.forEach( user => { user.text = user.name;})
+    // Sort list by name
+    options.sort( (userA, userB) => (userA.text < userB.text) ? -1 : 1 );
 </script>
 
 <div class="textfield-row">

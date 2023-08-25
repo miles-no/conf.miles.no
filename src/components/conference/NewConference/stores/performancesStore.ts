@@ -23,14 +23,14 @@ export const createPerformancesStore = () => {
 
         // Add a new performance or overwrite an existing one, by performanxce slug
         write: (newPerformance: NewPerformance): void => {
-            update( (performances) => {
+            update( (previousPerformances) => {
                 const performance = normalizeStorePerformance(newPerformance);
                 const newSlug = newPerformance.submission.slug;
-                const nonMatching = performances.filter( p => p.submission.slug !== newSlug);
-                if ( nonMatching.length === performances.length ) {
+                const nonMatching = previousPerformances.filter( p => p.submission.slug !== newSlug);
+                if ( nonMatching.length === previousPerformances.length ) {
                     console.debug(`Adding a new performance with slug '${newSlug}' to the store`);
-                    performances.push(performance);
-                    return performances;
+                    previousPerformances.push(performance);
+                    return previousPerformances;
                 } else {
                     console.debug(`Overwriting the performance with slug '${newSlug}' in the store`);
                     nonMatching.push(performance);
@@ -41,9 +41,9 @@ export const createPerformancesStore = () => {
 
         // Remove performance with matching performance slug
         remove: (slug:string): void => {
-            update( performances => {
-                const nonMatching = performances.filter( p => p.submission.slug !== slug);
-                const removedCount = performances.length - nonMatching.length;
+            update( previousPerformances => {
+                const nonMatching = previousPerformances.filter( p => p.submission.slug !== slug);
+                const removedCount = previousPerformances.length - nonMatching.length;
                 console.log(`Removed from the store: ${removedCount} performance(s) matching the target slug '${slug}'`);
                 return nonMatching;
             });

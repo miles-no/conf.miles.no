@@ -3,13 +3,15 @@
     import Preview from "./Preview.svelte";
     import {displayModal} from "../stores/stores";
     import NewPerformanceModal from "./PerformanceModal/NewPerformanceModal.svelte";
+
+    import darkTheme from "../../../../stores/theme-store";
 </script>
 
 
 {#if $displayModal}
     <NewPerformanceModal />
 {/if}
-<div class="edit-and-preview-row">
+<div class="edit-and-preview-row" class:dark-mode={$darkTheme}>
     <Form />
     <div class="preview-col">
         <Preview/>
@@ -57,6 +59,16 @@
         margin-right: auto;
       }
     }
+  }
 
+  .dark-mode {
+    :global(.previewPlaceholder) {
+      background-color: rgba(255, 255, 255, 0.38);
+    }
+
+    :global(.new-conf-edit),
+    :global(.new-conf-preview) {
+      border-color: rgba(255, 255, 255, 0.38);
+    }
   }
 </style>

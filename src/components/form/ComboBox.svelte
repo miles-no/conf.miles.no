@@ -4,19 +4,16 @@
     import {onMount} from "svelte";
     import LabeledField from "./LabeledField.svelte";
     import {Icon} from "@smui/common";
+    import type {IComboboxOption} from "./IComboboxOption";
 
-    export interface IOption {
-        id: string|number,
-        text: string
 
-    }
     export let
         label: string|undefined,
         placeholder: string|undefined,
         width: string|undefined,
         required:boolean = false,
-        selectedOption: IOption|undefined = undefined,
-        options:IOption[] = [];
+        selectedOption: IComboboxOption|undefined = undefined,
+        options:IComboboxOption[] = [];
 
     const uid = makeid(5);
     const comboId = "combobox-" + uid;
@@ -30,6 +27,8 @@
         hideIcon: boolean = false,
         hasMatch: boolean = false;
 
+    // TODO: This logic works on the assumption that names (.text) are unique. They currently are, but
+    //  SHOULD filter on .id instead of .text - but keep the otherwise nice UX. See issue #150.
     function checkValueAndUpdate(currentValue?:string) {
         const matchingIndex = Object.keys(options).find( (key) => options[key].text === currentValue );
         const matchingOption = options[matchingIndex];
@@ -198,11 +197,27 @@
         overflow: hidden;
         text-overflow: ellipsis;
         padding: 2px 16px;
+        cursor: pointer;
 
         &:global(.selected) {
             background-color: #ddd;
         }
     }
+
+    :global(.dark-mode) {
+        .listbox {
+            background-color: #212121;
+
+            li:global(.selected) {
+                background-color: #606060;
+            }
+            li:hover {
+                background-color: #383838;
+            }
+        }
+    }
+
+
 
     @media (max-width: 616px) {
         .combobox {
