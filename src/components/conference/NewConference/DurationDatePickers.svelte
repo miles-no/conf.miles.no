@@ -1,5 +1,5 @@
 <script>
-    import {callForPapersDate, endDate, intervalWarning, startDate} from "./stores.ts";
+    import {callForPapersDate, endDate, intervalWarning, startDate} from "./stores/stores.ts";
     import DatePicker from "../../form/DatePicker.svelte";
     import {addYears} from "../../../utils/date-time-utils.ts";
     import {onMount} from "svelte";

@@ -2,7 +2,7 @@
     import FormField from "@smui/form-field";
     import Checkbox from "@smui/checkbox";
     import {ConferenceCategory} from "../../../enums/conference-category";
-    import {selectedCategoryTags} from "./stores";
+    import {selectedCategoryTags} from "./stores/stores";
     import JustifiedRow from "../../form/JustifiedRow.svelte";
 
     let categories = Object.keys(ConferenceCategory)

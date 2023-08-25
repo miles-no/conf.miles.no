@@ -3,10 +3,16 @@ import type { PageServerLoad } from './$types';
 import { fetchConference } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth';
 import type { IConference } from '../../../../model/conference';
+import {fetchAllUsersCached, type UsersByOffice} from "$lib/server/cvpartnerClient";
 
 export const prerender = false;
 
-export const load = (async ({ params, cookies, url }): Promise<IConference> => {
+export type EditConferenceData = {
+    conference: IConference,
+    usersByOffice: UsersByOffice
+}
+
+export const load = (async ({ params, cookies, url }): Promise<EditConferenceData> => {
     const { slug } = params;
 
     const user = getUserFromCookie(cookies.get('session'));
@@ -21,5 +27,8 @@ export const load = (async ({ params, cookies, url }): Promise<IConference> => {
         throw error(404, 'Side ikke funnet');
     }
 
-    return conference;
+    return {
+        conference,
+        usersByOffice: await fetchAllUsersCached()
+    };
 }) satisfies PageServerLoad;

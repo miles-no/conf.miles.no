@@ -1,5 +1,22 @@
-import {type Writable, writable} from 'svelte/store';
-import {parseDateYYYYMMDD} from "../../../utils/date-time-utils";
+import {writable} from 'svelte/store';
+import {parseDateYYYYMMDD} from "../../../../utils/date-time-utils";
+import {createPerformancesStore} from "./performancesStore";
+import type {NewPerformance} from "./performancesStore";
+import type {Writable} from 'svelte/store';
+
+
+export type NewConferenceStoreInitType = {
+    startDate?: Date | string,
+    endDate?: Date | string,
+    callForPapersDate?: Date | string,
+    name?: string,
+    url?: string,
+    selectedCategoryTags?: string[],
+    location?: string,
+    price?: string,
+    description?: string,
+    performances?: NewPerformance[],
+}
 
 
 export const name: Writable<string> = writable('');
@@ -14,28 +31,16 @@ export const description: Writable<string> = writable('');
 
 
 
-export const displayNewConferenceModal = writable(false);
+export const displayModal = writable(false);
 export const pending = writable(false);
 export const intervalWarning = writable(false);
 
 export const callForPapersWarning = writable(false)
 
+export const performances = createPerformancesStore();
 
 
 
-
-
-export type NewConferenceStoreInitType = {
-    startDate?: Date | string,
-    endDate?: Date | string,
-    callForPapersDate?: Date | string,
-    name?: string,
-    url?: string,
-    selectedCategoryTags?: string[],
-    location?: string,
-    price?: string,
-    description?: string
-}
 
 function getParsedDate(date?: Date | string) {
     if (!!date && typeof date === 'object' && typeof date.setMinutes === 'function') {
@@ -64,9 +69,10 @@ export const initStore = (initValues?: NewConferenceStoreInitType) => {
     price.set(initValues?.price ?? '');
     description.set(initValues?.description ?? '');
 
-    displayNewConferenceModal.set(false);
+    displayModal.set(false);
     pending.set(false);
     intervalWarning.set(false);
     callForPapersWarning.set(false);
+    performances.init(initValues?.performances)
 }
 

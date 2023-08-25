@@ -8,7 +8,7 @@
     import ConferenceCategoryTag from "../../../tag/conference-category-tag/ConferenceCategoryTag.svelte";
     import {PortableText} from "@portabletext/svelte";
     import type {IPreviewConference} from "./IPreviewConference";
-    import {description, endDate, location, name, selectedCategoryTags, startDate, url} from "../stores";
+    import {description, endDate, location, name, selectedCategoryTags, startDate, url} from "../stores/stores";
 
     let conference: IPreviewConference;
 

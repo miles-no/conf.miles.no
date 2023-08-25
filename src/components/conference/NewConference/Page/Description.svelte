@@ -1,6 +1,6 @@
 <script>
 import JustifiedRow from "../../../form/JustifiedRow.svelte";
-import {description} from "../stores.ts";
+import {description} from "../stores/stores.ts";
 import TextField from "../../../form/TextField.svelte";
 import {onMount} from "svelte";
 import {makeid} from "../../../../utils/conference-utils.ts";

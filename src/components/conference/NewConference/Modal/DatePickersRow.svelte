@@ -1,6 +1,6 @@
 <script>
     import JustifiedRow from "../../../form/JustifiedRow.svelte";
-    import {startDate, endDate, intervalWarning} from "../stores.ts";
+    import {startDate, endDate, intervalWarning} from "../stores/stores.ts";
     import DurationDatePickers from "../DurationDatePickers.svelte";
 
     function updateIntervalWarningFunc() {
