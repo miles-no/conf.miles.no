@@ -20,7 +20,7 @@
 			<img
 				class="gray-scale"
 				alt={author.name}
-				src={author.profileImage}
+				src={author.profileImage ? author.profileImage : "https://media.istockphoto.com/id/1214428300/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=vftMdLhldDx9houN4V-g3C9k0xl6YeBcoB_Rk6Trce0="}
 				height="25%"
 				width="25%"
 			/>
@@ -33,7 +33,7 @@
 				class="mdc-typography--subtitle1"
 				style="margin-bottom: 0; text-align: left; font-style: italic; "
 			>
-				{author.title || ''}
+				{author.title ? author.title : ''}
 			</p>
 			<hr aria-hidden={true} />
 		</div>

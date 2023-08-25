@@ -106,7 +106,7 @@ function getQueryString(searchParams: CvPartnerSearchParams): string {
   if (!searchParams) return '';
 
   const queryString = Object.entries(searchParams)
-    .filter(([_, value]) => value !== undefined && value !== null && value !== '')
+    .filter(([_, value]) => value !== undefined && value !== null && value.toString().trim() !== '')
     .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value.toString())}`)
     .join('&');
 
