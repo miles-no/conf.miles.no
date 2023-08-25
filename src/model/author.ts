@@ -13,4 +13,5 @@ export interface IAuthor {
 	_id: string;
 	imageUrl: string;
 	twitter: string;
+	email: string;
 }
