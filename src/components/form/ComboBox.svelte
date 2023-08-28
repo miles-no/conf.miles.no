@@ -12,8 +12,12 @@
         placeholder: string|undefined,
         width: string|undefined,
         required:boolean = false,
-        selectedOption: IComboboxOption|undefined = undefined,
-        options:IComboboxOption[] = [];
+        selectedOption: IComboboxOption|undefined = undefined;
+
+    /** ASSUMES NO DUPLICATES (by necessity, since the text is the target search value too in the input field):
+     *  no two .text attributes should be the same in the items in 'options'.
+     *  Ensure this when populating the 'options' list. */
+    export let options:IComboboxOption[] = [];
 
     const uid = makeid(5);
     const comboId = "combobox-" + uid;
@@ -27,8 +31,7 @@
         hideIcon: boolean = false,
         hasMatch: boolean = false;
 
-    // TODO: This logic works on the assumption that names (.text) are unique. They currently are, but
-    //  SHOULD filter on .id instead of .text - but keep the otherwise nice UX. See issue #150.
+    // Finds the first match by .text in the item.
     function checkValueAndUpdate(currentValue?:string) {
         const matchingIndex = Object.keys(options).find( (key) => options[key].text === currentValue );
         const matchingOption = options[matchingIndex];
@@ -173,15 +176,16 @@
         display: none;
         position: absolute;
         background-color: white;
-        width: 100%;
-        border-radius: 0 0 4px 4px;
+        min-width: 100%;
+        max-width: 548px;
+        right: 0;
+        border-radius: 6px 0 6px 6px;
         padding: 14px 0 8px;
         list-style-type: none;
-        max-height: 50vh;
         overflow-y: scroll;
-        border: 1px solid rgba(0,0,0, .25);
-        top: 80px;
-        border-top: none;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        top: 91px;
+        max-height: 400px;
         z-index: 5;
 
         &:global(.empty):after {
@@ -217,11 +221,14 @@
         }
     }
 
-
-
     @media (max-width: 616px) {
         .combobox {
           width: 100% !important;
+        }
+        .listbox {
+          max-width: 100%;
+          top: 80px;
+          border-radius: 0 0 4px 4px;
         }
     }
 </style>
