@@ -8,6 +8,7 @@
 
     import {getContext, setContext} from "svelte";
     import type {IToastContextProps} from "../../../../components/toast/toast-context";
+	import { urlFor } from '../../../../utils/sanityclient-utils';
     import type {EditConferenceData} from "./+page.server";
     const toastContext: IToastContextProps = getContext('toastContext');
 
@@ -25,12 +26,13 @@
         name: conference?.title,
         startDate: conference?.startDate,
         endDate: conference?.endDate,
-        selectedCategoryTags: (conference?.categoryTag || []) as string[],
+        selectedCategoryTags: conference?.categoryTag || [],
         description: conference?.description ? conference.description[0].children[0].text : undefined,
         location: conference?.location,
         callForPapersDate: conference?.callForPapersDate,
         url: conference?.url,
-        performances: conference?.performances || []
+        performances: conference?.performances || [],
+        image: conference?.imageUrl ? urlFor(conference.imageUrl).url() : ''
     });
     const submitEditedConference = getEditedConferenceSubmitter(toastContext, conference.slug);
 

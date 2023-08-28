@@ -1,6 +1,6 @@
 import { get } from 'svelte/store';
 
-import {name, url, location, startDate, endDate, callForPapersDate, description, selectedCategoryTags} from "./stores/stores";
+import {name, url, location, startDate, endDate, callForPapersDate, description, selectedCategoryTags, image} from "./stores/stores";
 import {formatDateYYYYMMDD} from "../../../utils/date-time-utils";
 import {getMinimalPortableText} from "../../../utils/sanityclient-utils";
 import {submitEditedConferenceAndHandleModal, submitNewConferenceAndHandleModal} from "./submitHandler";
@@ -17,7 +17,8 @@ function getSubmitData(slug?: string): ISubmitData {
         endDate: formatDateYYYYMMDD(get(endDate)) as string,
         callForPapersDate: formatDateYYYYMMDD(get(callForPapersDate)),
         categoryTag: get(selectedCategoryTags),
-        description: descr ? getMinimalPortableText(descr) : undefined
+        description: descr ? getMinimalPortableText(descr) : undefined,
+        image: get(image)
     };
     if (slug) {
         submitData.slug = slug

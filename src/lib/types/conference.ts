@@ -16,7 +16,7 @@ export const Conference = z.object({
     //internal: z.boolean().optional(),
     categoryTag: z.array(z.nativeEnum(ConferenceCategory)).optional(),
     visibleTo: z.array(z.string()).optional(),
-    image: z.string().url().optional(),
+    image: z.string().optional(),
     // itinerary
 });
 

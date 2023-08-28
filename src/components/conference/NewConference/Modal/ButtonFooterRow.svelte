@@ -9,13 +9,14 @@
         selectedCategoryTags,
         intervalWarning,
         pending,
-        location
-    } from "../stores/stores.ts";
+        location,
+        image
+    } from "../stores/stores";
     import darkTheme from "../../../../stores/theme-store";
     import Spinner from "../Spinner.svelte";
     import {formatDateYYYYMMDD} from "../../../../utils/date-time-utils";
     import {makeid} from "../../../../utils/conference-utils";
-    import {getNewConferenceSubmitter} from "../submit.ts";
+    import {getNewConferenceSubmitter} from "../submit";
 
     import {getContext} from "svelte";
     const toastContext = getContext('toastContext');
@@ -31,7 +32,8 @@
             location: $location,
             startDate: formatDateYYYYMMDD($startDate),
             endDate: formatDateYYYYMMDD($endDate),
-            selectedCategoryTags: $selectedCategoryTags
+            selectedCategoryTags: $selectedCategoryTags,
+            image: $image
         };
 
         // Store entered data in sessionStorage for picking it back up after navigating to the created item:
