@@ -21,8 +21,8 @@
 
     // The texts are displayed in the dropdown combobox, and also what's targeted by searching in the text field.
     // The "basic" one is short, but possibly duplicated across two different persons (eg. same full name, it happens),
-    // the "unique" one is longer and should be uniquely resolved by a user (ie. if two user objects resolve to the same
-    // unique-text, they can be assumed to be two different persons and both should be displayed, but with unique text):
+    // the "unique" one is longer and should be uniquely resolved by a user. Ie. if two user objects resolve to different
+    // unique-text, they can be assumed to be two different persons and both should be displayed (but then both with unique text):
     const getBasicUserText = (user: BasicUser): string => user.name;
     const getUniqueUserText = (user: BasicUser): string => `${user.name} (${user.email})`;
 
@@ -52,7 +52,7 @@
 
             } else {
                 let currentText;
-                // Case 2 (most common): no duplicate at all, just populate the user and register it in alreadySeen:
+                // Case 2 (most common): no duplicate at all, just prep for populating the user with basictext and registering it in alreadySeen:
                 if (!duplicateBasicUser) {
                     currentText = currentBasicText;
 
@@ -67,7 +67,6 @@
                     delete alreadySeen[currentBasicText];
                     alreadySeen[newTextForDuplicate] = duplicateBasicUser;
 
-                    // Choos the unique text for the current user:
                     currentText = currentUniqueText;
                 }
 
