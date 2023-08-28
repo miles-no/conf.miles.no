@@ -11,7 +11,7 @@
         pending,
         location,
         image
-    } from "../stores";
+    } from "../stores/stores";
     import darkTheme from "../../../../stores/theme-store";
     import Spinner from "../Spinner.svelte";
     import {formatDateYYYYMMDD} from "../../../../utils/date-time-utils";

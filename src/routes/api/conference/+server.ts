@@ -3,9 +3,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import type { IConference } from '../../../model/conference.js';
 import { updateConference } from '$lib/server/sanityClient';
 import {fetchConference} from "$lib/sanityClient";
-import {getMinimalPortableText} from "../../../utils/sanityclient-utils";
 import {verifyAndNormalizeConferenceData, verifyConferenceUrl} from "../../../utils/conference-utils";
-import type {ConferenceType} from "$lib/types/conference";
 
 
 
@@ -46,7 +44,7 @@ export const PUT = (async ({ request }) => {
         await updateConference(existingConference as IConference, conference.image);
 
         if (warnings.length) {
-            console.warn("Warnings when trying to update conference with slug '" + conference.slug + "': " + JSON.stringify(warnings, null, 2));
+            console.warn(`${warnings.length} warning(s) when trying to update a conference (slug = '${conference.slug}'): ${ + JSON.stringify(warnings, null, 2)}`);
         }
 
 		return json({

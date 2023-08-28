@@ -3,22 +3,12 @@
            Until then, keep them up to date wherever needed. -->
 
 <script lang="ts">
-	import { getMinimalPortableText, urlFor } from '../../../../utils/sanityclient-utils.js';
-	import ConferenceInformation from '../../conference-information/ConferenceInformation.svelte';
-	import ConferenceCategoryTag from '../../../tag/conference-category-tag/ConferenceCategoryTag.svelte';
-	import { PortableText } from '@portabletext/svelte';
-	import type { IPreviewConference } from './IPreviewConference';
-	import {
-		description,
-		endDate,
-		location,
-		name,
-		selectedCategoryTags,
-		startDate,
-		url,
-		image
-	} from '../stores';
-	import Heading from '../Heading.svelte';
+    import {getMinimalPortableText, urlFor} from "../../../../utils/sanityclient-utils.js";
+    import ConferenceInformation from "../../conference-information/ConferenceInformation.svelte";
+    import ConferenceCategoryTag from "../../../tag/conference-category-tag/ConferenceCategoryTag.svelte";
+    import {PortableText} from "@portabletext/svelte";
+    import type {IPreviewConference} from "./IPreviewConference";
+    import {description, endDate, location, name, selectedCategoryTags, startDate, url, image} from "../stores/stores";
 
 	let conference: IPreviewConference;
 

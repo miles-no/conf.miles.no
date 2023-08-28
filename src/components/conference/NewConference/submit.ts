@@ -1,6 +1,6 @@
 import { get } from 'svelte/store';
 
-import {name, url, location, startDate, endDate, callForPapersDate, description, selectedCategoryTags, image} from "./stores";
+import {name, url, location, startDate, endDate, callForPapersDate, description, selectedCategoryTags, image} from "./stores/stores";
 import {formatDateYYYYMMDD} from "../../../utils/date-time-utils";
 import {getMinimalPortableText} from "../../../utils/sanityclient-utils";
 import {submitEditedConferenceAndHandleModal, submitNewConferenceAndHandleModal} from "./submitHandler";

@@ -9,7 +9,8 @@
         endDate,
         intervalWarning,
         pending,
-    } from "../stores.ts";
+        displayModal,
+    } from "../stores/stores.ts";
     import darkTheme from "../../../../stores/theme-store";
     import Spinner from "../Spinner.svelte";
 
@@ -17,6 +18,9 @@
     export let submit: (toastContext:IToastContextProps) => void;
 
 
+    function openModal() {
+        displayModal.set(true);
+    }
 
     let disabled = true;
     $: {
@@ -35,8 +39,8 @@
 <div class="footer-buttons" class:dark-mode={$darkTheme}>
     <JustifiedRow>
         <Button color="secondary"
-                on:click={()=>alert("Implement me!")}
-                disabled={true || $pending}
+                on:click={openModal}
+                disabled={$pending}
         >
             <Icon class="material-icons">add</Icon>
             <Label>Legg til bidrag</Label>

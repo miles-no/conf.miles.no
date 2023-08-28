@@ -1,7 +1,7 @@
 <script lang="ts">
 	import JustifiedRow from '../../form/JustifiedRow.svelte';
 	import LabeledField from '../../form/LabeledField.svelte';
-	import { image } from './stores';
+	import { image } from './stores/stores';
 
 	let files: FileList;
 
