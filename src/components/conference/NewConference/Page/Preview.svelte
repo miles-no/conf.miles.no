@@ -80,11 +80,9 @@
 	}
 
 	.imageWrapper {
-		max-height: 200px;
 		max-width: 400px;
 	}
 	.imagePreview {
-		max-height: 200px;
 		max-width: 400px;
 		width: auto;
 		height: auto;

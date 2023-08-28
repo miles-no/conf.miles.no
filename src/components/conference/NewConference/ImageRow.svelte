@@ -28,7 +28,7 @@
 </script>
 
 <JustifiedRow>
-	<LabeledField label="Bilde" required={false} width="100%">
+	<LabeledField label="Bilde" width="100%">
 		{#if $image}
 			<div
 				class="conference-image-preview"
