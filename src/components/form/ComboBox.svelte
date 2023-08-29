@@ -14,10 +14,11 @@
         required:boolean = false,
         selectedOption: IComboboxOption|undefined = undefined;
 
-    /** ASSUMES NO DUPLICATES (by necessity, since the text is the target search value too in the input field):
+    /** Items to display in the combobox list.
+     *  ASSUMES NO DUPLICATES (by necessity, since the text is also the target search value in the input field):
      *  no two .text attributes should be the same in the items in 'options'.
-     *  Ensure this when populating the 'options' list. */
-    export let options:IComboboxOption[] = [];
+     *  Ensure this when populating the 'options' list in the parent. */
+    export let options: IComboboxOption[] = [];
 
     const uid = makeid(5);
     const comboId = "combobox-" + uid;
