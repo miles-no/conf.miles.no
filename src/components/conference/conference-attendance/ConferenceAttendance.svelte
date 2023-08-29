@@ -7,41 +7,18 @@
 	export let conference: IConference;
 	export let email: string;
 
-	$: interestedList = conference.employees?.filter((person) => person.status === 'interested');
-	$: attendingList = conference.employees?.filter((person) => person.status === 'attending');
+	let interestedList = conference.employees?.filter((person) => person.status === 'interested');
+	let attendingList = conference.employees?.filter((person) => person.status === 'attending');
 
-	$: interestedPanelOpen =
+	let interestedPanelOpen =
 		interestedList?.map((employee) => employee.email).includes(email) ?? false;
-	$: attendingPanelOpen = attendingList?.map((employee) => employee.email).includes(email) ?? false;
-
-	const handleInterestedPanel = () => {
-		// Open Interested panel if the user is not in the Interessert list or Påmeldt list
-		if (!interestedPanelOpen && !attendingPanelOpen) {
-			interestedPanelOpen = true;
-		} else if (attendingPanelOpen) {
-			attendingPanelOpen = false;
-			interestedPanelOpen = true;
-		}
-	};
-	const handleAttendingPanel = () => {
-		// Open Påmeldt panel if the user is not in the Interessert list or Påmeldt list
-		if (!interestedPanelOpen && !attendingPanelOpen) {
-			attendingPanelOpen = true;
-		} else if (interestedPanelOpen) {
-			interestedPanelOpen = false;
-			attendingPanelOpen = true;
-		}
-	};
+	let attendingPanelOpen =
+		attendingList?.map((employee) => employee.email).includes(email) ?? false;
 </script>
 
 <div class={`${$darkTheme ? 'dark-theme-accordion-container' : 'accordion-container'} `}>
 	<Accordion>
-		<Panel
-			bind:open={interestedPanelOpen}
-			aria-expanded={interestedPanelOpen}
-			on:click={handleInterestedPanel}
-			on:keypress={handleInterestedPanel}
-		>
+		<Panel bind:open={interestedPanelOpen} aria-expanded={interestedPanelOpen}>
 			<Header>
 				<p class="visuallyhidden">{`Antall interessert: ${interestedList?.length ?? 0}`}</p>
 				<p aria-hidden={true}>
@@ -64,12 +41,7 @@
 				{/if}
 			</Content>
 		</Panel>
-		<Panel
-			bind:open={attendingPanelOpen}
-			aria-expanded={attendingPanelOpen}
-			on:click={handleAttendingPanel}
-			on:keypress={handleAttendingPanel}
-		>
+		<Panel bind:open={attendingPanelOpen} aria-expanded={attendingPanelOpen}>
 			<Header>
 				<p class="visuallyhidden">{`Antall påmeldt: ${attendingList?.length ?? 0}`}</p>
 				<p aria-hidden={true}>
