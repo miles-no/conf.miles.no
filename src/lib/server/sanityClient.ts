@@ -170,12 +170,19 @@ export async function createConference(
 }
 
 async function uploadImageFromDataUrl(dataUrl: string): Promise<SanityImageAssetDocument | undefined> {
-	if (dataUrl.startsWith('data:')) {
-		const [, base64Data] = dataUrl.split(',');
-		const binaryData = Buffer.from(base64Data, 'base64');
-		return client.assets.upload('image', binaryData);
+	if (typeof dataUrl !== 'string' || !dataUrl.startsWith('data:')) {
+		return undefined;
 	}
-	throw new Error('Invalid dataUrl');
+	
+	const [, base64Data] = dataUrl.split(',');
+	const binaryData = Buffer.from(base64Data, 'base64');
+
+	try {
+		return client.assets.upload('image', binaryData);
+	} catch (error) {
+		console.error('Error uploading image:', error);
+		return undefined;
+	}
 }
 
 /*
