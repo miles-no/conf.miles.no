@@ -126,7 +126,7 @@
 <div class="conference-details-container">
 	<div class="conference-link-to-overview">
 		<a href={'/konferanser/'} title="Tilbake til konferanseoversikten">
-			<Icon class="material-icons" alt="">arrow_back</Icon> Tilbake til konferanseoversikten
+			<Icon class="material-icons" alt="Tilbake">arrow_back</Icon> Tilbake til konferanseoversikten
 		</a>
 	</div>
 	<div class="conference-details-container-image">
@@ -139,13 +139,16 @@
 	<div class="conference-details">
 		<Paper variant="unelevated">
 			<Content class="conference-details-main-content">
-				<a
-					class="edit-link"
-					href={`/rediger/konferanse/${conference.slug}`}
-					title="Rediger konferansen"
-				>
-					<h1>{conference.title}</h1>
-				</a>
+					<h1>
+						{conference.title}
+						<a
+							class="edit-link"
+							href={`/rediger/konferanse/${conference.slug}`}
+							title="Rediger konferansen"
+						>
+							<Icon class="material-icons" alt="Endre">edit</Icon>
+						</a>
+					</h1>
 				<ConferenceInformation {conference} />
 				{#if conference.categoryTag}
 					<div class="conference-details-main-content-tags-container">
@@ -271,6 +274,11 @@
 		flex-direction: column;
 		gap: 2rem;
 
+		.conference-details-main-content-header {
+			display: flex;
+			flex-direction: row;
+			gap: 2rem;
+		}
 		:global(.conference-details-main-content) {
 			display: flex;
 			flex-direction: column;
