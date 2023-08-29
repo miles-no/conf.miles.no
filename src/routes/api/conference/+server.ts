@@ -40,6 +40,7 @@ export const PUT = (async ({ request }) => {
         existingConference.callForPapersDate = conference.callForPapersDate ?? existingConference.callForPapersDate;
         existingConference.categoryTag = conference.categoryTag ?? existingConference.categoryTag;
         existingConference.description = conference.description ?? existingConference.description;
+        existingConference.employees = conference.employees ?? existingConference.employees;
 
         await updateConference(existingConference as IConference, conference.image);
 
