@@ -7,13 +7,12 @@
 	export let conference: IConference;
 	export let email: string;
 
-	let interestedList = conference.employees?.filter((person) => person.status === 'interested');
-	let attendingList = conference.employees?.filter((person) => person.status === 'attending');
+	$: interestedList = conference.employees?.filter((person) => person.status === 'interested');
+	$: attendingList = conference.employees?.filter((person) => person.status === 'attending');
 
-	let interestedPanelOpen =
+	$: interestedPanelOpen =
 		interestedList?.map((employee) => employee.email).includes(email) ?? false;
-	let attendingPanelOpen =
-		attendingList?.map((employee) => employee.email).includes(email) ?? false;
+	$: attendingPanelOpen = attendingList?.map((employee) => employee.email).includes(email) ?? false;
 </script>
 
 <div class={`${$darkTheme ? 'dark-theme-accordion-container' : 'accordion-container'} `}>
