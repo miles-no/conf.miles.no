@@ -88,5 +88,5 @@ export const initPerformanceStore = (initValues?:NewPerformance):void => {
     perfType.set(initValues?.submission?.submissionType);
     perfTime.set(initValues?.date ?? null);
     perfDuration.set(initValues?.submission?.duration ?? null);
-    perfDescription.set(((((initValues?.submission?.description || [])[0] || {}).children || [])[0] || {}).text ?? '')
+    perfDescription.set(((((initValues?.submission?.description || [])[0] || {}).children || [])[0] || {}).text ?? '');
 };
