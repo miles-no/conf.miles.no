@@ -10,6 +10,10 @@
 	export let conference: IConference;
 	export let user: User;
 
+	const attending =
+		conference.employees?.filter((e) => e.status.toLowerCase() === 'attending').length || 0;
+	const interested =
+		conference.employees?.filter((e) => e.status.toLowerCase() === 'interested').length || 0;
 	const date = formatEventDateRange(conference.startDate, conference.endDate);
 
 	let open = false;
@@ -37,8 +41,14 @@
 					<div class="mdc-typography--body1">{date}</div>
 					{#if conference.location}<div>{conference.location}</div>{/if}
 				</div>
-				<div class="title mdc-typography--headline6">
-					{conference.title}
+				<div class="titleWrapper">
+					<div class="title mdc-typography--headline6">
+						{conference.title}
+					</div>
+					<div class="attending">
+						<span title="Påmeldte">👤 {attending}</span>
+						<span title="Interesserte">🤔 {interested}</span>
+					</div>
 				</div>
 				{#if conference.categoryTag}
 					<div class="tagWrapper">
@@ -54,12 +64,16 @@
 </div>
 
 <style>
+	.titleWrapper {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
 	.title {
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
-
 	.dateLocationWrapper {
 		display: flex;
 		flex-direction: row;
@@ -70,7 +84,7 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		max-width: 100%;
-		margin-top: 1.5rem;
+		margin-top: 1rem;
 		gap: 0.5rem;
 	}
 </style>
