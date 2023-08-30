@@ -188,6 +188,7 @@
         top: 91px;
         max-height: 400px;
         z-index: 5;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
 
         &:global(.empty):after {
           display: block;
@@ -212,6 +213,7 @@
     :global(.dark-mode) {
         .listbox {
             background-color: #212121;
+	        border-color: rgba(255, 255, 255, .2);
 
             li:global(.selected) {
                 background-color: #606060;

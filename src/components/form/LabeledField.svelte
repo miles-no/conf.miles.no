@@ -1,12 +1,14 @@
 <script>
-    export let width, label, addClass=undefined, required=false, forId=undefined;
+    export let label, addClass=undefined, required=false, forId=undefined, width="100%";
 </script>
 
-<div class="labeled-field" class:addClass={addClass} style:width={width}>
+<div class={`labeled-field${addClass ? ' ' + addClass : ''}`} style:width={width}>
     {#if label}
-        <label class="textfield-label" class:required for={forId}>
-            {label}
-        </label>
+        {#if forId}
+            <label class="textfield-label" class:required for={forId}>{label}</label>
+        {:else}
+            <label class="textfield-label" class:required>{label}</label>
+        {/if}
     {/if}
     <slot />
 </div>
@@ -34,7 +36,7 @@
 
     .textfield-label.required::after {
         content: '*';
-        color: #FF0000;
+        color: rgb(168, 36, 36);
         font-size: 21pt;
         position: relative;
         top: 7px;
