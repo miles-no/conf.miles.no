@@ -1,9 +1,9 @@
 import { error, redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
 import { fetchConference } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth';
 import type { IConference } from '../../../../model/conference';
 import {fetchAllUsersCached, type UsersByOffice} from "$lib/server/cvpartnerClient";
+import type { PageServerLoad } from '../$types';
 
 export const prerender = false;
 
