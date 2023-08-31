@@ -3,22 +3,48 @@
     import LabeledField from "../../../../form/LabeledField.svelte";
     import {makeid} from "../../../../../utils/conference-utils";
     import {Clock4} from 'lucide-svelte';
-    export let width;
+    import {perfTime} from "../../stores/performancesStore";
+    import {endDate, startDate} from "../../stores/stores";
+    import DatePicker from "../../../../form/DatePicker.svelte";
 
-    let value=undefined;
+    let startDay=undefined;
+    let startTime=undefined;
+	let needsDatePicker = false;
 
     const inputId = "timepicker-" + makeid(5);
 
     $: {
-        console.log(value)
+	    needsDatePicker = ($endDate > $startDate);
     }
+
+    $: {
+		if (needsDatePicker) {
+			console.log("Start-dag:", startDay);
+        }
+	    console.log("Starttid:", startTime);
+    }
+
 </script>
 
+{#if (needsDatePicker)}
+    <DatePicker
+            label="Dag"
+            width="42%"
+            bind:date={startDay}
+            earliest={$startDate}
+            latest={$endDate}
+            warning={false}
+    />
 
-<LabeledField label="Starttidspunkt" forId={inputId} addClass="starttimepicker" {width}>
+                                                                                                                        <!--
+                                                                                                                        bind:this={callForPapersDatePicker}
+                                                                                                                        on:refreshDate={updateCallForPapersWarning}
+                                                                                                                        -->
+{/if}
+<LabeledField label="Starttidspunkt" forId={inputId} addClass="starttimepicker"  width="25%">
     <SveltyPicker
             {inputId}
-            bind:value={value}
+            bind:value={startTime}
             mode="time"
             startView=3
             clearBtn={false}
@@ -31,7 +57,7 @@
     ></SveltyPicker>
 
     <div class="ornaments">
-        {#if (value && value.trim().length)}
+        {#if (startTime && startTime.trim().length)}
             <div class="label-kl">kl.</div>
         {/if}
         <Clock4 />

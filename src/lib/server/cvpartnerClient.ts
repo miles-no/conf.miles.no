@@ -187,6 +187,7 @@ type CrudeUsersByOfficeCache = {
     usersByOffice: UsersByOffice
 }
 
+// See issue #39
 let crudeUsersByOfficeCache:CrudeUsersByOfficeCache = {
     timestamp: 0,
     usersByOffice: {}

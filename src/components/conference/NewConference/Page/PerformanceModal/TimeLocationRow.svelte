@@ -5,7 +5,7 @@
 
 <div class="timelocation-row">
     <JustifiedRow>
-        <StartTime width="25%" />
+        <StartTime />
     </JustifiedRow>
 </div>
 
