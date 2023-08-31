@@ -130,8 +130,8 @@
         :global(.mdc-icon-button:active .mdc-icon-button__ripple::before),
         :global(.mdc-icon-button:focus .mdc-icon-button__ripple::before) {
             /* TODO: Should be theme variable: */
-            background-color: black;
-            opacity: 0.1;
+            background-color: rgb(168, 36, 36);;
+            opacity: 0.3;
         }
     }
 
@@ -144,13 +144,17 @@
         :global(.mdc-icon-button:active .mdc-icon-button__ripple::before),
         :global(.mdc-icon-button:focus .mdc-icon-button__ripple::before) {
         /* TODO: Should be theme variable: */
-            background-color: white;
+            background-color:rgb(233, 114, 118);
         }
 
         :global(input) {
             background-color: transparent;
             border-color: rgba(255, 255, 255, 0.38);
             color: white;
+
+            &:focus {
+                border-color: rgb(233, 114, 118);
+            }
         }
     }
 

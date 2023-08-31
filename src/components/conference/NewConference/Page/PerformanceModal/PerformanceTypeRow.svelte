@@ -49,9 +49,13 @@
           }
         }
 
-
         :global(.mdc-radio) {
           padding: 2px 11px 11px 11px;
+
+          :global(input):focus {
+            outline-color: rgb(168, 36, 36);
+            accent-color: rgb(168, 36, 36);
+          }
         }
     }
 
