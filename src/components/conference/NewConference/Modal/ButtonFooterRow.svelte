@@ -40,11 +40,11 @@
         if (typeof sessionStorage !== "undefined") {
             const sessionStorageKey =  makeid(6);
             sessionStorage.setItem(`newconf_${sessionStorageKey}`, JSON.stringify(enteredData));
-            window.location.href = `/rediger/konferanse/?new=${sessionStorageKey}`;
+            window.location.href = `/konferanser/rediger?new=${sessionStorageKey}`;
 
         } else {
             // TODO: Confirm, will svelte stores always retain the entered data this way?
-            window.location.href = `/rediger/konferanse/?new=true`;
+            window.location.href = `/konferanser/rediger?new=true`;
         }
     }
 

@@ -1,7 +1,7 @@
 import {getUserFromCookie} from "$lib/server/auth";
 import {redirect} from "@sveltejs/kit";
-import type { PageServerLoad } from './$types';
 import {fetchAllUsersCached, type UsersByOffice} from "$lib/server/cvpartnerClient";
+import type { PageServerLoad } from "../$types";
 
 
 export const prerender = false;

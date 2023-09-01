@@ -80,6 +80,9 @@
 	$: detailsPage = isConference
 		? `/konferanser/${conference.slug}`
 		: `/arrangement/${conference.slug}`;
+
+	$: editPage = detailsPage + '/rediger';
+
 	let disableStatus: boolean = false;
 </script>
 
@@ -99,7 +102,16 @@
 			/>
 		</div>
 		<div class="content">
-			<h1 id="modal-heading">{conference.title}</h1>
+			<h1 id="modal-heading">
+				{conference.title}
+				<a
+					class="edit-link"
+					href={editPage}
+					title="Rediger konferansen"
+				>
+					<IconButton action="edit" class="material-icons">edit</IconButton>
+				</a>
+			</h1>
 			<div class="compactInfo">
 				<ConferenceInformation {conference} />
 				{#if conference.categoryTag}

@@ -143,7 +143,7 @@
 						{conference.title}
 						<a
 							class="edit-link"
-							href={`/rediger/konferanse/${conference.slug}`}
+							href={`/konferanser/${conference.slug}/rediger`}
 							title="Rediger konferansen"
 						>
 							<Icon class="material-icons" alt="Endre">edit</Icon>
