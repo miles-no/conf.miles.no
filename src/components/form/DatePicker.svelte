@@ -8,9 +8,6 @@
     import darkTheme from "../../stores/theme-store";
     import {norwegianLocale} from "./norwegianLocale";
     import {parseDateYYYYMMDD, formatDateYYYYMMDD} from "../../utils/date-time-utils";
-    /*
-
-    */
 
     export let
         date: Date|null = null,
