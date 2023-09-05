@@ -7,9 +7,10 @@
     import {endDate, startDate} from "../../stores/stores";
     import DatePicker from "../../../../form/DatePicker.svelte";
 
-    let startDay=undefined;
-    let startTime=undefined;
+    let pickedDay=undefined;
+    let pickedTime=undefined;
 	let needsDatePicker = false;
+	//let width="25%";
 
     const inputId = "timepicker-" + makeid(5);
 
@@ -17,52 +18,50 @@
 	    needsDatePicker = ($endDate > $startDate);
     }
 
-    $: {
-		if (needsDatePicker) {
-			console.log("Start-dag:", startDay);
-        }
-	    console.log("Starttid:", startTime);
-    }
 
 </script>
 
-{#if (needsDatePicker)}
-    <DatePicker
-            label="Dag"
-            width="42%"
-            bind:date={startDay}
-            earliest={$startDate}
-            latest={$endDate}
-            warning={false}
-    />
+<!--div class="starttimes"-->
+    <LabeledField label="Starttidspunkt" forId={inputId} addClass="starttimepicker" width="64%">
+            <!--div class="picker-row"-->
+                <DatePicker
+                        width="50%"
+                        bind:date={pickedDay}
+                        earliest={$startDate}
+                        latest={$endDate}
+                        warning={false}
+                />
 
-                                                                                                                        <!--
-                                                                                                                        bind:this={callForPapersDatePicker}
-                                                                                                                        on:refreshDate={updateCallForPapersWarning}
-                                                                                                                        -->
-{/if}
-<LabeledField label="Starttidspunkt" forId={inputId} addClass="starttimepicker"  width="25%">
-    <SveltyPicker
-            {inputId}
-            bind:value={startTime}
-            mode="time"
-            startView=3
-            clearBtn={false}
-            manualInput={true}
-            autocommit={true}
-            format="hh:ii"
-            displayFormat="hh:ii"
-            placeholder="tt:mm"
-            inputClasses="timepickerinput"
-    ></SveltyPicker>
+                                                                                                                                    <!--
+                                                                                                                                    label="Dag"
+                                                                                                                                    bind:this={callForPapersDatePicker}
+                                                                                                                                    on:refreshDate={updateCallForPapersWarning}
+                                                                                                                                    -->
+                <SveltyPicker
+                        {inputId}
+                        bind:value={pickedTime}
+                        mode="time"
+                        startView=3
+                        clearBtn={false}
+                        manualInput={true}
+                        autocommit={true}
+                        format="hh:ii"
+                        displayFormat="hh:ii"
+                        placeholder="tt:mm"
+                        inputClasses="timepickerinput"
+                ></SveltyPicker>
 
-    <div class="ornaments">
-        {#if (startTime && startTime.trim().length)}
-            <div class="label-kl">kl.</div>
-        {/if}
-        <Clock4 />
-    </div>
-</LabeledField>
+                <div class="ornaments">
+                    {#if (pickedTime && pickedTime.trim().length)}
+                        <div class="label-kl">kl.</div>
+                    {/if}
+                    <Clock4 />
+                </div>
+            <!--/div-->
+    </LabeledField>
+<!--/div-->
+
+
 
 <style lang="scss">
     :root {
@@ -72,11 +71,15 @@
         --sdt-shadow-color: rgba(0, 0, 0, .2);
     }
 
-    :global(.starttimepicker) {
+    :global(.starttimepicker.labeled-field) {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: start;
+
         :global(.timepickerinput) {
             border-radius: 4px;
             border: solid 1px rgba(0, 0, 0, .38);
-            padding: 0 44px 0 41px;
+            padding: 0 44px 0 44px;
             height: 56px;
             font-family: Roboto, sans-serif;
             font-size: 16px;
@@ -93,11 +96,31 @@
             }
         }
 
+	    :global(.date-time-field input) {
+		    border-radius: 4px 0 0 4px;
+		    border-right: 0;
+	    }
+
+        :global(.std-component-wrap) {
+            width: 50%;
+
+	        :global(.timepickerinput) {
+		        border-radius: 0 4px 4px 0;
+		        border-left: 0;
+
+                &:focus {
+	                border-left: 2px solid rgb(168, 36, 36);
+                    padding-left: 42px;
+                }
+	        }
+        }
+
 	    .ornaments {
 		    position: relative;
 		    top: -40px;
 		    pointer-events: none;
-		    width: 100%;
+		    width: 50%;
+            left: 50%;
 		    font-size: 16px;
 		    color: #888;
 
@@ -116,6 +139,8 @@
 
         :global(.sdt-time-btn):focus {
             outline-color: rgb(168, 36, 36);
+	        border-left-width: 1px;
+            border-left-style: solid;
         }
 
         :global(.std-calendar-wrap) {
@@ -125,6 +150,7 @@
         }
     }
 
+    /*
     :global(.dark-mode) {
         :global(.starttimepicker .std-calendar-wrap) {
             background-color: #212121 !important;
@@ -142,5 +168,5 @@
 	            outline-color: rgb(233, 114, 118);
             }
 	    }
-    }
+    }*/
 </style>
