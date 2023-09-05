@@ -8,16 +8,12 @@ export interface ILayoutPageLoadData {
 	user: User | undefined;
 }
 
-interface ILocals {
-	user: User;
-}
-
 export const prerender = true;
 export const ssr = false;
 export const csr = true;
 
 export const load = (async ({ locals }): Promise<ILayoutPageLoadData> => {
-	const { user } = locals as ILocals;
+	const { user } = locals;
 
 	const result = await fetchSiteSettings();
 

@@ -1,11 +1,12 @@
 import type { User } from "$lib/types/user";
+import type { UserAuthData } from "$lib/types/userAuthData";
 
-export function getUserFromCookie(user: any): User {
-    if(!user) {
+export function getUserFromCookie(cookie: string): User {
+    if (!cookie) {
         return {
             isAuthenticated: false
         }
     }
-
-    return JSON.parse(user);
+    const userAuthData: UserAuthData = JSON.parse(cookie);
+    return userAuthData.user;
 }
