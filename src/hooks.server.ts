@@ -16,7 +16,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 			const timeUntilTokenExpires = session.token.expire_timestamp - new Date().getTime();
 
 			if (!timeUntilTokenExpires) {
-				console.log('Session token is defined, but Can not read expire time of session token. Deleting the token.');
+				console.log(
+					'Session token is defined, but can not read expire time of session token. Deleting the token.'
+				);
 				event.cookies.delete('session');
 			}
 
