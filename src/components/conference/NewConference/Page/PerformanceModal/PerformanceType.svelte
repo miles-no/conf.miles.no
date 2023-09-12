@@ -8,13 +8,15 @@
 
     const types: SubmissionType[] = Object.values(Submission) as SubmissionType[];
 
+	export let width="100%";
+
     $: {
         console.log($perfType);
     }
 </script>
 
 
-<fieldset class="radiobutton-row">
+<fieldset class="perftype-radiobuttons" style:width={width}>
     <legend class="textfield-label">Type</legend>
     <JustifiedRow addClass="radiobutton-justified-row" justify="start">
         {#each types as type}
@@ -33,14 +35,22 @@
 
 
 <style lang="scss">
-    .radiobutton-row {
+    .perftype-radiobuttons {
+	    display: flex;
+	    flex-flow: column nowrap;
+	    justify-content: space-between;
+	    align-items: flex-start;
+	    margin-top: 20px;
+
         :global(.radiobutton-justified-row) {
             width: calc(100% + 11px);
             margin-left: -11px;
             flex-wrap: wrap;
+            margin-bottom: 0;
+	        margin-top: 13px;
         }
-        :global(.mdc-form-field) {
 
+        :global(.mdc-form-field) {
           align-items: start;
           vertical-align: top;
 
@@ -57,6 +67,24 @@
             accent-color: rgb(168, 36, 36);
           }
         }
+    }
+    @media (max-width: 616px) {
+	    .perftype-radiobuttons {
+            width: 100% !important;
+
+		    :global(.radiobutton-justified-row) {
+			    margin-top: 0;
+		    }
+	    }
+    }
+
+    @media (max-width: 385px) {
+	    .perftype-radiobuttons {
+		    :global(.radiobutton-justified-row) {
+                flex-flow: column nowrap;
+                align-items: flex-start;
+		    }
+	    }
     }
 
     .textfield-label {

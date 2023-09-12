@@ -3,7 +3,7 @@
     import LabeledField from "../../../../form/LabeledField.svelte";
     import {makeid} from "../../../../../utils/conference-utils";
     import {Clock4} from 'lucide-svelte';
-    import {perfTime} from "../../stores/performancesStore";
+    // import {perfTime} from "../../stores/performancesStore";
     import {endDate, startDate} from "../../stores/stores";
     import DatePicker from "../../../../form/DatePicker.svelte";
     import {addYears} from "../../../../../utils/date-time-utils";
@@ -11,7 +11,7 @@
     let pickedDay=$startDate;
     let pickedTime=undefined;
 	let needsDatePicker = false;
-	//let width="25%";
+	export let width="100%";
 
     const inputId = "timepicker-" + makeid(5);
 
@@ -26,15 +26,14 @@
         label="Starttidspunkt"
         forId={inputId}
         addClass="starttimepicker"
-        width="64%"
+        width={width}
 >
     <DatePicker
             width="50%"
             label=""
             bind:date={pickedDay}
             earliest={$startDate || addYears(new Date(), -10)}
-            latest={$endDate ||addYears(new Date(), 10)}
-            warning={!pickedDay || !$startDate}
+            latest={$endDate || addYears(new Date(), 10)}
             on:refreshDate={e => {console.log(e)}}
     />
     <SveltyPicker
@@ -111,7 +110,7 @@
 
 	        :global(.timepickerinput) {
 		        border-radius: 0 4px 4px 0;
-		        border-left: dotted 1px rgba(0, 0, 0, .22);
+		        border-left: solid 1px rgba(0, 0, 0, .1);
 
                 &:focus {
 	                border-left: 2px solid rgb(168, 36, 36);
@@ -183,7 +182,7 @@
 			    :global(.date-time-field input) {
 				    border-radius: 4px 4px 0 0;
 				    border-right: solid 1px rgba(0, 0, 0, .38);
-				    border-bottom: dotted 1px rgba(0, 0, 0, .22);
+				    border-bottom: solid 1px rgba(0, 0, 0, .1);
 
 				    &:focus {
 					    border-bottom: 2px solid rgb(168, 36, 36);

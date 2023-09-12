@@ -93,6 +93,12 @@
     .datepicker-root :global(.picker.visible) {
         width: 100%;
     }
+    @media (min-width: 340px) {
+	    .datepicker-root :global(.picker.visible) {
+		    min-width: 340px;
+	    }
+    }
+
     .datepicker-root :global(.picker.visible > *) {
         width: 100%;
     }

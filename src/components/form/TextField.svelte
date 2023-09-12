@@ -11,7 +11,7 @@
         hidePlaceholderClass = `hide-placeholder ${addClass}`;
     }
     function handlePlaceholder() {
-        if (!(value.trim())) {
+        if (!((value ?? '').trim())) {
             hidePlaceholderClass = addClass;
         } else {
             hidePlaceholder();

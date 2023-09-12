@@ -1,13 +1,13 @@
 <script>
-    export let justify=undefined, addClass=null, id=undefined;
+    export let justify=undefined, addClass=null, id=undefined, wrap=false;
 </script>
 
-<div class={`justified-row ${addClass || ''} ${justify ? 'justify-' + justify : ''}`} {id}>
+<div class={`justified-row ${addClass || ''} ${justify ? 'justify-' + justify : ''} ${wrap ? 'flex-wrap' : ''}`} {id}>
     <slot />
 </div>
 
 
-<style>
+<style lang="scss">
     .justified-row {
         display: flex;
         flex-flow: row nowrap;
@@ -15,11 +15,16 @@
         align-items: flex-end;
         width: 100%;
         margin-bottom: 26px;
-    }
-    .justified-row.justify-start {
-        justify-content: flex-start;
-    }
-    .justified-row.justify-end {
-        justify-content: flex-end;
+
+        &.justify-start {
+            justify-content: flex-start;
+        }
+        &.justify-end {
+            justify-content: flex-end;
+        }
+
+        &.flex-wrap {
+            flex-wrap: wrap;
+        }
     }
 </style>
