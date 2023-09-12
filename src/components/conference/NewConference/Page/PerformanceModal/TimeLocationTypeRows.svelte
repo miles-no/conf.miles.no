@@ -7,7 +7,7 @@
 </script>
 
 <div class="timelocationtype-rows">
-    <JustifiedRow wrap={true}>
+    <JustifiedRow wrap>
         <StartTime width="62%"/>
         <TextField bind:value={$perfDuration} label="Varighet" width="34%" addClass="duration-field" />
         <TextField bind:value={$perfLocation} label="Lokasjon" width="34%" addClass="location-field" />
