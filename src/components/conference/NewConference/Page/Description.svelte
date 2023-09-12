@@ -1,39 +1,11 @@
 <script>
-import JustifiedRow from "../../../form/JustifiedRow.svelte";
-import {description} from "../stores/stores.ts";
-import TextField from "../../../form/TextField.svelte";
-import {onMount} from "svelte";
-import {makeid} from "../../../../utils/conference-utils.ts";
-
-
-function OnInput() {
-    this.style.height = 0;
-    this.style.height = (Math.max(this.scrollHeight, minHeight)) + "px";
-}
-
-const id = "description-field-" + makeid(5);
-let minHeight;
-
-onMount(() => {
-    const textareaElement = document.querySelector(`#${id} textarea`);
-
-    minHeight = textareaElement.scrollHeight;
-
-    textareaElement.setAttribute("style", `overflow-y:hidden;`);
-    textareaElement.addEventListener("input", OnInput, false);
-});
-
+    import {description} from "../stores/stores.ts";
+    import DescriptionRow from "../DescriptionRow.svelte";
 </script>
 
-
-<JustifiedRow {id}>
-    <TextField
-            bind:value={$description}
-            label="Beskrivelse"
-            placeholder="Beskrivelse"
-            multiline
-            rows={4}
-            width="100%"
-    />
-</JustifiedRow>
-
+<DescriptionRow
+        bind:value={$description}
+        label="Beskrivelse"
+        placeholder="Beskrivelse av konferansen"
+        idPrefix="conf-description"
+/>
