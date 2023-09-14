@@ -108,9 +108,12 @@
             }
         }
 
+        .validation-warning {
+            color: rgb(168, 36, 36);
+        }
 
         &.dark-mode {
-            :global(button) {
+            .button-wrapper :global(button) {
                 background: #212121;
                 color: #fff;
                 border-color: #fff;
@@ -120,6 +123,10 @@
                 &:hover {
                     background: #555;
                 }
+            }
+
+            .validation-warning {
+                color: #E78286;
             }
         }
 
@@ -152,11 +159,6 @@
         color: #fff;
         border-color: #fff;
     } */
-
-
-    .validation-warning {
-        color: rgb(168, 36, 36);;
-    }
 
     .disabled {
         opacity: 30%;

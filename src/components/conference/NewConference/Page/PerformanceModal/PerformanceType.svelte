@@ -69,6 +69,19 @@
           }
         }
     }
+
+    :global(.dark-mode) {
+	    .textfield-label {
+		    &.required::after {
+			    color: rgba(233, 114, 118, 0.99);
+		    }
+
+		    &:global(.invalid) {
+			    color: rgba(233, 114, 118, 0.99);
+		    }
+	    }
+    }
+
     @media (max-width: 616px) {
 	    .perftype-radiobuttons {
             width: 100% !important;

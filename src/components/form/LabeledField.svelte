@@ -58,6 +58,21 @@
         }
     }
 
+    :global(.dark-mode) {
+	    .labeled-field {
+		    .textfield-label.required:after {
+			    color: rgba(233, 114, 118, 0.99);
+		    }
+	    }
+
+        .labeled-field:global(.invalid) {
+	        .textfield-label {
+		        color: rgba(233, 114, 118, 0.99);
+	        }
+
+        }
+    }
+
 
 
 </style>
