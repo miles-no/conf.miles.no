@@ -1,14 +1,26 @@
 <script lang="ts">
-    import JustifiedRow from "../../../../form/JustifiedRow.svelte";
-    import TextField from "../../../../form/TextField.svelte";
+	import JustifiedRow from "../../../../form/JustifiedRow.svelte";
+	import TextField from "../../../../form/TextField.svelte";
 
-    import {perfTitle} from '../../stores/performancesStore';
-    import Author from "./Author.svelte";
+	import {perfTitle, ProblemFields, problemFields} from '../../stores/performancesStore';
+	import Author from "./Author.svelte";
+
+	let invalid = false;
+	$: {
+		invalid = $problemFields.indexOf(ProblemFields.title) !== -1;
+	}
 </script>
 
 <div class="textfield-row">
     <JustifiedRow>
-        <TextField bind:value={$perfTitle} label="Tittel" placeholder="Tittel" width="62%" required />
+        <TextField
+                bind:value={$perfTitle}
+                label="Tittel"
+                placeholder="Tittel"
+                width="62%"
+                required
+                addClass={invalid ? "invalid" : undefined}
+        />
         <Author />
     </JustifiedRow>
 </div>

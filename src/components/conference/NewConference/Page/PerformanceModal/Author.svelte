@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {authorName} from '../../stores/performancesStore'
+	import {authorName, ProblemFields, problemFields} from '../../stores/performancesStore'
     import ComboBox from "../../../../form/ComboBox.svelte";
     import {getContext} from "svelte";
     import type {BasicUser, UsersByOffice} from "$lib/server/cvpartnerClient";
@@ -78,4 +78,11 @@
 </script>
 
 
-<ComboBox bind:selectedOption={authorItem} options={usersList} label="Ansvarlig" width="34%" placeholder="Ansatt" />
+<ComboBox
+        bind:selectedOption={authorItem}
+        options={usersList}
+        label="Ansvarlig"
+        width="34%"
+        placeholder="Ansatt"
+        invalid={$problemFields.indexOf(ProblemFields.author) !== -1}
+/>

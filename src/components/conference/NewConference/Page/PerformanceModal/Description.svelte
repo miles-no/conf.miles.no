@@ -1,5 +1,5 @@
 <script>
-    import {perfDescription} from "../../stores/performancesStore.ts";
+	import {perfDescription, ProblemFields, problemFields} from "../../stores/performancesStore.ts";
     import DescriptionRow from "../../DescriptionRow.svelte";
 </script>
 
@@ -9,4 +9,5 @@
         placeholder="Beskrivelse av bidraget"
         idPrefix="submission-description"
         rows={2}
+        invalid={$problemFields.indexOf(ProblemFields.author) !== -1}
 />

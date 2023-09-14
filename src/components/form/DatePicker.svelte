@@ -80,6 +80,11 @@
 </LabeledField>
 
 <style>
+    :root {
+	    --date-picker-highlight-border: rgb(168, 36, 36);
+        --date-picker-highlight-shadow: rgba(168, 36, 36, .38);
+	    --date-picker-selected-background: rgba(168, 36, 36, .28);
+    }
     .datepicker-root {
         position: relative;
         width: 100%;
@@ -94,9 +99,9 @@
         width: 100%;
     }
     @media (min-width: 340px) {
-	    .datepicker-root :global(.picker.visible) {
-		    min-width: 340px;
-	    }
+        .datepicker-root :global(.picker.visible) {
+            min-width: 340px;
+        }
     }
 
     .datepicker-root :global(.picker.visible > *) {

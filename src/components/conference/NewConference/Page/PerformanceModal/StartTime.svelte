@@ -1,26 +1,48 @@
 <script lang="ts">
-    import SveltyPicker from "svelty-picker";
-    import LabeledField from "../../../../form/LabeledField.svelte";
-    import {makeid} from "../../../../../utils/conference-utils";
-    import {Clock4} from 'lucide-svelte';
-    // import {perfTime} from "../../stores/performancesStore";
-    import {endDate, startDate} from "../../stores/stores";
-    import DatePicker from "../../../../form/DatePicker.svelte";
-    import darkTheme from "../../../../../stores/theme-store";
-    import {addYears} from "../../../../../utils/date-time-utils";
+	import SveltyPicker from "svelty-picker";
+	import LabeledField from "../../../../form/LabeledField.svelte";
+	import {makeid} from "../../../../../utils/conference-utils";
+	import {Clock4} from 'lucide-svelte';
+	import {perfTime, perfTimeIsSet, ProblemFields, problemFields} from "../../stores/performancesStore";
+	import {endDate, startDate} from "../../stores/stores";
+	import DatePicker from "../../../../form/DatePicker.svelte";
+	import darkTheme from "../../../../../stores/theme-store";
+	import {addYears, formatDateYYYYMMDD} from "../../../../../utils/date-time-utils";
+	import {onMount} from "svelte";
 
-    let pickedDay=$startDate;
-    let pickedTime=undefined;
-	let needsDatePicker = false;
-	export let width="100%";
+	let pickedDay = null;
+    let pickedTime = undefined;
+
+    let datePicker = undefined;
+
+    export let width="100%";
 
     const inputId = "timepicker-" + makeid(5);
 
+	const PATTERN_DAYTIME_24H = /^\s*([01][0-9]|2[0-3])\s*:\s*([0-5][0-9])\s*$/;
+
+	let invalid = false;
+
     $: {
-	    needsDatePicker = ($endDate > $startDate);
+        const time = PATTERN_DAYTIME_24H.exec(pickedTime);
+        if (pickedDay && pickedTime && time && time.length) {
+            pickedDay.setHours(time[1]);
+            pickedDay.setMinutes(time[2]);
+            perfTimeIsSet.set(true);
+
+        } else {
+	        perfTimeIsSet.set(false);
+        }
+	    perfTime.set(pickedDay);
+		invalid = $problemFields.indexOf(ProblemFields.dateAndTime) !== -1;
     }
 
-
+    onMount(() => {
+        if (formatDateYYYYMMDD($startDate) === formatDateYYYYMMDD($endDate)) {
+            pickedDay = $startDate;
+            datePicker.setDate($startDate);
+        }
+    })
 </script>
 
 <LabeledField
@@ -33,9 +55,16 @@
             width="50%"
             label=""
             bind:date={pickedDay}
+            bind:this={datePicker}
             earliest={$startDate || addYears(new Date(), -10)}
             latest={$endDate || addYears(new Date(), 10)}
-            on:refreshDate={e => {console.log(e)}}
+            warning={
+                !$startDate ||
+                !$endDate ||
+                (pickedDay &&
+                    (pickedDay > $endDate || pickedDay < $startDate)
+                )
+			}
     />
     <SveltyPicker
             {inputId}

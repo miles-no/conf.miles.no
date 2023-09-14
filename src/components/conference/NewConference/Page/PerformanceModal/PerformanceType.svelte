@@ -1,22 +1,21 @@
 <script lang="ts">
-    import Radio from '@smui/radio';
-    import {Submission} from "../../../../../enums/submission-type";
-    import type {SubmissionType} from "../../../../../enums/submission-type";
-    import JustifiedRow from "../../../../form/JustifiedRow.svelte";
-    import FormField from "@smui/form-field";
-    import {perfType} from "../../stores/performancesStore";
+	import Radio from '@smui/radio';
+	import type {SubmissionType} from "../../../../../enums/submission-type";
+	import {Submission} from "../../../../../enums/submission-type";
+	import JustifiedRow from "../../../../form/JustifiedRow.svelte";
+	import FormField from "@smui/form-field";
+	import {perfType, ProblemFields, problemFields} from "../../stores/performancesStore";
 
-    const types: SubmissionType[] = Object.values(Submission) as SubmissionType[];
+	const types: SubmissionType[] = Object.values(Submission) as SubmissionType[];
 
 	export let width="100%";
 
-    $: {
-        console.log($perfType);
-    }
+	let invalid: boolean = false;
+	$: invalid = $problemFields.indexOf(ProblemFields.type) !== -1;
 </script>
 
 
-<fieldset class="perftype-radiobuttons" style:width={width}>
+<fieldset class="perftype-radiobuttons" class:invalid style:width={width}>
     <legend class="textfield-label">Type</legend>
     <JustifiedRow addClass="radiobutton-justified-row" justify="start">
         {#each types as type}
@@ -48,6 +47,7 @@
             flex-wrap: wrap;
             margin-bottom: 0;
 	        margin-top: 13px;
+            justify-content: space-between;
         }
 
         :global(.mdc-form-field) {
@@ -74,6 +74,7 @@
 
 		    :global(.radiobutton-justified-row) {
 			    margin-top: 0;
+			    justify-content: flex-start;
 		    }
 	    }
     }

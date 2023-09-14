@@ -1,16 +1,22 @@
 <script lang="ts">
-    import JustifiedRow from "../../../../form/JustifiedRow.svelte";
-    import StartTime from "./StartTime.svelte";
-    import {perfDuration, perfLocation} from "../../stores/performancesStore";
-    import TextField from "../../../../form/TextField.svelte";
-    import PerformanceType from "./PerformanceType.svelte";
+	import JustifiedRow from "../../../../form/JustifiedRow.svelte";
+	import StartTime from "./StartTime.svelte";
+	import {perfDuration, perfLocation, ProblemFields, problemFields} from "../../stores/performancesStore";
+	import TextField from "../../../../form/TextField.svelte";
+	import PerformanceType from "./PerformanceType.svelte";
+
+	let invalidDuration = false, invalidLocation = false;
+	$: {
+		invalidDuration = $problemFields.indexOf(ProblemFields.duration) !== -1;
+		invalidLocation = $problemFields.indexOf(ProblemFields.location) !== -1;
+    }
 </script>
 
 <div class="timelocationtype-rows">
     <JustifiedRow wrap>
         <StartTime width="62%"/>
-        <TextField bind:value={$perfDuration} label="Varighet" width="34%" addClass="duration-field" />
-        <TextField bind:value={$perfLocation} label="Lokasjon" width="34%" addClass="location-field" />
+        <TextField bind:value={$perfDuration} label="Varighet" width="34%" addClass={"duration-field" + (invalidDuration ? " invalid" : "")} />
+        <TextField bind:value={$perfLocation} label="Lokasjon" width="34%" addClass={"location-field" + (invalidLocation ? " invalid" : "")} />
         <PerformanceType width="62%" />
     </JustifiedRow>
 </div>

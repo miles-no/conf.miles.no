@@ -12,7 +12,8 @@
         placeholder: string|undefined,
         width: string|undefined,
         required:boolean = false,
-        selectedOption: IComboboxOption|undefined = undefined;
+        selectedOption: IComboboxOption|undefined = undefined,
+	    invalid: boolean = false;
 
     /** Items to display in the combobox list.
      *  ASSUMES NO DUPLICATES (by necessity, since the text is also the target search value in the input field):
@@ -59,8 +60,8 @@
 <!-- Modified from https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-autocomplete-both/
      https://www.w3.org/copyright/software-license-2015/ -->
 
-    <div id={comboId} class="combobox" style:width={width}>
-        <div class="combobox combobox-list" class:hasMatch class:isTyping>
+    <div id={comboId} class="combobox" class:invalid style:width={width}>
+        <div class="combobox-list" class:hasMatch class:isTyping>
             <div class="group">
                 <LabeledField {label} forId={inputId} width="100%">
                     <input

@@ -3,16 +3,24 @@
     import LabeledField from "./LabeledField.svelte";
     import {onMount} from "svelte";
 
-    export let label, width, placeholder, value='', required=false, multiline=undefined, rows=undefined, addClass=undefined;
+    export let
+        label,
+        width,
+        placeholder,
+        value='',
+        required=false,
+        multiline=undefined,
+        rows=undefined,
+        addClass=undefined;
 
-    let hidePlaceholderClass = undefined;
+    let hidePlaceholderClass = '';
 
     function hidePlaceholder() {
-        hidePlaceholderClass = `hide-placeholder ${addClass}`;
+        hidePlaceholderClass = ' hide-placeholder';
     }
     function handlePlaceholder() {
         if (!((value ?? '').trim())) {
-            hidePlaceholderClass = addClass;
+            hidePlaceholderClass = '';
         } else {
             hidePlaceholder();
         }
@@ -27,7 +35,7 @@
     onMount(handlePlaceholder);
 </script>
 
-<LabeledField addClass={hidePlaceholderClass} label={label} {required} width={width}>
+<LabeledField addClass={(addClass ?? '') + hidePlaceholderClass} label={label} {required} width={width}>
     <Textfield
             variant="outlined"
             bind:value
