@@ -6,6 +6,7 @@
     // import {perfTime} from "../../stores/performancesStore";
     import {endDate, startDate} from "../../stores/stores";
     import DatePicker from "../../../../form/DatePicker.svelte";
+    import darkTheme from "../../../../../stores/theme-store";
     import {addYears} from "../../../../../utils/date-time-utils";
 
     let pickedDay=$startDate;
@@ -47,7 +48,7 @@
             format="hh:ii"
             displayFormat="hh:ii"
             placeholder="tt:mm"
-            inputClasses="timepickerinput"
+            inputClasses={"timepickerinput" + (darkTheme ? ' dark-mode' : '')}
     ></SveltyPicker>
 
     <div class="ornaments">
@@ -218,7 +219,6 @@
 	    }
     }
 
-    /*
     :global(.dark-mode) {
         :global(.starttimepicker .std-calendar-wrap) {
             background-color: #212121 !important;
@@ -236,5 +236,5 @@
 	            outline-color: rgb(233, 114, 118);
             }
 	    }
-    }*/
+    }
 </style>
