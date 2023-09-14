@@ -2,13 +2,9 @@
 	import JustifiedRow from "../../../../form/JustifiedRow.svelte";
 	import TextField from "../../../../form/TextField.svelte";
 
-	import {perfTitle, ProblemFields, problemFields} from '../../stores/performancesStore';
+	import {perfTitle} from '../../stores/performancesStore';
 	import Author from "./Author.svelte";
-
-	let invalid = false;
-	$: {
-		invalid = $problemFields.indexOf(ProblemFields.title) !== -1;
-	}
+	import {invalidFields, RequiredFields} from "../../stores/performanceValidation";
 </script>
 
 <div class="textfield-row">
@@ -18,8 +14,7 @@
                 label="Tittel"
                 placeholder="Tittel"
                 width="62%"
-                required
-                addClass={invalid ? "invalid" : undefined}
+                required invalid={$invalidFields.indexOf(RequiredFields.title) !== -1}
         />
         <Author />
     </JustifiedRow>

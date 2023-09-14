@@ -1,9 +1,10 @@
 <script lang="ts">
-	import {authorName, ProblemFields, problemFields} from '../../stores/performancesStore'
+	import {authorName} from '../../stores/performancesStore'
     import ComboBox from "../../../../form/ComboBox.svelte";
     import {getContext} from "svelte";
     import type {BasicUser, UsersByOffice} from "$lib/server/cvpartnerClient";
     import type {IComboboxOption} from "../../../../form/IComboboxOption";
+	import {invalidFields, RequiredFields} from "../../stores/performanceValidation";
 
     let authorItem;
     $: {
@@ -84,5 +85,5 @@
         label="Ansvarlig"
         width="34%"
         placeholder="Ansatt"
-        invalid={$problemFields.indexOf(ProblemFields.author) !== -1}
+        required invalid={$invalidFields.indexOf(RequiredFields.author) !== -1}
 />

@@ -1,7 +1,8 @@
-import {writable} from "svelte/store";
+import {get, writable} from "svelte/store";
 import type {Writable} from "svelte/store";
 import type {IDescription} from "../../../../model/event";
 import type {SubmissionType} from "../../../../enums/submission-type";
+import {invalidFields} from "./performanceValidation";
 
 
 
@@ -22,9 +23,6 @@ export type NewPerformance = {
 	_key?: string,
 	_type?: string;
 }
-export enum ProblemFields {
-	title="tittel", author="ansvarlig", description="beskrivelse", dateAndTime="starttidspunkt", type="type", location="lokasjon", duration="varighet"};
-
 
 export const createPerformancesStore = () => {
     const performances: Writable<NewPerformance[]> = writable([]);
@@ -46,7 +44,7 @@ export const createPerformancesStore = () => {
 						return nonMatching;
 					}
 				}
-	            console.log('Adding a new performance to the store:', performance);
+	            console.debug('Adding a new performance to the store:', performance);
 	            previousPerformances.push(performance);
 	            return previousPerformances;
 			})
@@ -57,7 +55,7 @@ export const createPerformancesStore = () => {
             update( previousPerformances => {
                 const nonMatching = previousPerformances.filter( p => p.submission.slug !== slug);
                 const removedCount = previousPerformances.length - nonMatching.length;
-                console.log(`Removed from the store: ${removedCount} performance(s) matching the target slug '${slug}'`);
+                console.debug(`Removed from the store: ${removedCount} performance(s) matching the target slug '${slug}'`);
                 return nonMatching;
             });
         },
@@ -65,7 +63,7 @@ export const createPerformancesStore = () => {
         // Reset/wipe the performance store, may or may not supply the initialization state
         init: (newPerformances?: NewPerformance[]): void => {
             if (!newPerformances || !newPerformances.length) {
-                console.log("Initializing a new empty performance store.");
+                console.debug("Initializing a new empty performance store.");
                 set([]);
 
             } else {
@@ -97,21 +95,20 @@ export const perfDuration: Writable<number|null> = writable(null);
 export const perfDescription: Writable<string> = writable('');
 
 export const perfTimeIsSet: Writable<boolean> = writable(false);
-export const problemFields: Writable<ProblemFields[]> = writable([]);
 
 
 
 export const initPerformanceStore = (initValues?:NewPerformance):void => {
-    perfTitle.set(initValues?.submission?.title ?? '');
-    authorName.set(((initValues?.submission?.authors || [])[0] || {}).name);
-    perfType.set(initValues?.submission?.submissionType);
+	perfTitle.set(initValues?.submission?.title ?? '');
+	authorName.set(((initValues?.submission?.authors || [])[0] || {}).name);
+	perfType.set(initValues?.submission?.submissionType);
 	perfLocation.set(initValues?.location ?? '');
-    perfTime.set(initValues?.date ?? null);
-    perfDuration.set(initValues?.submission?.duration ?? null);
-    perfDescription.set(((((initValues?.submission?.description || [])[0] || {}).children || [])[0] || {}).text ?? '');
-
-	problemFields.set([]);
+	perfTime.set(initValues?.date ?? null);
+	perfDuration.set(initValues?.submission?.duration ?? null);
+	perfDescription.set(((((initValues?.submission?.description || [])[0] || {}).children || [])[0] || {}).text ?? '');
 
 	// TODO: true if some dateAndTime condition confirms incoming performance time is set?
 	perfTimeIsSet.set(false);
+
+	invalidFields.set([]);
 };

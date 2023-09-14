@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import Textfield from "@smui/textfield";
     import LabeledField from "./LabeledField.svelte";
     import {onMount} from "svelte";
@@ -11,7 +11,9 @@
         required=false,
         multiline=undefined,
         rows=undefined,
-        addClass=undefined;
+        addClass=undefined,
+        invalid=false,
+	    type: "text"|"number" = "text"
 
     let hidePlaceholderClass = '';
 
@@ -19,7 +21,7 @@
         hidePlaceholderClass = ' hide-placeholder';
     }
     function handlePlaceholder() {
-        if (!((value ?? '').trim())) {
+        if (!(((value ?? '') + "").trim())) {
             hidePlaceholderClass = '';
         } else {
             hidePlaceholder();
@@ -35,7 +37,7 @@
     onMount(handlePlaceholder);
 </script>
 
-<LabeledField addClass={(addClass ?? '') + hidePlaceholderClass} label={label} {required} width={width}>
+<LabeledField addClass={(addClass ?? '') + hidePlaceholderClass} label={label} {required} {invalid} width={width}>
     <Textfield
             variant="outlined"
             bind:value
@@ -46,6 +48,7 @@
             class="textfield"
             textarea={multiline}
             input$rows={rows}
+            {type}
     />
 </LabeledField>
 

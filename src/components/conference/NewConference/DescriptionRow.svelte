@@ -4,7 +4,7 @@ import TextField from "../../form/TextField.svelte";
 import {onMount} from "svelte";
 import {makeid} from "../../../utils/conference-utils.ts";
 
-export let label, value, idPrefix="description", placeholder='', rows=4, width="100%", invalid=false;
+export let label, value, idPrefix="description", placeholder='', rows=4, width="100%", invalid=false, required=false;
 
 function OnInput() {
     this.style.height = 0;
@@ -33,8 +33,9 @@ onMount(() => {
             {placeholder}
             {rows}
             {width}
+            {invalid}
+            {required}
             multiline
-            addClass={invalid ? 'invalid' : undefined}
     />
 </JustifiedRow>
 

@@ -4,19 +4,20 @@
 	import {Submission} from "../../../../../enums/submission-type";
 	import JustifiedRow from "../../../../form/JustifiedRow.svelte";
 	import FormField from "@smui/form-field";
-	import {perfType, ProblemFields, problemFields} from "../../stores/performancesStore";
+	import {perfType} from "../../stores/performancesStore";
+	import {invalidFields, RequiredFields} from "../../stores/performanceValidation";
 
 	const types: SubmissionType[] = Object.values(Submission) as SubmissionType[];
 
 	export let width="100%";
 
 	let invalid: boolean = false;
-	$: invalid = $problemFields.indexOf(ProblemFields.type) !== -1;
+	$: invalid = $invalidFields.indexOf(RequiredFields.type) !== -1;
 </script>
 
 
-<fieldset class="perftype-radiobuttons" class:invalid style:width={width}>
-    <legend class="textfield-label">Type</legend>
+<fieldset class="perftype-radiobuttons" style:width={width}>
+    <legend class="textfield-label required" class:invalid>Type</legend>
     <JustifiedRow addClass="radiobutton-justified-row" justify="start">
         {#each types as type}
             <FormField>
@@ -46,7 +47,7 @@
             margin-left: -11px;
             flex-wrap: wrap;
             margin-bottom: 0;
-	        margin-top: 13px;
+	        margin-top: 19px;
             justify-content: space-between;
         }
 
@@ -93,5 +94,21 @@
         font-size: 15px;
         line-height: 150%;
         margin-bottom: 8px;
+
+	    &.required::after {
+		    content: '*';
+		    color: rgb(168, 36, 36);
+		    font-size: 21pt;
+		    position: relative;
+		    top: 7px;
+		    right: -3px;
+		    text-decoration: none;
+		    display: inline-block;
+	    }
+
+	    &:global(.invalid) {
+		    color: rgb(168, 36, 36);
+		    text-decoration: underline;
+	    }
     }
 </style>

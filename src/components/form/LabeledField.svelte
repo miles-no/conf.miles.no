@@ -1,8 +1,8 @@
 <script>
-    export let label, addClass=undefined, required=false, forId=undefined, width="100%";
+    export let label, addClass=undefined, required=false, forId=undefined, width="100%", invalid=false;
 </script>
 
-<div class={`labeled-field${addClass ? ' ' + addClass : ''}`} style:width={width}>
+<div class={`labeled-field ${addClass ?? ''}${invalid ? ' invalid' : ''}`} style:width={width}>
     {#if label}
         {#if forId}
             <label class="textfield-label" class:required for={forId}>{label}</label>
@@ -38,18 +38,16 @@
                 position: relative;
                 top: 7px;
                 right: -3px;
+	            text-decoration: none;
+	            display: inline-block;
             }
         }
 
         &:global(.invalid) {
             .textfield-label {
                 color: rgb(168, 36, 36);
+                text-decoration: underline;
             }
-
-            :global(*) {
-                /*border-color: rgb(168, 36, 36) !important;*/
-            }
-
         }
 
         /* FIXME: Hides the placeholder too... */

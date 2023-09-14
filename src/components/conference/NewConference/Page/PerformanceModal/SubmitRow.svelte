@@ -5,47 +5,30 @@
     import {
 	    perfDescription,
 	    perfTime,
-	    perfTimeIsSet,
 	    perfDuration,
 	    perfType,
 	    perfLocation,
 	    perfTitle,
-	    authorName, ProblemFields, problemFields
+	    authorName
     } from "../../stores/performancesStore";
 	import type {NewPerformance} from "../../stores/performancesStore";
     import darkTheme from "../../../../../stores/theme-store";
     import Spinner from "../../Spinner.svelte";
     import {getContext, onDestroy} from "svelte";
-    import {makeid} from "../../../../../utils/conference-utils";
     import {getMinimalPortableText} from "../../../../../utils/sanityclient-utils";
+    import {invalidFields, validateRequiredFields} from "../../stores/performanceValidation";
 
 
     const toastContext = getContext('toastContext');
     let submit = () => {
 		pending.set(true);
 
-        const getVerifiedStringOrNull = (maybeString?) => ((maybeString ?? '') + '').trim() ? maybeString.trim() : null
+		validateRequiredFields()
 
-        // Required fields validation and feedback: add all required data to an object, remove valid/completed fields
-        // from it. If there are any fields remaining after that, use the object to provide user feedback. If not,
-        // submit and proceed.
-        const requiredData = {
-	        [ProblemFields.title]: getVerifiedStringOrNull($perfTitle),
-	        [ProblemFields.author]: getVerifiedStringOrNull($authorName),
-		    [ProblemFields.description]: getVerifiedStringOrNull($perfDescription),
-            [ProblemFields.dateAndTime]: $perfTimeIsSet ? $perfTime : null,
-		    [ProblemFields.duration]: $perfDuration >= 0 ? $perfDuration : null,
-	        [ProblemFields.type]: getVerifiedStringOrNull($perfType),
-	        [ProblemFields.location]: getVerifiedStringOrNull($perfLocation),
-        }
-        const missingFields: ProblemFields[] = Object.keys(requiredData)
-            .map( field => (requiredData[field] == null) ? field : undefined)
-            .filter( field => !!field ) as ProblemFields[];
-
-		if (!missingFields.length) {
+		if (!$invalidFields.length) {
 			const newPerformance: NewPerformance = {
-				_key: "IAMAPERFORMANCE-KEY-" + makeid(16),
-                _type: "performance",
+				/*_key: "IAMAPERFORMANCE-KEY-" + makeid(16),*/
+                /*_type: "performance",*/
 				date: $perfTime,
 				dateAndTime: $perfTime?.toISOString(),
                 location: $perfLocation,
@@ -62,17 +45,16 @@
 			displayModal.set(false);
 
         } else {
-			problemFields.set(missingFields);
-			console.log("problemFields:", $problemFields);
+			console.warn("Mangelfullt utfylt skjema - sjekk:", $invalidFields.join(", "));
         }
+
 		pending.set(false);
 	};
 
     let disabled = false;
 
 	onDestroy(()=>{
-		problemFields.set([]);
-		/*alert("Destroying the performance modal");*/
+		invalidFields.set([]);
     })
 </script>
 
@@ -80,7 +62,12 @@
 
 <div class="submit-performance-row" class:dark-mode={$darkTheme}>
     <JustifiedRow>
-        <div class:pending={$pending}>
+        {#if ($invalidFields?.length)}
+            <div class="validation-warning">
+                Er alle nødvendige felt fylt riktig ut?<br />Sjekk felt, og prøv igjen: {$invalidFields.join(", ")}.
+            </div>
+        {/if}
+        <div class:pending={$pending} class="button-wrapper">
             <Button color="primary"
                     disabled={disabled}
                     on:click={!disabled && submit}
@@ -104,15 +91,23 @@
         :global(.justified-row) {
             margin-bottom: 0;
             justify-content: end;
+            align-items: flex-start;
         }
 
-        :global(button) {
-            color: #000;
-            border: 1px solid #000;
-            padding: 0 16px;
-            cursor: pointer;
-            position: relative;
+        .button-wrapper {
+            min-width: 155px;
+            margin-left: 40px;
+            margin-bottom: 20px;
+
+            :global(button) {
+                color: #000;
+                border: 1px solid #000;
+                padding: 0 16px;
+                cursor: pointer;
+                position: relative;
+            }
         }
+
 
         &.dark-mode {
             :global(button) {
@@ -129,8 +124,14 @@
         }
 
         @media only screen and (max-width: 500px) {
+	        .button-wrapper {
+                margin-left: 0;
+                margin-top: 20px;
+                width: 100%
+	        }
             :global(.justified-row) {
                 flex-direction: column;
+	            align-items: flex-end;
             }
 
             :global(.mdc-button),
@@ -153,6 +154,9 @@
     } */
 
 
+    .validation-warning {
+        color: rgb(168, 36, 36);;
+    }
 
     .disabled {
         opacity: 30%;

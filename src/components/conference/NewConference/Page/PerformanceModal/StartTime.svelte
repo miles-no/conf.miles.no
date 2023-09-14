@@ -3,12 +3,13 @@
 	import LabeledField from "../../../../form/LabeledField.svelte";
 	import {makeid} from "../../../../../utils/conference-utils";
 	import {Clock4} from 'lucide-svelte';
-	import {perfTime, perfTimeIsSet, ProblemFields, problemFields} from "../../stores/performancesStore";
+	import {perfTime, perfTimeIsSet} from "../../stores/performancesStore";
 	import {endDate, startDate} from "../../stores/stores";
 	import DatePicker from "../../../../form/DatePicker.svelte";
 	import darkTheme from "../../../../../stores/theme-store";
 	import {addYears, formatDateYYYYMMDD} from "../../../../../utils/date-time-utils";
 	import {onMount} from "svelte";
+	import {invalidFields, RequiredFields} from "../../stores/performanceValidation";
 
 	let pickedDay = null;
     let pickedTime = undefined;
@@ -21,8 +22,6 @@
 
 	const PATTERN_DAYTIME_24H = /^\s*([01][0-9]|2[0-3])\s*:\s*([0-5][0-9])\s*$/;
 
-	let invalid = false;
-
     $: {
         const time = PATTERN_DAYTIME_24H.exec(pickedTime);
         if (pickedDay && pickedTime && time && time.length) {
@@ -34,7 +33,7 @@
 	        perfTimeIsSet.set(false);
         }
 	    perfTime.set(pickedDay);
-		invalid = $problemFields.indexOf(ProblemFields.dateAndTime) !== -1;
+
     }
 
     onMount(() => {
@@ -50,6 +49,7 @@
         forId={inputId}
         addClass="starttimepicker"
         width={width}
+        required invalid={$invalidFields.indexOf(RequiredFields.dateAndTime) !== -1}
 >
     <DatePicker
             width="50%"
