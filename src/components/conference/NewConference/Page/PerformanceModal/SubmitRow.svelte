@@ -1,40 +1,79 @@
 <script lang="ts">
-    import type {IToastContextProps} from "../../../../toast/toast-context";
     import Button, {Icon, Label} from "@smui/button";
     import JustifiedRow from "../../../../form/JustifiedRow.svelte";
+    import {pending, displayModal, performances} from "../../stores/stores.ts";
     import {
-        name,
-        url,
-        startDate,
-        endDate,
-        intervalWarning,
-        pending,
-        displayModal,
-    } from "../../stores/stores.ts";
+	    perfDescription,
+	    perfTime,
+	    perfTimeIsSet,
+	    perfDuration,
+	    perfType,
+	    perfLocation,
+	    perfTitle,
+	    authorName, ProblemFields, problemFields
+    } from "../../stores/performancesStore";
+	import type {NewPerformance} from "../../stores/performancesStore";
     import darkTheme from "../../../../../stores/theme-store";
     import Spinner from "../../Spinner.svelte";
-    import {getContext} from "svelte";
-
-    export let submitText: string;
+    import {getContext, onDestroy} from "svelte";
+    import {makeid} from "../../../../../utils/conference-utils";
+    import {getMinimalPortableText} from "../../../../../utils/sanityclient-utils";
 
 
     const toastContext = getContext('toastContext');
-    let submit = (toastContext:IToastContextProps) => {alert("Klikky");};
+    let submit = () => {
+		pending.set(true);
 
-    function openModal() {
-        displayModal.set(true);
-    }
+        const getVerifiedStringOrNull = (maybeString?) => ((maybeString ?? '') + '').trim() ? maybeString.trim() : null
+
+        // Required fields validation and feedback: add all required data to an object, remove valid/completed fields
+        // from it. If there are any fields remaining after that, use the object to provide user feedback. If not,
+        // submit and proceed.
+        const requiredData = {
+	        [ProblemFields.title]: getVerifiedStringOrNull($perfTitle),
+	        [ProblemFields.author]: getVerifiedStringOrNull($authorName),
+		    [ProblemFields.description]: getVerifiedStringOrNull($perfDescription),
+            [ProblemFields.dateAndTime]: $perfTimeIsSet ? $perfTime : null,
+		    [ProblemFields.duration]: $perfDuration >= 0 ? $perfDuration : null,
+	        [ProblemFields.type]: getVerifiedStringOrNull($perfType),
+	        [ProblemFields.location]: getVerifiedStringOrNull($perfLocation),
+        }
+        const missingFields: ProblemFields[] = Object.keys(requiredData)
+            .map( field => (requiredData[field] == null) ? field : undefined)
+            .filter( field => !!field ) as ProblemFields[];
+
+		if (!missingFields.length) {
+			const newPerformance: NewPerformance = {
+				_key: "IAMAPERFORMANCE-KEY-" + makeid(16),
+                _type: "performance",
+				date: $perfTime,
+				dateAndTime: $perfTime?.toISOString(),
+                location: $perfLocation,
+                submission: {
+					title: $perfTitle,
+                    submissionType: $perfType,
+                    authors: [$authorName],
+                    // slug: "IAMAPERFORMANCE-SLUG-" + makeid(16),
+                    description: $perfDescription ? getMinimalPortableText($perfDescription) : undefined,
+                    duration: $perfDuration
+                }
+			}
+			performances.write(newPerformance);
+			displayModal.set(false);
+
+        } else {
+			problemFields.set(missingFields);
+			console.log("problemFields:", $problemFields);
+        }
+		pending.set(false);
+	};
 
     let disabled = false;
-    /*$: {
-        disabled = (
-            !($name.trim()) ||
-            !($url.trim()) ||
-            !$startDate ||
-            !$endDate ||
-            !!$intervalWarning
-        );
-    }*/
+
+	onDestroy(()=>{
+		problemFields.set([]);
+		/*alert("Destroying the performance modal");*/
+    })
 </script>
 
 
