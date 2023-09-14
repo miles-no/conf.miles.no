@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { IConference } from '../../../../model/conference';
-	import { initStore } from '../../../../components/conference/NewConference/stores/stores';
+	import {displayModal, initStore} from '../../../../components/conference/NewConference/stores/stores';
 	import ConferenceEditor from '../../../../components/conference/NewConference/Page/ConferenceEditor.svelte';
 	import { getEditedConferenceSubmitter } from '../../../../components/conference/NewConference/submit';
 	import ButtonFooterRow from '../../../../components/conference/NewConference/Page/ButtonFooterRow.svelte';
@@ -11,6 +11,8 @@
 	import { urlFor } from '../../../../utils/sanityclient-utils';
 	import type { EditConferenceData } from './+page.server';
 	import { Icon } from '@smui/common';
+	import NewPerformanceModal
+		from "../../../../components/conference/NewConference/Page/PerformanceModal/NewPerformanceModal.svelte";
 	const toastContext: IToastContextProps = getContext('toastContext');
 
 	export let data: EditConferenceData;
@@ -37,16 +39,17 @@
 	const submitEditedConference = getEditedConferenceSubmitter(toastContext, conference.slug);
 </script>
 
-<div>
-	<div class="conference-link-to-overview">
-		<a href={`/konferanser/${conference.slug}`} title="Tilbake til konferansen">
-			<Icon class="material-icons" alt="Tilbake">arrow_back</Icon> {conference.title}
-		</a>
-	</div>
-	<Heading>Redigere konferanse</Heading>
-	<ConferenceEditor />
-	<ButtonFooterRow submitText="Oppdater konferanse" submit={submitEditedConference} />
+<div class="conference-link-to-overview">
+    <a href={`/konferanser/${conference.slug}`} title="Tilbake til konferansen">
+        <Icon class="material-icons" alt="Tilbake">arrow_back</Icon> {conference.title}
+    </a>
 </div>
+<Heading>Redigere konferanse</Heading>
+<ConferenceEditor />
+<ButtonFooterRow submitText="Oppdater konferanse" submit={submitEditedConference} />
+{#if $displayModal}
+    <NewPerformanceModal />
+{/if}
 
 <style>
 	.conference-link-to-overview {

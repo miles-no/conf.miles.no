@@ -2,13 +2,17 @@
     import NameAndAuthorRow from "./NameAndAuthorRow.svelte";
     import TimeLocationTypeRows from "./TimeLocationTypeRows.svelte";
     import Description from "./Description.svelte";
+    import SubmitRow from "./SubmitRow.svelte";
 </script>
 
-<form>
-    <NameAndAuthorRow />
-    <TimeLocationTypeRows />
-    <Description />
-</form>
+<div>
+    <form>
+        <NameAndAuthorRow />
+        <TimeLocationTypeRows />
+        <Description />
+        <SubmitRow />
+    </form>
+</div>
 
 <style>
     form {

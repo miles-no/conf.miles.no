@@ -1,7 +1,8 @@
 <script lang="ts">
-    import {
-        initStore,
-    } from "../../../components/conference/NewConference/stores/stores";
+	import {
+		displayModal,
+		initStore,
+	} from "../../../components/conference/NewConference/stores/stores";
     import type {NewConferenceStoreInitType} from "../../../components/conference/NewConference/stores/stores";
     import {getNewConferenceSubmitter} from "../../../components/conference/NewConference/submit";
     import ConferenceEditor from "../../../components/conference/NewConference/Page/ConferenceEditor.svelte";
@@ -10,6 +11,8 @@
 
     import {getContext, setContext} from "svelte";
     import type {IToastContextProps} from "../../../components/toast/toast-context";
+	import NewPerformanceModal
+		from "../../../components/conference/NewConference/Page/PerformanceModal/NewPerformanceModal.svelte";
     const toastContext: IToastContextProps = getContext('toastContext');
 
     function getUrlParamNew() {
@@ -64,4 +67,6 @@
 <Heading>Registrer en ny konferanse</Heading>
 <ConferenceEditor />
 <ButtonFooterRow submitText="Registrer konferanse" submit={submitNewConference} />
-
+{#if $displayModal}
+    <NewPerformanceModal />
+{/if}

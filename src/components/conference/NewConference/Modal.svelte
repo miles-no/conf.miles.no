@@ -92,6 +92,11 @@
 
 	    @media (max-width: 616px) {
             align-items: initial;
+            background-color: white;
+
+            &.dark-mode {
+	            background-color: black;
+            }
 	    }
     }
 
@@ -119,6 +124,9 @@
 
 	    @media (max-width: 616px) {
 		    border-radius: 0;
+	    }
+	    @media (max-width: 385px) {
+		    padding: 16px;
 	    }
 
         h2 {

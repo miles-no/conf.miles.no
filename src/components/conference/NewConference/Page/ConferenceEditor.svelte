@@ -1,16 +1,11 @@
 <script lang="ts">
     import Form from "./Form.svelte";
     import Preview from "./Preview.svelte";
-    import {displayModal} from "../stores/stores";
-    import NewPerformanceModal from "./PerformanceModal/NewPerformanceModal.svelte";
 
     import darkTheme from "../../../../stores/theme-store";
 </script>
 
 
-{#if $displayModal}
-    <NewPerformanceModal />
-{/if}
 <div class="edit-and-preview-row" class:dark-mode={$darkTheme}>
     <Form />
     <div class="preview-col">
