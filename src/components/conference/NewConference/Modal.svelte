@@ -87,9 +87,14 @@
         display: flex;
         flex-flow: row nowrap;
         justify-content: center;
-        align-items: center;
         background-color: rgba(0,0,0,.5); /* TODO: Should be theme variable */
+	    align-items: center;
+
+	    @media (max-width: 616px) {
+            align-items: initial;
+	    }
     }
+
     .dark-mode.modal {
         background-color: rgba(255,255,255,.5); /* TODO: Should be theme variable */
     }
@@ -111,6 +116,10 @@
         /* TODO: Should be theme variables: */
         background: #fff;
         color: #000;
+
+	    @media (max-width: 616px) {
+		    border-radius: 0;
+	    }
 
         h2 {
             font-family: var(--mdc-typography-headline1-font-family, var(--mdc-typography-font-family, Inter, Roboto, sans-serif)); ;

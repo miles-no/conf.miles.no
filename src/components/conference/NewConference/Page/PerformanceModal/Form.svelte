@@ -1,13 +1,11 @@
 <script>
     import NameAndAuthorRow from "./NameAndAuthorRow.svelte";
-    import PerformanceTypeRow from "./PerformanceTypeRow.svelte";
-    import TimeLocationRow from "./TimeLocationRow.svelte";
+    import TimeLocationTypeRows from "./TimeLocationTypeRows.svelte";
 </script>
 
 <form>
     <NameAndAuthorRow />
-    <PerformanceTypeRow />
-    <TimeLocationRow />
+    <TimeLocationTypeRows />
 </form>
 
 <style>

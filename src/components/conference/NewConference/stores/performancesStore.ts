@@ -77,6 +77,7 @@ const normalizeStorePerformance = (p:NewPerformance): NewPerformance => {
 export const perfTitle: Writable<string> = writable('');
 export const authorName: Writable<string> = writable('');
 export const perfType: Writable<SubmissionType|undefined> = writable(undefined);
+export const perfLocation: Writable<string> = writable('');
 export const perfTime: Writable<Date|null> = writable( null);
 export const perfDuration: Writable<number|null> = writable(null);
 export const perfDescription: Writable<string> = writable('');
@@ -86,6 +87,7 @@ export const initPerformanceStore = (initValues?:NewPerformance):void => {
     perfTitle.set(initValues?.submission?.title ?? '');
     authorName.set(((initValues?.submission?.authors || [])[0] || {}).name);
     perfType.set(initValues?.submission?.submissionType);
+	perfLocation.set(initValues?.location ?? '');
     perfTime.set(initValues?.date ?? null);
     perfDuration.set(initValues?.submission?.duration ?? null);
     perfDescription.set(((((initValues?.submission?.description || [])[0] || {}).children || [])[0] || {}).text ?? '');
