@@ -1,4 +1,9 @@
 <script lang="ts">
+    import {toggleByURIParams} from '../featureFlagging/frontend';
+    import { page } from '$app/stores';
+    toggleByURIParams($page.url.searchParams);
+
+
 	import { onMount } from 'svelte';
 	import Header from '../components/Header.svelte';
 	import Toast from '../components/toast/Toast.svelte';

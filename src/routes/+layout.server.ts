@@ -1,3 +1,8 @@
+//import {setServersideToggle} from '../featureFlagging/server'
+//import { env } from '$env/dynamic/public'
+// setServersideToggle(featureToggleName, env.PUBLIC_MY_SETTING.....);
+
+
 import { fetchSiteSettings } from '$lib/sanityClient';
 import type { User } from '$lib/types/user.js';
 import type { ISiteSetting } from '../model/site-setting.js';
