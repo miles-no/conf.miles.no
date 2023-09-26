@@ -5,6 +5,7 @@
  */
 
 
+
 /**  IMPORTANT! Over time, different feature flags may be scattered around the code base. Typescript help will come
  *   really handy for maintaining this, especially when it's time for cleanup. So:
  *   When setting up a new feature toggle,
@@ -13,9 +14,10 @@
  *   - then use 'setServersideToggle' to implement whatever logic for setting it - specifically and explicitly for each
  *   flag, one at a time in order to not risk exposing anything by inadvertently sending it in through an object.
  */
-interface ServersideFeatureToggles {
+export interface ServersideFeatureToggles {
 	// exampleFeatureName: boolean
 };
+export type ServersideFeatureToggleName = keyof ServersideFeatureToggles;
 export const flags: ServersideFeatureToggles = {
 	// exampleFeatureName: false
 }
