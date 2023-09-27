@@ -14,12 +14,12 @@
  *   - then use 'toggleByURIParams' to implement whatever logic for setting it - specifically and explicitly for each flag.
  */
 export interface FrontendFeatureToggles {
-	testFeature: boolean
+	performances: boolean
 };
 export type FrontendFeatureToggleName = keyof FrontendFeatureToggles;
 
 export const flags: FrontendFeatureToggles = {
-	testFeature: false
+	performances: false
 }
 
 const getTruthy = (paramValue: any): boolean => (
@@ -28,5 +28,5 @@ const getTruthy = (paramValue: any): boolean => (
 	0 !== parseInt(paramValue)
 );
 export const toggleByURIParams = (searchParams: URLSearchParams) => {
-	flags.testFeature = getTruthy(searchParams.get("testFeature"));
+	flags.performances = getTruthy(searchParams.get("performances"));
 }

@@ -14,23 +14,26 @@
 -->
 
 <script lang="ts">
-	import {flags as server} from './server.ts';
-	import type {ServersideFeatureToggleName} from './server.ts';
-	import {flags as frontend} from './frontend.ts';
-	import type {FrontendFeatureToggleName} from './frontend.ts';
+	import type {FlagName, IFlags} from "./common";
+	import {getFeatureToggle} from "./common";
 
-	type FlagName = FrontendFeatureToggleName | ServersideFeatureToggleName;
-	type IFlags = {
-		[flagName in FlagName]: boolean;
-	};
-
-	// Because lifecycles, this merger must in general occur in the script section of consuming svelte components,
-    // like here. Also note, frontend flags will overwrite backend ones:
-	const flags: IFlags = {...server, ...frontend};
+	export let showPlaceholder: boolean = false;
 
 	export let flagName: FlagName;
+	const isToggledOn = getFeatureToggle(flagName);
 </script>
 
-{#if flags[flagName]}
+{#if isToggledOn}
     <slot />
+{:else if showPlaceholder}
+    <div class="placeholder">Gjemt feature ({flagName})</div>
 {/if}
+
+<style>
+    .placeholder {
+        color: white;
+        background-color: rgba(127,127,127,.4);
+        padding:  1px 4px;
+        border-radius: 4px;
+    }
+</style>
