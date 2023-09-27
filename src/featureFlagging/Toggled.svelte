@@ -26,14 +26,17 @@
 {#if isToggledOn}
     <slot />
 {:else if showPlaceholder}
-    <div class="placeholder">Gjemt feature ({flagName})</div>
+    <div class="placeholder">({flagName})</div>
 {/if}
 
 <style>
     .placeholder {
-        color: white;
-        background-color: rgba(127,127,127,.4);
-        padding:  1px 4px;
-        border-radius: 4px;
+        opacity: 30%;
+	    color: white;
+	    background-color: rgba(127,127,127, .6);
+	    padding: 1px 4px;
+	    border-radius: 4px;
+	    text-shadow: 1px 1px 2px black;
+	    box-shadow: 0 0 8px #888;
     }
 </style>
