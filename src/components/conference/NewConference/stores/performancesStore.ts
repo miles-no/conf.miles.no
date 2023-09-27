@@ -1,4 +1,4 @@
-import {get, writable} from "svelte/store";
+import {writable} from "svelte/store";
 import type {Writable} from "svelte/store";
 import type {IDescription} from "../../../../model/event";
 import type {SubmissionType} from "../../../../enums/submission-type";

@@ -12,4 +12,4 @@ export const userSchema = z.object({
 	title: z.string()
 });
 
-export type User = z.infer<typeof userSchema>;
+export type User = z.infer<typeof userSchema> | {isAuthenticated:false};
