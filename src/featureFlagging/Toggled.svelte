@@ -16,17 +16,21 @@
 <script lang="ts">
 	import {flags as server} from './server.ts';
 	import type {ServersideFeatureToggleName} from './server.ts';
-	import {flags as frontend} from './frontend.ts'
+	import {flags as frontend} from './frontend.ts';
 	import type {FrontendFeatureToggleName} from './frontend.ts';
 
-    // Frontend flags will overwrite backend ones
-	const flags = {...server, ...frontend};
-
 	type FlagName = FrontendFeatureToggleName | ServersideFeatureToggleName;
+	type IFlags = {
+		[flagName in FlagName]: boolean;
+	};
 
-	export let flag: FlagName;
+	// Because lifecycles, this merger must in general occur in the script section of consuming svelte components,
+    // like here. Also note, frontend flags will overwrite backend ones:
+	const flags: IFlags = {...server, ...frontend};
+
+	export let flagName: FlagName;
 </script>
 
-{#if flags[flag]}
+{#if flags[flagName]}
     <slot />
 {/if}

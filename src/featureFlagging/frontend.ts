@@ -22,7 +22,11 @@ export const flags: FrontendFeatureToggles = {
 	testFeature: false
 }
 
+const getTruthy = (paramValue: any): boolean => (
+	!!paramValue &&
+	"false" !== (paramValue + "").toLowerCase() &&
+	0 !== parseInt(paramValue)
+);
 export const toggleByURIParams = (searchParams: URLSearchParams) => {
-	flags.testFeature = !!searchParams.get("testFeature") ?? false;
-	console.log("flags:", flags);
+	flags.testFeature = getTruthy(searchParams.get("testFeature"));
 }

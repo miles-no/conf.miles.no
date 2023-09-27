@@ -11,7 +11,7 @@
 
 	export let width="100%";
 
-	let invalid: boolean = false;
+	let invalid: boolean;
 	$: invalid = $invalidFields.indexOf(RequiredFields.type) !== -1;
 </script>
 
