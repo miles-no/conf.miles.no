@@ -13,6 +13,7 @@
     } from "../stores/stores.ts";
     import darkTheme from "../../../../stores/theme-store";
     import Spinner from "../Spinner.svelte";
+    import Toggled from "../../../../featureFlagging/Toggled.svelte";
 
     export let submitText: string;
     export let submit: (toastContext:IToastContextProps) => void;
@@ -32,19 +33,22 @@
             !!$intervalWarning
         );
     }
+
 </script>
 
 
 
 <div class="footer-buttons" class:dark-mode={$darkTheme}>
     <JustifiedRow>
-        <Button color="secondary"
-                on:click={openModal}
-                disabled={$pending}
-        >
-            <Icon class="material-icons">add</Icon>
-            <Label>Legg til bidrag</Label>
-        </Button>
+        <Toggled flagName="performances" showPlaceholder>
+            <Button color="secondary"
+                    on:click={openModal}
+                    disabled={$pending}
+            >
+                <Icon class="material-icons">add</Icon>
+                <Label>Legg til bidrag</Label>
+            </Button>
+        </Toggled>
 
         <div class:disabled class:pending={$pending}>
             <Button color="primary"
