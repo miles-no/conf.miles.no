@@ -9,6 +9,7 @@ import { env as private_env } from '$env/dynamic/private';
 import { env as public_env } from '$env/dynamic/public';
 import { makeid } from '../../utils/conference-utils';
 import type {IConference} from "../../model/conference";
+import {getFeatureToggle} from "../../featureFlagging/common";
 
 const client: SanityClient = sanityClient({
 	projectId: public_env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
@@ -36,8 +37,13 @@ async function ensureUniqueSlug(slug: string, index: number = 1): Promise<string
 }
 
 async function generateSlug(string: string): Promise<string> {
-	let slug: string = string.toLowerCase();
-	slug = slug.replace(' ', '-');
+	let slug: string;
+	if (getFeatureToggle("strictAlphaNumericSlug")) {
+		slug = string.trim().toLowerCase().replace(/[^a-zA-Z\d+]+/g, '-');
+	} else {
+		slug = string.toLowerCase();
+		slug = slug.replace(' ', '-');
+	}
 
 	return await ensureUniqueSlug(slug);
 }

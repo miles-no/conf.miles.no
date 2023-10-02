@@ -1,6 +1,10 @@
-//import {setServersideToggle} from '../featureFlagging/server'
-//import { env } from '$env/dynamic/public'
-// setServersideToggle(featureToggleName, env.PUBLIC_MY_SETTING.....);
+
+import { env } from '$env/dynamic/public'
+import {setIsProd, setServersideToggle} from "../featureFlagging/server";
+setIsProd(env);
+
+console.log("PUBLIC_FLAG_ALPHANUMERICSLUG:", env.PUBLIC_FLAG_ALPHANUMERICSLUG === "true");
+setServersideToggle("strictAlphaNumericSlug", env.PUBLIC_FLAG_ALPHANUMERICSLUG === "true");
 
 
 import { fetchSiteSettings } from '$lib/sanityClient';

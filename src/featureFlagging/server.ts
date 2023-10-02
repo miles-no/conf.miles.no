@@ -23,10 +23,11 @@ export function getIsProd() {
  *       sending it in through an object).
  */
 export interface ServersideFeatureToggles {
-	// exampleFeatureName: boolean
+	strictAlphaNumericSlug: boolean
 };
 export type ServersideFeatureToggleName = keyof ServersideFeatureToggles;
 export const flags: ServersideFeatureToggles = {
+	strictAlphaNumericSlug: false
 }
 
 export const setServersideToggle = (name: ServersideFeatureToggleName, flag: boolean) => {

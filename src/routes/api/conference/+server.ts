@@ -42,11 +42,14 @@ export const PUT = (async ({ request }) => {
         existingConference.description = conference.description ?? existingConference.description;
         existingConference.employees = conference.employees ?? existingConference.employees;
 
+		console.log("Updating conference: ", conference.slug);
         await updateConference(existingConference as IConference, conference.image);
 
         if (warnings.length) {
             console.warn(`${warnings.length} warning(s) when trying to update a conference (slug = '${conference.slug}'): ${ + JSON.stringify(warnings, null, 2)}`);
         }
+
+		console.log("...ok, updated conference: ", conference.slug);
 
 		return json({
             success: true,
@@ -57,6 +60,7 @@ export const PUT = (async ({ request }) => {
 
 	} catch (error) {
 		console.error(`PUT /api/external-conference: ${error}`);
-		return json({ success: false });
+		console.log("PUT /api/external-conference error.")
+		return json({ success: false, ok: false });
 	}
 }) satisfies RequestHandler;
