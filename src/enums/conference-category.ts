@@ -5,14 +5,8 @@ export enum ConferenceCategory {
 	Prosjektledelse = 'Prosjektledelse',
 	Innovasjon = 'Innovasjon',
 	Admin = 'Admin',
-	Test = 'Test/Testledelse'
+	Test = 'Test/Testledelse',
+	AI = 'AI'
 }
 
-export type ConferenceCategoryType =
-	| 'UX/Design'
-	| 'Utvikling'
-	| 'Smidig'
-	| 'Prosjektledelse'
-	| 'Innovasjon'
-	| 'Admin'
-	| 'Test/Testledelse';
+export type ConferenceCategoryType = keyof typeof ConferenceCategory;
