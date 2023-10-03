@@ -5,8 +5,14 @@
  */
 
 let isProd = false;
+let prodIsLogged = false;
+
 export function setIsProd(env: {PUBLIC_SANITY_DATASET: string}) {
 	isProd = (env.PUBLIC_SANITY_DATASET === 'prod' || env.PUBLIC_SANITY_DATASET === 'production');
+	if (!prodIsLogged) {
+		console.log("isProd:", isProd);
+		prodIsLogged = true;
+	}
 }
 export function getIsProd() {
 	return isProd;

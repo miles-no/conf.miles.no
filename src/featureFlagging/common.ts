@@ -12,7 +12,7 @@ import {flags as frontend} from './frontend';
 
 // Because lifecycles, this must be called from the script section of consuming svelte components.
 // Also note, frontend flags will overwrite backend ones:
-export const getFeatureToggle = (flagName: FlagName): boolean => {
+export const featureIsToggledOn = (flagName: FlagName): boolean => {
 	// @ts-ignore
 	return frontend[flagName] || server[flagName];
 }

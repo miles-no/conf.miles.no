@@ -15,12 +15,12 @@
 
 <script lang="ts">
 	import type {FlagName, IFlags} from "./common";
-	import {getFeatureToggle} from "./common";
+	import {featureIsToggledOn} from "./common";
 
 	export let showPlaceholder: boolean = false;
 
 	export let flagName: FlagName;
-	const isToggledOn = getFeatureToggle(flagName);
+	const isToggledOn = featureIsToggledOn(flagName);
 </script>
 
 {#if isToggledOn}
