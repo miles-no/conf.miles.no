@@ -33,4 +33,8 @@ const getTruthy = (paramValue: any): boolean => (
 // Adding ' || !getIsProd()' turns the toggle on in non-prod environments.
 export const toggleByURIParams = (searchParams: URLSearchParams) => {
 	flags.performances = getTruthy(searchParams.get("performances")) || !getIsProd();
+	console.log("Clientside getTruthy(searchParams.get(\"performances\")) =", getTruthy(searchParams.get("performances")));
+	console.log("                                  Clientside getIsProd() =", getIsProd());
+	console.log("                                 Clientside !getIsProd() =", !getIsProd());
+	console.log("               --> Clientside feature flag: performances =", flags.performances);
 }
