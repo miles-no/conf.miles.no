@@ -7,7 +7,7 @@
 let isProd = false;
 let prodIsLogged = false;
 
-export function setIsProd(env: {PUBLIC_SANITY_DATASET: string}) {
+export function parseIsProd(env: {PUBLIC_SANITY_DATASET: string}) {
 	console.log(env.PUBLIC_SANITY_DATASET);
 	isProd = (env.PUBLIC_SANITY_DATASET === 'prod' || env.PUBLIC_SANITY_DATASET === 'production');
 	if (!prodIsLogged) {
@@ -15,6 +15,10 @@ export function setIsProd(env: {PUBLIC_SANITY_DATASET: string}) {
 		prodIsLogged = true;
 	}
 }
+export function setIsProd(isProd_: boolean) {
+	isProd = isProd_;
+}
+
 export function getIsProd() {
 	return isProd;
 }

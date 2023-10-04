@@ -1,16 +1,20 @@
 <script lang="ts">
-    import {toggleByURIParams} from '../featureFlagging/frontend';
-    import { page } from '$app/stores';
-    $: toggleByURIParams($page.url.searchParams);
+	import type { ILayoutPageLoadData } from './+layout.server';
 
+	import {toggleByURIParams} from '../featureFlagging/frontend';
+	import { page } from '$app/stores';
 
 	import { onMount } from 'svelte';
 	import Header from '../components/Header.svelte';
 	import Toast from '../components/toast/Toast.svelte';
 	import darkTheme from '../stores/theme-store';
-	import type { ILayoutPageLoadData } from './+layout.server';
+	import {setIsProd} from "../featureFlagging/server.js";
 
 	export let data: ILayoutPageLoadData;
+
+	$: setIsProd(data.isProd);
+	$: toggleByURIParams($page.url.searchParams);
+
 	$: settings = data.settings;
 	$: authInfo = data.user;
 

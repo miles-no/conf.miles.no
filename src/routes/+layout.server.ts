@@ -1,9 +1,9 @@
 
 import { env } from '$env/dynamic/public'
-import {setIsProd, setServersideToggle} from "../featureFlagging/server";
+import {parseIsProd, setServersideToggle, getIsProd} from "../featureFlagging/server";
 
 $: {
-	setIsProd(env);
+	parseIsProd(env);
 
 	console.log("PUBLIC_FLAG_ALPHANUMERICSLUG:", env.PUBLIC_FLAG_ALPHANUMERICSLUG === "true");
 	setServersideToggle("strictAlphaNumericSlug", env.PUBLIC_FLAG_ALPHANUMERICSLUG === "true");
@@ -17,6 +17,7 @@ import type { LayoutServerLoad } from './$types';
 export interface ILayoutPageLoadData {
 	settings: ISiteSetting;
 	user: User | undefined;
+	isProd: boolean
 }
 
 export const prerender = true;
@@ -33,6 +34,7 @@ export const load = (async ({ locals }): Promise<ILayoutPageLoadData> => {
 			siteLogo: result.siteLogo,
 			siteName: result.siteName
 		},
-		user: user
+		user: user,
+		isProd: getIsProd()
 	};
 }) satisfies LayoutServerLoad;
