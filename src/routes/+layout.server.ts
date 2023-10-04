@@ -4,8 +4,6 @@ import {parseIsProd, setServersideToggle, getIsProd} from "../featureFlagging/se
 
 $: {
 	parseIsProd(env);
-
-	console.log("PUBLIC_FLAG_ALPHANUMERICSLUG:", env.PUBLIC_FLAG_ALPHANUMERICSLUG === "true");
 	setServersideToggle("strictAlphaNumericSlug", env.PUBLIC_FLAG_ALPHANUMERICSLUG === "true");
 }
 
