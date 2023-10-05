@@ -13,7 +13,10 @@
     import type {IToastContextProps} from "../../../components/toast/toast-context";
 	import NewPerformanceModal
 		from "../../../components/conference/NewConference/Page/PerformanceModal/NewPerformanceModal.svelte";
+	import {makeid} from "../../../utils/conference-utils";
     const toastContext: IToastContextProps = getContext('toastContext');
+
+	export let data;
 
     function getUrlParamNew() {
         try {
@@ -30,7 +33,40 @@
         let transferredData: NewConferenceStoreInitType;
         const newconfkey = getUrlParamNew();
         try {
-            if (typeof sessionStorage !== 'undefined') {
+			/** For faster testing, prefill some semi-random data by setting "?new=test" : */
+			if ("test" === newconfkey) {
+				transferredData = {
+					name: "Test: " + Math.floor(Math.random()*100000),
+                    url: "miles.no",
+                    selectedCategoryTags: ['Admin', 'AI'],
+					startDate: new Date(),
+					endDate: new Date(),
+					callForPapersDate: new Date(),
+                    description: "Description randomness: \n\n" + Array.from(
+						{length: 80 + Math.floor(Math.random()*Math.random()*Math.random()*Math.random()*Math.random()*2000)},
+                        () => 1 + Math.floor(Math.random() * Math.random() * Math.random() * 30)
+                    )
+                        .map(length => makeid(length).toLowerCase())
+                        .join(" ")
+                    ,
+                    location: "Oslo",
+                    performances: [{
+					    dateAndTime: (new Date().getFullYear() + 1) + "-01-01T15:15:00.000Z",
+                        location: "Rom 42",
+                        submission: {
+							title: "Bidrag: " + Math.floor(Math.random()*10000),
+                            description: "Bidragbeskrivelse: " + Math.random()*1000000,
+                            authors: [{
+	                            name: data.user.name,
+	                            email: data.user.email
+                            }],
+                            duration: 60,
+                            submissionType: "presentation"
+                        }
+                    }]
+                }
+
+            } else if ('undefined' !== typeof sessionStorage) {
 
                 if (newconfkey) {
                     const sessionStorageKey = `newconf_${newconfkey}`;
@@ -58,7 +94,6 @@
 
     const submitNewConference = getNewConferenceSubmitter(toastContext);
 
-    export let data;
     setContext('usersByOffice', data.usersByOffice);
 </script>
 

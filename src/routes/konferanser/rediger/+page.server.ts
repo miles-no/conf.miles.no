@@ -7,7 +7,8 @@ import type { PageServerLoad } from "../$types";
 export const prerender = false;
 
 export interface UsersByOfficeData {
-    usersByOffice: UsersByOffice
+    usersByOffice: UsersByOffice,
+	user: {email: string, name: string}
 }
 
 export const load = (async ({ cookies, url }): Promise<UsersByOfficeData> => {
@@ -17,5 +18,8 @@ export const load = (async ({ cookies, url }): Promise<UsersByOfficeData> => {
         throw redirect(307, '/login?redirect_uri=' + url.pathname);
     }
 
-    return {usersByOffice: await fetchAllUsersCached()};
+    return {
+		usersByOffice: await fetchAllUsersCached(),
+	    user: {name: user.name, email: user.email}
+	};
 }) satisfies PageServerLoad;
