@@ -219,3 +219,31 @@ export async function fetchAllUsersCached(): Promise<UsersByOffice> {
     }
     return crudeUsersByOfficeCache.usersByOffice;
 }
+
+export async function findUsers(name: string, email?: string): Promise<BasicUser[]> {
+	const names = name.trim().split(/ +/g);
+	const targetFirstName = names[0];
+	const targetLastName = names[names.length - 1];
+
+	const targetEmail = (email || "").trim() || undefined;
+
+	const usersByOffice = await fetchAllUsersCached();
+
+	const matchingUsers: BasicUser[] = []
+
+	let userNames, userFirstName, userLastName;
+	Object.keys(usersByOffice).forEach(officeName => {
+		const usersInOffice = usersByOffice[officeName];
+		matchingUsers.push(...usersInOffice.filter(user => {
+			if (targetEmail && user.email?.trim() === targetEmail) {
+				return true;
+			}
+			userNames = user.name.trim().split(/ +/g);
+			userFirstName = userNames[0];
+			userLastName = userNames[userNames.length - 1];
+			return (userLastName === targetLastName && userFirstName === targetFirstName);
+		}));
+	});
+
+	return matchingUsers;
+}

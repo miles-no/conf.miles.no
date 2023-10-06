@@ -96,10 +96,10 @@
 
 	onMount(() => {
 		try {
-			if (typeof sessionStorage !== 'undefined') {
+			if ('undefined' !== typeof sessionStorage) {
 				const sessionStorageKey = `new-conference-toast-` + conference.slug;
 				const toast: ToastDataType = JSON.parse(sessionStorage.getItem(sessionStorageKey));
-				if (toast && typeof toast === 'object') {
+				if (toast && 'object' === typeof toast) {
 					const { type, title, description, duration } = toast;
 					if (type) {
 						toastContext.createToastBody(type, title, description);

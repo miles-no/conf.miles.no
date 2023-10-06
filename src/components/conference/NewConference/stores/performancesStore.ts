@@ -8,6 +8,11 @@ import {invalidFields} from "./performanceValidation";
 
 ///////////////////////// First, the store for all currently viewed performances to a conference
 
+type Author = {
+	name: string,
+	email: string
+}
+
 export type NewPerformance = {
 	date: Date | null;
 	dateAndTime: string | undefined;
@@ -17,7 +22,7 @@ export type NewPerformance = {
 		submissionType: SubmissionType | undefined;
 		description: IDescription[] | undefined;
 		title: string;
-		authors: string[]
+		authors: Author[]
 		slug?: string,
 	};
 	_key?: string,
@@ -88,6 +93,7 @@ const normalizeStorePerformance = (p:NewPerformance): NewPerformance => {
 
 export const perfTitle: Writable<string> = writable('');
 export const authorName: Writable<string> = writable('');
+export const authorEmail: Writable<string> = writable('');
 export const perfType: Writable<SubmissionType|undefined> = writable(undefined);
 export const perfLocation: Writable<string> = writable('');
 export const perfTime: Writable<Date|null> = writable( null);
@@ -101,6 +107,7 @@ export const perfTimeIsSet: Writable<boolean> = writable(false);
 export const initPerformanceStore = (initValues?:NewPerformance):void => {
 	perfTitle.set(initValues?.submission?.title ?? '');
 	authorName.set(((initValues?.submission?.authors || [])[0] || {}).name);
+	authorEmail.set(((initValues?.submission?.authors || [])[0] || {}).email);
 	perfType.set(initValues?.submission?.submissionType);
 	perfLocation.set(initValues?.location ?? '');
 	perfTime.set(initValues?.date ?? null);

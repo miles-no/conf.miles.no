@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
 
-import { createConference } from '$lib/server/sanityClient';
+import {SANITY_CONFERENCE_TYPE, createConference} from '$lib/server/sanityClient';
 import type { ConferenceType } from '$lib/types/conference';
 
 import sanityClient from '@sanity/client';
@@ -16,11 +16,10 @@ const client = sanityClient({
 	useCdn: false
 });
 
-const CONFERENCE_TYPE = 'conference';
 
 const verifyConferenceIsNew = async (title: string, startDate: string) => {
 	const duplicateResults = await client.fetch(
-		`*[_type == "${CONFERENCE_TYPE}" && title == "${title}" && startDate == "${startDate}"]`
+		`*[_type == "${SANITY_CONFERENCE_TYPE}" && title == "${title}" && startDate == "${startDate}"]`
 	);
 	if (duplicateResults && duplicateResults.length) {
 		console.error('Duplicate title-and-startdate conferences:', JSON.stringify(duplicateResults));
@@ -28,7 +27,7 @@ const verifyConferenceIsNew = async (title: string, startDate: string) => {
 	}
 
 	const possibleDupeResults = await client.fetch(
-		`*[_type == "${CONFERENCE_TYPE}" && title == "${title}"]`
+		`*[_type == "${SANITY_CONFERENCE_TYPE}" && title == "${title}"]`
 	);
 	if (!possibleDupeResults || possibleDupeResults.length < 1) {
 		return undefined;
@@ -138,7 +137,7 @@ export const POST = (async ({ request }) => {
 	}
 
 	try {
-		const slug = await createConference(newConference, CONFERENCE_TYPE);
+		const slug = await createConference(newConference);
 
 		if (warnings && warnings.length) {
 			console.warn(

@@ -10,6 +10,7 @@ import { env as public_env } from '$env/dynamic/public';
 import { makeid } from '../../utils/conference-utils';
 import type {IConference} from "../../model/conference";
 import {featureIsToggledOn} from "../../featureFlagging/common";
+import {findUsers} from "$lib/server/cvpartnerClient";
 
 const client: SanityClient = sanityClient({
 	projectId: public_env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
@@ -18,6 +19,10 @@ const client: SanityClient = sanityClient({
 	useCdn: false,
 	token: private_env.SANITY_TOKEN
 });
+
+export const SANITY_CONFERENCE_TYPE = 'conference';
+export const SANITY_AUTHOR_TYPE = 'author';
+
 
 // If a slug already exists, recursively tries to add and increase an index.
 // To avoid excessive looping, after the 10 first attempts, tries random 5-character hashes instead of counting indices.
@@ -87,11 +92,11 @@ export async function createSubmission(submission: Submission, authors: Array<Au
 }
 
 export async function createAuthor(author: Author) {
-	author.slug = await generateSlug(author.name);
+	const slug = await generateSlug(author.name);
 	const authorDoc = {
-		_type: 'author',
+		_type: SANITY_AUTHOR_TYPE,
 		name: author.name,
-		slug: { _type: 'slug', current: author.slug },
+		slug: { _type: 'slug', current: slug },
 		bio: [
 			{
 				_key: makeid(10),
@@ -103,15 +108,15 @@ export async function createAuthor(author: Author) {
 						_key: makeid(10),
 						_type: 'span',
 						marks: [],
-						text: author.bio
+						text: author.bio ?? ''
 					}
 				]
 			}
 		],
-		twitter: author?.twitter ?? '',
-		instagram: author?.instagram ?? '',
-		facebook: author?.facebook ?? '',
-		linkedin: author?.linkedin ?? '',
+		twitter: author.twitter ?? '',
+		instagram: author.instagram ?? '',
+		facebook: author.facebook ?? '',
+		linkedin: author.linkedin ?? '',
 		email: author.email
 	};
 	const insertedAuthor = await client.create(authorDoc);
@@ -136,15 +141,99 @@ const getSlugYearFromDateString = (dateString: string = ''): string => {
     return (!isNaN(year) && year > 0) ? `-${year}` : '';
 }
 
+
+interface BaseAuthor {
+	name:string,
+	email?:string
+}
+
+/** Looks for unambiguous match among users from CVpartner
+ * Then (if 1 was found), looks for unambiguous match among authors in Sanity.
+ * Then, if none was found, creates it and returns the _id. If 1 was found, returns the _id.
+ * If ambigous matches (multiple hits, cant separate), throws error.
+ * @param author
+ */
+async function addAuthor(author: BaseAuthor): Promise<string> {
+
+	const potentialAuthors = await findUsers(author.name, author.email);
+	if (!potentialAuthors.length) {
+		throw new Error("No user matching this author was found among users from CV partner: " + JSON.stringify(author));
+
+	} else if (potentialAuthors.length === 1) {
+		const targetAuthor = potentialAuthors[0];
+
+		let foundAuthors = await client.fetch( /* groq */ `
+		        *[ 
+		            _type == "author" && email == $targetEmail && !(_id match "draft*") 
+		        ] { 
+		            _id, name, email 
+		        }
+		        `, {targetEmail: targetAuthor.email});
+
+		if (!foundAuthors || !foundAuthors.length) {
+			foundAuthors = await client.fetch( /* groq */ `
+		        *[
+		            _type == "author" && name == $targetName && !(_id match "draft*") 
+		        ] { 
+		            _id, name, email 
+		        }
+		        `, {targetName: targetAuthor.name});
+		}
+
+		if (!foundAuthors || foundAuthors.length === 0) {
+
+			const insertedAuthor = await createAuthor(targetAuthor as Author);
+			return insertedAuthor._id;
+
+		} else if (foundAuthors.length === 1) {
+			const foundAuthor = foundAuthors[0];
+			return foundAuthor._id;
+
+		} else {
+			console.warn("Submitted author data '" + JSON.stringify(author) + "' matches 1 user in CVpartner, but multiple authors in Sanity:" + JSON.stringify(foundAuthors));
+			throw new Error("Ambiguous match in author data.");
+		}
+
+	} else {
+		console.warn("Submitted author data '" + JSON.stringify(author) + "' matches multiple users is CVpartner: " +  JSON.stringify(potentialAuthors));
+		throw new Error("Ambiguous match in author data.");
+	}
+}
+
+
+async function addPerformances(performances?: {
+	dateAndTime: string,
+	location: string,
+	submission: {
+		title:string,
+		submissionType:string,
+		description:string,
+		duration:number,
+		authors:{
+			name:string,
+			email:string
+		}[]
+	}
+}[]){
+	
+	performances?.forEach(async performance => {
+		const addedAuthorIds = await Promise.all(
+			(performance?.submission?.authors || []).map(addAuthor)
+		);
+	});
+}
+
+
 export async function createConference(
-	conference: ConferenceType,
-	sanityConferenceType: string
+	conference: ConferenceType
 ): Promise<string> {
 	const slugCurrent = conference.slug ?? (await generateSlug(conference.title + getSlugYearFromDateString(conference.startDate)));
 	const imageAsset = conference.image ? await uploadImageFromDataUrl(conference.image) : undefined;
 
+	addPerformances(conference.performances);
+
 	let conferenceDoc = {
-		_type: sanityConferenceType,
+		_type: SANITY_CONFERENCE_TYPE,
 		slug: { _type: 'slug', current: slugCurrent },
 		title: conference.title,
 		startDate: conference.startDate,
@@ -154,6 +243,7 @@ export async function createConference(
         description: conference.description,
 		url: conference.url,
 		categoryTag: conference.categoryTag ?? [],
+		performances: conference.performances ?? [],
 		image: imageAsset ? {
 			_type: 'image',
 			asset: {
@@ -163,16 +253,19 @@ export async function createConference(
 		} : null
 	};
 
-	const insertedConference: SanityDocument<any> = await client.create(conferenceDoc);
-  
+
+	/* const insertedConference: SanityDocument<any> = await client.create(conferenceDoc);
+
+	return insertedConference.slug.current;
+
 	console.log(
     'Created external conference:',
     '\n  _id:', insertedConference._id,
     '\n  title:', insertedConference.title,
     '\n  slug.current:', insertedConference.slug.current
-  );
+  ); */
 
-	return insertedConference.slug.current;
+  return "Nope."
 }
 
 async function uploadImageFromDataUrl(dataUrl: string): Promise<SanityImageAssetDocument | undefined> {

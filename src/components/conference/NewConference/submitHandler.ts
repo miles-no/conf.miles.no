@@ -3,6 +3,7 @@ import type {IToastContextProps} from "../../toast/toast-context";
 import { goto } from '$app/navigation';
 import type {ToastType} from "svelte-toasts/types/common";
 import type {IDescription} from "../../../model/event";
+import type {NewPerformance} from "./stores/performancesStore";
 
 const CREATE_CONF_API_URL = '/api/create-conference';
 const EDIT_CONF_API_URL = '/api/conference';
@@ -41,7 +42,8 @@ export interface ISubmitData {
     categoryTag: string[],
     description?: IDescription[],
     location?: string,
-    image?: string
+    image?: string,
+	performances?: NewPerformance[]
 }
 
 export const submitNewConferenceAndHandleModal = async (submitData:ISubmitData, toastContext:IToastContextProps) => {

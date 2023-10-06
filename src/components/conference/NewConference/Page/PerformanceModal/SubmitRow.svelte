@@ -9,7 +9,7 @@
 	    perfType,
 	    perfLocation,
 	    perfTitle,
-	    authorName
+	    authorName, authorEmail
     } from "../../stores/performancesStore";
 	import type {NewPerformance} from "../../stores/performancesStore";
     import darkTheme from "../../../../../stores/theme-store";
@@ -23,7 +23,7 @@
     let submit = () => {
 		pending.set(true);
 
-		validateRequiredFields()
+		validateRequiredFields();
 
 		if (!$invalidFields.length) {
 			const newPerformance: NewPerformance = {
@@ -35,7 +35,7 @@
                 submission: {
 					title: $perfTitle,
                     submissionType: $perfType,
-                    authors: [$authorName],
+                    authors: [{name: $authorName, email: $authorEmail}],
                     // slug: "IAMAPERFORMANCE-SLUG-" + makeid(16),
                     description: $perfDescription ? getMinimalPortableText($perfDescription) : undefined,
                     duration: $perfDuration
@@ -45,7 +45,7 @@
 			displayModal.set(false);
 
         } else {
-			console.warn("Mangelfullt utfylt skjema - sjekk:", $invalidFields.join(", "));
+			console.warn("Mangelfullt utfylt skjema - sjekk felt:", $invalidFields.join(", "));
         }
 
 		pending.set(false);
@@ -64,7 +64,7 @@
     <JustifiedRow>
         {#if ($invalidFields?.length)}
             <div class="validation-warning">
-                Er alle nødvendige felt fylt riktig ut?<br />Sjekk felt, og prøv igjen: {$invalidFields.join(", ")}.
+                Er all nødvendig info fylt riktig ut?<br />Sjekk følgende felt, og prøv igjen: {$invalidFields.join(", ")}.
             </div>
         {/if}
         <div class:pending={$pending} class="button-wrapper">

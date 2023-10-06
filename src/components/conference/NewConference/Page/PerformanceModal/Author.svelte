@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {authorName} from '../../stores/performancesStore'
+	import {authorEmail, authorName} from '../../stores/performancesStore'
     import ComboBox from "../../../../form/ComboBox.svelte";
     import {getContext} from "svelte";
     import type {BasicUser, UsersByOffice} from "$lib/server/cvpartnerClient";
@@ -9,6 +9,7 @@
     let authorItem;
     $: {
         authorName.set(authorItem?.name);
+		authorEmail.set(authorItem?.email)
     }
 
     const usersByOffice: UsersByOffice = getContext('usersByOffice');
