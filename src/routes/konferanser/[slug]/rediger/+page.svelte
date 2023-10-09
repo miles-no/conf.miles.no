@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { IConference } from '../../../../model/conference';
-	import {displayModal, initStore} from '../../../../components/conference/NewConference/stores/stores';
+	import {displayModal, initStore, performances} from '../../../../components/conference/NewConference/stores/stores';
 	import ConferenceEditor from '../../../../components/conference/NewConference/Page/ConferenceEditor.svelte';
 	import { getEditedConferenceSubmitter } from '../../../../components/conference/NewConference/submit';
 	import ButtonFooterRow from '../../../../components/conference/NewConference/Page/ButtonFooterRow.svelte';
@@ -13,6 +13,7 @@
 	import { Icon } from '@smui/common';
 	import NewPerformanceModal
 		from "../../../../components/conference/NewConference/Page/PerformanceModal/NewPerformanceModal.svelte";
+	import ConferencePerformanceView from "../../../../components/conference/ConferencePerformanceView.svelte";
 	const toastContext: IToastContextProps = getContext('toastContext');
 
 	export let data: EditConferenceData;
@@ -36,6 +37,7 @@
 		performances: conference?.performances || [],
 		image: conference?.imageUrl ? urlFor(conference.imageUrl).url() : ''
 	});
+
 	const submitEditedConference = getEditedConferenceSubmitter(toastContext, conference.slug);
 </script>
 
@@ -46,6 +48,7 @@
 </div>
 <Heading>Redigere konferanse</Heading>
 <ConferenceEditor />
+<ConferencePerformanceView performances={$performances} onOpenModal={()=>alert("IMPLEMENT ME!")} />
 <ButtonFooterRow submitText="Oppdater konferanse" submit={submitEditedConference} />
 {#if $displayModal}
     <NewPerformanceModal />

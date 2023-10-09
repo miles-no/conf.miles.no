@@ -278,6 +278,7 @@ async function addPerformance(performance?: {
 	const performanceDoc = {
 		dateAndTime: performance?.dateAndTime,
 		location: performance?.location,
+		_key: makeid(12),
 		submission: {
 			_ref: submissionId,
 			_type: SANITY_REFERENCE_TYPE

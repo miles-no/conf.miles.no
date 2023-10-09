@@ -72,20 +72,20 @@ export const createPerformancesStore = () => {
                 set([]);
 
             } else {
+				console.log("Inserting newPerformances...", newPerformances);
                 set(newPerformances.map(normalizeStorePerformance));
             }
         }
     }
 }
 
-const normalizeStorePerformance = (p:NewPerformance): NewPerformance => {
-    console.log(`Init performance from data:\n\ttitle: ${p.submission.title}\n\tdateAndTime: ${p.dateAndTime}`);
-    if (!p.date) {
+const normalizeStorePerformance = (performance:NewPerformance): NewPerformance => {
+    //console.log(`Init performance from data:\n\ttitle: ${p.submission.title}\n\tdateAndTime: ${p.dateAndTime}`);
+    if (!performance.date) {
 		// TODO: Handling missing dateAndTime?
-        p.date = new Date(p.dateAndTime);
-        console.log(`\t--> date:    ${p.date}`);
+        performance.date = new Date(performance.dateAndTime);
     }
-    return p;
+    return performance;
 }
 
 
@@ -100,19 +100,23 @@ export const perfTime: Writable<Date|null> = writable( null);
 export const perfDuration: Writable<number|null> = writable(null);
 export const perfDescription: Writable<string> = writable('');
 
+export const _key: Writable<string|undefined> = writable();
+
 export const perfTimeIsSet: Writable<boolean> = writable(false);
 
 
 
 export const initPerformanceStore = (initValues?:NewPerformance):void => {
-	perfTitle.set(initValues?.submission?.title ?? '');
-	authorName.set(((initValues?.submission?.authors || [])[0] || {}).name);
-	authorEmail.set(((initValues?.submission?.authors || [])[0] || {}).email);
-	perfType.set(initValues?.submission?.submissionType);
+	const submission = initValues?.submission;
+	perfTitle.set(submission?.title ?? '');
+	authorName.set(((submission?.authors || [])[0] || {}).name);
+	authorEmail.set(((submission?.authors || [])[0] || {}).email);
+	perfType.set(submission?.submissionType);
 	perfLocation.set(initValues?.location ?? '');
 	perfTime.set(initValues?.date ?? null);
-	perfDuration.set(initValues?.submission?.duration ?? null);
-	perfDescription.set(((((initValues?.submission?.description || [])[0] || {}).children || [])[0] || {}).text ?? '');
+	perfDuration.set(submission?.duration ?? null);
+	perfDescription.set(((((submission?.description || [])[0] || {}).children || [])[0] || {}).text ?? '');
+	_key.set(initValues?._key ?? undefined);
 
 	// TODO: true if some dateAndTime condition confirms incoming performance time is set?
 	perfTimeIsSet.set(false);

@@ -9,7 +9,9 @@
 	    perfType,
 	    perfLocation,
 	    perfTitle,
-	    authorName, authorEmail
+	    authorName,
+        authorEmail,
+        _key
     } from "../../stores/performancesStore";
 	import type {NewPerformance} from "../../stores/performancesStore";
     import darkTheme from "../../../../../stores/theme-store";
@@ -27,8 +29,6 @@
 
 		if (!$invalidFields.length) {
 			const newPerformance: NewPerformance = {
-				/*_key: "IAMAPERFORMANCE-KEY-" + makeid(16),*/
-                /*_type: "performance",*/
 				date: $perfTime,
 				dateAndTime: $perfTime?.toISOString(),
                 location: $perfLocation,

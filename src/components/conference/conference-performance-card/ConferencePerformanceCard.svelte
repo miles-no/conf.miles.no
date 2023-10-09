@@ -19,18 +19,18 @@
 	$: date = new Date(dateAndTime);
 	$: time = `${date.getHours()}:${date.getMinutes()}`;
 	$: authorsName = authors.map((author) => author.name);
-	$: ariaLabel = `${submission.title} av ${authorsName}. Klokke ${time} i ${location}`;
+	$: ariaLabel = `${submission.title} av ${authorsName}. Klokken ${time} i ${location}`;
 </script>
 
 <div
-	class="conference-perfermance-card-container"
+	class="conference-performance-card-container"
 	role="button"
 	tabindex={0}
 	on:click={() => handleModal(performance._key)}
 	on:keypress={() => handleModal(performance._key)}
 	aria-label={ariaLabel}
 >
-	<div class="content conference-perfermance-card-content" aria-hidden={true}>
+	<div class="content conference-performance-card-content" aria-hidden={true}>
 		<div class="date-location-container">
 			<div class="date-location">
 				{#if dateAndTime}
@@ -66,7 +66,7 @@
 </div>
 
 <style lang="scss">
-	.conference-perfermance-card-container {
+	.conference-performance-card-container {
 		.content {
 			padding: 1rem;
 			border-radius: 0.5rem;

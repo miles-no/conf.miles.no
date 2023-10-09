@@ -97,6 +97,7 @@ export async function fetchConference(slug: string): Promise<IConference> {
             "imageUrl": image.asset->url,
             performances[] | order(dateAndTime asc)
             {...,
+                _key,
                 submission->{
                     ...,
                     "slug": slug.current,

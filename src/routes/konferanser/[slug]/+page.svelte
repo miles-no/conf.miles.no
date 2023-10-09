@@ -14,12 +14,13 @@
 	import { PortableText } from '@portabletext/svelte';
 	import NoImage from '../../../components/no-image/NoImage.svelte';
 	import type { IPerformance } from '../../../model/event';
-	import ConferencePerformanceCard from '../../../components/conference/conference-perfermance-card/ConferencePerformanceCard.svelte';
+	import ConferencePerformanceCard from '../../../components/conference/conference-performance-card/ConferencePerformanceCard.svelte';
 	import { formatDate, type IFormatOptions } from '../../../utils/date-time-utils';
 	import PerformanceModal from '../../../components/modal/performance-modal/PerformanceModal.svelte';
 	import ConferenceCategoryTag from '../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
 	import { updateEmployeesStatus } from '../../../utils/conference-utils';
 	import type { ToastDataType } from '../../../components/conference/NewConference/submitHandler';
+	import ConferencePerformanceView from "../../../components/conference/ConferencePerformanceView.svelte";
 
 	interface IPerformanceMapByDate {
 		[key: string]: IPerformance[];
@@ -176,21 +177,7 @@
 					</div>
 				{/if}
 
-				{#if allDates.length > 0 && performanceMapByDate}
-					<div class="conference-details-main-content-miles-bidrag">
-						<h2>Miles bidrag</h2>
-						<div class="miles-bidrag-content light-gray-bg-color">
-							{#each allDates as date}
-								<h3 class="date">{date}</h3>
-								<div class="miles-bidrag-content-per-day">
-									{#each performanceMapByDate[date] as performance}
-										<ConferencePerformanceCard {performance} handleModal={onOpenModal} />
-									{/each}
-								</div>
-							{/each}
-						</div>
-					</div>
-				{/if}
+                <ConferencePerformanceView performances={conference.performances} onOpenModal={onOpenModal} />
 			</Content>
 		</Paper>
 
