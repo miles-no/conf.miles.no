@@ -1,6 +1,5 @@
 import sanityClient from '@sanity/client';
 import type { SanityClient, SanityDocument, SanityImageAssetDocument } from '@sanity/client';
-import type { Submission } from '../types/submission';
 import type { Author } from '../types/author';
 import type { ConferenceType } from '../types/conference';
 // @ts-ignore
@@ -11,6 +10,7 @@ import { makeid } from '../../utils/conference-utils';
 import type {IConference} from "../../model/conference";
 import {featureIsToggledOn} from "../../featureFlagging/common";
 import {findUsers} from "$lib/server/cvpartnerClient";
+import type {IDescription} from "../../model/event";
 
 const client: SanityClient = sanityClient({
 	projectId: public_env?.PUBLIC_SANITY_PROJECTID ?? 'mhv8s2ia',
@@ -22,6 +22,8 @@ const client: SanityClient = sanityClient({
 
 export const SANITY_CONFERENCE_TYPE = 'conference';
 export const SANITY_AUTHOR_TYPE = 'author';
+export const SANITY_REFERENCE_TYPE = 'reference';
+export const SANITY_SUBMISSION_TYPE = 'submission';
 
 
 // If a slug already exists, recursively tries to add and increase an index.
@@ -53,7 +55,7 @@ async function generateSlug(string: string): Promise<string> {
 	return await ensureUniqueSlug(slug);
 }
 
-export async function createSubmission(submission: Submission, authors: Array<Author>) {
+export async function createSubmission(submission: ISubmission, authors: Array<Author>) {
 	const authorReference = authors.map((a) => {
 		return {
 			_type: 'reference',
@@ -181,9 +183,10 @@ async function addAuthor(author: BaseAuthor): Promise<string> {
 		}
 
 		if (!foundAuthors || foundAuthors.length === 0) {
+			console.log("Submitted author data accepted: FOUND MATCHING USER IN CVPARTNER BUT NO MATCHING AUTHOR IN SANITY.\nCREATING AUTHOR:" + JSON.stringify(targetAuthor));
 
-			const insertedAuthor = await createAuthor(targetAuthor as Author);
-			return insertedAuthor._id;
+			const createdAuthor = await createAuthor(targetAuthor as Author);
+			return createdAuthor._id;
 
 		} else if (foundAuthors.length === 1) {
 			const foundAuthor = foundAuthors[0];
@@ -200,27 +203,87 @@ async function addAuthor(author: BaseAuthor): Promise<string> {
 	}
 }
 
+interface ISubmission {
+	title: string,
+	submissionType: string,
+	description: IDescription[],
+	duration: number,
+	authors: {
+		name: string,
+		email: string
+	}[]
+}
 
-async function addPerformances(performances?: {
+function validateSubmission(submission?: ISubmission) {
+	if (!submission || !Object.keys(submission).length) {
+		throw Error("Missing submission data");
+	}
+	["title", "submissionType", "description"].forEach(key => {
+		// @ts-ignore
+		if (!(submission[key] && (submission[key] + "").trim())) {
+			throw Error("Missing submission " + key);
+		}
+	})
+	if (!(submission.duration > 0)) {
+		throw Error("Missing or invalid submission duration");
+	}
+	if (!submission.authors || !submission.authors.length) {
+		throw Error("Missing submission authors");
+	}
+	submission.authors.forEach(author => {
+		if (!author.name && !author.email) {
+			throw Error("Missing submission author name and email (one is needed)");
+		}
+	});
+}
+
+async function addSubmission(submission?: ISubmission) {
+	validateSubmission(submission);
+
+	const slug = await generateSlug(submission?.title as string);
+
+	const addedAuthorIds = await Promise.all(
+		(submission?.authors || []).map(addAuthor)
+	);
+
+	const submissionDoc = {
+		_type: SANITY_SUBMISSION_TYPE,
+		slug: { _type: 'slug', current: slug },
+		title: submission?.title,
+		submissionType: submission?.submissionType,
+		description: submission?.description,
+		duration: submission?.duration,
+		authors: addedAuthorIds.map(id => ({
+			_key: makeid(12),
+			_ref: id,
+			_type: SANITY_REFERENCE_TYPE
+		}))
+	};
+
+	const insertedConference: SanityDocument<any> = await client.create(submissionDoc);
+
+	return insertedConference._id;
+}
+
+
+async function addPerformance(performance?: {
 	dateAndTime: string,
 	location: string,
-	submission: {
-		title:string,
-		submissionType:string,
-		description:string,
-		duration:number,
-		authors:{
-			name:string,
-			email:string
-		}[]
-	}
-}[]){
-	
-	performances?.forEach(async performance => {
-		const addedAuthorIds = await Promise.all(
-			(performance?.submission?.authors || []).map(addAuthor)
-		);
-	});
+	submission: ISubmission
+}){
+
+
+	const submissionId = await addSubmission(performance?.submission);
+
+	const performanceDoc = {
+		dateAndTime: performance?.dateAndTime,
+		location: performance?.location,
+		submission: {
+			_ref: submissionId,
+			_type: SANITY_REFERENCE_TYPE
+		}
+	};
+	return performanceDoc;
 }
 
 
@@ -230,7 +293,9 @@ export async function createConference(
 	const slugCurrent = conference.slug ?? (await generateSlug(conference.title + getSlugYearFromDateString(conference.startDate)));
 	const imageAsset = conference.image ? await uploadImageFromDataUrl(conference.image) : undefined;
 
-	addPerformances(conference.performances);
+	const performanceDocs = await Promise.all(
+		(conference.performances || []).map(addPerformance)
+	)
 
 	let conferenceDoc = {
 		_type: SANITY_CONFERENCE_TYPE,
@@ -243,7 +308,7 @@ export async function createConference(
         description: conference.description,
 		url: conference.url,
 		categoryTag: conference.categoryTag ?? [],
-		performances: conference.performances ?? [],
+		performances: performanceDocs ?? [],
 		image: imageAsset ? {
 			_type: 'image',
 			asset: {
@@ -254,18 +319,9 @@ export async function createConference(
 	};
 
 
-	/* const insertedConference: SanityDocument<any> = await client.create(conferenceDoc);
+	const insertedConference: SanityDocument<any> = await client.create(conferenceDoc);
 
 	return insertedConference.slug.current;
-
-	console.log(
-    'Created external conference:',
-    '\n  _id:', insertedConference._id,
-    '\n  title:', insertedConference.title,
-    '\n  slug.current:', insertedConference.slug.current
-  ); */
-
-  return "Nope."
 }
 
 async function uploadImageFromDataUrl(dataUrl: string): Promise<SanityImageAssetDocument | undefined> {

@@ -42,7 +42,7 @@ export interface IPerformance {
 
 export interface IDescription {
 	_type: string;
-	style: string;
+	style?: string;
 	_key: string;
 	markDefs: ImarkDefs[];
 	children: IChildren[];

@@ -14,6 +14,7 @@
 	import NewPerformanceModal
 		from "../../../components/conference/NewConference/Page/PerformanceModal/NewPerformanceModal.svelte";
 	import {makeid} from "../../../utils/conference-utils";
+	import {getMinimalPortableText} from "../../../utils/sanityclient-utils";
     const toastContext: IToastContextProps = getContext('toastContext');
 
 	export let data;
@@ -54,8 +55,8 @@
 					    dateAndTime: (new Date().getFullYear() + 1) + "-01-01T15:15:00.000Z",
                         location: "Rom 42",
                         submission: {
-							title: "Bidrag: " + Math.floor(Math.random()*10000),
-                            description: "Bidragbeskrivelse: " + Math.random()*1000000,
+							title: "Test-bidrag: " + Math.floor(Math.random()*10000),
+                            description: getMinimalPortableText("Bidragbeskrivelse: " + Math.random()*1000000),
                             authors: [{
 	                            name: data.user.name,
 	                            email: data.user.email

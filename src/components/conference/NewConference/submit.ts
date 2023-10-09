@@ -9,6 +9,7 @@ import type {IToastContextProps} from "../../toast/toast-context";
 
 function getSubmitData(slug?: string): ISubmitData {
     const descr = get(description);
+
     const submitData: ISubmitData = {
         title: get(name),
         url: get(url),

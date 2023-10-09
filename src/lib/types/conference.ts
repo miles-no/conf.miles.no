@@ -8,7 +8,17 @@ export const Conference = z.object({
     // _type: 'conference'
     slug: z.string().optional(),
     title: z.string().trim().min(1, {message: "Missing or invalid title"}),
-    description: z.string().trim().optional(),
+    description: z.array(z.object({
+	    _key: z.string(),
+	    _type: z.string(),
+	    markDefs: z.array(z.any()),
+	    children: z.array(z.object({
+		    _key: z.string(),
+		    _type: z.string(),
+		    marks: z.array(z.any()),
+		    text: z.string().trim()
+	    }))
+    })),
     startDate: z.string().trim().regex(yyyymmdd, {message: "Start date must be on the format YYYY-MM-DD"}).datetime( {message: "Missing or invalid start date"}),
     endDate: z.string().trim().regex(yyyymmdd, {message: "End date must be on the format YYYY-MM-DD"}).datetime( {message: "Missing or invalid end date"}),
     callForPapersDate: z.string().trim().regex(yyyymmdd, {message: "Call-for-papers date must be on the format YYYY-MM-DD"}).optional(),
@@ -26,7 +36,17 @@ export const Conference = z.object({
 				name: z.string().trim(),
 				email: z.string().trim()
 			})),
-			description: z.string().trim(),
+			description: z.array(z.object({
+				_key: z.string(),
+				_type: z.string(),
+				markDefs: z.array(z.any()),
+				children: z.array(z.object({
+					_key: z.string(),
+					_type: z.string(),
+					marks: z.array(z.any()),
+					text: z.string().trim()
+				})),
+			})),
 			duration: z.number(),
 			submissionType: z.nativeEnum(Submission),
 			title: z.string().trim()

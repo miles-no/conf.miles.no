@@ -14,7 +14,7 @@ type Author = {
 }
 
 export type NewPerformance = {
-	date: Date | null;
+	date?: Date | null;
 	dateAndTime: string | undefined;
 	location: string;
 	submission: {
