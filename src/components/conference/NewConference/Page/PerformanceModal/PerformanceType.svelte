@@ -1,13 +1,10 @@
 <script lang="ts">
 	import Radio from '@smui/radio';
-	import type {SubmissionType} from "../../../../../enums/submission-type";
 	import {Submission} from "../../../../../enums/submission-type";
 	import JustifiedRow from "../../../../form/JustifiedRow.svelte";
 	import FormField from "@smui/form-field";
 	import {perfType} from "../../stores/performancesStore";
 	import {invalidFields, RequiredFields} from "../../stores/performanceValidation";
-
-	const types: SubmissionType[] = Object.values(Submission) as SubmissionType[];
 
 	export let width="100%";
 
@@ -19,14 +16,14 @@
 <fieldset class="perftype-radiobuttons" style:width={width}>
     <legend class="textfield-label required" class:invalid>Type</legend>
     <JustifiedRow addClass="radiobutton-justified-row" justify="start">
-        {#each types as type}
+        {#each Object.keys(Submission) as type}
             <FormField>
                 <Radio
                         bind:group={$perfType}
                         value={type}
                 />
                 <span slot="label">
-                    {type}
+                    {Submission[type]}
                 </span>
             </FormField>
         {/each}
