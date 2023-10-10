@@ -67,6 +67,9 @@
 
 <style lang="scss">
 	.conference-performance-card-container {
+        background-color: #fdfdfd;
+		border-radius: 6px;
+
 		.content {
 			padding: 1rem;
 			border-radius: 0.5rem;

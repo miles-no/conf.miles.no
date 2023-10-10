@@ -29,7 +29,6 @@
 		    };
 	    }
     }, undefined as IPerformanceMapByDate | undefined);
-
 </script>
 
 
@@ -51,6 +50,8 @@
 
 
 <style lang="scss">
+	@use '../../styles/mixin' as *;
+
 	h2 {
 		font-size: 1.3rem;
 		font-weight: 500;

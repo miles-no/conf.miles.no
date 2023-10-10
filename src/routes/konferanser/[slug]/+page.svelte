@@ -14,17 +14,11 @@
 	import { PortableText } from '@portabletext/svelte';
 	import NoImage from '../../../components/no-image/NoImage.svelte';
 	import type { IPerformance } from '../../../model/event';
-	import ConferencePerformanceCard from '../../../components/conference/conference-performance-card/ConferencePerformanceCard.svelte';
-	import { formatDate, type IFormatOptions } from '../../../utils/date-time-utils';
 	import PerformanceModal from '../../../components/modal/performance-modal/PerformanceModal.svelte';
 	import ConferenceCategoryTag from '../../../components/tag/conference-category-tag/ConferenceCategoryTag.svelte';
 	import { updateEmployeesStatus } from '../../../utils/conference-utils';
 	import type { ToastDataType } from '../../../components/conference/NewConference/submitHandler';
 	import ConferencePerformanceView from "../../../components/conference/ConferencePerformanceView.svelte";
-
-	interface IPerformanceMapByDate {
-		[key: string]: IPerformance[];
-	}
 
 	export let data: IConferenceSlugPageLoadData;
 	$: conference = data.conference;
@@ -32,27 +26,10 @@
 	$: selectedStatus = data?.myStatus;
 
 	const toastContext = getContext<IToastContextProps>('toastContext');
-	const formatOption: IFormatOptions = { weekday: 'long', day: '2-digit', month: 'long' };
 
 	let open = false;
 	let selectedPerformance: IPerformance;
 	let disableStatus: boolean = false;
-
-	$: allDates = Array.from(
-		new Set(conference.performances?.map((p) => formatDate(p.dateAndTime, formatOption)))
-	);
-
-	$: performanceMapByDate = allDates?.reduce((previousValue, currentValue) => {
-		const filtered = conference.performances?.filter(
-			(p) => formatDate(p.dateAndTime, formatOption) === currentValue
-		);
-		if (filtered !== undefined) {
-			return {
-				...previousValue,
-				[currentValue]: filtered
-			};
-		}
-	}, undefined as IPerformanceMapByDate | undefined);
 
 	const onSelectStatus = async (event: any) => {
 		const newStatus = event.target.dataset.value as StatusKeyType;
@@ -198,9 +175,19 @@
 	{#if selectedPerformance}
 		<PerformanceModal
 			performance={selectedPerformance}
-			conferenceSlug={conference.slug}
 			bind:open
-		/>
+		>
+            <a      class="performance-details-link"
+                    href={`/konferanser/${conference.slug}/agenda/${selectedPerformance.submission.slug}`}
+                    on:click={() => {
+						open = !open;
+						window.location.href = `/konferanser/${conference.slug}/agenda/${selectedPerformance.submission.slug}`
+                        selectedPerformance = undefined;
+                    }}
+            >
+                Se flere detaljer
+            </a>
+        </PerformanceModal>
 	{/if}
 </div>
 
@@ -254,6 +241,12 @@
 
 	.conference-details-container-image {
 		padding-bottom: 1rem;
+	}
+
+	.performance-details-link {
+		display: flex;
+		justify-content: end;
+		cursor: pointer;
 	}
 
 	.conference-details {

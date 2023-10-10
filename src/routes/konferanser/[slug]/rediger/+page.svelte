@@ -1,6 +1,12 @@
 <script lang="ts">
 	import type { IConference } from '../../../../model/conference';
-	import {displayModal, initStore, performances} from '../../../../components/conference/NewConference/stores/stores';
+	import {
+		initStore,
+		performances,
+		selectedPerformance,
+		displayModal,
+        displayPerformanceModal,
+	} from '../../../../components/conference/NewConference/stores/stores';
 	import ConferenceEditor from '../../../../components/conference/NewConference/Page/ConferenceEditor.svelte';
 	import { getEditedConferenceSubmitter } from '../../../../components/conference/NewConference/submit';
 	import ButtonFooterRow from '../../../../components/conference/NewConference/Page/ButtonFooterRow.svelte';
@@ -14,6 +20,7 @@
 	import NewPerformanceModal
 		from "../../../../components/conference/NewConference/Page/PerformanceModal/NewPerformanceModal.svelte";
 	import ConferencePerformanceView from "../../../../components/conference/ConferencePerformanceView.svelte";
+	import PerformanceModal from "../../../../components/modal/performance-modal/PerformanceModal.svelte";
 	const toastContext: IToastContextProps = getContext('toastContext');
 
 	export let data: EditConferenceData;
@@ -24,6 +31,14 @@
 	if (!conference?.slug) {
 		throw Error("Can't edit conference data, missing slug for source conference in fetched data");
 	}
+
+	const onOpenModal = (key: string) => {
+		const foundPerformance = ($performances || []).find((p) => p._key === key);
+		if (foundPerformance) {
+			selectedPerformance.set(foundPerformance);
+			displayPerformanceModal.set(!$displayPerformanceModal);
+		}
+	};
 
 	initStore({
 		name: conference?.title,
@@ -48,10 +63,16 @@
 </div>
 <Heading>Redigere konferanse</Heading>
 <ConferenceEditor />
-<ConferencePerformanceView performances={$performances} onOpenModal={()=>alert("IMPLEMENT ME!")} />
+<ConferencePerformanceView performances={$performances} onOpenModal={onOpenModal} />
 <ButtonFooterRow submitText="Oppdater konferanse" submit={submitEditedConference} />
 {#if $displayModal}
     <NewPerformanceModal />
+{/if}
+{#if $selectedPerformance}
+    <PerformanceModal
+            performance={$selectedPerformance}
+            bind:open={$displayPerformanceModal}
+    />
 {/if}
 
 <style>
@@ -71,3 +92,4 @@
 		text-decoration: none;
 	}
 </style>
+

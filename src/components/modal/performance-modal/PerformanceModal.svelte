@@ -10,7 +10,6 @@
 
 	export let open: boolean;
 	export let performance: IPerformance;
-	export let conferenceSlug: string;
 
 	$: duration =
 		formatDate(performance.dateAndTime, { hour: 'numeric', minute: 'numeric' }) +
@@ -70,13 +69,8 @@
 				<div class="description-container">
 					<h2 class="visuallyhidden">Om foredrag</h2>
 					<PortableText value={performance.submission.description} />
-					<a
-						href={`/konferanser/${conferenceSlug}/agenda/${performance.submission.slug}`}
-						on:click={() => (open = !open)}
-					>
-						Se flere detaljer
-					</a>
 				</div>
+                <slot />
 			</div>
 		</div>
 	</Content>
@@ -131,13 +125,6 @@
 				}
 			}
 
-			.description-container {
-				a {
-					display: flex;
-					justify-content: end;
-					cursor: pointer;
-				}
-			}
 		}
 	}
 

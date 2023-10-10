@@ -1,7 +1,10 @@
 <script lang="ts">
 	import {
-		displayModal,
 		initStore,
+		selectedPerformance,
+		displayModal,
+		displayPerformanceModal,
+        performances
 	} from "../../../components/conference/NewConference/stores/stores";
     import type {NewConferenceStoreInitType} from "../../../components/conference/NewConference/stores/stores";
     import {getNewConferenceSubmitter} from "../../../components/conference/NewConference/submit";
@@ -15,6 +18,8 @@
 		from "../../../components/conference/NewConference/Page/PerformanceModal/NewPerformanceModal.svelte";
 	import {makeid} from "../../../utils/conference-utils";
 	import {getMinimalPortableText} from "../../../utils/sanityclient-utils";
+	import PerformanceModal from "../../../components/modal/performance-modal/PerformanceModal.svelte";
+	import ConferencePerformanceView from "../../../components/conference/ConferencePerformanceView.svelte";
     const toastContext: IToastContextProps = getContext('toastContext');
 
 	export let data;
@@ -52,6 +57,7 @@
                     ,
                     location: "Oslo",
                     performances: [{
+						_key: makeid(12),
 					    dateAndTime: (new Date().getFullYear() + 1) + "-01-01T15:15:00.000Z",
                         location: "Rom 42",
                         submission: {
@@ -96,13 +102,28 @@
     const submitNewConference = getNewConferenceSubmitter(toastContext);
 
     setContext('usersByOffice', data.usersByOffice);
+
+	const onOpenModal = (key: string) => {
+		const foundPerformance = ($performances || []).find((p) => p._key === key);
+		if (foundPerformance) {
+			selectedPerformance.set(foundPerformance);
+			displayPerformanceModal.set(!$displayPerformanceModal);
+		}
+	};
 </script>
 
 
 
 <Heading>Registrer en ny konferanse</Heading>
 <ConferenceEditor />
+<ConferencePerformanceView performances={$performances} onOpenModal={onOpenModal} />
 <ButtonFooterRow submitText="Registrer konferanse" submit={submitNewConference} />
 {#if $displayModal}
     <NewPerformanceModal />
+{/if}
+{#if $selectedPerformance}
+    <PerformanceModal
+            performance={$selectedPerformance}
+            bind:open={$displayPerformanceModal}
+    />
 {/if}

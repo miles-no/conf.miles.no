@@ -72,7 +72,7 @@ export const createPerformancesStore = () => {
                 set([]);
 
             } else {
-				console.log("Inserting newPerformances...", newPerformances);
+				console.debug("Inserting newPerformances...", newPerformances);
                 set(newPerformances.map(normalizeStorePerformance));
             }
         }
@@ -80,9 +80,7 @@ export const createPerformancesStore = () => {
 }
 
 const normalizeStorePerformance = (performance:NewPerformance): NewPerformance => {
-    //console.log(`Init performance from data:\n\ttitle: ${p.submission.title}\n\tdateAndTime: ${p.dateAndTime}`);
-    if (!performance.date) {
-		// TODO: Handling missing dateAndTime?
+    if (!performance.date && performance.dateAndTime) {
         performance.date = new Date(performance.dateAndTime);
     }
     return performance;

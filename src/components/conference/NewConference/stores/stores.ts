@@ -1,8 +1,9 @@
-import { writable } from 'svelte/store';
+import {get, writable} from 'svelte/store';
 import { parseDateYYYYMMDD } from '../../../../utils/date-time-utils';
 import { createPerformancesStore } from './performancesStore';
 import type { NewPerformance } from './performancesStore';
 import type { Writable } from 'svelte/store';
+import type {IPerformance} from "../../../../model/event";
 
 export type NewConferenceStoreInitType = {
 	startDate?: Date | string;
@@ -29,13 +30,17 @@ export const callForPapersDate: Writable<Date | null> = writable(null);
 export const selectedCategoryTags: Writable<string[]> = writable([]);
 export const description: Writable<string> = writable('');
 
-export const displayModal = writable(false);
-export const pending = writable(false);
-export const intervalWarning = writable(false);
+export const displayModal: Writable<boolean> = writable(false);
 
-export const callForPapersWarning = writable(false);
+export const pending: Writable<boolean> = writable(false);
+export const intervalWarning: Writable<boolean> = writable(false);
+
+export const callForPapersWarning: Writable<boolean> = writable(false);
 
 export const performances = createPerformancesStore();
+
+export const displayPerformanceModal: Writable<boolean> = writable(false);
+export const selectedPerformance: Writable<IPerformance|null> = writable(null);
 
 function getParsedDate(date?: Date | string) {
 	if (!!date && typeof date === 'object' && typeof date.setMinutes === 'function') {
@@ -67,4 +72,7 @@ export const initStore = (initValues?: NewConferenceStoreInitType) => {
 	intervalWarning.set(false);
 	callForPapersWarning.set(false);
 	performances.init(initValues?.performances);
+
+	selectedPerformance.set(null);
+	displayPerformanceModal.set(false);
 };

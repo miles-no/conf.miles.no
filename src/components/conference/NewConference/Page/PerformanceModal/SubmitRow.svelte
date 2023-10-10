@@ -19,6 +19,7 @@
     import {getContext, onDestroy} from "svelte";
     import {getMinimalPortableText} from "../../../../../utils/sanityclient-utils";
     import {invalidFields, validateRequiredFields} from "../../stores/performanceValidation";
+    import {makeid} from "../../../../../utils/conference-utils";
 
 
     const toastContext = getContext('toastContext');
@@ -29,6 +30,7 @@
 
 		if (!$invalidFields.length) {
 			const newPerformance: NewPerformance = {
+				_key: makeid(12),
 				date: $perfTime,
 				dateAndTime: $perfTime?.toISOString(),
                 location: $perfLocation,
