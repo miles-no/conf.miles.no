@@ -21,7 +21,7 @@
 		workshop: Wrench
 	};
 
-	const authorsLength = submission.authors.length;
+	const authorsLength = submission?.authors?.length || 0;
 </script>
 
 <div class="container-fluid">
