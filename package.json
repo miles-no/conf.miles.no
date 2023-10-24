@@ -40,7 +40,7 @@
 		"@smui/textfield": "^7.0.0-beta.3",
 		"@sveltejs/adapter-auto": "2.0.0",
 		"@sveltejs/adapter-node": "1.1.7",
-		"@sveltejs/kit": "1.15.2",
+		"@sveltejs/kit": "^1.27.0",
 		"@sveltejs/vite-plugin-svelte": "^2.0.2",
 		"@types/uuid": "^9.0.1",
 		"date-picker-svelte": "^2.4.3",
@@ -78,6 +78,7 @@
 		"lucide-svelte": "^0.112.0",
 		"query-string": "^8.1.0",
 		"svelte-navigator": "^3.2.2",
+		"svelte-preprocess": "^5.0.4",
 		"uuid": "^9.0.0",
 		"zod": "^3.21.4"
 	}

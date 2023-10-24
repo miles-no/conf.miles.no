@@ -1,9 +1,14 @@
 import adapter from '@sveltejs/adapter-node';
-import { vitePreprocess } from '@sveltejs/kit/vite';
+import preprocess from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	preprocess: vitePreprocess(),
+	compilerOptions: {
+		enableSourcemap: true
+	},
+	preprocess: preprocess({
+		sourceMap: true
+	}),
 	kit: {
 		adapter: adapter()
 	}
