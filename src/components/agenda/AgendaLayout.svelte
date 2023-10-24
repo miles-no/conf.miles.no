@@ -13,7 +13,7 @@
 	export let submission: ISubmission;
 	export let event: IEvent;
 	export let performance: IPerformance;
-	export let cvs: Cv[] = [];
+	export let cvs: Cv[];
 
 	let submissionTypeIcon = {
 		presentation: Megaphone,

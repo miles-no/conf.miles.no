@@ -5,4 +5,4 @@
 	export let data: IAgendaPageLoadData;
 </script>
 
-<AgendaLayout event={data.event} performance={data.performance} submission={data.submission} />
+<AgendaLayout event={data.event} performance={data.performance} submission={data.submission} cvs={data.cvs} />
