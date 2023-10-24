@@ -16,14 +16,17 @@ import {parseFlag} from "./common";
  */
 export interface FrontendFeatureToggles {
 	performances: boolean
+	debuglog: boolean
 };
 export type FrontendFeatureToggleName = keyof FrontendFeatureToggles;
 
 export const flags: FrontendFeatureToggles = {
-	performances: false
+	performances: false,
+	debuglog: false
 }
 
 
 export const toggleByURIParams = (searchParams: URLSearchParams) => {
 	flags.performances = parseFlag(searchParams.get("performances"));
+	flags.debuglog = parseFlag(searchParams.get("debuglog"));
 }

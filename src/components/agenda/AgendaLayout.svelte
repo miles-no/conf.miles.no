@@ -9,6 +9,7 @@
 	import type { IEvent, IPerformance } from '../../model/event';
 	import { Submission } from '../../enums/submission-type';
 	import type { Cv } from '$lib/types/cv';
+	import {featureIsToggledOn} from "../../featureFlagging/common";
 
 	export let submission: ISubmission;
 	export let event: IEvent;
@@ -22,6 +23,10 @@
 	};
 
 	const authorsLength = submission?.authors?.length || 0;
+
+	if (featureIsToggledOn("debuglog")) {
+		console.log({submission, event, performance, cvs, authorsLength});
+	}
 </script>
 
 <div class="container-fluid">
