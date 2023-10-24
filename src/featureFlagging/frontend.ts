@@ -5,8 +5,7 @@
  */
 
 
-
-import {getIsProd} from "./server";
+import {parseFlag} from "./common";
 
 /**  IMPORTANT! Over time, different feature flags may be scattered around the code base. Typescript help will come
  *   really handy for maintaining this, especially when it's time for cleanup. So:
@@ -24,13 +23,7 @@ export const flags: FrontendFeatureToggles = {
 	performances: false
 }
 
-const getTruthy = (paramValue: any): boolean => (
-	!!paramValue &&
-	"false" !== (paramValue + "").toLowerCase() &&
-	0 !== parseInt(paramValue)
-);
 
-// Adding ' || !getIsProd()' turns the toggle on in non-prod environments.
 export const toggleByURIParams = (searchParams: URLSearchParams) => {
-	flags.performances = getTruthy(searchParams.get("performances")) || !getIsProd();
+	flags.performances = parseFlag(searchParams.get("performances"));
 }

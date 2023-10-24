@@ -2,9 +2,8 @@ import sanityClient from '@sanity/client';
 import type { SanityClient, SanityDocument, SanityImageAssetDocument } from '@sanity/client';
 import type { Author } from '../types/author';
 import type { ConferenceType } from '../types/conference';
-// @ts-ignore
+
 import { env as private_env } from '$env/dynamic/private';
-// @ts-ignore
 import { env as public_env } from '$env/dynamic/public';
 import { makeid } from '../../utils/conference-utils';
 import type {IConference} from "../../model/conference";
@@ -205,6 +204,7 @@ async function addAuthor(author: BaseAuthor): Promise<string> {
 
 interface ISubmission {
 	title: string,
+	slug?: string,
 	submissionType: string,
 	description: IDescription[],
 	duration: number,

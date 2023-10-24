@@ -6,6 +6,11 @@
 	export let data: IPageLoadData;
 	export let events = data.events;
 	export let user = data.user;
+
+	if (data.forceNavigate) {
+		console.log("(Navigating to " + data.forceNavigate + ")")
+		window.location.href = data.forceNavigate;
+    }
 </script>
 
 <svelte:head>
@@ -20,3 +25,4 @@
 		<ExternalContent {events} />
 	{/if}
 </div>
+

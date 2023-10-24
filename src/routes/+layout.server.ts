@@ -4,13 +4,15 @@ import {parseIsProd, setServersideToggle, getIsProd} from "../featureFlagging/se
 
 $: {
 	parseIsProd(env);
-	setServersideToggle("strictAlphaNumericSlug", env.PUBLIC_FLAG_ALPHANUMERICSLUG === "true");
+	setServersideToggle("strictAlphaNumericSlug", parseFlag(env.PUBLIC_FLAG_ALPHANUMERICSLUG));
+	setServersideToggle("forceNavigate", parseFlag(env.PUBLIC_FLAG_FORCENAVIGATE));
 }
 
 import { fetchSiteSettings } from '$lib/sanityClient';
 import type { User } from '$lib/types/user.js';
 import type { ISiteSetting } from '../model/site-setting.js';
 import type { LayoutServerLoad } from './$types';
+import {parseFlag} from "../featureFlagging/common";
 
 export interface ILayoutPageLoadData {
 	settings: ISiteSetting;

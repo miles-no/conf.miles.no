@@ -4,11 +4,11 @@
  *  - configs?
  */
 
-let isProd = false;
+let isProd: boolean|undefined = undefined;
 let prodIsLogged = false;
 
 export function parseIsProd(env: {PUBLIC_SANITY_DATASET: string}) {
-	isProd = (env.PUBLIC_SANITY_DATASET === 'prod' || env.PUBLIC_SANITY_DATASET === 'production');
+	isProd = (!!env.PUBLIC_SANITY_DATASET && !!env.PUBLIC_SANITY_DATASET.startsWith('prod'));
 	if (!prodIsLogged) {
 		console.log("isProd:", isProd);
 		prodIsLogged = true;
@@ -33,11 +33,13 @@ export function getIsProd() {
  *       sending it in through an object).
  */
 export interface ServersideFeatureToggles {
-	strictAlphaNumericSlug: boolean
+	strictAlphaNumericSlug: boolean,
+	forceNavigate: boolean,
 };
 export type ServersideFeatureToggleName = keyof ServersideFeatureToggles;
 export const flags: ServersideFeatureToggles = {
-	strictAlphaNumericSlug: false
+	strictAlphaNumericSlug: false,
+	forceNavigate: false,
 }
 
 export const setServersideToggle = (name: ServersideFeatureToggleName, flag: boolean) => {
@@ -47,7 +49,7 @@ export const setServersideToggle = (name: ServersideFeatureToggleName, flag: boo
 		// @ts-ignore
 		// If environment is prod, then use the 'flag' arg to set the toggle value.
 		// If environment is not prod, just flag it as true / toggle on.
-		flags[name] = flag || !getIsProd();
+		flags[name] = flag;
 		console.log("Serverside feature flag:", name, "=", JSON.stringify(flags[name]));
 	}
 }

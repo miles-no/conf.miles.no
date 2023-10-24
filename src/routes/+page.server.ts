@@ -3,10 +3,12 @@ import { fetchEvents } from '$lib/sanityClient';
 import { getUserFromCookie } from '$lib/server/auth.js';
 import type { User } from '$lib/types/user';
 import type { IEvent } from '../model/event';
+import {featureIsToggledOn} from "../featureFlagging/common";
 
 export interface IPageLoadData {
 	events: IEvent[];
 	user: User;
+	forceNavigate: string|undefined,
 }
 
 export async function load({ cookies }) {
@@ -19,12 +21,18 @@ export async function load({ cookies }) {
 		};
 	}
 
+	let forceNavigate = undefined;
 	if (user.isAuthenticated) {
-		throw redirect(308, '/konferanser');
+		const redirectTarget = '/konferanser';
+		if (!featureIsToggledOn("forceNavigate")) {
+			throw redirect(308, redirectTarget);
+		}
+		forceNavigate = redirectTarget;
 	}
 
 	return {
 		user,
 		events,
+		forceNavigate
 	};
 }
